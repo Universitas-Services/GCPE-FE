@@ -1,20 +1,13 @@
 name: CI/CD - Calidad y Despliegue Dinámico
 
 on:
-  # 1. PUSH: Se activa en CUALQUIER rama (para que TAREA 1 corra siempre)
   push:
-    branches:
-      - '**'
-  # 2. PR: Se activa en PRs hacia main y development
+    branches: ['**']
   pull_request:
     types: [opened, synchronize, reopened]
-    branches:
-      - main
-      - development
+    branches: [main, development]
 
 jobs:
-  # --- TAREA 1: VERIFICACIÓN DE CÓDIGO (Lint, Build y Tests) ---
-  # ESTA TAREA CORRE SIEMPRE (En cualquier rama)
   build-and-test:
     name: Verificar Código (CI)
     runs-on: ubuntu-latest
@@ -28,39 +21,29 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      # IMPORTANTE: Esto requiere que package-lock.json esté en el repo
       - name: Instalar dependencias
         run: npm ci
 
-      # 1. Validar estilo de código
       - name: Ejecutar Lint
         run: npm run lint
 
-      # 2. Tests Unitarios (Rápidos)
-      - name: Ejecutar Tests Unitarios (Vitest)
+      - name: Ejecutar Tests Unitarios
         run: npm run test -- --run
 
-      # 3. Verificar que el proyecto compila correctamente
       - name: Verificar Build
         run: npm run build
 
-      # 4. Tests E2E (Playwright)
-      - name: Instalar Navegadores de Playwright
+      - name: Instalar Playwright
         run: npx playwright install --with-deps
 
-      - name: Ejecutar Tests E2E (Playwright)
+      - name: Ejecutar Tests E2E
         run: npm run test:e2e
 
-  # --- TAREA 2: DESPLIEGUE INTELIGENTE A VERCEL ---
-  # ESTA TAREA SOLO CORRE EN PRs O RAMAS ESPECÍFICAS
   deploy:
     name: Desplegar a Vercel
     needs: build-and-test
     runs-on: ubuntu-latest
-    # CONDICIÓN MÁGICA:
-    # Ejecutar SOLO SI:
-    # 1. Es un Pull Request
-    # 2. O es un Push a la rama 'main'
-    # 3. O es un Push a la rama 'development'
     if: |
       github.event_name == 'pull_request' ||
       (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development'))
@@ -71,28 +54,22 @@ jobs:
       - name: Instalar Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Ejecutar Despliegue (Lógica Condicional)
+      - name: Ejecutar Despliegue
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          # 1. Definir variables según el caso
           if [[ "${{ github.ref }}" == "refs/heads/main" && "${{ github.event_name }}" == "push" ]]; then
-            echo "🚀 MODO: PRODUCCIÓN (Push a Main detected)"
+            echo "🚀 MODO: PRODUCCIÓN"
             VERCEL_ENV="production"
             VERCEL_ARGS="--prod"
           else
-            echo "🔎 MODO: PREVIEW (Pull Request o Rama Development)"
+            echo "🔎 MODO: PREVIEW"
             VERCEL_ENV="preview"
             VERCEL_ARGS="" 
           fi
 
-          # 2. Bajar configuración
           vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
-
-          # 3. Construir
           vercel build $VERCEL_ARGS --token=$VERCEL_TOKEN
-
-          # 4. Desplegar
           vercel deploy --prebuilt $VERCEL_ARGS --token=$VERCEL_TOKEN
