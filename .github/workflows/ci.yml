@@ -74,8 +74,8 @@ jobs:
       - name: Ejecutar Despliegue (Lógica Condicional)
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secretsVERCEL.ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL.PROJECT_ID }}
         run: |
           # 1. Definir variables según el caso
           if [[ "${{ github.ref }}" == "refs/heads/main" && "${{ github.event_name }}" == "push" ]]; then
