@@ -1,0 +1,10 @@
+name: Test de Vida
+
+on: [push]
+
+jobs:
+  saludo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decir hola
+        run: echo "¡GitHub Actions está vivo y escuchando!"
