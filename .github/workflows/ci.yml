@@ -1,0 +1,69 @@
+name: CI/CD - Calidad y Despliegue Dinámico
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['main', 'development']
+
+jobs:
+  # TAREA 1: Verificación (Debe correr siempre)
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # Si esto falla, es porque falta package-lock.json en el repo
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Tests Unitarios
+        run: npm run test -- --run
+
+      - name: Build
+        run: npm run build
+
+  # TAREA 2: Despliegue (Solo corre si la anterior pasa)
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    # Solo despliega en PRs o en ramas main/development
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development'))
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Instalar Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Desplegar a Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          # Detectar entorno
+          if [[ "${{ github.ref }}" == "refs/heads/main" && "${{ github.event_name }}" == "push" ]]; then
+            VERCEL_ENV="production"
+            VERCEL_ARGS="--prod"
+          else
+            VERCEL_ENV="preview"
+            VERCEL_ARGS="" 
+          fi
+
+          # Comandos de despliegue
+          vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
+          vercel build $VERCEL_ARGS --token=$VERCEL_TOKEN
+          vercel deploy --prebuilt $VERCEL_ARGS --token=$VERCEL_TOKEN
