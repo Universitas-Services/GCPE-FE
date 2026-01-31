@@ -53,17 +53,33 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          # Detectar entorno
-          if [[ "${{ github.ref }}" == "refs/heads/main" && "${{ github.event_name }}" == "push" ]]; then
-            VERCEL_ENV="production"
-            VERCEL_ARGS="--prod"
-          else
-            VERCEL_ENV="preview"
-            VERCEL_ARGS="" 
-          fi
+run: |
+  # 1. Detectar entorno
+  if [[ "${{ github.ref }}" == "refs/heads/main" && "${{ github.event_name }}" == "push" ]]; then
+    VERCEL_ENV="production"
+    VERCEL_ARGS="--prod"
+  else
+    VERCEL_ENV="preview"
+    VERCEL_ARGS="" 
+  fi
 
-          # Comandos de despliegue
-          vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
-          vercel build $VERCEL_ARGS --token=$VERCEL_TOKEN
-          vercel deploy --prebuilt $VERCEL_ARGS --token=$VERCEL_TOKEN
+  # 2. Pull y Build
+  vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
+  vercel build $VERCEL_ARGS --token=$VERCEL_TOKEN
+
+  # 3. Desplegar y CAPTURAR la URL
+  # Guardamos la salida del comando en una variable
+  DEPLOY_URL=$(vercel deploy --prebuilt $VERCEL_ARGS --token=$VERCEL_TOKEN)
+
+  # 4. Imprimir en consola (para debug)
+  echo "URL de Vercel: $DEPLOY_URL"
+
+  # 5. GENERAR RESUMEN VISUAL EN GITHUB
+  # Esto crea el bloque visible en la interfaz
+  echo "### 🚀 Despliegue en Vercel Exitoso" >> $GITHUB_STEP_SUMMARY
+  echo "" >> $GITHUB_STEP_SUMMARY # Salto de línea
+  echo "| Entorno | URL |" >> $GITHUB_STEP_SUMMARY
+  echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+  echo "| **$VERCEL_ENV** | [Visitar Sitio 🔗]($DEPLOY_URL) |" >> $GITHUB_STEP_SUMMARY
+  echo "" >> $GITHUB_STEP_SUMMARY
+  echo "> _El despliegue se ha completado correctamente._" >> $GITHUB_STEP_SUMMARY
