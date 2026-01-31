@@ -49,6 +49,7 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Desplegar a Vercel
+        id: vercel_action # IMPORTANTE: ID necesario para pasar la URL al siguiente paso
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -71,11 +72,10 @@ jobs:
           # Guardamos la salida del comando en una variable
           DEPLOY_URL=$(vercel deploy --prebuilt $VERCEL_ARGS --token=$VERCEL_TOKEN)
 
-          # 4. Imprimir en consola (para debug)
-          echo "URL de Vercel: $DEPLOY_URL"
+          # 4. EXPORTAR URL (Para que el paso del comentario la pueda leer)
+          echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
 
-          # 5. GENERAR RESUMEN VISUAL EN GITHUB
-          # Esto crea el bloque visible en la interfaz
+          # 5. GENERAR RESUMEN VISUAL EN GITHUB (Visible en los detalles del Run)
           echo "### 🚀 Despliegue en Vercel Exitoso" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY # Salto de línea
           echo "| Entorno | URL |" >> $GITHUB_STEP_SUMMARY
@@ -83,3 +83,24 @@ jobs:
           echo "| **$VERCEL_ENV** | [Visitar Sitio 🔗]($DEPLOY_URL) |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "> _El despliegue se ha completado correctamente._" >> $GITHUB_STEP_SUMMARY
+
+      - name: Comentar Link en el PR
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const url = '${{ steps.vercel_action.outputs.url }}';
+            const body = `### 🚀 Preview Disponible
+
+            | Entorno | Estado | Link |
+            | :--- | :--- | :--- |
+            | **Preview** | ✅ Listo | **[Visitar Sitio](${url})** |
+
+            > _Desplegado automáticamente por GitHub Actions._`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            })
