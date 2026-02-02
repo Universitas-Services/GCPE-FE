@@ -1,13 +1,31 @@
+'use client';
+
+import {
+  ComplianceHeader,
+  GeneralDataForm,
+  CompliancePagination,
+} from '@/features/compliance';
+import { useState } from 'react';
+
 export default function CompliancePage() {
+  const [currentPage, setCurrentPage] = useState(1);
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-[#0b1e4c]">Compliance</h1>
-      </div>
-      <div className="p-4 rounded-lg border border-dashed border-gray-300 bg-gray-50">
-        <p className="text-center text-gray-500">
-          Módulo de Compliance de Expediente de selección de contratista
-        </p>
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-1 w-full max-w-5xl mx-auto py-8 px-4">
+        <ComplianceHeader />
+
+        {/* Main Content Area */}
+        <div className="mb-8">
+          <GeneralDataForm />
+        </div>
+
+        <CompliancePagination
+          currentPage={currentPage}
+          totalPages={7}
+          onPageChange={setCurrentPage}
+          className="flex justify-center pb-8"
+        />
       </div>
     </div>
   );
