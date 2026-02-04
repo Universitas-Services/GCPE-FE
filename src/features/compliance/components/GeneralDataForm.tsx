@@ -6,6 +6,7 @@ import * as z from 'zod';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
+import { useEffect } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,9 +14,9 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -24,6 +25,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { useCompliance } from '../context/ComplianceContext';
 
 // 1. Definición del Schema de Validación con Zod
 const formSchema = z.object({
@@ -41,17 +43,21 @@ const formSchema = z.object({
   documentCode: z
     .string()
     .min(1, { message: 'El código del documento es requerido.' }),
+  // Campos opcionales para evitar errores de tipo si el contexto tiene más datos
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export function GeneralDataForm() {
+  const { generalData, setGeneralData, goToNextPage } = useCompliance();
+
   // 2. Inicialización del formulario
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -64,13 +70,29 @@ export function GeneralDataForm() {
     },
   });
 
+  // Cargar datos del contexto si existen
+  useEffect(() => {
+    if (generalData.email) {
+      reset({
+        email: generalData.email,
+        entityName: generalData.entityName,
+        unitName: generalData.unitName,
+        reviewDate: generalData.reviewDate
+          ? new Date(generalData.reviewDate)
+          : undefined,
+        reviewerName: generalData.reviewerName,
+        documentCode: generalData.documentCode,
+      });
+    }
+  }, [generalData, reset]);
+
   // Observamos el valor de la fecha para actualizar la UI del botón
   const reviewDate = watch('reviewDate');
 
   // 3. Handler de envío
   const onSubmit = (data: FormValues) => {
-    console.log('Datos del formulario enviados:', data);
-    // Aquí iría la lógica para avanzar al siguiente paso o guardar en BD
+    setGeneralData(data);
+    goToNextPage();
   };
 
   return (
