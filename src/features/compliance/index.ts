@@ -4,5 +4,7 @@ export { CompliancePagination } from './components/CompliancePagination';
 export { PreparatoryActsForm } from './components/PreparatoryActsForm';
 export { PresentationOpeningActsForm } from './components/PresentationOpeningActsForm';
 export { EvaluationQualificationForm } from './components/EvaluationQualificationForm';
+export { FormalitiesAndArchiveForm } from './components/FormalitiesAndArchiveForm';
+export { AdvancedReportForm } from './components/AdvancedReportForm';
 export { AwardContractForm } from './components/AwardContractForm';
 export { ComplianceProvider, useCompliance } from './context/ComplianceContext';

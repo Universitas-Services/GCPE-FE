@@ -8,6 +8,8 @@ import {
   PresentationOpeningActsForm,
   EvaluationQualificationForm,
   AwardContractForm,
+  FormalitiesAndArchiveForm,
+  AdvancedReportForm,
   ComplianceProvider,
   useCompliance,
 } from '@/features/compliance';
@@ -46,6 +48,10 @@ function renderStep(page: number) {
       return <EvaluationQualificationForm />;
     case 5:
       return <AwardContractForm />;
+    case 6:
+      return <FormalitiesAndArchiveForm />;
+    case 7:
+      return <AdvancedReportForm />;
     default:
       return (
         <div className="text-center py-20 text-gray-500">

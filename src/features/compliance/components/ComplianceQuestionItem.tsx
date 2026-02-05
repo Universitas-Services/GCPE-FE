@@ -3,11 +3,12 @@ import { cn } from '@/lib/utils';
 import { QuestionAnswer } from '../context/ComplianceContext';
 
 interface ComplianceQuestionItemProps {
-  id: number;
+  id?: number;
   question: string;
-  citation: string;
+  citation?: string;
   value?: QuestionAnswer;
   onChange: (value: QuestionAnswer) => void;
+  hideNoAplica?: boolean;
 }
 
 export function ComplianceQuestionItem({
@@ -16,16 +17,20 @@ export function ComplianceQuestionItem({
   citation,
   value,
   onChange,
+  hideNoAplica = false,
 }: ComplianceQuestionItemProps) {
   return (
     <div className="space-y-4 py-6 border-b border-gray-100 last:border-0">
       <div className="space-y-1">
         <h3 className="text-base font-bold text-[#0b1e4c]">
-          {id}. {question}
+          {id ? `${id}. ` : ''}
+          {question}
         </h3>
-        <p className="text-sm text-gray-400 italic leading-relaxed">
-          {citation}
-        </p>
+        {citation && (
+          <p className="text-sm text-gray-400 italic leading-relaxed">
+            {citation}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -39,11 +44,13 @@ export function ComplianceQuestionItem({
           isSelected={value === 'NO'}
           onClick={() => onChange('NO')}
         />
-        <SelectionButton
-          label="NO APLICA"
-          isSelected={value === 'NO_APLICA'}
-          onClick={() => onChange('NO_APLICA')}
-        />
+        {!hideNoAplica && (
+          <SelectionButton
+            label="NO APLICA"
+            isSelected={value === 'NO_APLICA'}
+            onClick={() => onChange('NO_APLICA')}
+          />
+        )}
       </div>
     </div>
   );
