@@ -1,78 +1,116 @@
 'use client';
 
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import Image from 'next/image';
+import Link from 'next/link';
+
+// Imports de UI y Contexto
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { FormEvent } from 'react';
+import { useAuth } from '../context/AuthContext';
+
+// 1. Esquema de validación actualizado a "username"
+const loginSchema = z.object({
+  username: z.string().min(1, { message: 'El nombre de usuario es requerido' }),
+  password: z.string().min(1, { message: 'La contraseña es requerida' }),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
-  const router = useRouter();
+  const { login } = useAuth();
+  const [globalError, setGlobalError] = useState('');
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    // Simulate login success
-    router.push('/dashboard');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: '', // Ahora usamos username
+      password: '',
+    },
+  });
+
+  const onSubmit = async (data: LoginFormValues) => {
+    setGlobalError('');
+    try {
+      // Nota: Asegúrate de que tu auth.service.ts espere { username, password }
+      // y no { email, password }
+      await login(data as any);
+    } catch (err: any) {
+      setGlobalError(
+        err.message || 'Credenciales inválidas. Inténtalo de nuevo.'
+      );
+    }
   };
 
   return (
     <div className="flex min-h-screen w-full flex-col lg:flex-row">
-      {/* Left Side - Gray Background 
-          Agregado 'hidden lg:flex' para ocultarlo en móviles según indicación */}
+      {/* Left Side - Gray Background */}
       <div className="hidden lg:flex flex-col items-center justify-center bg-[#A8ADB5] p-10 lg:w-1/2 lg:px-20">
         <div className="flex flex-col items-center space-y-4 text-center">
-          {/* Logo Principal (Imagen) */}
           <div className="relative w-full max-w-lg">
             <Image
               src="/logo-con-letra.png"
               alt="Logo Principal"
               width={500}
               height={500}
-              className="object-contain drop-shadow-sm"
-              priority // Carga prioritaria al ser la imagen más grande (LCP)
+              className="object-contain drop-shadow-xl"
+              priority
             />
           </div>
         </div>
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="flex flex-col items-center justify-center bg-[#eaeef4] p-8 lg:w-1/2">
+      <div className="flex flex-1 flex-col items-center justify-center bg-[#eaeef4] p-8 lg:p-20">
         <div className="w-full max-w-md space-y-8">
-          {/* Top Logo (Icono pequeño) */}
-          <div className="flex flex-col items-center justify-center text-center">
-            {/* Reemplazo de UNIVERSITAS Legal por logo.png */}
-            <div className="mb-2">
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="mb-4">
               <Image
                 src="/logo.png"
-                alt="Logo Universitas"
-                width={150}
-                height={150}
-                className="object-contain"
+                alt="Logo Pequeño"
+                width={50}
+                height={50}
+                className="h-12 w-auto"
               />
             </div>
-
-            <h2 className="mt-6 text-sm text-gray-500">
-              Inicia sesión para continuar
-            </h2>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+              Bienvenido
+            </h1>
+            <p className="text-sm text-gray-500">
+              Ingresa tus credenciales para acceder al sistema
+            </p>
           </div>
 
-          {/* Form */}
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Campo Usuario (Modificado) */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-700">
-                Correo electrónico
+              <Label htmlFor="username" className="text-gray-700">
+                Usuario
               </Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="Ingresa tu correo"
-                className="bg-white border-gray-200"
+                id="username"
+                type="text"
+                placeholder="Ingresa tu usuario"
+                className={`bg-white border-gray-200 ${errors.username ? 'border-red-500' : ''}`}
+                {...register('username')}
               />
+              {errors.username && (
+                <p className="text-sm text-red-500">
+                  {errors.username.message}
+                </p>
+              )}
             </div>
 
+            {/* Campo Password */}
             <div className="space-y-2">
               <Label htmlFor="password" className="text-gray-700">
                 Contraseña
@@ -81,8 +119,14 @@ export function LoginForm() {
                 id="password"
                 type="password"
                 placeholder="Ingresa tu contraseña"
-                className="bg-white border-gray-200"
+                className={`bg-white border-gray-200 ${errors.password ? 'border-red-500' : ''}`}
+                {...register('password')}
               />
+              {errors.password && (
+                <p className="text-sm text-red-500">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             <div className="flex items-center justify-end">
@@ -94,11 +138,18 @@ export function LoginForm() {
               </Link>
             </div>
 
+            {globalError && (
+              <div className="p-3 text-sm text-red-500 bg-red-50 border border-red-200 rounded-md text-center">
+                {globalError}
+              </div>
+            )}
+
             <Button
               type="submit"
-              className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-6 text-lg shadow-sm"
+              disabled={isSubmitting}
+              className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-6 text-lg shadow-sm disabled:opacity-50"
             >
-              Iniciar sesión
+              {isSubmitting ? 'Iniciando sesión...' : 'Iniciar sesión'}
             </Button>
           </form>
 
@@ -110,6 +161,30 @@ export function LoginForm() {
               <span className="bg-[#eaeef4] px-2 text-gray-500">O</span>
             </div>
           </div>
+
+          <Button
+            variant="outline"
+            className="w-full border-gray-300 bg-white hover:bg-gray-50 text-gray-700 py-6"
+            onClick={() => console.log('Google Login pendiente')}
+          >
+            {/* Icono de Google ... */}
+            <svg
+              className="mr-2 h-4 w-4"
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fab"
+              data-icon="google"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 488 512"
+            >
+              <path
+                fill="currentColor"
+                d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+              ></path>
+            </svg>
+            Iniciar sesión con Google
+          </Button>
         </div>
       </div>
     </div>
