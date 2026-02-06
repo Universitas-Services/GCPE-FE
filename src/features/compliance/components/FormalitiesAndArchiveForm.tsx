@@ -43,9 +43,57 @@ const FORMALITIES_ARCHIVE_QUESTIONS = [
   },
 ];
 
+import { useState } from 'react';
+import { complianceService } from '../services/compliance.service';
+// Assuming useToast exists or we use alert for now if not found, but list_dir will confirm.
+// I will use window.alert if toast is not obvious, or just console.error.
+// Actually, I'll prefer a simple alert or just navigation on success.
+
 export function FormalitiesAndArchiveForm() {
-  const { complianceAnswers, setAnswer, goToNextPage, goToPreviousPage } =
-    useCompliance();
+  const {
+    complianceAnswers,
+    setAnswer,
+    goToNextPage,
+    goToPreviousPage,
+    generalData,
+    setComplianceId,
+  } = useCompliance();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleCreateDocument = async () => {
+    try {
+      setIsSubmitting(true);
+      // Validate that all questions 1-24 are answered?
+      // User didn't strictly ask for validation blocking, but it's good practice.
+      // For now, I'll proceed with submission. The service maps missing answers to "NA".
+
+      const response = await complianceService.submitComplianceForm(
+        generalData,
+        complianceAnswers
+      );
+
+      console.log('Respuesta del servidor al crear documento:', response);
+
+      // Save ID to context (support 'id' or 'pk')
+      const newId = response?.id || response?.pk;
+      if (newId) {
+        setComplianceId(newId);
+      } else {
+        console.warn('No se encontró un ID válido en la respuesta:', response);
+        // Optional warning to user
+      }
+
+      // On success
+      goToNextPage();
+    } catch (error) {
+      console.error('Error al crear documento:', error);
+      alert(
+        'Error al crear el documento. Por favor verifique los datos e intente nuevamente.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <Card className="w-full max-w-5xl mx-auto shadow-sm border-gray-100">
@@ -77,15 +125,17 @@ export function FormalitiesAndArchiveForm() {
             variant="outline"
             className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-6 text-lg rounded-xl"
             onClick={goToPreviousPage}
+            disabled={isSubmitting}
           >
             Anterior
           </Button>
           <Button
             type="button"
             className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
-            onClick={goToNextPage}
+            onClick={handleCreateDocument}
+            disabled={isSubmitting}
           >
-            Siguiente
+            {isSubmitting ? 'Enviando...' : 'Crear documento'}
           </Button>
         </div>
       </CardContent>

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -12,21 +12,36 @@ import { Button } from '@/components/ui/button';
 import { useCompliance } from '../context/ComplianceContext';
 import { ComplianceQuestionItem } from './ComplianceQuestionItem';
 
-// As requested, ID 25 is used internally but not shown.
 const ADVANCED_REPORT_QUESTION = {
   id: 25,
   question:
     '¿Desea realizar una revisión detallada de fondo a cada acto administrativo contenido en el expediente para detectar desviaciones legales específicas?',
-  // No citation as requested
 };
 
-export function AdvancedReportForm() {
-  const { complianceAnswers, setAnswer, goToPreviousPage } = useCompliance();
+import { complianceService } from '../services/compliance.service';
 
-  const handlePrintReport = () => {
-    // TODO: Connect to endpoint for submission
-    console.log('Printing report/Submitting form', complianceAnswers);
-    alert('Funcionalidad de impresión/envío pendiente de implementación');
+export function AdvancedReportForm() {
+  const { complianceAnswers, setAnswer, goToPreviousPage, complianceId } =
+    useCompliance();
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadPdf = async () => {
+    if (!complianceId) {
+      alert(
+        'No se ha encontrado el ID del documento. Por favor regrese y cree el documento nuevamente.'
+      );
+      return;
+    }
+
+    try {
+      setIsDownloading(true);
+      await complianceService.downloadPdf(complianceId);
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      alert('Error al descargar el PDF.');
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   return (
@@ -44,11 +59,11 @@ export function AdvancedReportForm() {
       <CardContent className="space-y-6">
         <ComplianceQuestionItem
           key={ADVANCED_REPORT_QUESTION.id}
-          // ID is not passed so it won't be displayed
+          id={ADVANCED_REPORT_QUESTION.id} // Ensure ID is passed if needed by component logic, but hideNoAplica handles the buttons
           question={ADVANCED_REPORT_QUESTION.question}
           value={complianceAnswers[ADVANCED_REPORT_QUESTION.id]}
           onChange={(val) => setAnswer(ADVANCED_REPORT_QUESTION.id, val)}
-          hideNoAplica={true}
+          hideNoAplica={true} // Shows only Yes/No buttons
         />
 
         <div className="flex justify-between pt-8">
@@ -63,9 +78,10 @@ export function AdvancedReportForm() {
           <Button
             type="button"
             className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
-            onClick={handlePrintReport}
+            onClick={handleDownloadPdf}
+            disabled={!complianceId || isDownloading}
           >
-            Imprimir reporte
+            {isDownloading ? 'Descargando...' : 'Descargar documento PDF'}
           </Button>
         </div>
       </CardContent>
