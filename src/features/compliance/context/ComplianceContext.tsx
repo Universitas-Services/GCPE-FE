@@ -26,6 +26,7 @@ interface ComplianceContextType {
   generalData: GeneralData;
   complianceAnswers: ComplianceAnswers;
   totalPages: number;
+  complianceId: number | null;
 
   // Acciones
   setCurrentPage: (page: number) => void;
@@ -33,6 +34,7 @@ interface ComplianceContextType {
   setAnswer: (questionId: number, answer: QuestionAnswer) => void;
   goToNextPage: () => void;
   goToPreviousPage: () => void;
+  setComplianceId: (id: number) => void;
 }
 
 const ComplianceContext = createContext<ComplianceContextType | undefined>(
@@ -51,6 +53,8 @@ export function ComplianceProvider({ children }: { children: ReactNode }) {
   const [complianceAnswers, setComplianceAnswers] = useState<ComplianceAnswers>(
     {}
   );
+
+  const [complianceId, setComplianceId] = useState<number | null>(null);
 
   const totalPages = 7; // Definido en el requerimiento original (vista de paginación)
 
@@ -82,11 +86,13 @@ export function ComplianceProvider({ children }: { children: ReactNode }) {
     generalData,
     complianceAnswers,
     totalPages,
+    complianceId,
     setCurrentPage,
     setGeneralData,
     setAnswer,
     goToNextPage,
     goToPreviousPage,
+    setComplianceId,
   };
 
   return (
