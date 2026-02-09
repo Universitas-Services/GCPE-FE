@@ -1,1 +1,1 @@
-export * from './components/LoginForm';
+export * from './views/LoginForm';
