@@ -37,7 +37,8 @@ export const ProviderRegistrationWizard: React.FC = () => {
     try {
       await createProvider(formData as ProviderFormData);
       // Redirect or show success
-      router.push('/dashboard/proveedores'); // Assuming this route exists or we go somewhere else
+      // TODO: Redirect to /dashboard/proveedores when list view is implemented
+      router.push('/dashboard');
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Error al registrar el proveedor. Por favor intente nuevamente.');
