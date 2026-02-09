@@ -1,3 +1,3 @@
-export { default as DashboardLayout } from './components/DashboardLayout';
-export { Sidebar, MobileSidebar } from './components/Sidebar';
+export { default as DashboardLayout } from './views/DashboardLayout';
+export { Sidebar, MobileSidebar } from './views/Sidebar';
 export { DashboardProvider, useDashboard } from './context/DashboardContext';
