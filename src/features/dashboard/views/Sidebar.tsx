@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { LayoutDashboard, FileText, Menu, Users } from 'lucide-react';
+import { LayoutDashboard, FileText, Menu, Users, BookOpen } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -36,6 +36,12 @@ export function Sidebar({ className }: SidebarProps) {
       icon: Users,
       href: '/dashboard/proveedores/registro',
       active: pathname.startsWith('/dashboard/proveedores'),
+    },
+    {
+      label: 'Elabora tu manual express',
+      icon: BookOpen,
+      href: '/dashboard/manual',
+      active: pathname.startsWith('/dashboard/manual'),
     },
   ];
 
@@ -128,6 +134,12 @@ export function MobileSidebar() {
       icon: Users,
       href: '/dashboard/proveedores/registro',
       active: pathname.startsWith('/dashboard/proveedores'),
+    },
+    {
+      label: 'Elabora tu manual express',
+      icon: BookOpen,
+      href: '/dashboard/manual',
+      active: pathname.startsWith('/dashboard/manual'),
     },
   ];
 
