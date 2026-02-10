@@ -2,7 +2,7 @@ name: CI/CD - Calidad y Despliegue Dinámico
 
 on:
   push:
-    branches: ['**']
+    branches: ['main', 'development'] # CAMBIO: Solo se activa en estas ramas
   pull_request:
     branches: ['main', 'development']
 
