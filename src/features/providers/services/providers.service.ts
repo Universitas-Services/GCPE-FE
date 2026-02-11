@@ -43,3 +43,44 @@ export const createProvider = async (
 
   return response.json();
 };
+
+export const getProviders = async (): Promise<any[]> => {
+  if (!API_URL) {
+    throw new Error('API URL is not defined');
+  }
+
+  const token = authService.getToken();
+  console.log('GetProviders Token:', token ? 'Present' : 'Missing');
+
+  // Don't set Content-Type for GET requests usually
+  const headers: Record<string, string> = {};
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  // Try adding pagination parameters which might be required by the backend
+  const response = await fetch(`${API_URL}/api/proveedores?skip=0&limit=100`, {
+    method: 'GET',
+    headers: headers,
+  });
+
+  console.log(
+    'GetProviders Response Status:',
+    response.status,
+    response.statusText
+  );
+
+  if (!response.ok) {
+    let errorData;
+    try {
+      errorData = await response.json();
+    } catch {
+      errorData = { detail: response.statusText };
+    }
+    console.error('API Error:', errorData);
+    throw new Error(errorData.detail || 'Error al obtener los proveedores');
+  }
+
+  return response.json();
+};
