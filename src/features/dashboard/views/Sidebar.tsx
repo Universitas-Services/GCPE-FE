@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useDashboard } from '../context/DashboardContext';
+import { useState } from 'react';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
@@ -17,6 +18,17 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const { isSidebarCollapsed, toggleSidebar } = useDashboard();
+  const [openMenus, setOpenMenus] = useState<string[]>([
+    '/dashboard/proveedores',
+  ]);
+
+  const toggleMenu = (href: string) => {
+    setOpenMenus((prev) =>
+      prev.includes(href)
+        ? prev.filter((item) => item !== href)
+        : [...prev, href]
+    );
+  };
 
   const routes = [
     {
@@ -26,19 +38,32 @@ export function Sidebar({ className }: SidebarProps) {
       active: pathname === '/dashboard',
     },
     {
-      label: 'Compliance de Expediente de selección de contratista',
+      label: 'Compliance',
       icon: FileText,
       href: '/dashboard/compliance',
       active: pathname.startsWith('/dashboard/compliance'),
     },
     {
-      label: 'Registro de proveedores',
+      label: 'Proveedores',
       icon: Users,
-      href: '/dashboard/proveedores/registro',
+      href: '/dashboard/proveedores',
       active: pathname.startsWith('/dashboard/proveedores'),
+      // submenus
+      children: [
+        {
+          label: 'Registro',
+          href: '/dashboard/proveedores/registro',
+          active: pathname === '/dashboard/proveedores/registro',
+        },
+        {
+          label: 'Listar proveedores',
+          href: '/dashboard/proveedores/lista',
+          active: pathname === '/dashboard/proveedores/lista',
+        },
+      ],
     },
     {
-      label: 'Elabora tu manual express',
+      label: 'Manual Express',
       icon: BookOpen,
       href: '/dashboard/manual',
       active: pathname.startsWith('/dashboard/manual'),
@@ -64,7 +89,7 @@ export function Sidebar({ className }: SidebarProps) {
           {!isSidebarCollapsed && (
             <span className="text-xl font-bold text-transparent select-none">
               .
-            </span> // Spacer to keep layout if needed or just empty
+            </span>
           )}
           <Button
             onClick={toggleSidebar}
@@ -78,35 +103,101 @@ export function Sidebar({ className }: SidebarProps) {
 
         <ScrollArea className="flex-1 px-3">
           <div className="space-y-2">
-            {routes.map((route) => (
-              <Button
-                key={route.href}
-                variant={route.active ? 'secondary' : 'ghost'}
-                className={cn(
-                  'w-full justify-start transition-all',
-                  route.active && 'bg-white shadow-sm font-medium',
-                  isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
-                )}
-                asChild
-              >
-                <Link
-                  href={route.href}
-                  className="flex items-center h-auto min-h-[40px] py-1"
-                >
-                  <route.icon
+            {routes.map((route) => {
+              // Simple Item
+              if (!route.children) {
+                return (
+                  <Button
+                    key={route.href}
+                    variant={route.active ? 'secondary' : 'ghost'}
                     className={cn(
-                      'h-5 w-5 shrink-0 text-[#0b1e4c]',
-                      isSidebarCollapsed ? 'mr-0' : 'mr-3'
+                      'w-full justify-start transition-all mb-1',
+                      route.active && 'bg-white shadow-sm font-medium',
+                      isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
                     )}
-                  />
-                  {!isSidebarCollapsed && (
-                    <span className="whitespace-normal leading-tight text-left break-words">
-                      {route.label}
-                    </span>
+                    asChild
+                  >
+                    <Link
+                      href={route.href}
+                      className="flex items-center h-auto min-h-[40px] py-1"
+                    >
+                      <route.icon
+                        className={cn(
+                          'h-5 w-5 shrink-0 text-[#0b1e4c]',
+                          isSidebarCollapsed ? 'mr-0' : 'mr-3'
+                        )}
+                      />
+                      {!isSidebarCollapsed && (
+                        <span className="whitespace-normal leading-tight text-left break-words">
+                          {route.label}
+                        </span>
+                      )}
+                    </Link>
+                  </Button>
+                );
+              }
+
+              // Parent Item with Children
+              const isOpen = openMenus.includes(route.href);
+              const isChildActive = route.children.some(
+                (child) => child.active
+              );
+
+              return (
+                <div key={route.href} className="mb-1">
+                  <Button
+                    variant={
+                      route.active || isChildActive ? 'secondary' : 'ghost'
+                    }
+                    className={cn(
+                      'w-full justify-start transition-all',
+                      (route.active || isChildActive) &&
+                        'bg-gray-200/50 font-medium',
+                      isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
+                    )}
+                    onClick={() =>
+                      !isSidebarCollapsed && toggleMenu(route.href)
+                    }
+                  >
+                    <div className="flex items-center w-full">
+                      <route.icon
+                        className={cn(
+                          'h-5 w-5 shrink-0 text-[#0b1e4c]',
+                          isSidebarCollapsed ? 'mr-0' : 'mr-3'
+                        )}
+                      />
+                      {!isSidebarCollapsed && (
+                        <>
+                          <span className="whitespace-normal leading-tight text-left break-words flex-1">
+                            {route.label}
+                          </span>
+                          {/* Chevron icon could go here if we imported it */}
+                        </>
+                      )}
+                    </div>
+                  </Button>
+
+                  {/* Children Container */}
+                  {!isSidebarCollapsed && isOpen && (
+                    <div className="mt-1 ml-4 border-l-2 border-gray-200 pl-2 space-y-1">
+                      {route.children.map((child) => (
+                        <Button
+                          key={child.href}
+                          variant={child.active ? 'secondary' : 'ghost'}
+                          className={cn(
+                            'w-full justify-start h-9 text-sm',
+                            child.active && 'bg-white shadow-sm font-medium'
+                          )}
+                          asChild
+                        >
+                          <Link href={child.href}>{child.label}</Link>
+                        </Button>
+                      ))}
+                    </div>
                   )}
-                </Link>
-              </Button>
-            ))}
+                </div>
+              );
+            })}
           </div>
         </ScrollArea>
       </div>
