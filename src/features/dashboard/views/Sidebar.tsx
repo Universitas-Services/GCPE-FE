@@ -2,7 +2,12 @@
 
 import Link from 'next/link';
 import { LayoutDashboard, FileText, Menu, Users, BookOpen } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+} from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
@@ -227,6 +232,12 @@ export function MobileSidebar() {
       active: pathname.startsWith('/dashboard/proveedores'),
     },
     {
+      label: 'Listar proveedores',
+      icon: Users,
+      href: '/dashboard/proveedores/lista',
+      active: pathname === '/dashboard/proveedores/lista',
+    },
+    {
       label: 'Elabora tu manual express',
       icon: BookOpen,
       href: '/dashboard/manual',
@@ -242,6 +253,9 @@ export function MobileSidebar() {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="p-0 bg-gray-100 w-72">
+        {/* Mantenemos el título oculto para accesibilidad */}
+        <SheetTitle className="hidden">Menú de Navegación</SheetTitle>
+
         <div className="space-y-4 py-4 h-full flex flex-col">
           <div className="px-4 py-2 flex items-center gap-2 mb-6">
             <Image

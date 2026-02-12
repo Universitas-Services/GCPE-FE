@@ -8,9 +8,13 @@ import React, {
   ReactNode,
 } from 'react';
 import { useRouter } from 'next/navigation';
+// 1. Importamos la nueva lib
 import { authService, LoginCredentials } from '../services/auth.service';
+import { authStorage } from '../lib/auth-storage';
 
-interface User {
+// Exportamos User para poder usarlo en auth-storage.ts si lo necesitas,
+// o mejor aún, muévelo a un archivo types.ts compartido.
+export interface User {
   id: number;
   email: string;
   name?: string;
@@ -34,12 +38,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Verificar sesión al cargar
   useEffect(() => {
-    const token = authService.getToken();
-    const storedUser = localStorage.getItem('user');
+    // 2. Usamos la lib para leer datos limpios y seguros
+    const token = authStorage.getAccessToken();
+    const storedUser = authStorage.getUser(); // Ya viene parseado o null
 
     if (token && storedUser) {
       setIsAuthenticated(true);
-      setUser(JSON.parse(storedUser));
+      setUser(storedUser);
     }
     setIsLoading(false);
   }, []);
@@ -49,19 +54,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const data = await authService.login(credentials);
 
-      // Guardar en localStorage
-      localStorage.setItem('accessToken', data.access);
-      localStorage.setItem('refreshToken', data.refresh);
+      // 3. Usamos la lib para guardar
+      authStorage.setAccessToken(data.access);
+      authStorage.setRefreshToken(data.refresh);
 
-      // Si el backend no devuelve el usuario en el login, podrías tener que hacer un fetch adicional a '/api/me/'
-      // Por ahora asumimos que data.user existe o lo decodificamos del token
       if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user));
-        setUser(data.user);
+        // Mapeamos el usuario de la respuesta al tipo User si es necesario
+        // (Asegúrate de que los campos coincidan con tu interfaz User)
+        const userToStore: User = {
+          id: data.user.id,
+          email: data.user.email,
+          name: data.user.name,
+        };
+        authStorage.setUser(userToStore);
+        setUser(userToStore);
       }
 
       setIsAuthenticated(true);
-      router.push('/dashboard'); // Redirigir al dashboard
+      router.push('/dashboard');
     } catch (error) {
       console.error(error);
       throw error;
@@ -71,7 +81,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
-    authService.logout();
+    // 4. Limpieza centralizada a través de la lib
+    authStorage.clearSession();
+
     setIsAuthenticated(false);
     setUser(null);
     router.push('/login');

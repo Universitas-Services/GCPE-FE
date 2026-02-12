@@ -1,5 +1,6 @@
 import { ProviderFormData } from '../types/provider.types';
-import { authService } from '@/features/auth/services/auth.service';
+// ✅ CAMBIO: Importamos la libreta de almacenamiento
+import { authStorage } from '@/features/auth/lib/auth-storage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -10,7 +11,9 @@ export const createProvider = async (
     throw new Error('API URL is not defined');
   }
 
-  const token = authService.getToken();
+  // ✅ CAMBIO: Usamos getAccessToken()
+  const token = authStorage.getAccessToken();
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
@@ -19,13 +22,11 @@ export const createProvider = async (
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  // Matching the pattern in compliance.service.ts: ${API_URL}/api/...
-  // Assuming the backend endpoint is /api/proveedores at the external API.
   // Map form data to API payload
   const payload = {
     ...data,
     tipo_persona: data.tipo_persona === 'Natural' ? 'N' : 'J',
-    // Ensure numeric values are sent as numbers (though zod handles this in form, good to be safe)
+    // Ensure numeric values are sent as numbers
     anos_experiencia: Number(data.anos_experiencia),
   };
 
@@ -49,17 +50,16 @@ export const getProviders = async (): Promise<any[]> => {
     throw new Error('API URL is not defined');
   }
 
-  const token = authService.getToken();
+  // ✅ CAMBIO: Usamos getAccessToken()
+  const token = authStorage.getAccessToken();
   console.log('GetProviders Token:', token ? 'Present' : 'Missing');
 
-  // Don't set Content-Type for GET requests usually
   const headers: Record<string, string> = {};
 
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  // Try adding pagination parameters which might be required by the backend
   const response = await fetch(`${API_URL}/api/proveedores?skip=0&limit=100`, {
     method: 'GET',
     headers: headers,

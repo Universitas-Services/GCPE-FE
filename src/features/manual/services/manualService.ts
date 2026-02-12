@@ -1,11 +1,13 @@
 import { ManualFormData } from '../types';
-
-import { authService } from '@/features/auth/services/auth.service';
+// ✅ CAMBIO: Importamos la libreta de almacenamiento
+import { authStorage } from '@/features/auth/lib/auth-storage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const createManual = async (data: ManualFormData): Promise<void> => {
-  const token = authService.getToken();
+  // ✅ CAMBIO: Usamos getAccessToken()
+  const token = authStorage.getAccessToken();
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
@@ -24,8 +26,6 @@ export const createManual = async (data: ManualFormData): Promise<void> => {
     throw new Error('Error al generar el manual');
   }
 
-  // Handle PDF download if the API returns a blob
-  // Assuming the API returns a PDF blob for download
   const blob = await response.blob();
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
