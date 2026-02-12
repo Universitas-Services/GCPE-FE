@@ -19,8 +19,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const authService = {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    // CORRECCIÓN: Cambiado de '/api/token/' a '/api/token/pair/'
-    // Django suele ser estricto con el trailing slash, así que usamos '/pair/'
     const response = await fetch(`${API_URL}/api/token/pair`, {
       method: 'POST',
       headers: {
