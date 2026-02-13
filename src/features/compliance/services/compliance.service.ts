@@ -1,15 +1,16 @@
 import { format } from 'date-fns';
 import { GeneralData, ComplianceAnswers } from '../context/ComplianceContext';
 import { complianceFormSchema } from '../schemas/compliance.schema';
-import { authService } from '@/features/auth/services/auth.service';
+// ✅ CAMBIO: Importamos la libreta de almacenamiento
+import { authStorage } from '@/features/auth/lib/auth-storage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Helper to map allowed values
 const mapAnswer = (answer: string | undefined): string => {
-  if (!answer) return 'NA'; // Default to NA if undefined? Or maybe empty string? JSON has "NA"
+  if (!answer) return 'NA';
   if (answer === 'NO_APLICA') return 'NA';
-  return answer; // "SI" or "NO"
+  return answer;
 };
 
 export const complianceService = {
@@ -22,7 +23,6 @@ export const complianceService = {
     }
 
     // Map context data to payload structure
-    // Using keys from the JSON example provided in the prompt
     const payload = {
       // General Data
       correo_electronico: generalData.email || 'NA',
@@ -33,7 +33,7 @@ export const complianceService = {
         ? format(new Date(generalData.reviewDate), 'yyyy-MM-dd')
         : format(new Date(), 'yyyy-MM-dd'),
       nombre_completo_revisor: generalData.reviewerName || 'NA',
-      persona_contacto: generalData.email || 'NA', // Mapping email to persona_contacto just in case, based on JSON
+      persona_contacto: generalData.email || 'NA',
 
       // Page 2
       caaue1_incluye_actividades_previas: mapAnswer(answers[1]),
@@ -51,8 +51,8 @@ export const complianceService = {
       // Page 4
       caaue10_incluye_ofertas: mapAnswer(answers[10]),
       caaue11_incluye_garantias_sostenimiento: mapAnswer(answers[11]),
-      caaue12_incluye_certificado_rnc: mapAnswer(answers[12]), // JSON key
-      caaue13_incluye_certificado_snc: mapAnswer(answers[13]), // JSON key
+      caaue12_incluye_certificado_rnc: mapAnswer(answers[12]),
+      caaue13_incluye_certificado_snc: mapAnswer(answers[13]),
       caaue14_incluye_solvencias: mapAnswer(answers[14]),
       caaue15_incluye_informe_recomendacion: mapAnswer(answers[15]),
 
@@ -70,14 +70,13 @@ export const complianceService = {
       caaue24_archivo_custodia: mapAnswer(answers[24]),
     };
 
-    // Validate payload (optional but good for debugging)
     console.log('Parsing payload with schema...');
-    complianceFormSchema.parse(payload); // Will throw if invalid
+    complianceFormSchema.parse(payload);
 
     console.log('Sending payload:', JSON.stringify(payload, null, 2));
 
-    // Get token from auth service
-    const token = authService.getToken();
+    // ✅ CAMBIO: Usamos getAccessToken()
+    const token = authStorage.getAccessToken();
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -107,7 +106,9 @@ export const complianceService = {
       throw new Error('API URL is not defined');
     }
 
-    const token = authService.getToken();
+    // ✅ CAMBIO: Usamos getAccessToken()
+    const token = authStorage.getAccessToken();
+
     const headers: Record<string, string> = {};
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
@@ -122,7 +123,6 @@ export const complianceService = {
       throw new Error('Error al descargar el PDF');
     }
 
-    // Convert response to blob and create download link
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');

@@ -1,23 +1,24 @@
 // Interfaz para las credenciales (Username + Password)
 export interface LoginCredentials {
-  username: string;
+  username: string; // Ojo: en tu Context usas 'credentials', asegúrate que los campos coincidan
   password: string;
 }
 
-// Interfaz de respuesta (Access + Refresh)
+// Interfaz de respuesta
 export interface AuthResponse {
   access: string;
   refresh: string;
   user?: {
     id: number;
     email: string;
-    name: string;
+    name?: string; // Lo puse opcional para coincidir con tu interfaz de User
   };
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const authService = {
+  // Solo lógica de API pura
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     const response = await fetch(`${API_URL}/api/token/pair`, {
       method: 'POST',
@@ -29,15 +30,13 @@ export const authService = {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-
       console.error('Error del backend:', errorData);
 
-      // 1. Manejo de error específico 'detail' (ej. Credenciales inválidas)
       if (errorData.detail) {
         throw new Error(errorData.detail);
       }
 
-      // 2. Manejo de errores de validación por campo (ej. campo requerido)
+      // Manejo de errores de campos
       const fieldErrors = Object.keys(errorData)
         .map(
           (key) =>
@@ -53,18 +52,5 @@ export const authService = {
     }
 
     return response.json();
-  },
-
-  logout() {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-  },
-
-  getToken() {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('accessToken');
-    }
-    return null;
   },
 };
