@@ -108,21 +108,21 @@ export function PersonalDataStep() {
         </div>
 
         {/* Terms Checkbox */}
-        <div className="flex items-start space-x-3 p-4 bg-gray-50 rounded-md border border-gray-100">
-          <div className="flex items-center h-5">
-            <input
-              id="acceptedTerms"
-              type="checkbox"
-              className="h-4 w-4 rounded border-gray-300 text-[#008CBA] focus:ring-[#008CBA] cursor-pointer"
-              {...register('acceptedTerms', {
-                setValueAs: (v) => v === 'on' || v === true,
-              })}
-            />
-          </div>
-          <div className="flex flex-col">
+        <div className="p-4 bg-gray-50 rounded-md border border-gray-100">
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center h-5">
+              <input
+                id="acceptedTerms"
+                type="checkbox"
+                className="h-4 w-4 rounded border-gray-300 text-[#008CBA] focus:ring-[#008CBA] cursor-pointer"
+                {...register('acceptedTerms', {
+                  setValueAs: (v) => v === 'on' || v === true,
+                })}
+              />
+            </div>
             <Label
               htmlFor="acceptedTerms"
-              className="text-sm font-normal text-gray-600 cursor-pointer"
+              className="text-sm font-normal text-gray-600 cursor-pointer block leading-normal"
             >
               Al crear una cuenta, aceptas los{' '}
               <a
@@ -139,12 +139,12 @@ export function PersonalDataStep() {
                 Políticas de privacidad
               </a>
             </Label>
-            {errors.acceptedTerms && (
-              <p className="text-xs text-red-500 mt-1">
-                {errors.acceptedTerms.message}
-              </p>
-            )}
           </div>
+          {errors.acceptedTerms && (
+            <p className="text-xs text-red-500 mt-2 ml-7">
+              {errors.acceptedTerms.message}
+            </p>
+          )}
         </div>
 
         <Button
