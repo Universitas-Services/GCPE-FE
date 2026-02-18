@@ -72,8 +72,9 @@ export const authStorage = {
       localStorage.removeItem(KEYS.REFRESH_TOKEN);
       localStorage.removeItem(KEYS.USER);
 
-      // Eliminar la cookie seteando su fecha de expiración en el pasado
+      // Eliminar cookies seteando su fecha de expiración en el pasado
       document.cookie = `${KEYS.ACCESS_TOKEN}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+      document.cookie = `${KEYS.REFRESH_TOKEN}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     }
   },
 };

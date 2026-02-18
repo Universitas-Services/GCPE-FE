@@ -1,7 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { LayoutDashboard, FileText, Menu, Users, BookOpen } from 'lucide-react';
+import {
+  LayoutDashboard,
+  FileText,
+  Menu,
+  Users,
+  BookOpen,
+  LogOut,
+} from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -15,6 +22,7 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useDashboard } from '../context/DashboardContext';
 import { useState } from 'react';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
@@ -23,6 +31,7 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const { isSidebarCollapsed, toggleSidebar } = useDashboard();
+  const { logout } = useAuth();
   const [openMenus, setOpenMenus] = useState<string[]>([
     '/dashboard/proveedores',
   ]);
@@ -205,6 +214,28 @@ export function Sidebar({ className }: SidebarProps) {
             })}
           </div>
         </ScrollArea>
+
+        {/* Logout Button */}
+        <div className="px-3 mt-auto">
+          <Button
+            variant="ghost"
+            className={cn(
+              'w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50',
+              isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
+            )}
+            onClick={logout}
+          >
+            <LogOut
+              className={cn(
+                'h-5 w-5 shrink-0',
+                isSidebarCollapsed ? 'mr-0' : 'mr-3'
+              )}
+            />
+            {!isSidebarCollapsed && (
+              <span className="font-medium">Cerrar sesión</span>
+            )}
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -212,6 +243,7 @@ export function Sidebar({ className }: SidebarProps) {
 
 export function MobileSidebar() {
   const pathname = usePathname();
+  const { logout } = useAuth();
   const routes = [
     {
       label: 'Dashboard',
@@ -289,6 +321,18 @@ export function MobileSidebar() {
               ))}
             </div>
           </ScrollArea>
+
+          {/* Logout Button for Mobile */}
+          <div className="px-4 mt-auto border-t pt-4">
+            <Button
+              variant="ghost"
+              className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+              onClick={logout}
+            >
+              <LogOut className="mr-2 h-5 w-5 shrink-0" />
+              <span className="font-medium">Cerrar sesión</span>
+            </Button>
+          </div>
         </div>
       </SheetContent>
     </Sheet>
