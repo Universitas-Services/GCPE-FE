@@ -1,6 +1,6 @@
-import { User } from '../context/AuthContext'; // O desde tu archivo de tipos si lo tienes centralizado
+import { User } from '../context/AuthContext'; // Asegúrate de que esta ruta sea correcta según tu estructura
 
-// Definimos las claves ("keys") como constantes para evitar errores de dedo
+// Definimos las claves ("keys") como constantes para evitar errores de escritura
 const KEYS = {
   ACCESS_TOKEN: 'accessToken',
   REFRESH_TOKEN: 'refreshToken',
@@ -18,7 +18,16 @@ export const authStorage = {
   },
 
   setAccessToken: (token: string) => {
-    if (isBrowser) localStorage.setItem(KEYS.ACCESS_TOKEN, token);
+    if (isBrowser) {
+      // 1. Guardar en LocalStorage (para llamadas API desde el cliente)
+      localStorage.setItem(KEYS.ACCESS_TOKEN, token);
+
+      // 2. Guardar en Cookie (para que el Middleware pueda leerlo)
+      // path=/: Disponible en toda la app
+      // max-age=86400: Expira en 1 día (ajusta esto según la duración real de tu JWT)
+      // SameSite=Lax: Seguridad estándar para cookies de sesión
+      document.cookie = `${KEYS.ACCESS_TOKEN}=${token}; path=/; max-age=86400; SameSite=Lax`;
+    }
   },
 
   // --- Token de Refresco ---
@@ -62,6 +71,9 @@ export const authStorage = {
       localStorage.removeItem(KEYS.ACCESS_TOKEN);
       localStorage.removeItem(KEYS.REFRESH_TOKEN);
       localStorage.removeItem(KEYS.USER);
+
+      // Eliminar la cookie seteando su fecha de expiración en el pasado
+      document.cookie = `${KEYS.ACCESS_TOKEN}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     }
   },
 };
