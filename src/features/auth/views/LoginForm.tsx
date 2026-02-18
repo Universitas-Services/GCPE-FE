@@ -56,7 +56,7 @@ export function LoginForm() {
       {/* Left Side - Gray Background */}
       <div className="hidden lg:flex flex-col items-center justify-center bg-[#A8ADB5] p-10 lg:w-1/2 lg:px-20">
         <div className="flex flex-col items-center space-y-4 text-center">
-          <div className="relative w-full max-w-lg">
+          <div className="relative w-full max-w-lg animate-in fade-in zoom-in duration-700">
             <Image
               src="/logo-con-letra.png"
               alt="Logo Principal"
@@ -131,7 +131,7 @@ export function LoginForm() {
 
             <div className="flex items-center justify-end">
               <Link
-                href="/forgot-password"
+                href="/recovery"
                 className="text-sm font-medium text-[#008CBA] hover:underline"
               >
                 ¿Olvidaste tu contraseña?
