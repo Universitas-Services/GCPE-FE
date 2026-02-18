@@ -89,8 +89,7 @@ function RecoveryContent() {
             <p className="text-sm text-gray-500">{currentInfo.subtitle}</p>
           </div>
 
-          {/* Steps Indicator */}
-          <div className="flex justify-center items-center space-x-8 mb-10">
+          <div className="grid grid-cols-3 w-full max-w-xs mx-auto mb-10">
             {[1, 2, 3].map((step) => {
               const isActiveOrCompleted = currentStep >= step;
               const labels = ['Correo', 'Código', 'Nueva contraseña']; // Short labels
@@ -108,7 +107,7 @@ function RecoveryContent() {
                   >
                     {step}
                   </div>
-                  <span className="text-[10px] sm:text-xs font-medium text-gray-600">
+                  <span className="text-[10px] sm:text-xs font-medium text-gray-600 text-center">
                     {labels[step - 1]}
                   </span>
                 </div>
