@@ -1,6 +1,7 @@
-import { User } from '../context/AuthContext'; // Asegúrate de que esta ruta sea correcta según tu estructura
+import { User } from '../context/AuthContext';
+import { authCookies } from './auth-cookies';
 
-// Definimos las claves ("keys") como constantes para evitar errores de escritura
+// Claves de localStorage (centralizadas para evitar errores de escritura)
 const KEYS = {
   ACCESS_TOKEN: 'accessToken',
   REFRESH_TOKEN: 'refreshToken',
@@ -19,14 +20,8 @@ export const authStorage = {
 
   setAccessToken: (token: string) => {
     if (isBrowser) {
-      // 1. Guardar en LocalStorage (para llamadas API desde el cliente)
+      // Guardar en LocalStorage (para llamadas API desde el cliente)
       localStorage.setItem(KEYS.ACCESS_TOKEN, token);
-
-      // 2. Guardar en Cookie (para que el Middleware pueda leerlo)
-      // path=/: Disponible en toda la app
-      // max-age=86400: Expira en 1 día (ajusta esto según la duración real de tu JWT)
-      // SameSite=Lax: Seguridad estándar para cookies de sesión
-      document.cookie = `${KEYS.ACCESS_TOKEN}=${token}; path=/; max-age=86400; SameSite=Lax`;
     }
   },
 
@@ -53,7 +48,6 @@ export const authStorage = {
         'Error al leer datos del usuario del almacenamiento local:',
         error
       );
-      // Si el JSON está corrupto, es mejor limpiar para evitar bugs
       localStorage.removeItem(KEYS.USER);
       return null;
     }
@@ -65,6 +59,20 @@ export const authStorage = {
     }
   },
 
+  /**
+   * Guarda ambos tokens en localStorage y sincroniza cookies.
+   * Usar este método en lugar de llamar setAccessToken + setRefreshToken por separado
+   * cuando se tienen ambos tokens disponibles (ej. después del login).
+   */
+  setTokens: (accessToken: string, refreshToken: string) => {
+    if (isBrowser) {
+      localStorage.setItem(KEYS.ACCESS_TOKEN, accessToken);
+      localStorage.setItem(KEYS.REFRESH_TOKEN, refreshToken);
+      // Sincronizar cookies para Proxy (Capa 1) y ServerAuthGuard (Capa 2)
+      authCookies.setAuthCookies(accessToken, refreshToken);
+    }
+  },
+
   // --- Limpieza Total (Logout) ---
   clearSession: () => {
     if (isBrowser) {
@@ -72,9 +80,8 @@ export const authStorage = {
       localStorage.removeItem(KEYS.REFRESH_TOKEN);
       localStorage.removeItem(KEYS.USER);
 
-      // Eliminar cookies seteando su fecha de expiración en el pasado
-      document.cookie = `${KEYS.ACCESS_TOKEN}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-      document.cookie = `${KEYS.REFRESH_TOKEN}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+      // Eliminar cookies delegando a authCookies
+      authCookies.clearAuthCookies();
     }
   },
 };
