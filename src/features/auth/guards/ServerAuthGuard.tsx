@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { verifyServerSession } from '../services/session-check';
+import { TokenRefresher } from './TokenRefresher';
 
 interface ServerAuthGuardProps {
   children: React.ReactNode;
@@ -9,22 +10,28 @@ interface ServerAuthGuardProps {
  * Server Component Guard — Capa 2 de "Defensa en Profundidad".
  *
  * Valida el token del usuario contra el backend antes de renderizar
- * cualquier contenido protegido. Si el token es inválido, expirado
- * o ha sido revocado, redirige al usuario a /login.
+ * cualquier contenido protegido. Si el token es inválido y no se puede
+ * renovar, redirige al usuario a /login.
  *
- * Uso: Envolver layouts o páginas protegidas.
- * ```tsx
- * <ServerAuthGuard>
- *   <DashboardLayout>{children}</DashboardLayout>
- * </ServerAuthGuard>
- * ```
+ * Si el token fue renovado via refresh, renderiza un TokenRefresher
+ * invisible que guarda los tokens nuevos en localStorage + cookies.
  */
 export async function ServerAuthGuard({ children }: ServerAuthGuardProps) {
-  const isValid = await verifyServerSession();
+  const result = await verifyServerSession();
 
-  if (!isValid) {
+  if (!result.valid) {
     redirect('/login');
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {result.refreshedTokens && (
+        <TokenRefresher
+          accessToken={result.refreshedTokens.access}
+          refreshToken={result.refreshedTokens.refresh}
+        />
+      )}
+      {children}
+    </>
+  );
 }

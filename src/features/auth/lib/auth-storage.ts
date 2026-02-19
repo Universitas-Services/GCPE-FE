@@ -22,6 +22,8 @@ export const authStorage = {
     if (isBrowser) {
       // Guardar en LocalStorage (para llamadas API desde el cliente)
       localStorage.setItem(KEYS.ACCESS_TOKEN, token);
+      // Sincronizar cookie para Proxy (Capa 1) y ServerAuthGuard (Capa 2)
+      authCookies.setAuthCookies(token);
     }
   },
 
