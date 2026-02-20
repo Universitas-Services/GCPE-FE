@@ -1,24 +1,30 @@
 // Interfaz para las credenciales (Username + Password)
 export interface LoginCredentials {
-  username: string; // Ojo: en tu Context usas 'credentials', asegúrate que los campos coincidan
+  username: string;
   password: string;
 }
 
-// Interfaz de respuesta
+// Interfaz de respuesta de login
 export interface AuthResponse {
   access: string;
   refresh: string;
   user?: {
     id: number;
     email: string;
-    name?: string; // Lo puse opcional para coincidir con tu interfaz de User
+    name?: string;
   };
+}
+
+// Interfaz de respuesta de refresh
+export interface RefreshResponse {
+  access: string;
+  refresh?: string; // SimpleJWT puede o no devolver un nuevo refresh token
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const authService = {
-  // Solo lógica de API pura
+  // --- Login ---
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     const response = await fetch(`${API_URL}/api/token/pair`, {
       method: 'POST',
@@ -36,7 +42,6 @@ export const authService = {
         throw new Error(errorData.detail);
       }
 
-      // Manejo de errores de campos
       const fieldErrors = Object.keys(errorData)
         .map(
           (key) =>
@@ -49,6 +54,24 @@ export const authService = {
       }
 
       throw new Error(`Error ${response.status}: No se pudo iniciar sesión`);
+    }
+
+    return response.json();
+  },
+
+  // --- Refresh Token ---
+  async refreshToken(refresh_token: string): Promise<RefreshResponse> {
+    const response = await fetch(`${API_URL}/api/token/refresh`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // SimpleJWT espera { refresh: "<token>" } en el body
+      body: JSON.stringify({ refresh: refresh_token }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: No se pudo renovar el token`);
     }
 
     return response.json();

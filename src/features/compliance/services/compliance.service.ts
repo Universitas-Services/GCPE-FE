@@ -1,10 +1,7 @@
 import { format } from 'date-fns';
 import { GeneralData, ComplianceAnswers } from '../context/ComplianceContext';
 import { complianceFormSchema } from '../schemas/compliance.schema';
-// ✅ CAMBIO: Importamos la libreta de almacenamiento
-import { authStorage } from '@/features/auth/lib/auth-storage';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { fetchApi } from '@/features/auth/lib/api-client';
 
 // Helper to map allowed values
 const mapAnswer = (answer: string | undefined): string => {
@@ -18,10 +15,6 @@ export const complianceService = {
     generalData: GeneralData,
     answers: ComplianceAnswers
   ) {
-    if (!API_URL) {
-      throw new Error('API URL is not defined');
-    }
-
     // Map context data to payload structure
     const payload = {
       // General Data
@@ -70,25 +63,10 @@ export const complianceService = {
       caaue24_archivo_custodia: mapAnswer(answers[24]),
     };
 
-    console.log('Parsing payload with schema...');
     complianceFormSchema.parse(payload);
 
-    console.log('Sending payload:', JSON.stringify(payload, null, 2));
-
-    // ✅ CAMBIO: Usamos getAccessToken()
-    const token = authStorage.getAccessToken();
-
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-    };
-
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    const response = await fetch(`${API_URL}/api/compliance`, {
+    const response = await fetchApi('/api/compliance', {
       method: 'POST',
-      headers,
       body: JSON.stringify(payload),
     });
 
@@ -102,22 +80,7 @@ export const complianceService = {
   },
 
   async downloadPdf(id: number) {
-    if (!API_URL) {
-      throw new Error('API URL is not defined');
-    }
-
-    // ✅ CAMBIO: Usamos getAccessToken()
-    const token = authStorage.getAccessToken();
-
-    const headers: Record<string, string> = {};
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    const response = await fetch(`${API_URL}/api/compliance/${id}/pdf`, {
-      method: 'GET',
-      headers,
-    });
+    const response = await fetchApi(`/api/compliance/${id}/pdf`);
 
     if (!response.ok) {
       throw new Error('Error al descargar el PDF');

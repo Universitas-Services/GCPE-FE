@@ -1,24 +1,9 @@
 import { ManualFormData } from '../types';
-// ✅ CAMBIO: Importamos la libreta de almacenamiento
-import { authStorage } from '@/features/auth/lib/auth-storage';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { fetchApi } from '@/features/auth/lib/api-client';
 
 export const createManual = async (data: ManualFormData): Promise<void> => {
-  // ✅ CAMBIO: Usamos getAccessToken()
-  const token = authStorage.getAccessToken();
-
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  };
-
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  const response = await fetch(`${API_URL}/api/manual/pdf`, {
+  const response = await fetchApi('/api/manual/pdf', {
     method: 'POST',
-    headers,
     body: JSON.stringify(data),
   });
 

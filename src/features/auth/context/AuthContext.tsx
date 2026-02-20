@@ -54,9 +54,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const data = await authService.login(credentials);
 
-      // 3. Usamos la lib para guardar
-      authStorage.setAccessToken(data.access);
-      authStorage.setRefreshToken(data.refresh);
+      // Guardamos tokens en localStorage + cookies (sincronización automática)
+      authStorage.setTokens(data.access, data.refresh);
 
       if (data.user) {
         // Mapeamos el usuario de la respuesta al tipo User si es necesario

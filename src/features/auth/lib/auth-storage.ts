@@ -1,6 +1,7 @@
-import { User } from '../context/AuthContext'; // O desde tu archivo de tipos si lo tienes centralizado
+import { User } from '../context/AuthContext';
+import { authCookies } from './auth-cookies';
 
-// Definimos las claves ("keys") como constantes para evitar errores de dedo
+// Claves de localStorage (centralizadas para evitar errores de escritura)
 const KEYS = {
   ACCESS_TOKEN: 'accessToken',
   REFRESH_TOKEN: 'refreshToken',
@@ -18,7 +19,12 @@ export const authStorage = {
   },
 
   setAccessToken: (token: string) => {
-    if (isBrowser) localStorage.setItem(KEYS.ACCESS_TOKEN, token);
+    if (isBrowser) {
+      // Guardar en LocalStorage (para llamadas API desde el cliente)
+      localStorage.setItem(KEYS.ACCESS_TOKEN, token);
+      // Sincronizar cookie para Proxy (Capa 1) y ServerAuthGuard (Capa 2)
+      authCookies.setAuthCookies(token);
+    }
   },
 
   // --- Token de Refresco ---
@@ -44,7 +50,6 @@ export const authStorage = {
         'Error al leer datos del usuario del almacenamiento local:',
         error
       );
-      // Si el JSON está corrupto, es mejor limpiar para evitar bugs
       localStorage.removeItem(KEYS.USER);
       return null;
     }
@@ -56,12 +61,29 @@ export const authStorage = {
     }
   },
 
+  /**
+   * Guarda ambos tokens en localStorage y sincroniza cookies.
+   * Usar este método en lugar de llamar setAccessToken + setRefreshToken por separado
+   * cuando se tienen ambos tokens disponibles (ej. después del login).
+   */
+  setTokens: (accessToken: string, refreshToken: string) => {
+    if (isBrowser) {
+      localStorage.setItem(KEYS.ACCESS_TOKEN, accessToken);
+      localStorage.setItem(KEYS.REFRESH_TOKEN, refreshToken);
+      // Sincronizar cookies para Proxy (Capa 1) y ServerAuthGuard (Capa 2)
+      authCookies.setAuthCookies(accessToken, refreshToken);
+    }
+  },
+
   // --- Limpieza Total (Logout) ---
   clearSession: () => {
     if (isBrowser) {
       localStorage.removeItem(KEYS.ACCESS_TOKEN);
       localStorage.removeItem(KEYS.REFRESH_TOKEN);
       localStorage.removeItem(KEYS.USER);
+
+      // Eliminar cookies delegando a authCookies
+      authCookies.clearAuthCookies();
     }
   },
 };
