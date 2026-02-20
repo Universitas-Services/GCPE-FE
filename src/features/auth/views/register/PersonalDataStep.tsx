@@ -9,6 +9,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
+import { registerService } from '@/features/auth/services/register.service';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 
 const personalDataSchema = z.object({
   firstName: z.string().min(2, { message: 'El nombre es requerido' }),
@@ -24,6 +27,7 @@ type PersonalDataFormValues = z.infer<typeof personalDataSchema>;
 export function PersonalDataStep() {
   const { formData, updateFormData, prevStep } = useRegister();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -43,12 +47,57 @@ export function PersonalDataStep() {
     setIsSubmitting(true);
     updateFormData(data);
 
-    // Simulating API call
-    console.log('Final Registration Data:', { ...formData, ...data });
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // Utilizamos los datos combinados del paso 1 y paso 2
+      const finalData = { ...formData, ...data };
 
-    alert('¡Registro completado exitosamente! (Simulación)');
-    setIsSubmitting(false);
+      await registerService.register({
+        email: finalData.email || '',
+        password: finalData.password || '',
+        confirm_password: finalData.confirmPassword || '',
+        first_name: finalData.firstName,
+        last_name: finalData.lastName,
+        telefono: finalData.phone,
+      });
+
+      // Si todo sale bien, mostramos pop-up de éxito
+      await Swal.fire({
+        icon: 'success',
+        title: '¡Registro exitoso!',
+        text: 'Tu cuenta ha sido creada correctamente.',
+        confirmButtonText: 'Ir al Iniciar Sesión',
+        confirmButtonColor: '#008CBA',
+        allowOutsideClick: false,
+      });
+
+      // Redirigimos al login
+      router.push('/login');
+    } catch (error: unknown) {
+      console.error('Error al registrar usuario:', error);
+
+      let errorMessage = 'Ocurrió un error inesperado al registrar el usuario.';
+
+      // Control de error específico de email repetido
+      // asumiendo que el backend envía los mensajes estructurados
+      if (error instanceof Error) {
+        const msgLower = error.message.toLowerCase();
+        if (msgLower.includes('email') || msgLower.includes('correo')) {
+          errorMessage = 'El email ya está registrado.';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de registro',
+        text: errorMessage,
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#008CBA',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
