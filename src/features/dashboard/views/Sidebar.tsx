@@ -7,7 +7,6 @@ import {
   Menu,
   Users,
   BookOpen,
-  LogOut,
   UserCog,
 } from 'lucide-react';
 import {
@@ -16,14 +15,119 @@ import {
   SheetTrigger,
   SheetTitle,
 } from '@/components/ui/sheet';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import {
+  userService,
+  UserProfileResponse,
+} from '@/features/dashboard/services/user.service';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useDashboard } from '../context/DashboardContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/features/auth/context/AuthContext';
+
+function getInitials(name: string) {
+  const parts = name.split(' ').filter(Boolean);
+  if (parts.length === 0) return 'U';
+  if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+  return (parts[0][0] + parts[1][0]).toUpperCase();
+}
+
+function UserNav({ isCollapsed = false }: { isCollapsed?: boolean }) {
+  const { logout } = useAuth();
+  const [profile, setProfile] = useState<UserProfileResponse | null>(null);
+
+  useEffect(() => {
+    userService.getProfile().then(setProfile).catch(console.error);
+  }, []);
+
+  const initials = profile ? getInitials(profile.username) : 'U';
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className={cn(
+            'w-full h-auto p-2 hover:bg-gray-200',
+            isCollapsed ? 'justify-center' : 'justify-start'
+          )}
+        >
+          <div className="flex items-center gap-3 overflow-hidden w-full">
+            <Avatar className="h-9 w-9 shrink-0">
+              <AvatarFallback className="bg-[#008CBA] text-white">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
+            {!isCollapsed && profile && (
+              <div className="flex flex-col items-start overflow-hidden flex-1">
+                <span className="text-sm font-medium leading-none truncate w-full text-left">
+                  {profile.username}
+                </span>
+                <span className="text-xs text-gray-500 truncate mt-1 w-full text-left">
+                  {profile.email}
+                </span>
+              </div>
+            )}
+            {!isCollapsed && !profile && (
+              <div className="flex flex-col items-start overflow-hidden flex-1">
+                <span className="text-sm font-medium leading-none truncate">
+                  Cargando...
+                </span>
+              </div>
+            )}
+          </div>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        className="w-56"
+        align="start"
+        side="top"
+        sideOffset={8}
+      >
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">
+              {profile?.username || 'Usuario'}
+            </p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {profile?.email || 'cargando...'}
+            </p>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/dashboard/pro" className="cursor-pointer">
+            Actualizar a cuenta pro
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/dashboard/profile" className="cursor-pointer">
+            Gestión de perfil
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className="text-red-600 focus:text-red-700 focus:bg-red-50 cursor-pointer"
+          onClick={logout}
+        >
+          Cerrar sesión
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
@@ -32,7 +136,6 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const { isSidebarCollapsed, toggleSidebar } = useDashboard();
-  const { logout } = useAuth();
   const [openMenus, setOpenMenus] = useState<string[]>([
     '/dashboard/proveedores',
   ]);
@@ -222,26 +325,9 @@ export function Sidebar({ className }: SidebarProps) {
           </div>
         </ScrollArea>
 
-        {/* Logout Button */}
+        {/* User Navbar */}
         <div className="px-3 mt-auto">
-          <Button
-            variant="ghost"
-            className={cn(
-              'w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50',
-              isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
-            )}
-            onClick={logout}
-          >
-            <LogOut
-              className={cn(
-                'h-5 w-5 shrink-0',
-                isSidebarCollapsed ? 'mr-0' : 'mr-3'
-              )}
-            />
-            {!isSidebarCollapsed && (
-              <span className="font-medium">Cerrar sesión</span>
-            )}
-          </Button>
+          <UserNav isCollapsed={isSidebarCollapsed} />
         </div>
       </div>
     </div>
@@ -250,7 +336,6 @@ export function Sidebar({ className }: SidebarProps) {
 
 export function MobileSidebar() {
   const pathname = usePathname();
-  const { logout } = useAuth();
   const routes = [
     {
       label: 'Dashboard',
@@ -335,16 +420,9 @@ export function MobileSidebar() {
             </div>
           </ScrollArea>
 
-          {/* Logout Button for Mobile */}
-          <div className="px-4 mt-auto border-t pt-4">
-            <Button
-              variant="ghost"
-              className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
-              onClick={logout}
-            >
-              <LogOut className="mr-2 h-5 w-5 shrink-0" />
-              <span className="font-medium">Cerrar sesión</span>
-            </Button>
+          {/* User Navbar for Mobile */}
+          <div className="px-4 mt-auto border-t pt-4 mb-4">
+            <UserNav isCollapsed={false} />
           </div>
         </div>
       </SheetContent>
