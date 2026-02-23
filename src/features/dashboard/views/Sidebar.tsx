@@ -8,6 +8,7 @@ import {
   Users,
   BookOpen,
   LogOut,
+  UserCog,
 } from 'lucide-react';
 import {
   Sheet,
@@ -81,6 +82,12 @@ export function Sidebar({ className }: SidebarProps) {
       icon: BookOpen,
       href: '/dashboard/manual',
       active: pathname.startsWith('/dashboard/manual'),
+    },
+    {
+      label: 'Gestión de perfil',
+      icon: UserCog,
+      href: '/dashboard/profile',
+      active: pathname.startsWith('/dashboard/profile'),
     },
   ];
 
@@ -274,6 +281,12 @@ export function MobileSidebar() {
       icon: BookOpen,
       href: '/dashboard/manual',
       active: pathname.startsWith('/dashboard/manual'),
+    },
+    {
+      label: 'Gestión de perfil',
+      icon: UserCog,
+      href: '/dashboard/profile',
+      active: pathname.startsWith('/dashboard/profile'),
     },
   ];
 

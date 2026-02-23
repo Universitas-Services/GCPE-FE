@@ -8,8 +8,8 @@ import React, {
   ReactNode,
 } from 'react';
 import { useRouter } from 'next/navigation';
-// 1. Importamos la nueva lib
-import { authService, LoginCredentials } from '../services/auth.service';
+// 1. Importamos la nueva lib (ahora solo LoginCredentials)
+import { type LoginCredentials } from '../services/auth.service';
 import { authStorage } from '../lib/auth-storage';
 
 // Exportamos User para poder usarlo en auth-storage.ts si lo necesitas,
@@ -38,11 +38,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Verificar sesión al cargar
   useEffect(() => {
-    // 2. Usamos la lib para leer datos limpios y seguros
-    const token = authStorage.getAccessToken();
-    const storedUser = authStorage.getUser(); // Ya viene parseado o null
+    // Ya no leemos el token directamente porque está en una cookie HttpOnly
+    // Solo dependemos del usuario guardado para restaurar el estado inicial UI
+    const storedUser = authStorage.getUser();
 
-    if (token && storedUser) {
+    if (storedUser) {
       setIsAuthenticated(true);
       setUser(storedUser);
     }
@@ -52,14 +52,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (credentials: LoginCredentials) => {
     setIsLoading(true);
     try {
-      const data = await authService.login(credentials);
+      // Llamamos a nuestro Route Handler de Next.js (el BFF)
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
 
-      // Guardamos tokens en localStorage + cookies (sincronización automática)
-      authStorage.setTokens(data.access, data.refresh);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.detail || 'Error al iniciar sesión');
+      }
 
       if (data.user) {
-        // Mapeamos el usuario de la respuesta al tipo User si es necesario
-        // (Asegúrate de que los campos coincidan con tu interfaz User)
         const userToStore: User = {
           id: data.user.id,
           email: data.user.email,
@@ -79,10 +87,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const logout = () => {
-    // 4. Limpieza centralizada a través de la lib
-    authStorage.clearSession();
+  const logout = async () => {
+    try {
+      // Llamamos al endpoint de logout del BFF para limpiar cookies
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (e) {
+      console.error('Error durante el logout:', e);
+    }
 
+    // Limpieza de UI
+    authStorage.clearSession();
     setIsAuthenticated(false);
     setUser(null);
     router.push('/login');

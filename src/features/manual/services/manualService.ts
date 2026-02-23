@@ -1,5 +1,5 @@
 import { ManualFormData } from '../types';
-import { fetchApi } from '@/features/auth/lib/api-client';
+import { fetchApi } from '@/lib/api-client';
 
 export const createManual = async (data: ManualFormData): Promise<void> => {
   const response = await fetchApi('/api/manual/pdf', {

@@ -1,5 +1,5 @@
 import { ProviderFormData } from '../types/provider.types';
-import { fetchApi } from '@/features/auth/lib/api-client';
+import { fetchApi } from '@/lib/api-client';
 
 export const createProvider = async (
   data: ProviderFormData

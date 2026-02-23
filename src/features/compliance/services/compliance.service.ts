@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { GeneralData, ComplianceAnswers } from '../context/ComplianceContext';
 import { complianceFormSchema } from '../schemas/compliance.schema';
-import { fetchApi } from '@/features/auth/lib/api-client';
+import { fetchApi } from '@/lib/api-client';
 
 // Helper to map allowed values
 const mapAnswer = (answer: string | undefined): string => {
