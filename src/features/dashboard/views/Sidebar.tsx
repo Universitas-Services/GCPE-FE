@@ -1,14 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import {
-  LayoutDashboard,
-  FileText,
-  Menu,
-  Users,
-  BookOpen,
-  UserCog,
-} from 'lucide-react';
+import { LayoutDashboard, FileText, Menu, Users, BookOpen } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -64,7 +57,12 @@ function UserNav({ isCollapsed = false }: { isCollapsed?: boolean }) {
             isCollapsed ? 'justify-center' : 'justify-start'
           )}
         >
-          <div className="flex items-center gap-3 overflow-hidden w-full">
+          <div
+            className={cn(
+              'flex items-center gap-3',
+              isCollapsed ? 'justify-center w-full' : 'w-full overflow-hidden'
+            )}
+          >
             <Avatar className="h-9 w-9 shrink-0">
               <AvatarFallback className="bg-[#008CBA] text-white">
                 {initials}
@@ -186,12 +184,6 @@ export function Sidebar({ className }: SidebarProps) {
       href: '/dashboard/manual',
       active: pathname.startsWith('/dashboard/manual'),
     },
-    {
-      label: 'Gestión de perfil',
-      icon: UserCog,
-      href: '/dashboard/profile',
-      active: pathname.startsWith('/dashboard/profile'),
-    },
   ];
 
   return (
@@ -210,19 +202,26 @@ export function Sidebar({ className }: SidebarProps) {
             isSidebarCollapsed ? 'justify-center' : 'justify-between'
           )}
         >
-          {!isSidebarCollapsed && (
-            <span className="text-xl font-bold text-transparent select-none">
-              .
-            </span>
-          )}
           <Button
             onClick={toggleSidebar}
             variant="ghost"
             size="icon"
-            className="hover:bg-gray-200"
+            className="hover:bg-gray-200 shrink-0"
           >
             <Menu className="h-6 w-6 text-[#0b1e4c]" />
           </Button>
+          {!isSidebarCollapsed && (
+            <div className="flex-1 flex justify-center pr-8">
+              <Image
+                src="/logo-con-letra.png"
+                alt="Universitas Logo"
+                width={170}
+                height={50}
+                className="object-contain"
+                priority
+              />
+            </div>
+          )}
         </div>
 
         <ScrollArea className="flex-1 px-3">
@@ -366,12 +365,6 @@ export function MobileSidebar() {
       icon: BookOpen,
       href: '/dashboard/manual',
       active: pathname.startsWith('/dashboard/manual'),
-    },
-    {
-      label: 'Gestión de perfil',
-      icon: UserCog,
-      href: '/dashboard/profile',
-      active: pathname.startsWith('/dashboard/profile'),
     },
   ];
 
