@@ -50,6 +50,14 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@v4
 
+      # --- CAMBIO AÑADIDO: Configurar Node de forma rápida (sin caché para ahorrar tiempo) ---
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # ---------------------------------------------------------------------------------------
+
+      # Ahora la instalación global única soluciona el error 403 y es más rápida
       - name: Instalar Vercel CLI
         run: npm install --global vercel@latest
 
