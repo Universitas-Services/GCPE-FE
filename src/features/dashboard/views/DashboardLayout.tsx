@@ -22,15 +22,17 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
       {/* Main Content */}
       <div
         className={cn(
-          'flex-1 transition-all duration-300 ease-in-out',
+          'flex-1 transition-all duration-300 ease-in-out flex flex-col min-h-screen',
           isSidebarCollapsed ? 'lg:pl-16' : 'lg:pl-64'
         )}
       >
-        <div className="flex items-center p-4 lg:hidden border-b bg-gray-50/50">
+        <div className="flex items-center p-3 lg:hidden border-b bg-gray-50/50 shrink-0">
           <MobileSidebar />
           <span className="ml-2 font-semibold">Menu</span>
         </div>
-        <main className="p-8 bg-slate-50 min-h-screen">{children}</main>
+        <main className="p-3 lg:p-4 bg-slate-50 flex-1 flex flex-col">
+          {children}
+        </main>
       </div>
     </div>
   );
