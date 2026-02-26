@@ -254,7 +254,7 @@ export function Sidebar({ className }: SidebarProps) {
                     key={route.href}
                     variant={route.active ? 'secondary' : 'ghost'}
                     className={cn(
-                      'w-full justify-start transition-all mb-1',
+                      'w-full justify-start transition-all duration-200 ease-in-out mb-1 group hover:bg-gray-200 hover:text-[#0b1e4c]',
                       route.active && 'bg-white shadow-sm font-medium',
                       isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
                     )}
@@ -266,7 +266,7 @@ export function Sidebar({ className }: SidebarProps) {
                     >
                       <route.icon
                         className={cn(
-                          'h-5 w-5 shrink-0 text-[#0b1e4c]',
+                          'h-5 w-5 shrink-0 text-[#0b1e4c] group-hover:text-[#0b1e4c] transition-colors',
                           isSidebarCollapsed ? 'mr-0' : 'mr-3'
                         )}
                       />
@@ -293,7 +293,7 @@ export function Sidebar({ className }: SidebarProps) {
                       route.active || isChildActive ? 'secondary' : 'ghost'
                     }
                     className={cn(
-                      'w-full justify-start transition-all',
+                      'w-full justify-start transition-all duration-200 ease-in-out group hover:bg-gray-200 hover:text-[#0b1e4c]',
                       (route.active || isChildActive) &&
                         'bg-gray-200/50 font-medium',
                       isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
@@ -305,7 +305,7 @@ export function Sidebar({ className }: SidebarProps) {
                     <div className="flex items-center justify-center w-full cursor-pointer">
                       <route.icon
                         className={cn(
-                          'h-5 w-5 shrink-0 text-[#0b1e4c]',
+                          'h-5 w-5 shrink-0 text-[#0b1e4c] group-hover:text-[#0b1e4c] transition-colors',
                           isSidebarCollapsed ? 'mr-0' : 'mr-3'
                         )}
                       />
@@ -328,7 +328,7 @@ export function Sidebar({ className }: SidebarProps) {
                           key={child.href}
                           variant={child.active ? 'secondary' : 'ghost'}
                           className={cn(
-                            'w-full justify-start h-9 text-sm cursor-pointer',
+                            'w-full justify-start h-9 text-sm cursor-pointer transition-colors duration-200 hover:bg-gray-200 hover:text-[#0b1e4c]',
                             child.active && 'bg-white shadow-sm font-medium'
                           )}
                           asChild
@@ -434,7 +434,7 @@ export function MobileSidebar() {
                   key={route.href}
                   variant={route.active ? 'secondary' : 'ghost'}
                   className={cn(
-                    'w-full justify-start',
+                    'w-full justify-start transition-colors duration-200 group hover:bg-gray-200 hover:text-[#0b1e4c]',
                     route.active && 'bg-white shadow-sm font-medium'
                   )}
                   asChild
@@ -443,7 +443,7 @@ export function MobileSidebar() {
                     href={route.href}
                     className="flex items-center h-auto py-2 cursor-pointer"
                   >
-                    <route.icon className="mr-2 h-4 w-4 shrink-0" />
+                    <route.icon className="mr-2 h-4 w-4 shrink-0 text-[#0b1e4c] group-hover:text-[#0b1e4c] transition-colors" />
                     <span className="whitespace-normal text-left">
                       {route.label}
                     </span>
