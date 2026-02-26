@@ -16,7 +16,10 @@ const legalServices = [
     title: 'Repositorio Legal',
     description: 'Descarga la Resolución CGR N°01-000162 de fecha 27-07-2009',
     buttonText: 'Descargar aquí',
-    href: '#',
+    href: '/repositorio-legal/documents/CGR.Normas.Entrega.oficina(2009).pdf',
+    download: 'CGR.Normas.Entrega.oficina(2009).pdf',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/repositorio-legal/3.webp',

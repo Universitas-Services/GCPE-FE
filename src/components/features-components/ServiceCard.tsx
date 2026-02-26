@@ -10,6 +10,7 @@ interface ServiceCardProps {
   href: string;
   target?: string;
   rel?: string;
+  download?: string | boolean;
 }
 
 export function ServiceCard({
@@ -20,6 +21,7 @@ export function ServiceCard({
   href,
   target,
   rel,
+  download,
 }: ServiceCardProps) {
   return (
     <div className="flex flex-col bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden p-4">
@@ -34,9 +36,15 @@ export function ServiceCard({
           className="w-full bg-[#008CBA] hover:bg-[#007ba3] text-white rounded-lg h-10 font-medium transition-colors"
           asChild
         >
-          <Link href={href} target={target} rel={rel}>
-            {buttonText}
-          </Link>
+          {download ? (
+            <a href={href} target={target} rel={rel} download={download}>
+              {buttonText}
+            </a>
+          ) : (
+            <Link href={href} target={target} rel={rel}>
+              {buttonText}
+            </Link>
+          )}
         </Button>
       </div>
     </div>
