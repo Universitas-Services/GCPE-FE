@@ -7,7 +7,9 @@ const services = [
     description:
       'Transforma tu carrera y domina la vanguardia de la gestión pública con las Jornadas de Control Fiscal. Universitas Academy te brinda acceso exclusivo a los expertos más influyentes del sector.',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://universitas.academy/cursos/jornadas-de-control-fiscal/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/conocenos/2.webp',
@@ -15,7 +17,9 @@ const services = [
     description:
       'Domina el marco legal que rige tu carrera. Un curso esencial sobre los derechos, deberes y responsabilidades de todo servidor público, desde el ingreso hasta el retiro.',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://universitas.academy/cursos/el-funcionario-publico/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/conocenos/3.webp',
@@ -23,7 +27,9 @@ const services = [
     description:
       'Este programa te equipará con las competencias esenciales para la elaboración y gestión de Actas de Entrega.',
     buttonText: 'Mas Información',
-    href: '#',
+    href: 'https://universitas.academy/cursos/actas-de-entrega/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/conocenos/4.webp',
@@ -31,7 +37,9 @@ const services = [
     description:
       'Eleva tu perfil profesional con Universitas Academy, la plataforma de formación en línea que te conecta con el conocimiento de vanguardia en derecho y administración pública.',
     buttonText: 'Mas Información',
-    href: '#',
+    href: 'https://universitas.academy/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/conocenos/5.webp',
@@ -39,7 +47,9 @@ const services = [
     description:
       'Actualízate con los mayores expertos del país. Accede a las ponencias y debates de nuestras más recientes jornadas sobre los retos actuales de la contratación pública.',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://universitas.academy/cursos/jornadas-contrataciones-publicas/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/conocenos/6.webp',
@@ -47,7 +57,9 @@ const services = [
     description:
       'Ágora es un espacio diseñado para que los profesionales puedan publicar sus artículos de investigación o de opinión y noticias.',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://agora.universitasfundacion.com/category/universitas-legal/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/conocenos/7.webp',
@@ -55,7 +67,9 @@ const services = [
     description:
       'Conoce a fondo el procedimiento de amonestación y destitución. Un curso clave para comprender las faltas, sanciones y protegerte de riesgos disciplinarios.',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://universitas.academy/cursos/regimen-disciplinario-del-funcionario-publico/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/conocenos/8.webp',
@@ -63,7 +77,9 @@ const services = [
     description:
       'Fortalece la gestión de tu entidad. Profundiza en los sistemas de control interno, la responsabilidad administrativa y las herramientas para una administración eficiente y transparente.',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://universitas.academy/cursos/control-en-la-gestion-publica/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/conocenos/9.webp',
@@ -71,7 +87,9 @@ const services = [
     description:
       'Evita errores costosos en los procesos de compra del Estado. Domina las leyes, modalidades y principios esenciales de la contratación pública en Venezuela.',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://universitas.academy/cursos/fundamentos-de-la-contratacion-publica/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
 ];
 

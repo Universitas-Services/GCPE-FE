@@ -8,6 +8,8 @@ interface ServiceCardProps {
   description: string;
   buttonText: string;
   href: string;
+  target?: string;
+  rel?: string;
 }
 
 export function ServiceCard({
@@ -16,6 +18,8 @@ export function ServiceCard({
   description,
   buttonText,
   href,
+  target,
+  rel,
 }: ServiceCardProps) {
   return (
     <div className="flex flex-col bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden p-4">
@@ -30,7 +34,9 @@ export function ServiceCard({
           className="w-full bg-[#008CBA] hover:bg-[#007ba3] text-white rounded-lg h-10 font-medium transition-colors"
           asChild
         >
-          <Link href={href}>{buttonText}</Link>
+          <Link href={href} target={target} rel={rel}>
+            {buttonText}
+          </Link>
         </Button>
       </div>
     </div>

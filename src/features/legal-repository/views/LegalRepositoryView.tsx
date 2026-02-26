@@ -7,7 +7,9 @@ const legalServices = [
     description:
       'Para garantizar un proceso de entrega-recepción transparente, te invitamos a leer detenidamente las siguientes consideraciones',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://universitas.legal/consideraciones-generales/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/repositorio-legal/2.webp',
@@ -22,7 +24,9 @@ const legalServices = [
     description:
       'Profundiza en el marco jurídico y los procedimientos clave, asegurando la transparencia y mitigación de riesgos en la administración pública.',
     buttonText: 'Mas Información',
-    href: '#',
+    href: 'https://universitas.academy/cursos/actas-de-entrega/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/repositorio-legal/4.webp',
@@ -30,7 +34,9 @@ const legalServices = [
     description:
       'Tienes 120 días para formular observaciones a un acta recibida. Descubre en este análisis los puntos clave que debes verificar para un control fiscal efectivo.',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://agora.universitasfundacion.com/verificacion-de-acta-de-entrega/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/repositorio-legal/5.webp',
@@ -38,7 +44,9 @@ const legalServices = [
     description:
       'La Unidad de Auditoría Interna es el actor clave en la verificación. Conoce sus competencias, responsabilidades y el procedimiento que debe seguir para validar las actas.',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://agora.universitasfundacion.com/acta-de-entrega-verificacion/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/repositorio-legal/6.webp',
@@ -46,7 +54,9 @@ const legalServices = [
     description:
       'El acta de entrega es más que un requisito; es una herramienta clave del Control Interno. Descubre cómo su correcta verificación previene riesgos y fortalece la gestión.',
     buttonText: 'Inscríbete aquí',
-    href: '#',
+    href: 'https://agora.universitasfundacion.com/verificacion-acta-de-entrega/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/repositorio-legal/7.webp',
@@ -54,7 +64,9 @@ const legalServices = [
     description:
       'Accede a un compendio normativo completo, doctrina administrativa y jurisprudencia esencial para fortalecer el control fiscal en todos los niveles del sector público.',
     buttonText: 'Ingrese aquí',
-    href: '#',
+    href: 'https://universitas.legal/control-fiscal/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/repositorio-legal/8.webp',
@@ -62,7 +74,9 @@ const legalServices = [
     description:
       'Accede a normativa especializada, doctrina administrativa y jurisprudencia clave para garantizar contrataciones públicas sostenibles, transparentes y ajustadas al interés general.',
     buttonText: 'Ingrese aquí',
-    href: '#',
+    href: 'https://universitas.legal/biblioteca-contratacion-publica/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
   {
     imageSrc: '/repositorio-legal/9.webp',
@@ -70,7 +84,9 @@ const legalServices = [
     description:
       'Explora y descarga decretos, acuerdos y resoluciones de cientos de municipios, con acceso abierto y colaborativo para impulsar gobiernos más transparentes, eficientes y conectados con su comunidad.',
     buttonText: 'Ingrese aquí',
-    href: '#',
+    href: 'https://universitas.legal/biblioteca-de-ordenanzas-municipales/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
 ];
 
