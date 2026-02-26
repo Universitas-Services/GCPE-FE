@@ -1,7 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { LayoutDashboard, FileText, Menu, Users, BookOpen } from 'lucide-react';
+import {
+  LayoutDashboard,
+  FileText,
+  Menu,
+  Users,
+  BookOpen,
+  Info,
+  Scale,
+} from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -152,6 +160,18 @@ export function Sidebar({ className }: SidebarProps) {
       icon: LayoutDashboard,
       href: '/dashboard',
       active: pathname === '/dashboard',
+    },
+    {
+      label: 'Conócenos',
+      icon: Info,
+      href: '/dashboard/conocenos',
+      active: pathname.startsWith('/dashboard/conocenos'),
+    },
+    {
+      label: 'Repositorio legal',
+      icon: Scale,
+      href: '/dashboard/repositorio-legal',
+      active: pathname.startsWith('/dashboard/repositorio-legal'),
     },
     {
       label: 'Compliance',
@@ -341,6 +361,18 @@ export function MobileSidebar() {
       icon: LayoutDashboard,
       href: '/dashboard',
       active: pathname === '/dashboard',
+    },
+    {
+      label: 'Conócenos',
+      icon: Info,
+      href: '/dashboard/conocenos',
+      active: pathname.startsWith('/dashboard/conocenos'),
+    },
+    {
+      label: 'Repositorio legal',
+      icon: Scale,
+      href: '/dashboard/repositorio-legal',
+      active: pathname.startsWith('/dashboard/repositorio-legal'),
     },
     {
       label: 'Compliance de Expediente de selección de contratista',
