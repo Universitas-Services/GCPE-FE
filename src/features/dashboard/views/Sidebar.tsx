@@ -162,18 +162,6 @@ export function Sidebar({ className }: SidebarProps) {
       active: pathname === '/dashboard',
     },
     {
-      label: 'Conócenos',
-      icon: Info,
-      href: '/dashboard/conocenos',
-      active: pathname.startsWith('/dashboard/conocenos'),
-    },
-    {
-      label: 'Repositorio legal',
-      icon: Scale,
-      href: '/dashboard/repositorio-legal',
-      active: pathname.startsWith('/dashboard/repositorio-legal'),
-    },
-    {
       label: 'Compliance',
       icon: FileText,
       href: '/dashboard/compliance',
@@ -203,6 +191,18 @@ export function Sidebar({ className }: SidebarProps) {
       icon: BookOpen,
       href: '/dashboard/manual',
       active: pathname.startsWith('/dashboard/manual'),
+    },
+    {
+      label: 'Repositorio legal',
+      icon: Scale,
+      href: '/dashboard/repositorio-legal',
+      active: pathname.startsWith('/dashboard/repositorio-legal'),
+    },
+    {
+      label: 'Conócenos',
+      icon: Info,
+      href: '/dashboard/conocenos',
+      active: pathname.startsWith('/dashboard/conocenos'),
     },
   ];
 
@@ -254,7 +254,7 @@ export function Sidebar({ className }: SidebarProps) {
                     key={route.href}
                     variant={route.active ? 'secondary' : 'ghost'}
                     className={cn(
-                      'w-full justify-start transition-all mb-1',
+                      'w-full justify-start transition-all duration-200 ease-in-out mb-1 group hover:bg-gray-200 hover:text-[#0b1e4c] relative',
                       route.active && 'bg-white shadow-sm font-medium',
                       isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
                     )}
@@ -262,16 +262,26 @@ export function Sidebar({ className }: SidebarProps) {
                   >
                     <Link
                       href={route.href}
-                      className="flex items-center h-auto min-h-[40px] py-1"
+                      className="flex items-center justify-center h-auto min-h-[40px] py-1 cursor-pointer"
                     >
                       <route.icon
                         className={cn(
-                          'h-5 w-5 shrink-0 text-[#0b1e4c]',
+                          'h-5 w-5 shrink-0 text-[#0b1e4c] group-hover:text-[#0b1e4c] transition-colors',
                           isSidebarCollapsed ? 'mr-0' : 'mr-3'
                         )}
                       />
                       {!isSidebarCollapsed && (
                         <span className="whitespace-normal leading-tight text-left break-words">
+                          {route.label}
+                        </span>
+                      )}
+
+                      {/* Tooltip for collapsed sidebar */}
+                      {isSidebarCollapsed && (
+                        <span
+                          className="absolute left-full ml-2 px-2 py-1 bg-[#0b1e4c] text-white text-xs rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-50 whitespace-nowrap
+                        before:content-[''] before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-1 before:border-4 before:border-transparent before:border-r-[#0b1e4c]"
+                        >
                           {route.label}
                         </span>
                       )}
@@ -293,7 +303,7 @@ export function Sidebar({ className }: SidebarProps) {
                       route.active || isChildActive ? 'secondary' : 'ghost'
                     }
                     className={cn(
-                      'w-full justify-start transition-all',
+                      'w-full justify-start transition-all duration-200 ease-in-out group hover:bg-gray-200 hover:text-[#0b1e4c] relative',
                       (route.active || isChildActive) &&
                         'bg-gray-200/50 font-medium',
                       isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
@@ -302,10 +312,10 @@ export function Sidebar({ className }: SidebarProps) {
                       !isSidebarCollapsed && toggleMenu(route.href)
                     }
                   >
-                    <div className="flex items-center w-full">
+                    <div className="flex items-center justify-center w-full cursor-pointer">
                       <route.icon
                         className={cn(
-                          'h-5 w-5 shrink-0 text-[#0b1e4c]',
+                          'h-5 w-5 shrink-0 text-[#0b1e4c] group-hover:text-[#0b1e4c] transition-colors',
                           isSidebarCollapsed ? 'mr-0' : 'mr-3'
                         )}
                       />
@@ -316,6 +326,16 @@ export function Sidebar({ className }: SidebarProps) {
                           </span>
                           {/* Chevron icon could go here if we imported it */}
                         </>
+                      )}
+
+                      {/* Tooltip for collapsed sidebar */}
+                      {isSidebarCollapsed && (
+                        <span
+                          className="absolute left-full ml-2 px-2 py-1 bg-[#0b1e4c] text-white text-xs rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-50 whitespace-nowrap
+                        before:content-[''] before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-1 before:border-4 before:border-transparent before:border-r-[#0b1e4c]"
+                        >
+                          {route.label}
+                        </span>
                       )}
                     </div>
                   </Button>
@@ -328,12 +348,17 @@ export function Sidebar({ className }: SidebarProps) {
                           key={child.href}
                           variant={child.active ? 'secondary' : 'ghost'}
                           className={cn(
-                            'w-full justify-start h-9 text-sm',
+                            'w-full justify-start h-9 text-sm cursor-pointer transition-colors duration-200 hover:bg-gray-200 hover:text-[#0b1e4c]',
                             child.active && 'bg-white shadow-sm font-medium'
                           )}
                           asChild
                         >
-                          <Link href={child.href}>{child.label}</Link>
+                          <Link
+                            href={child.href}
+                            className="flex items-center cursor-pointer"
+                          >
+                            {child.label}
+                          </Link>
                         </Button>
                       ))}
                     </div>
@@ -363,18 +388,6 @@ export function MobileSidebar() {
       active: pathname === '/dashboard',
     },
     {
-      label: 'Conócenos',
-      icon: Info,
-      href: '/dashboard/conocenos',
-      active: pathname.startsWith('/dashboard/conocenos'),
-    },
-    {
-      label: 'Repositorio legal',
-      icon: Scale,
-      href: '/dashboard/repositorio-legal',
-      active: pathname.startsWith('/dashboard/repositorio-legal'),
-    },
-    {
       label: 'Compliance de Expediente de selección de contratista',
       icon: FileText,
       href: '/dashboard/compliance',
@@ -397,6 +410,18 @@ export function MobileSidebar() {
       icon: BookOpen,
       href: '/dashboard/manual',
       active: pathname.startsWith('/dashboard/manual'),
+    },
+    {
+      label: 'Repositorio legal',
+      icon: Scale,
+      href: '/dashboard/repositorio-legal',
+      active: pathname.startsWith('/dashboard/repositorio-legal'),
+    },
+    {
+      label: 'Conócenos',
+      icon: Info,
+      href: '/dashboard/conocenos',
+      active: pathname.startsWith('/dashboard/conocenos'),
     },
   ];
 
@@ -429,13 +454,16 @@ export function MobileSidebar() {
                   key={route.href}
                   variant={route.active ? 'secondary' : 'ghost'}
                   className={cn(
-                    'w-full justify-start',
+                    'w-full justify-start transition-colors duration-200 group hover:bg-gray-200 hover:text-[#0b1e4c]',
                     route.active && 'bg-white shadow-sm font-medium'
                   )}
                   asChild
                 >
-                  <Link href={route.href} className="h-auto py-2">
-                    <route.icon className="mr-2 h-4 w-4 shrink-0" />
+                  <Link
+                    href={route.href}
+                    className="flex items-center h-auto py-2 cursor-pointer"
+                  >
+                    <route.icon className="mr-2 h-4 w-4 shrink-0 text-[#0b1e4c] group-hover:text-[#0b1e4c] transition-colors" />
                     <span className="whitespace-normal text-left">
                       {route.label}
                     </span>
