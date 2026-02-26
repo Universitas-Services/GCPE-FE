@@ -254,7 +254,7 @@ export function Sidebar({ className }: SidebarProps) {
                     key={route.href}
                     variant={route.active ? 'secondary' : 'ghost'}
                     className={cn(
-                      'w-full justify-start transition-all duration-200 ease-in-out mb-1 group hover:bg-gray-200 hover:text-[#0b1e4c]',
+                      'w-full justify-start transition-all duration-200 ease-in-out mb-1 group hover:bg-gray-200 hover:text-[#0b1e4c] relative',
                       route.active && 'bg-white shadow-sm font-medium',
                       isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
                     )}
@@ -272,6 +272,16 @@ export function Sidebar({ className }: SidebarProps) {
                       />
                       {!isSidebarCollapsed && (
                         <span className="whitespace-normal leading-tight text-left break-words">
+                          {route.label}
+                        </span>
+                      )}
+
+                      {/* Tooltip for collapsed sidebar */}
+                      {isSidebarCollapsed && (
+                        <span
+                          className="absolute left-full ml-2 px-2 py-1 bg-[#0b1e4c] text-white text-xs rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-50 whitespace-nowrap
+                        before:content-[''] before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-1 before:border-4 before:border-transparent before:border-r-[#0b1e4c]"
+                        >
                           {route.label}
                         </span>
                       )}
@@ -293,7 +303,7 @@ export function Sidebar({ className }: SidebarProps) {
                       route.active || isChildActive ? 'secondary' : 'ghost'
                     }
                     className={cn(
-                      'w-full justify-start transition-all duration-200 ease-in-out group hover:bg-gray-200 hover:text-[#0b1e4c]',
+                      'w-full justify-start transition-all duration-200 ease-in-out group hover:bg-gray-200 hover:text-[#0b1e4c] relative',
                       (route.active || isChildActive) &&
                         'bg-gray-200/50 font-medium',
                       isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
@@ -316,6 +326,16 @@ export function Sidebar({ className }: SidebarProps) {
                           </span>
                           {/* Chevron icon could go here if we imported it */}
                         </>
+                      )}
+
+                      {/* Tooltip for collapsed sidebar */}
+                      {isSidebarCollapsed && (
+                        <span
+                          className="absolute left-full ml-2 px-2 py-1 bg-[#0b1e4c] text-white text-xs rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-50 whitespace-nowrap
+                        before:content-[''] before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-1 before:border-4 before:border-transparent before:border-r-[#0b1e4c]"
+                        >
+                          {route.label}
+                        </span>
                       )}
                     </div>
                   </Button>
