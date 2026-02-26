@@ -1,4 +1,4 @@
-import { ServiceCard } from '@/features/about-us';
+import { ServiceCard } from '@/components/features-components/ServiceCard';
 
 const legalServices = [
   {

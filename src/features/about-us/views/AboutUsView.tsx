@@ -1,4 +1,4 @@
-import { ServiceCard } from '../components/ServiceCard';
+import { ServiceCard } from '@/components/features-components/ServiceCard';
 
 const services = [
   {
