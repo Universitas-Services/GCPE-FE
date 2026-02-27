@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { Crown, X, CheckCircle2 } from 'lucide-react';
 
@@ -11,17 +12,49 @@ interface ProUpgradeModalProps {
 
 export function ProUpgradeModal({ isOpen, onClose }: ProUpgradeModalProps) {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  // Mount logic for SSR compatibility
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Body scroll lock logic
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  if (!isOpen || !mounted) return null;
 
   const handleUpgrade = () => {
     onClose();
     router.push('/dashboard/upgrade');
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-[480px] rounded-2xl bg-[#09151e] border border-gray-800 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  const modalContent = (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+      onClick={handleOverlayClick}
+    >
+      <div
+        className="relative w-full max-w-[480px] rounded-2xl bg-[#09151e] border border-gray-800 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking card
+      >
         {/* Glow Effects */}
         <div className="absolute top-0 -left-4 w-72 h-72 bg-[#0097b2] rounded-full mix-blend-multiply filter blur-[128px] opacity-20 pointer-events-none"></div>
         <div className="absolute top-0 -right-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-10 pointer-events-none"></div>
@@ -29,7 +62,7 @@ export function ProUpgradeModal({ isOpen, onClose }: ProUpgradeModalProps) {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-10"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-10 p-2"
         >
           <X className="h-5 w-5" />
         </button>
@@ -110,4 +143,6 @@ export function ProUpgradeModal({ isOpen, onClose }: ProUpgradeModalProps) {
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
