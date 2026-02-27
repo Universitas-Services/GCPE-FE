@@ -62,7 +62,7 @@ export function ProUpgradeModal({ isOpen, onClose }: ProUpgradeModalProps) {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-10 p-2"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-50 p-2"
         >
           <X className="h-5 w-5" />
         </button>
