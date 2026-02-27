@@ -31,6 +31,65 @@ export const Step1Identification: React.FC = () => {
     }
   };
 
+  // Extract RIF letter and number
+  const rawRif = formData.rif_proveedor || '';
+  const currentRifLetter = 'J'; // Enforced to 'J' as requested
+  const currentRifNumbers = rawRif.replace(/\D/g, ''); // Extract only the digits
+
+  const handleRifNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/\D/g, ''); // Ensure only numbers
+    if (rawValue.length <= 9) {
+      if (rawValue.length === 0) {
+        updateFormData({ rif_proveedor: '' });
+      } else {
+        // Format as J-XXXXXXXX-X
+        let formattedRif = `${currentRifLetter}-`;
+        if (rawValue.length <= 8) {
+          formattedRif += rawValue;
+        } else {
+          formattedRif += `${rawValue.substring(0, 8)}-${rawValue.substring(8)}`;
+        }
+        updateFormData({ rif_proveedor: formattedRif });
+      }
+    }
+  };
+
+  // Extract Cedula letter and number
+  const rawCedula = formData.cedula_rep_legal || '';
+  const currentCedulaLetter = rawCedula.charAt(0) === 'E' ? 'E' : 'V'; // Default to V
+  const currentCedulaNumbers = rawCedula.replace(/\D/g, ''); // Extract only the digits
+
+  const handleCedulaLetterChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const letter = e.target.value;
+    if (currentCedulaNumbers) {
+      // Re-apply formatting with the new letter
+      const formattedNumber = currentCedulaNumbers.replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        '.'
+      );
+      updateFormData({ cedula_rep_legal: `${letter}-${formattedNumber}` });
+    } else {
+      updateFormData({ cedula_rep_legal: `${letter}-` });
+    }
+  };
+
+  const handleCedulaNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/\D/g, ''); // Ensure only numbers
+    if (rawValue.length <= 8) {
+      if (rawValue.length === 0) {
+        updateFormData({ cedula_rep_legal: '' }); // Clear field
+      } else {
+        // Format with dots, e.g., 12345678 -> 12.345.678
+        const formattedNumber = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        updateFormData({
+          cedula_rep_legal: `${currentCedulaLetter}-${formattedNumber}`,
+        });
+      }
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -151,14 +210,23 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Registro de Información Fiscal (RIF)
             </label>
-            <input
-              type="text"
-              name="rif_proveedor"
-              value={formData.rif_proveedor || ''}
-              onChange={handleChange}
-              placeholder="Ejemplo: J-00000000-0"
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
-            />
+            <div className="flex gap-2">
+              <select
+                value={currentRifLetter}
+                disabled
+                className={`w-1/3 px-3 py-2 border rounded-md bg-gray-50 text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              >
+                <option value="J">J</option>
+              </select>
+              <input
+                type="text"
+                value={currentRifNumbers}
+                onChange={handleRifNumberChange}
+                placeholder="123456789"
+                maxLength={9}
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              />
+            </div>
             {errors.rif_proveedor && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.rif_proveedor}
@@ -211,14 +279,27 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Cédula del Representante Legal
             </label>
-            <input
-              type="text"
-              name="cedula_rep_legal"
-              value={formData.cedula_rep_legal || ''}
-              onChange={handleChange}
-              placeholder="Ejemplo: V-00.000.000"
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
-            />
+            <div className="flex gap-2">
+              <select
+                value={currentCedulaLetter}
+                onChange={handleCedulaLetterChange}
+                className={`w-1/3 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
+              >
+                <option value="V">V</option>
+                <option value="E">E</option>
+              </select>
+              <input
+                type="text"
+                value={currentCedulaNumbers.replace(
+                  /\B(?=(\d{3})+(?!\d))/g,
+                  '.'
+                )} // Display formatted with dots
+                onChange={handleCedulaNumberChange}
+                placeholder="12.345.678"
+                maxLength={10} // 8 digits + 2 dots
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
+              />
+            </div>
             {errors.cedula_rep_legal && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.cedula_rep_legal}
