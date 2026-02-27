@@ -11,6 +11,26 @@ export const Step1Identification: React.FC = () => {
     updateFormData({ [name]: value });
   };
 
+  // Extract operator and phone number from formData
+  const rawPhone = formData.telefono_proveedor || '';
+  const currentOperator = rawPhone.substring(0, 4);
+  const currentNumber = rawPhone.substring(4);
+
+  const handlePhoneOperatorChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const operator = e.target.value;
+    updateFormData({ telefono_proveedor: operator + currentNumber });
+  };
+
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Allow only digits and limit to 7 characters
+    if (/^\d{0,7}$/.test(value)) {
+      updateFormData({ telefono_proveedor: currentOperator + value });
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -88,14 +108,37 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Teléfono de contacto
             </label>
-            <input
-              type="text"
-              name="telefono_proveedor"
-              value={formData.telefono_proveedor || ''}
-              onChange={handleChange}
-              placeholder="Ejemplo: 0412-5555555"
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
-            />
+            <div className="flex gap-2">
+              <select
+                value={
+                  ['0412', '0422', '0414', '0424', '0416', '0426'].includes(
+                    currentOperator
+                  )
+                    ? currentOperator
+                    : ''
+                }
+                onChange={handlePhoneOperatorChange}
+                className={`w-1/3 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              >
+                <option value="" disabled>
+                  Cod
+                </option>
+                <option value="0412">0412</option>
+                <option value="0422">0422</option>
+                <option value="0414">0414</option>
+                <option value="0424">0424</option>
+                <option value="0416">0416</option>
+                <option value="0426">0426</option>
+              </select>
+              <input
+                type="text"
+                value={currentNumber}
+                onChange={handlePhoneNumberChange}
+                placeholder="1234567"
+                maxLength={7}
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              />
+            </div>
             {errors.telefono_proveedor && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.telefono_proveedor}
