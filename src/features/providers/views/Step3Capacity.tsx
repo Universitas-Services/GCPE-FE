@@ -169,12 +169,12 @@ export const Step3Capacity: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Patrimonio neto reportado
           </label>
+          <p className="text-xs text-gray-500 mb-2">Ejemplo: 0.00</p>
           <input
             type="text"
             name="patrimonio_reportado"
             value={formData.patrimonio_reportado || ''}
             onChange={handleChange}
-            placeholder="0.00"
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.patrimonio_reportado ? 'border-red-500' : 'border-gray-300'}`}
           />
           {errors.patrimonio_reportado && (

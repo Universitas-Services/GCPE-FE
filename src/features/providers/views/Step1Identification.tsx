@@ -107,12 +107,14 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Correo electrónico del proveedor
             </label>
+            <p className="text-xs text-gray-500 mb-2">
+              Ejemplo: prueba@gmail.com
+            </p>
             <input
               type="email"
               name="correo_proveedor"
               value={formData.correo_proveedor || ''}
               onChange={handleChange}
-              placeholder="Ejemplo: prueba@gmail.com"
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.correo_proveedor ? 'border-red-500' : 'border-gray-300'}`}
             />
             {errors.correo_proveedor && (
@@ -127,12 +129,14 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Dirección fiscal (como se indica en el RIF)
             </label>
+            <p className="text-xs text-gray-500 mb-2">
+              Ejemplo: Avenida 00, entre calles 00 y 00...
+            </p>
             <input
               type="text"
               name="direccion_fiscal"
               value={formData.direccion_fiscal || ''}
               onChange={handleChange}
-              placeholder="Ej: Avenida 00, entre calles 00 y 00..."
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.direccion_fiscal ? 'border-red-500' : 'border-gray-300'}`}
             />
             {errors.direccion_fiscal && (
@@ -147,12 +151,14 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Nombre de la empresa o razón social
             </label>
+            <p className="text-xs text-gray-500 mb-2">
+              Ejemplo: Industrias Carabobo C.A
+            </p>
             <input
               type="text"
               name="nombre_proveedor"
               value={formData.nombre_proveedor || ''}
               onChange={handleChange}
-              placeholder="Ejemplo: Industrias Carabobo C.A"
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.nombre_proveedor ? 'border-red-500' : 'border-gray-300'}`}
             />
             {errors.nombre_proveedor && (
@@ -167,6 +173,7 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Teléfono de contacto
             </label>
+            <p className="text-xs text-gray-500 mb-2">Ejemplo: 1234567</p>
             <div className="flex gap-2">
               <select
                 value={
@@ -193,7 +200,6 @@ export const Step1Identification: React.FC = () => {
                 type="text"
                 value={currentNumber}
                 onChange={handlePhoneNumberChange}
-                placeholder="1234567"
                 maxLength={7}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
               />
@@ -210,6 +216,7 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Registro de Información Fiscal (RIF)
             </label>
+            <p className="text-xs text-gray-500 mb-2">Ejemplo: 123456789</p>
             <div className="flex gap-2">
               <select
                 value={currentRifLetter}
@@ -222,7 +229,6 @@ export const Step1Identification: React.FC = () => {
                 type="text"
                 value={currentRifNumbers}
                 onChange={handleRifNumberChange}
-                placeholder="123456789"
                 maxLength={9}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
               />
@@ -239,12 +245,14 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Nombre del Representante Legal
             </label>
+            <p className="text-xs text-gray-500 mb-2">
+              Ejemplo: José Ramiréz González Pérez
+            </p>
             <input
               type="text"
               name="nombre_rep_legal"
               value={formData.nombre_rep_legal || ''}
               onChange={handleChange}
-              placeholder="Ejemplo: José Ramiréz González Pérez"
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.nombre_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
             />
             {errors.nombre_rep_legal && (
@@ -279,6 +287,7 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Cédula del Representante Legal
             </label>
+            <p className="text-xs text-gray-500 mb-2">Ejemplo: 12.345.678</p>
             <div className="flex gap-2">
               <select
                 value={currentCedulaLetter}
@@ -295,7 +304,6 @@ export const Step1Identification: React.FC = () => {
                   '.'
                 )} // Display formatted with dots
                 onChange={handleCedulaNumberChange}
-                placeholder="12.345.678"
                 maxLength={10} // 8 digits + 2 dots
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
               />

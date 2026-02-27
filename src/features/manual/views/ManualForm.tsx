@@ -64,9 +64,11 @@ export function ManualForm() {
             >
               1. Indique el Nombre de la Institución / Ente / Órgano.
             </Label>
+            <p className="text-sm text-gray-500">
+              Ejemplo: Ingresa el nombre de la Institución/Ente/Órgano
+            </p>
             <Input
               id="nombre_institucion_ente"
-              placeholder="Ingresa el nombre de la Institución/Ente/Órgano"
               {...register('nombre_institucion_ente')}
               className={errors.nombre_institucion_ente ? 'border-red-500' : ''}
             />
@@ -85,9 +87,11 @@ export function ManualForm() {
               2. Indique el Acrónimo y/o siglas de la Institución / Ente /
               Órgano.
             </Label>
+            <p className="text-sm text-gray-500">
+              Ejemplo: Ingresa el nombre de la Institución/Ente/Órgano
+            </p>
             <Input
               id="siglas_institucion_ente"
-              placeholder="Ingresa el nombre de la Institución/Ente/Órgano"
               {...register('siglas_institucion_ente')}
               className={errors.siglas_institucion_ente ? 'border-red-500' : ''}
             />
@@ -107,9 +111,12 @@ export function ManualForm() {
               responsable de la gestión Administrativa y Financiera de la
               Institución / Ente / Órgano.
             </Label>
+            <p className="text-sm text-gray-500">
+              Ejemplo: Ingresa el nombre de la Unidad/Gerencia y/u Oficina
+              responsable de la gestión Administrativa y Financiera.
+            </p>
             <Input
               id="nombre_unidad_admin_financiera"
-              placeholder="Ingresa el nombre de la Unidad/Gerencia y/u Oficina responsable de la gestión Administrativa y Financiera."
               {...register('nombre_unidad_admin_financiera')}
               className={
                 errors.nombre_unidad_admin_financiera ? 'border-red-500' : ''
@@ -131,9 +138,12 @@ export function ManualForm() {
               responsable del Área de Sistema y Tecnología de la Institución /
               Ente / Órgano.
             </Label>
+            <p className="text-sm text-gray-500">
+              Ejemplo: Ingresa el nombre de la Unidad/Gerencia y/u Oficina
+              responsable del Área de Sistema y Tecnología.
+            </p>
             <Input
               id="nombre_unidad_sistemas_tecnologia"
-              placeholder="Ingresa el nombre de la Unidad/Gerencia y/u Oficina responsable del Área de Sistema y Tecnología."
               {...register('nombre_unidad_sistemas_tecnologia')}
               className={
                 errors.nombre_unidad_sistemas_tecnologia ? 'border-red-500' : ''
