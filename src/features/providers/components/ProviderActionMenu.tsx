@@ -6,6 +6,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { useState } from 'react';
+import { ProUpgradeModal } from '@/components/advertisements/ProUpgradeModal';
 
 interface ProviderActionMenuProps {
   providerId: number;
@@ -17,20 +18,14 @@ export function ProviderActionMenu({ providerId }: ProviderActionMenuProps) {
   const handleProAction = () => {
     console.log('Action for provider:', providerId);
     setShowProPopup(true);
-    // Auto hide after 3 seconds
-    setTimeout(() => setShowProPopup(false), 3000);
   };
 
   return (
     <div className="relative">
-      <Popover open={showProPopup} onOpenChange={setShowProPopup}>
-        <PopoverTrigger asChild>
-          <div className="hidden"></div>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-2 bg-black text-white text-xs rounded shadow-lg border-none animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95">
-          Solo disponible en version Pro
-        </PopoverContent>
-      </Popover>
+      <ProUpgradeModal
+        isOpen={showProPopup}
+        onClose={() => setShowProPopup(false)}
+      />
 
       <Popover>
         <PopoverTrigger asChild>
