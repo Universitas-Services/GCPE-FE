@@ -209,7 +209,7 @@ export function Sidebar({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        'h-screen border-r bg-gray-100 hidden lg:flex lg:flex-col transition-all duration-300 ease-in-out',
+        'h-screen border-r bg-white hidden lg:flex lg:flex-col transition-all duration-300 ease-in-out',
         isSidebarCollapsed ? 'w-16' : 'w-64',
         className
       )}

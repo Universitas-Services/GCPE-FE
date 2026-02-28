@@ -30,7 +30,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
           <MobileSidebar />
           <span className="ml-2 font-semibold">Menu</span>
         </div>
-        <main className="p-3 lg:p-4 bg-slate-50 flex-1 flex flex-col">
+        <main className="p-3 lg:p-4 bg-background flex-1 flex flex-col">
           {children}
         </main>
       </div>
