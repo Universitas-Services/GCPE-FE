@@ -57,7 +57,7 @@ export function DashboardHomeView() {
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 leading-tight">
             Hola,{' '}
             <span className="text-blue-600">
-              {profile?.username || 'Usuario'}
+              {profile?.first_name} {profile?.last_name || 'Usuario'}
             </span>
           </h1>
         )}
