@@ -76,4 +76,25 @@ export const authService = {
 
     return response.json();
   },
+
+  // --- Logout ---
+  async logout(refresh_token: string): Promise<void> {
+    try {
+      const response = await fetch(`${API_URL}/api/auth/logout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refresh_token }),
+      });
+
+      if (!response.ok) {
+        console.warn(
+          `Error ${response.status}: No se pudo invalidar la sesión en el servidor principal.`
+        );
+      }
+    } catch (error) {
+      console.error('Error de red al intentar cerrar sesión:', error);
+    }
+  },
 };

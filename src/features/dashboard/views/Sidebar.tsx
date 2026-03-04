@@ -105,7 +105,7 @@ function UserNav({ isCollapsed = false }: { isCollapsed?: boolean }) {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {profile?.username || 'Usuario'}
+              {profile?.first_name} {profile?.last_name || 'Usuario'}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
               {profile?.email || 'cargando...'}

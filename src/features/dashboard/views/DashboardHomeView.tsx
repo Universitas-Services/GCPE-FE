@@ -57,7 +57,7 @@ export function DashboardHomeView() {
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 leading-tight">
             Hola,{' '}
             <span className="text-blue-600">
-              {profile?.username || 'Usuario'}
+              {profile?.first_name} {profile?.last_name || 'Usuario'}
             </span>
           </h1>
         )}
@@ -82,7 +82,7 @@ export function DashboardHomeView() {
           {/* Manual Express */}
           <Card className="relative overflow-hidden border-slate-200 hover:shadow-md transition-shadow flex flex-col justify-between">
             <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -z-10 opacity-70"></div>
-            <CardHeader className="p-2 pb-1">
+            <CardHeader className="px-4 pt-4 pb-2">
               <div className="w-6 h-6 rounded-lg bg-blue-100 flex items-center justify-center mb-1">
                 <Book className="w-3 h-3 text-blue-600" />
               </div>
@@ -94,7 +94,7 @@ export function DashboardHomeView() {
                 rápidamente.
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-2 pt-0">
+            <CardContent className="px-4 pb-4 pt-0">
               <Link
                 href="/dashboard/manual"
                 className="inline-flex items-center text-[11px] font-medium text-blue-700 hover:text-blue-800 transition-colors"
@@ -107,7 +107,7 @@ export function DashboardHomeView() {
           {/* Registro de Proveedores */}
           <Card className="relative overflow-hidden border-slate-200 hover:shadow-md transition-shadow flex flex-col justify-between">
             <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-bl-full -z-10 opacity-70"></div>
-            <CardHeader className="p-2 pb-1">
+            <CardHeader className="px-4 pt-4 pb-2">
               <div className="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center mb-1">
                 <Store className="w-3 h-3 text-emerald-600" />
               </div>
@@ -124,7 +124,7 @@ export function DashboardHomeView() {
                 proveedores.
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-2 pt-0">
+            <CardContent className="px-4 pb-4 pt-0">
               <Link
                 href="/dashboard/proveedores/registro"
                 className="inline-flex items-center text-[11px] font-medium text-blue-700 hover:text-blue-800 transition-colors mt-auto"
@@ -137,7 +137,7 @@ export function DashboardHomeView() {
           {/* Compliance Expediente */}
           <Card className="relative overflow-hidden border-slate-200 hover:shadow-md transition-shadow flex flex-col justify-between">
             <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -z-10 opacity-70"></div>
-            <CardHeader className="p-2 pb-1">
+            <CardHeader className="px-4 pt-4 pb-2">
               <div className="w-6 h-6 rounded-lg bg-slate-900 flex items-center justify-center mb-1">
                 <ShieldCheck className="w-3 h-3 text-white" />
               </div>
@@ -149,7 +149,7 @@ export function DashboardHomeView() {
                 pública.
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-2 pt-0">
+            <CardContent className="px-4 pb-4 pt-0">
               <Link
                 href="/dashboard/compliance"
                 className="inline-flex items-center text-[11px] font-medium text-blue-700 hover:text-blue-800 transition-colors"
@@ -165,7 +165,7 @@ export function DashboardHomeView() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 shrink-0">
         <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-center min-h-[50px]">
           <div className="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -z-10 opacity-70"></div>
-          <CardHeader className="p-2 pb-0">
+          <CardHeader className="px-4 pt-4 pb-0">
             <div className="w-5 h-5 rounded-md bg-blue-50 flex items-center justify-center mb-0.5">
               <Users className="w-3 h-3 text-blue-600" />
             </div>
@@ -173,7 +173,7 @@ export function DashboardHomeView() {
               Total Proveedores Activos
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-2 pt-0.5">
+          <CardContent className="px-4 pb-4 pt-1">
             <p className="text-sm font-bold text-blue-700 leading-none">
               Version PRO
             </p>
@@ -182,7 +182,7 @@ export function DashboardHomeView() {
 
         <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-center min-h-[50px]">
           <div className="absolute top-0 right-0 w-16 h-16 bg-orange-50 rounded-bl-full -z-10 opacity-70"></div>
-          <CardHeader className="p-2 pb-0">
+          <CardHeader className="px-4 pt-4 pb-0">
             <div className="w-5 h-5 rounded-md bg-orange-50 flex items-center justify-center mb-0.5">
               <FileCheck className="w-3 h-3 text-orange-600" />
             </div>
@@ -190,14 +190,14 @@ export function DashboardHomeView() {
               Auditorías realizadas
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-2 pt-0.5">
+          <CardContent className="px-4 pb-4 pt-1">
             <p className="text-sm font-bold text-blue-700 leading-none">
               Version PRO
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200 flex flex-col justify-center items-center p-2 min-h-[50px]">
+        <Card className="border-slate-200 flex flex-col justify-center items-center p-4 min-h-[50px]">
           <h3 className="text-[9px] font-medium text-slate-700 mb-1 self-start uppercase tracking-wider">
             Redes sociales
           </h3>

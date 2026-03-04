@@ -3,6 +3,8 @@ import { fetchApi } from '@/lib/api-client';
 export interface UserProfileResponse {
   username: string;
   email: string;
+  first_name?: string;
+  last_name?: string;
 }
 
 export const userService = {
