@@ -18,9 +18,12 @@ import {
   changePasswordSchema,
   ChangePasswordFormValues,
 } from '../schemas/change-password.schema';
+import { useAuth } from '@/features/auth/context/AuthContext';
+import { changePasswordService } from '../services/change-password.service';
 
 export const ChangePasswordForm = () => {
   const [globalError, setGlobalError] = useState('');
+  const { logout } = useAuth();
 
   const {
     register,
@@ -36,20 +39,28 @@ export const ChangePasswordForm = () => {
     },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: ChangePasswordFormValues) => {
     setGlobalError('');
     try {
-      // Simulación de llamada a API
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await changePasswordService.changePassword(data);
 
-      Swal.fire({
+      await Swal.fire({
         title: '¡Éxito!',
-        text: 'Tu contraseña ha sido actualizada correctamente.',
+        text: 'Tu contraseña ha sido actualizada correctamente. Por seguridad, deberás iniciar sesión nuevamente.',
         icon: 'success',
         confirmButtonColor: '#0080B0',
       });
+
       reset(); // Limpia los campos
+      logout(); // Cierra sesión
     } catch (err: unknown) {
+      console.error(err);
+      Swal.fire({
+        title: 'Error',
+        text: 'Ha ocurrido un error al cambiar la contraseña.',
+        icon: 'error',
+        confirmButtonColor: '#0080B0',
+      });
       if (err instanceof Error) {
         setGlobalError(err.message);
       } else {
