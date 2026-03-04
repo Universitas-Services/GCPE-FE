@@ -9,8 +9,12 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Swal from 'sweetalert2';
+import { useAuth } from '@/features/auth/context/AuthContext';
+import { profileService } from '../services/profile.service';
 
 export const DeleteAccountView = () => {
+  const { logout } = useAuth();
+
   const handleDeleteClick = () => {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -21,14 +25,40 @@ export const DeleteAccountView = () => {
       cancelButtonColor: '#3085d6',
       confirmButtonText: 'Sí, eliminar cuenta',
       cancelButtonText: 'Cancelar',
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        try {
+          await profileService.deleteAccount();
+          return true;
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            if (error.message === 'PROTECT') {
+              Swal.showValidationMessage(
+                'No se puede eliminar la cuenta porque tiene proveedores o reportes asociados.'
+              );
+            } else {
+              Swal.showValidationMessage(
+                error.message || 'Hubo un error al intentar eliminar la cuenta.'
+              );
+            }
+          } else {
+            Swal.showValidationMessage('Hubo un error desconocido.');
+          }
+          return false;
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
-      if (result.isConfirmed) {
-        // En el futuro, aquí se llamará al endpoint del backend
-        Swal.fire(
-          'Simulación',
-          'La cuenta sería eliminada en este punto.',
-          'info'
-        );
+      if (result.isConfirmed && result.value) {
+        Swal.fire({
+          title: 'Cuenta eliminada',
+          text: 'Tu cuenta ha sido eliminada exitosamente.',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false,
+        }).then(() => {
+          logout();
+        });
       }
     });
   };

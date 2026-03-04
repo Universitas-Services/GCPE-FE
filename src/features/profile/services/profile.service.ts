@@ -49,4 +49,25 @@ export const profileService = {
 
     return response.json();
   },
+
+  // Delete user account
+  async deleteAccount(): Promise<void> {
+    const response = await fetch('/api/auth/delete-account', {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      if (
+        errorData.code === 'PROTECT' ||
+        errorData.error === 'PROTECT' ||
+        errorData.detail?.includes('PROTECT')
+      ) {
+        throw new Error('PROTECT');
+      }
+      throw new Error(
+        errorData.error || errorData.detail || 'No se pudo eliminar la cuenta'
+      );
+    }
+  },
 };
