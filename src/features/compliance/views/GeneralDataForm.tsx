@@ -116,9 +116,9 @@ export function GeneralDataForm() {
             >
               Dirección de correo electrónico
             </Label>
+            <p className="text-sm text-gray-500">Ejemplo: prueba@gmail.com</p>
             <Input
               id="email"
-              placeholder="Ejemplo: prueba@gmail.com"
               className={cn(
                 'border-gray-200 bg-white h-12',
                 errors.email && 'border-red-500'
@@ -141,9 +141,11 @@ export function GeneralDataForm() {
               Nombre del órgano, entidad, oficina o dependencia de la
               Administración Pública
             </Label>
+            <p className="text-sm text-gray-500">
+              Ejemplo: Instituto Nacional de Tránsito Terrestre (INTT)
+            </p>
             <Input
               id="entityName"
-              placeholder="Ejemplo: Instituto Nacional de Tránsito Terrestre (INTT)"
               className="border-gray-200 bg-white h-12"
               {...register('entityName')}
             />
@@ -162,9 +164,11 @@ export function GeneralDataForm() {
             >
               Nombre de la unidad u oficina que revisa
             </Label>
+            <p className="text-sm text-gray-500">
+              Ejemplo: Unidad Administradora
+            </p>
             <Input
               id="unitName"
-              placeholder="Ejemplo: Unidad Administradora"
               className="border-gray-200 bg-white h-12"
               {...register('unitName')}
             />
@@ -228,9 +232,11 @@ export function GeneralDataForm() {
             >
               Nombre completo de la persona que revisa y/o evalúa.
             </Label>
+            <p className="text-sm text-gray-500">
+              Ejemplo: Pedro José Hernández Pérez
+            </p>
             <Input
               id="reviewerName"
-              placeholder="Ejemplo: Pedro José Hernández Pérez"
               className="border-gray-200 bg-white h-12"
               {...register('reviewerName')}
             />
@@ -249,9 +255,9 @@ export function GeneralDataForm() {
             >
               Indique la nomenclatura o código asignado al documento revisado
             </Label>
+            <p className="text-sm text-gray-500">Ejemplo: U.L-001</p>
             <Input
               id="documentCode"
-              placeholder="Ejemplo: U.L-001"
               className="border-gray-200 bg-white h-12"
               {...register('documentCode')}
             />
