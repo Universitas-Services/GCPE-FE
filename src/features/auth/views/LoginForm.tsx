@@ -16,7 +16,9 @@ import { useAuth } from '../context/AuthContext';
 
 // 1. Esquema de validación actualizado a "username"
 const loginSchema = z.object({
-  username: z.string().min(1, { message: 'El nombre de usuario es requerido' }),
+  username: z
+    .string()
+    .min(1, { message: 'El correo electrónico es requerido' }),
   password: z.string().min(1, { message: 'La contraseña es requerida' }),
 });
 
@@ -94,12 +96,12 @@ export function LoginForm() {
             {/* Campo Usuario (Modificado) */}
             <div className="space-y-2">
               <Label htmlFor="username" className="text-gray-700">
-                Usuario
+                Correo electrónico
               </Label>
               <Input
                 id="username"
                 type="text"
-                placeholder="Ingresa tu usuario"
+                placeholder="Ingresa tu correo electrónico"
                 className={`bg-white border-gray-200 ${errors.username ? 'border-red-500' : ''}`}
                 {...register('username')}
               />
