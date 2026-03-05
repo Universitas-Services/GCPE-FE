@@ -24,6 +24,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   userService,
@@ -210,99 +216,102 @@ export function Sidebar({ className }: SidebarProps) {
     <div
       className={cn(
         'h-screen border-r bg-white hidden lg:flex lg:flex-col transition-all duration-300 ease-in-out',
-        isSidebarCollapsed ? 'w-16' : 'w-64',
+        isSidebarCollapsed ? 'w-16' : 'w-60',
         className
       )}
     >
-      <div className="space-y-4 py-4 h-full flex flex-col">
-        {/* Toggle Button / Header */}
-        <div
-          className={cn(
-            'px-3 py-2 flex items-center mb-2',
-            isSidebarCollapsed ? 'justify-center' : 'justify-between'
-          )}
-        >
-          <Button
-            onClick={toggleSidebar}
-            variant="ghost"
-            size="icon"
-            className="hover:bg-gray-200 shrink-0"
+      <TooltipProvider delayDuration={150}>
+        <div className="space-y-4 py-4 h-full flex flex-col">
+          {/* Toggle Button / Header */}
+          <div
+            className={cn(
+              'px-3 py-2 flex items-center mb-2',
+              isSidebarCollapsed ? 'justify-center' : 'justify-between'
+            )}
           >
-            <Menu className="h-6 w-6 text-[#0b1e4c]" />
-          </Button>
-          {!isSidebarCollapsed && (
-            <div className="flex-1 flex justify-center pr-8">
-              <Image
-                src="/logo-con-letra.png"
-                alt="Universitas Logo"
-                width={170}
-                height={50}
-                className="object-contain"
-                priority
-              />
-            </div>
-          )}
-        </div>
+            <Button
+              onClick={toggleSidebar}
+              variant="ghost"
+              size="icon"
+              className="hover:bg-gray-200 shrink-0"
+            >
+              <Menu className="h-6 w-6 text-[#0b1e4c]" />
+            </Button>
+            {!isSidebarCollapsed && (
+              <div className="flex-1 flex justify-center pr-8">
+                <Image
+                  src="/logo-con-letra.png"
+                  alt="Universitas Logo"
+                  width={170}
+                  height={50}
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            )}
+          </div>
 
-        <ScrollArea className="flex-1 px-3">
-          <div className="space-y-2">
-            {routes.map((route) => {
-              // Simple Item
-              if (!route.children) {
-                return (
-                  <Button
-                    key={route.href}
-                    variant={route.active ? 'secondary' : 'ghost'}
-                    className={cn(
-                      'w-full justify-start transition-all duration-200 ease-in-out mb-1 group hover:bg-gray-200 hover:text-[#0b1e4c] relative flex items-center h-auto min-h-[40px] py-1 cursor-pointer',
-                      route.active && 'bg-white shadow-sm font-medium',
-                      isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
-                    )}
-                    asChild
-                  >
-                    <Link href={route.href}>
-                      <route.icon
-                        className={cn(
-                          'h-5 w-5 shrink-0 text-[#0b1e4c] group-hover:text-[#0b1e4c] transition-colors',
-                          isSidebarCollapsed ? 'mr-0' : 'mr-3'
+          <ScrollArea className="flex-1 px-3">
+            <div className="space-y-2">
+              {routes.map((route) => {
+                // Simple Item
+                if (!route.children) {
+                  const buttonContent = (
+                    <Button
+                      variant={route.active ? 'secondary' : 'ghost'}
+                      className={cn(
+                        'w-full justify-start transition-all duration-200 ease-in-out mb-1 hover:bg-gray-200 hover:text-[#0b1e4c] relative flex items-center h-auto min-h-[40px] py-1 cursor-pointer',
+                        route.active && 'bg-gray-200 shadow-sm font-semibold',
+                        isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
+                      )}
+                      asChild
+                    >
+                      <Link href={route.href}>
+                        <route.icon
+                          className={cn(
+                            'h-5 w-5 shrink-0 text-[#0b1e4c] transition-colors',
+                            isSidebarCollapsed ? 'mr-0' : 'mr-3'
+                          )}
+                        />
+                        {!isSidebarCollapsed && (
+                          <span className="whitespace-normal leading-tight text-left break-words flex-1">
+                            {route.label}
+                          </span>
                         )}
-                      />
-                      {!isSidebarCollapsed && (
-                        <span className="whitespace-normal leading-tight text-left break-words flex-1">
-                          {route.label}
-                        </span>
-                      )}
+                      </Link>
+                    </Button>
+                  );
 
-                      {/* Tooltip for collapsed sidebar */}
-                      {isSidebarCollapsed && (
-                        <span
-                          className="absolute left-full ml-2 px-2 py-1 bg-[#0b1e4c] text-white text-xs rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-50 whitespace-nowrap
-                        before:content-[''] before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-1 before:border-4 before:border-transparent before:border-r-[#0b1e4c]"
-                        >
-                          {route.label}
-                        </span>
-                      )}
-                    </Link>
-                  </Button>
+                  return isSidebarCollapsed ? (
+                    <Tooltip key={route.href}>
+                      <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
+                      <TooltipContent
+                        side="right"
+                        className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md"
+                      >
+                        {route.label}
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : (
+                    <div key={route.href}>{buttonContent}</div>
+                  );
+                }
+
+                // Parent Item with Children
+                const isOpen = openMenus.includes(route.href);
+                const isChildActive = route.children.some(
+                  (child) => child.active
                 );
-              }
 
-              // Parent Item with Children
-              const isOpen = openMenus.includes(route.href);
-              const isChildActive = route.children.some(
-                (child) => child.active
-              );
-
-              return (
-                <div key={route.href} className="mb-1">
+                const buttonContent = (
                   <Button
                     variant={
                       route.active || isChildActive ? 'secondary' : 'ghost'
                     }
                     className={cn(
-                      'w-full justify-start transition-all duration-200 ease-in-out group hover:bg-gray-200 hover:text-[#0b1e4c] relative flex items-center h-auto min-h-[40px] py-1 cursor-pointer',
+                      'w-full justify-start transition-all duration-200 ease-in-out hover:bg-gray-200 hover:text-[#0b1e4c] relative flex items-center h-auto min-h-[40px] py-1 cursor-pointer',
                       (route.active || isChildActive) &&
-                        'bg-gray-200/50 font-medium',
+                        'bg-gray-200 shadow-sm font-semibold',
                       isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
                     )}
                     onClick={() =>
@@ -311,7 +320,7 @@ export function Sidebar({ className }: SidebarProps) {
                   >
                     <route.icon
                       className={cn(
-                        'h-5 w-5 shrink-0 text-[#0b1e4c] group-hover:text-[#0b1e4c] transition-colors',
+                        'h-5 w-5 shrink-0 text-[#0b1e4c] transition-colors',
                         isSidebarCollapsed ? 'mr-0' : 'mr-3'
                       )}
                     />
@@ -320,52 +329,61 @@ export function Sidebar({ className }: SidebarProps) {
                         {route.label}
                       </span>
                     )}
-
-                    {/* Tooltip for collapsed sidebar */}
-                    {isSidebarCollapsed && (
-                      <span
-                        className="absolute left-full ml-2 px-2 py-1 bg-[#0b1e4c] text-white text-xs rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-50 whitespace-nowrap
-                        before:content-[''] before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-1 before:border-4 before:border-transparent before:border-r-[#0b1e4c]"
-                      >
-                        {route.label}
-                      </span>
-                    )}
                   </Button>
+                );
 
-                  {/* Children Container */}
-                  {!isSidebarCollapsed && isOpen && (
-                    <div className="mt-1 ml-4 border-l-2 border-gray-200 pl-2 space-y-1">
-                      {route.children.map((child) => (
-                        <Button
-                          key={child.href}
-                          variant={child.active ? 'secondary' : 'ghost'}
-                          className={cn(
-                            'w-full justify-start h-9 text-sm cursor-pointer transition-colors duration-200 hover:bg-gray-200 hover:text-[#0b1e4c]',
-                            child.active && 'bg-white shadow-sm font-medium'
-                          )}
-                          asChild
+                return (
+                  <div key={route.href} className="mb-1">
+                    {isSidebarCollapsed ? (
+                      <Tooltip>
+                        <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
+                        <TooltipContent
+                          side="right"
+                          className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md"
                         >
-                          <Link
-                            href={child.href}
-                            className="flex items-center cursor-pointer"
-                          >
-                            {child.label}
-                          </Link>
-                        </Button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </ScrollArea>
+                          {route.label}
+                        </TooltipContent>
+                      </Tooltip>
+                    ) : (
+                      buttonContent
+                    )}
 
-        {/* User Navbar */}
-        <div className="px-3 mt-auto">
-          <UserNav isCollapsed={isSidebarCollapsed} />
+                    {/* Children Container */}
+                    {!isSidebarCollapsed && isOpen && (
+                      <div className="mt-1 ml-4 border-l-2 border-gray-200 pl-2 space-y-1">
+                        {route.children.map((child) => (
+                          <Button
+                            key={child.href}
+                            variant={child.active ? 'secondary' : 'ghost'}
+                            className={cn(
+                              'w-full justify-start h-9 text-sm cursor-pointer transition-colors duration-200 hover:bg-gray-200 hover:text-[#0b1e4c]',
+                              child.active &&
+                                'bg-gray-200 shadow-sm font-semibold'
+                            )}
+                            asChild
+                          >
+                            <Link
+                              href={child.href}
+                              className="flex items-center cursor-pointer"
+                            >
+                              {child.label}
+                            </Link>
+                          </Button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </ScrollArea>
+
+          {/* User Navbar */}
+          <div className="px-3 mt-auto">
+            <UserNav isCollapsed={isSidebarCollapsed} />
+          </div>
         </div>
-      </div>
+      </TooltipProvider>
     </div>
   );
 }
@@ -447,7 +465,7 @@ export function MobileSidebar() {
                   variant={route.active ? 'secondary' : 'ghost'}
                   className={cn(
                     'w-full justify-start transition-colors duration-200 group hover:bg-gray-200 hover:text-[#0b1e4c]',
-                    route.active && 'bg-white shadow-sm font-medium'
+                    route.active && 'bg-gray-200 shadow-sm font-semibold'
                   )}
                   asChild
                 >
