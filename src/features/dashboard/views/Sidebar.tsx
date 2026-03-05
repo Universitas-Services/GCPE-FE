@@ -79,7 +79,7 @@ function UserNav({ isCollapsed = false }: { isCollapsed?: boolean }) {
             {!isCollapsed && profile && (
               <div className="flex flex-col items-start overflow-hidden flex-1">
                 <span className="text-sm font-medium leading-none truncate w-full text-left">
-                  {profile.username}
+                  {profile?.first_name} {profile?.last_name || 'Usuario'}
                 </span>
                 <span className="text-xs text-gray-500 truncate mt-1 w-full text-left">
                   {profile.email}

@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
-  userService,
-  UserProfileResponse,
-} from '@/features/dashboard/services/user.service';
+  profileService,
+  ProfileResponse,
+} from '@/features/profile/services/profile.service';
+import { CompleteProfileModal } from '@/features/profile/components/CompleteProfileModal';
 import {
   Card,
   CardContent,
@@ -30,14 +31,29 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function DashboardHomeView() {
-  const [profile, setProfile] = useState<UserProfileResponse | null>(null);
+  const [profile, setProfile] = useState<ProfileResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const data = await userService.getProfile();
+        const data = await profileService.getProfile();
         setProfile(data);
+
+        // Check if first login explicitly based on missing cargo and institucion
+        if (
+          (!data.cargo || data.cargo.trim() === '') &&
+          (!data.nombre_institucion_ente ||
+            data.nombre_institucion_ente.trim() === '')
+        ) {
+          const hasSeenModal = localStorage.getItem(
+            `profile_modal_shown_${data.email}`
+          );
+          if (!hasSeenModal) {
+            setShowProfileModal(true);
+          }
+        }
       } catch (error) {
         console.error('Failed to load profile:', error);
       } finally {
@@ -271,6 +287,18 @@ export function DashboardHomeView() {
           </Button>
         </Link>
       </div>
+
+      {profile && (
+        <CompleteProfileModal
+          isOpen={showProfileModal}
+          onClose={() => setShowProfileModal(false)}
+          uid={profile.email} // using email as identifier for localstorage
+          onSuccess={() => {
+            // Refetch after saving to hide modal and refresh data
+            profileService.getProfile().then(setProfile);
+          }}
+        />
+      )}
     </div>
   );
 }

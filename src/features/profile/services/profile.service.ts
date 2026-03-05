@@ -50,6 +50,32 @@ export const profileService = {
     return response.json();
   },
 
+  // Update specific fields for onboarding/first login
+  async updateProfilePartial(data: {
+    nombre_institucion_ente: string;
+    cargo: string;
+  }): Promise<ProfileResponse> {
+    const response = await fetch('/api/perfil', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nombre_institucion_ente: data.nombre_institucion_ente,
+        cargo: data.cargo,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(
+        errorData.error || 'No se pudo actualizar el perfil parcial'
+      );
+    }
+
+    return response.json();
+  },
+
   // Delete user account
   async deleteAccount(): Promise<void> {
     const response = await fetch('/api/auth/delete-account', {
