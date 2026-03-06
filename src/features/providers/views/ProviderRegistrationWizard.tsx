@@ -100,35 +100,39 @@ export const ProviderRegistrationWizard: React.FC = () => {
         </div>
 
         {/* Footer / Navigation */}
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-          {/* Step Indicator (Centered/Leftish) */}
-          <div className="flex-1">
-            <StepIndicator currentStep={currentStep} totalSteps={4} />
-          </div>
+        <div className="flex flex-col bg-gray-50 mt-auto">
+          {/* Buttons Row */}
+          <div className="px-6 py-4 bg-white border border-gray-200 rounded-b-xl flex items-center justify-between shadow-sm">
+            <div className="w-32 flex justify-start">
+              {currentStep > 1 && (
+                <button
+                  onClick={prevStep}
+                  disabled={isSubmitting}
+                  className="px-6 py-2 border border-gray-200 rounded-lg text-gray-700 bg-gray-100/50 hover:bg-gray-200 font-medium disabled:opacity-50 transition-colors"
+                >
+                  Anterior
+                </button>
+              )}
+            </div>
 
-          {/* Buttons (Right aligned) */}
-          <div className="flex space-x-3">
-            {currentStep > 1 && (
+            {/* Step Indicator Centered */}
+            <div className="flex-1 flex justify-center">
+              <StepIndicator currentStep={currentStep} totalSteps={4} />
+            </div>
+
+            <div className="w-32 flex justify-end">
               <button
-                onClick={prevStep}
+                onClick={handleNext}
                 disabled={isSubmitting}
-                className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 font-medium disabled:opacity-50"
+                className="px-6 py-2 bg-[#0091be] text-white rounded-lg hover:bg-[#007a9e] font-medium shadow-sm disabled:opacity-50 transition-colors"
               >
-                Atrás
+                {isSubmitting
+                  ? 'Guardando...'
+                  : currentStep === 4
+                    ? 'Finalizar'
+                    : 'Siguiente'}
               </button>
-            )}
-
-            <button
-              onClick={handleNext}
-              disabled={isSubmitting}
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium shadow-sm disabled:opacity-50 flex items-center"
-            >
-              {isSubmitting
-                ? 'Guardando...'
-                : currentStep === 4
-                  ? 'Finalizar'
-                  : 'Siguiente'}
-            </button>
+            </div>
           </div>
         </div>
       </div>
