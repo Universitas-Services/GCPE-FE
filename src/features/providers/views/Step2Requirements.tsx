@@ -18,14 +18,14 @@ export const Step2Requirements: React.FC = () => {
     value: boolean;
   }) => (
     <div className="mb-6">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+      <label className="block text-base font-medium text-gray-800 mb-4">
         {label}
       </label>
-      <div className="flex space-x-4">
+      <div className="flex space-x-6">
         <button
           type="button"
           onClick={() => handleBooleanChange(name, true)}
-          className={`px-6 py-2 rounded-md border text-sm font-medium transition-colors ${
+          className={`px-8 py-3 rounded-md border text-base font-medium transition-colors ${
             value === true
               ? 'bg-blue-600 text-white border-blue-600'
               : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
@@ -36,7 +36,7 @@ export const Step2Requirements: React.FC = () => {
         <button
           type="button"
           onClick={() => handleBooleanChange(name, false)}
-          className={`px-6 py-2 rounded-md border text-sm font-medium transition-colors ${
+          className={`px-8 py-3 rounded-md border text-base font-medium transition-colors ${
             value === false
               ? 'bg-blue-600 text-white border-blue-600'
               : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
@@ -49,7 +49,7 @@ export const Step2Requirements: React.FC = () => {
   );
 
   return (
-    <div className="bg-white p-8 md:p-10 rounded-lg shadow-sm h-full flex flex-col">
+    <div className="flex flex-col h-full flex-grow">
       <h2 className="text-xl font-bold text-blue-900 mb-2">
         Validación de requisitos
       </h2>
@@ -57,7 +57,7 @@ export const Step2Requirements: React.FC = () => {
         Indica el estado de tus documentos legales.
       </p>
 
-      <div className="flex-grow space-y-8">
+      <div className="flex-grow flex flex-col justify-center space-y-12 max-w-2xl mx-auto w-full">
         <BooleanGroup
           label="¿Está registrado en el Registro Nacional de Contratista (RNC)?"
           name="tiene_rnc"

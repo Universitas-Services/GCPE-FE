@@ -21,7 +21,7 @@ export const Step3Capacity: React.FC = () => {
   };
 
   return (
-    <div className="bg-white p-8 md:p-10 rounded-lg shadow-sm h-full flex flex-col">
+    <div className="flex flex-col h-full flex-grow">
       <h2 className="text-xl font-bold text-blue-900 mb-2">
         Capacidad técnica y financiera
       </h2>

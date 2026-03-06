@@ -95,7 +95,9 @@ export const ProviderRegistrationWizard: React.FC = () => {
 
       <div className="bg-white rounded-xl shadow-lg overflow-hidden min-h-[750px] flex flex-col">
         {/* Content Area */}
-        <div className="flex-grow">{renderStep()}</div>
+        <div className="flex-grow flex flex-col p-4 md:p-8 bg-gray-50">
+          {renderStep()}
+        </div>
 
         {/* Footer / Navigation */}
         <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
