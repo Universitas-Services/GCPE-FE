@@ -106,17 +106,17 @@ export const Step1Identification: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow-sm">
+    <div className="space-y-6 h-full">
+      <div className="bg-white p-8 md:p-10 rounded-lg shadow-sm h-full flex flex-col">
         <h2 className="text-xl font-bold text-blue-900 mb-2">
           Datos de identificación del proveedor
         </h2>
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-sm text-gray-500 mb-8">
           Ingresa los datos básicos para generar una demostración del manual de
           concurso abierto. Lo recibirás en tu correo en pocos minutos.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-grow">
           {/* Correo */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -145,7 +145,8 @@ export const Step1Identification: React.FC = () => {
               Dirección fiscal (como se indica en el RIF)
             </label>
             <p className="text-xs text-gray-500 mb-2 italic">
-              Ejemplo: Avenida 00, entre calles 00 y 00...
+              Ejemplo: Avenida 00, entre calles 00 y 00, Centro Comercial
+              Central, Piso 2, Local 3
             </p>
             <input
               type="text"

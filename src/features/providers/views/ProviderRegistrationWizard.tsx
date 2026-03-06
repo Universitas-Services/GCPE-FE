@@ -1,4 +1,5 @@
 import React from 'react';
+import Swal from 'sweetalert2';
 import { useProviderForm } from '../context/ProviderFormContext';
 import { Step1Identification } from './Step1Identification';
 import { Step2Requirements } from './Step2Requirements';
@@ -39,9 +40,33 @@ export const ProviderRegistrationWizard: React.FC = () => {
       // Redirect or show success
       // TODO: Redirect to /dashboard/proveedores when list view is implemented
       router.push('/dashboard');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting form:', error);
-      alert('Error al registrar el proveedor. Por favor intente nuevamente.');
+
+      if (
+        error &&
+        Array.isArray(error.detail) &&
+        error.detail.some(
+          (err: any) =>
+            err.loc?.includes('fecha_estado_financiero') &&
+            err.msg?.includes('La fecha no puede ser futura')
+        )
+      ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de validación',
+          text: 'La fecha del estado financiero no puede ser futura.',
+          confirmButtonColor: '#0097b2',
+        });
+        return;
+      }
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al registrar el proveedor. Por favor intente nuevamente.',
+        confirmButtonColor: '#0097b2',
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -63,12 +88,12 @@ export const ProviderRegistrationWizard: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto pb-12">
+    <div className="w-full max-w-5xl mx-auto px-4 pb-12">
       <h1 className="text-3xl font-bold text-center text-blue-900 mb-8 mt-8">
         Registro de proveedores
       </h1>
 
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden min-h-[600px] flex flex-col">
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden min-h-[750px] flex flex-col">
         {/* Content Area */}
         <div className="flex-grow">{renderStep()}</div>
 

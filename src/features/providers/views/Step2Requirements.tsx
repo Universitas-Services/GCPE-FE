@@ -49,31 +49,33 @@ export const Step2Requirements: React.FC = () => {
   );
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm">
+    <div className="bg-white p-8 md:p-10 rounded-lg shadow-sm h-full flex flex-col">
       <h2 className="text-xl font-bold text-blue-900 mb-2">
         Validación de requisitos
       </h2>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm text-gray-500 mb-8">
         Indica el estado de tus documentos legales.
       </p>
 
-      <BooleanGroup
-        label="¿Está registrado en el Registro Nacional de Contratista (RNC)?"
-        name="tiene_rnc"
-        value={formData.tiene_rnc ?? false}
-      />
+      <div className="flex-grow space-y-8">
+        <BooleanGroup
+          label="¿Está registrado en el Registro Nacional de Contratista (RNC)?"
+          name="tiene_rnc"
+          value={formData.tiene_rnc ?? false}
+        />
 
-      <BooleanGroup
-        label="¿Tiene solvencia laboral vigente?"
-        name="tiene_solvencia_laboral"
-        value={formData.tiene_solvencia_laboral ?? false}
-      />
+        <BooleanGroup
+          label="¿Tiene solvencia laboral vigente?"
+          name="tiene_solvencia_laboral"
+          value={formData.tiene_solvencia_laboral ?? false}
+        />
 
-      <BooleanGroup
-        label="¿Tiene licencia de funcionamiento municipal vigente?"
-        name="tiene_licencia_municipal"
-        value={formData.tiene_licencia_municipal ?? false}
-      />
+        <BooleanGroup
+          label="¿Tiene licencia de funcionamiento municipal vigente?"
+          name="tiene_licencia_municipal"
+          value={formData.tiene_licencia_municipal ?? false}
+        />
+      </div>
     </div>
   );
 };
