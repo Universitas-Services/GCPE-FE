@@ -64,7 +64,7 @@ export function ManualForm() {
             >
               1. Indique el Nombre de la Institución / Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 italic">
               Ejemplo: Ingresa el nombre de la Institución/Ente/Órgano
             </p>
             <Input
@@ -87,7 +87,7 @@ export function ManualForm() {
               2. Indique el Acrónimo y/o siglas de la Institución / Ente /
               Órgano.
             </Label>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 italic">
               Ejemplo: Ingresa el nombre de la Institución/Ente/Órgano
             </p>
             <Input
@@ -111,7 +111,7 @@ export function ManualForm() {
               responsable de la gestión Administrativa y Financiera de la
               Institución / Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 italic">
               Ejemplo: Ingresa el nombre de la Unidad/Gerencia y/u Oficina
               responsable de la gestión Administrativa y Financiera.
             </p>
@@ -138,7 +138,7 @@ export function ManualForm() {
               responsable del Área de Sistema y Tecnología de la Institución /
               Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 italic">
               Ejemplo: Ingresa el nombre de la Unidad/Gerencia y/u Oficina
               responsable del Área de Sistema y Tecnología.
             </p>

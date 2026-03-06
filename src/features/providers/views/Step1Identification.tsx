@@ -33,8 +33,23 @@ export const Step1Identification: React.FC = () => {
 
   // Extract RIF letter and number
   const rawRif = formData.rif_proveedor || '';
-  const currentRifLetter = 'J'; // Enforced to 'J' as requested
+  const currentRifLetter = rawRif.charAt(0) === 'V' ? 'V' : 'J'; // Default to J
   const currentRifNumbers = rawRif.replace(/\D/g, ''); // Extract only the digits
+
+  const handleRifLetterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const letter = e.target.value;
+    if (currentRifNumbers) {
+      let formattedRif = `${letter}-`;
+      if (currentRifNumbers.length <= 8) {
+        formattedRif += currentRifNumbers;
+      } else {
+        formattedRif += `${currentRifNumbers.substring(0, 8)}-${currentRifNumbers.substring(8)}`;
+      }
+      updateFormData({ rif_proveedor: formattedRif });
+    } else {
+      updateFormData({ rif_proveedor: `${letter}-` });
+    }
+  };
 
   const handleRifNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value.replace(/\D/g, ''); // Ensure only numbers
@@ -107,7 +122,7 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Correo electrónico del proveedor
             </label>
-            <p className="text-xs text-gray-500 mb-2">
+            <p className="text-xs text-gray-500 mb-2 italic">
               Ejemplo: prueba@gmail.com
             </p>
             <input
@@ -129,7 +144,7 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Dirección fiscal (como se indica en el RIF)
             </label>
-            <p className="text-xs text-gray-500 mb-2">
+            <p className="text-xs text-gray-500 mb-2 italic">
               Ejemplo: Avenida 00, entre calles 00 y 00...
             </p>
             <input
@@ -151,7 +166,7 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Nombre de la empresa o razón social
             </label>
-            <p className="text-xs text-gray-500 mb-2">
+            <p className="text-xs text-gray-500 mb-2 italic">
               Ejemplo: Industrias Carabobo C.A
             </p>
             <input
@@ -173,7 +188,9 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Teléfono de contacto
             </label>
-            <p className="text-xs text-gray-500 mb-2">Ejemplo: 1234567</p>
+            <p className="text-xs text-gray-500 mb-2 italic">
+              Ejemplo: 1234567
+            </p>
             <div className="flex gap-2">
               <select
                 value={
@@ -184,7 +201,7 @@ export const Step1Identification: React.FC = () => {
                     : ''
                 }
                 onChange={handlePhoneOperatorChange}
-                className={`w-1/3 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+                className={`w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
               >
                 <option value="" disabled>
                   Cod
@@ -216,14 +233,17 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Registro de Información Fiscal (RIF)
             </label>
-            <p className="text-xs text-gray-500 mb-2">Ejemplo: 123456789</p>
+            <p className="text-xs text-gray-500 mb-2 italic">
+              Ejemplo: 123456789
+            </p>
             <div className="flex gap-2">
               <select
                 value={currentRifLetter}
-                disabled
-                className={`w-1/3 px-3 py-2 border rounded-md bg-gray-50 text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+                onChange={handleRifLetterChange}
+                className={`w-20 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
               >
                 <option value="J">J</option>
+                <option value="V">V</option>
               </select>
               <input
                 type="text"
@@ -245,7 +265,7 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Nombre del Representante Legal
             </label>
-            <p className="text-xs text-gray-500 mb-2">
+            <p className="text-xs text-gray-500 mb-2 italic">
               Ejemplo: José Ramiréz González Pérez
             </p>
             <input
@@ -287,12 +307,14 @@ export const Step1Identification: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Cédula del Representante Legal
             </label>
-            <p className="text-xs text-gray-500 mb-2">Ejemplo: 12.345.678</p>
+            <p className="text-xs text-gray-500 mb-2 italic">
+              Ejemplo: 12.345.678
+            </p>
             <div className="flex gap-2">
               <select
                 value={currentCedulaLetter}
                 onChange={handleCedulaLetterChange}
-                className={`w-1/3 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
+                className={`w-20 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
               >
                 <option value="V">V</option>
                 <option value="E">E</option>

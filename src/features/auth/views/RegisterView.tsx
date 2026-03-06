@@ -12,11 +12,11 @@ function RegisterContent() {
   return (
     <div className="flex min-h-screen w-full flex-col lg:flex-row">
       {/* Left Side - Gray Background with Logo */}
-      <div className="hidden lg:flex flex-col items-center justify-center bg-[#A8ADB5] p-10 lg:w-1/2 lg:px-20 transition-all duration-500 ease-in-out">
+      <div className="hidden lg:flex flex-col items-center justify-center bg-[#A6A9B0] p-10 lg:w-1/2 lg:px-20 transition-all duration-500 ease-in-out">
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="relative w-full max-w-lg animate-in fade-in zoom-in duration-700">
             <Image
-              src="/logo-con-letra.png"
+              src="/logo-con-letra-blanco.png"
               alt="Sistema Integrado de Selección de Contratista"
               width={500}
               height={500}
