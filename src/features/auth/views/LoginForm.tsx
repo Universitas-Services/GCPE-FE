@@ -149,7 +149,8 @@ export function LoginForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-6 text-lg shadow-sm disabled:opacity-50"
+              className="w-full text-white py-6 text-lg shadow-sm disabled:opacity-50"
+              variant="default"
             >
               {isSubmitting ? 'Iniciando sesión...' : 'Iniciar sesión'}
             </Button>
