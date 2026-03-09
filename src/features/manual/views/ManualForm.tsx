@@ -8,13 +8,6 @@ import { createManual } from '../services/manualService';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 
 export function ManualForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,24 +36,23 @@ export function ManualForm() {
       setIsSubmitting(false);
     }
   };
-
   return (
-    <Card className="w-full h-full flex flex-col overflow-hidden border-gray-200 shadow-lg">
-      <CardHeader className="shrink-0 border-b border-gray-100 pb-4 bg-white z-10 pt-6">
-        <CardTitle className="text-2xl font-bold text-blue-900">
+    <div className="w-full h-full flex flex-col overflow-hidden">
+      <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
+        <h2 className="text-xl md:text-2xl font-bold text-[#001f5c] mb-1">
           Elabora tu manual express
-        </CardTitle>
-        <CardDescription className="text-gray-500">
+        </h2>
+        <p className="text-sm text-gray-500">
           Ingresa los datos básicos para generar una demostración del manual de
           concurso abierto. Lo recibirás en tu correo en pocos minutos.
-        </CardDescription>
-      </CardHeader>
+        </p>
+      </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col flex-1 overflow-hidden bg-white"
       >
-        <CardContent className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 pt-6">
+        <div className="flex-1 overflow-y-auto p-2 md:p-4 space-y-4 pt-4">
           <div className="space-y-2">
             <Label
               htmlFor="nombre_institucion_ente"
@@ -74,7 +66,7 @@ export function ManualForm() {
             <Input
               id="nombre_institucion_ente"
               {...register('nombre_institucion_ente')}
-              className={errors.nombre_institucion_ente ? 'border-red-500' : ''}
+              className={`h-10 ${errors.nombre_institucion_ente ? 'border-red-500' : ''}`}
             />
             {errors.nombre_institucion_ente && (
               <p className="text-sm text-red-500">
@@ -97,7 +89,7 @@ export function ManualForm() {
             <Input
               id="siglas_institucion_ente"
               {...register('siglas_institucion_ente')}
-              className={errors.siglas_institucion_ente ? 'border-red-500' : ''}
+              className={`h-10 ${errors.siglas_institucion_ente ? 'border-red-500' : ''}`}
             />
             {errors.siglas_institucion_ente && (
               <p className="text-sm text-red-500">
@@ -122,9 +114,9 @@ export function ManualForm() {
             <Input
               id="nombre_unidad_admin_financiera"
               {...register('nombre_unidad_admin_financiera')}
-              className={
+              className={`h-10 ${
                 errors.nombre_unidad_admin_financiera ? 'border-red-500' : ''
-              }
+              }`}
             />
             {errors.nombre_unidad_admin_financiera && (
               <p className="text-sm text-red-500">
@@ -149,9 +141,9 @@ export function ManualForm() {
             <Input
               id="nombre_unidad_sistemas_tecnologia"
               {...register('nombre_unidad_sistemas_tecnologia')}
-              className={
+              className={`h-10 ${
                 errors.nombre_unidad_sistemas_tecnologia ? 'border-red-500' : ''
-              }
+              }`}
             />
             {errors.nombre_unidad_sistemas_tecnologia && (
               <p className="text-sm text-red-500">
@@ -163,18 +155,18 @@ export function ManualForm() {
           {submitError && (
             <p className="text-sm text-red-500 font-bold">{submitError}</p>
           )}
-        </CardContent>
+        </div>
 
-        <div className="shrink-0 p-4 border-t border-gray-200 bg-gray-50 flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10">
+        <div className="shrink-0 py-2 px-8 border-t border-gray-200 bg-white flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 items-center">
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="bg-[#001f5c] hover:bg-[#001540] text-white min-w-[150px]"
+            className="bg-[#001f5c] hover:bg-[#001540] text-white px-6 py-2 text-base rounded-xl min-w-[150px] h-auto"
           >
             {isSubmitting ? 'Generando...' : 'Elaborar manual'}
           </Button>
         </div>
       </form>
-    </Card>
+    </div>
   );
 }
