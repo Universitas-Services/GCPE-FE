@@ -107,14 +107,6 @@ export const Step1Identification: React.FC = () => {
 
   return (
     <div className="flex-grow flex flex-col h-full">
-      <h2 className="text-xl font-bold text-blue-900 mb-2">
-        Datos de identificación del proveedor
-      </h2>
-      <p className="text-sm text-gray-500 mb-8">
-        Ingresa los datos básicos para generar una demostración del manual de
-        concurso abierto. Lo recibirás en tu correo en pocos minutos.
-      </p>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-grow">
         {/* Correo */}
         <div>

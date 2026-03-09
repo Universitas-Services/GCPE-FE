@@ -45,8 +45,8 @@ export function ManualForm() {
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
-      <CardHeader>
+    <Card className="w-full h-full flex flex-col overflow-hidden border-gray-200 shadow-lg">
+      <CardHeader className="shrink-0 border-b border-gray-100 pb-4 bg-white z-10 pt-6">
         <CardTitle className="text-2xl font-bold text-blue-900">
           Elabora tu manual express
         </CardTitle>
@@ -55,8 +55,12 @@ export function ManualForm() {
           concurso abierto. Lo recibirás en tu correo en pocos minutos.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col flex-1 overflow-hidden bg-white"
+      >
+        <CardContent className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 pt-6">
           <div className="space-y-2">
             <Label
               htmlFor="nombre_institucion_ente"
@@ -159,18 +163,18 @@ export function ManualForm() {
           {submitError && (
             <p className="text-sm text-red-500 font-bold">{submitError}</p>
           )}
+        </CardContent>
 
-          <div className="flex justify-end pt-4">
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="bg-blue-600 hover:bg-blue-700 text-white min-w-[150px]"
-            >
-              {isSubmitting ? 'Generando...' : 'Elaborar manual'}
-            </Button>
-          </div>
-        </form>
-      </CardContent>
+        <div className="shrink-0 p-4 border-t border-gray-200 bg-gray-50 flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="bg-[#001f5c] hover:bg-[#001540] text-white min-w-[150px]"
+          >
+            {isSubmitting ? 'Generando...' : 'Elaborar manual'}
+          </Button>
+        </div>
+      </form>
     </Card>
   );
 }

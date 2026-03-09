@@ -18,19 +18,29 @@ function ComplianceContent() {
   const { currentPage, totalPages, setCurrentPage } = useCompliance();
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-1 w-full max-w-5xl mx-auto py-8 px-4">
-        <ComplianceHeader />
+    <div className="flex flex-col h-[calc(100vh-6rem)] md:h-[calc(100vh-4rem)] p-4 md:p-6">
+      <div className="w-full max-w-5xl mx-auto flex flex-col h-full bg-white rounded-xl shadow-lg overflow-hidden flex-1 border border-gray-200">
+        {/* Header fijo */}
+        <div className="shrink-0 p-4 md:p-6 md:pb-2 border-b border-gray-100 bg-white z-10">
+          <ComplianceHeader />
+        </div>
 
-        {/* Main Content Area */}
-        <div className="mb-8">{renderStep(currentPage)}</div>
+        {/* Contenedor con scroll interno para la Card / Formulario */}
+        <div className="flex-1 overflow-y-auto bg-gray-50/30 p-4 md:p-6 w-full relative">
+          <div className="max-w-4xl mx-auto pb-8">
+            {renderStep(currentPage)}
+          </div>
+        </div>
 
-        <CompliancePagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-          className="flex justify-center pb-8"
-        />
+        {/* Paginación fija en la parte inferior */}
+        <div className="shrink-0 bg-white border-t border-gray-200 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 flex justify-center items-center">
+          <CompliancePagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            className="mt-0"
+          />
+        </div>
       </div>
     </div>
   );

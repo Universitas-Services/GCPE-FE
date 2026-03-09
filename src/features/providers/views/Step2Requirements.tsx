@@ -50,13 +50,6 @@ export const Step2Requirements: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full flex-grow">
-      <h2 className="text-xl font-bold text-blue-900 mb-2">
-        Validación de requisitos
-      </h2>
-      <p className="text-sm text-gray-500 mb-8">
-        Indica el estado de tus documentos legales.
-      </p>
-
       <div className="flex-grow flex flex-col justify-center space-y-12 max-w-2xl mx-auto w-full">
         <BooleanGroup
           label="¿Está registrado en el Registro Nacional de Contratista (RNC)?"
