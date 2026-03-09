@@ -107,7 +107,7 @@ export const Step1Identification: React.FC = () => {
 
   return (
     <div className="flex-grow flex flex-col h-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-grow">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 flex-grow">
         {/* Correo */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -121,7 +121,7 @@ export const Step1Identification: React.FC = () => {
             name="correo_proveedor"
             value={formData.correo_proveedor || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.correo_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+            className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.correo_proveedor ? 'border-red-500' : 'border-gray-300'}`}
           />
           {errors.correo_proveedor && (
             <p className="text-red-500 text-xs mt-1">
@@ -144,7 +144,7 @@ export const Step1Identification: React.FC = () => {
             name="direccion_fiscal"
             value={formData.direccion_fiscal || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.direccion_fiscal ? 'border-red-500' : 'border-gray-300'}`}
+            className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.direccion_fiscal ? 'border-red-500' : 'border-gray-300'}`}
           />
           {errors.direccion_fiscal && (
             <p className="text-red-500 text-xs mt-1">
@@ -166,7 +166,7 @@ export const Step1Identification: React.FC = () => {
             name="nombre_proveedor"
             value={formData.nombre_proveedor || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.nombre_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+            className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.nombre_proveedor ? 'border-red-500' : 'border-gray-300'}`}
           />
           {errors.nombre_proveedor && (
             <p className="text-red-500 text-xs mt-1">
@@ -191,7 +191,7 @@ export const Step1Identification: React.FC = () => {
                   : ''
               }
               onChange={handlePhoneOperatorChange}
-              className={`w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-24 px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
             >
               <option value="" disabled>
                 Cod
@@ -208,7 +208,7 @@ export const Step1Identification: React.FC = () => {
               value={currentNumber}
               onChange={handlePhoneNumberChange}
               maxLength={7}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
           {errors.telefono_proveedor && (
@@ -230,7 +230,7 @@ export const Step1Identification: React.FC = () => {
             <select
               value={currentRifLetter}
               onChange={handleRifLetterChange}
-              className={`w-20 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-20 px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
             >
               <option value="J">J</option>
               <option value="V">V</option>
@@ -240,7 +240,7 @@ export const Step1Identification: React.FC = () => {
               value={currentRifNumbers}
               onChange={handleRifNumberChange}
               maxLength={9}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
           {errors.rif_proveedor && (
@@ -261,7 +261,7 @@ export const Step1Identification: React.FC = () => {
             name="nombre_rep_legal"
             value={formData.nombre_rep_legal || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.nombre_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
+            className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.nombre_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
           />
           {errors.nombre_rep_legal && (
             <p className="text-red-500 text-xs mt-1">
@@ -279,7 +279,7 @@ export const Step1Identification: React.FC = () => {
             name="tipo_persona"
             value={formData.tipo_persona || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.tipo_persona ? 'border-red-500' : 'border-gray-300'}`}
+            className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.tipo_persona ? 'border-red-500' : 'border-gray-300'}`}
           >
             <option value="">Selecciona</option>
             <option value="Natural">Persona Natural</option>
@@ -302,7 +302,7 @@ export const Step1Identification: React.FC = () => {
             <select
               value={currentCedulaLetter}
               onChange={handleCedulaLetterChange}
-              className={`w-20 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-20 px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
             >
               <option value="V">V</option>
               <option value="E">E</option>
@@ -312,7 +312,7 @@ export const Step1Identification: React.FC = () => {
               value={currentCedulaNumbers.replace(/\B(?=(\d{3})+(?!\d))/g, '.')} // Display formatted with dots
               onChange={handleCedulaNumberChange}
               maxLength={10} // 8 digits + 2 dots
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
           {errors.cedula_rep_legal && (
@@ -331,7 +331,7 @@ export const Step1Identification: React.FC = () => {
             name="tipo_entidad_juridica"
             value={formData.tipo_entidad_juridica || ''}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Selecciona</option>
             <option value="Compañía Anónima (C.A)">
@@ -356,7 +356,7 @@ export const Step1Identification: React.FC = () => {
             name="estado"
             value={formData.estado || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.estado ? 'border-red-500' : 'border-gray-300'}`}
+            className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.estado ? 'border-red-500' : 'border-gray-300'}`}
           >
             <option value="">Selecciona</option>
             <option value="Lara">Lara</option>
@@ -379,7 +379,7 @@ export const Step1Identification: React.FC = () => {
             name="municipio"
             value={formData.municipio || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.municipio ? 'border-red-500' : 'border-gray-300'}`}
+            className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.municipio ? 'border-red-500' : 'border-gray-300'}`}
           >
             <option value="">Selecciona</option>
             <option value="Iribarren">Iribarren</option>
@@ -400,7 +400,7 @@ export const Step1Identification: React.FC = () => {
             name="parroquia"
             value={formData.parroquia || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.parroquia ? 'border-red-500' : 'border-gray-300'}`}
+            className={`w-full px-3 h-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.parroquia ? 'border-red-500' : 'border-gray-300'}`}
           >
             <option value="">Selecciona</option>
             <option value="Concepción">Concepción</option>

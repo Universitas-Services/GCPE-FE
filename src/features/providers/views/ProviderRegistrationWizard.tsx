@@ -111,15 +111,15 @@ export const ProviderRegistrationWizard: React.FC = () => {
   const currentStepInfo = stepInfo[currentStep as keyof typeof stepInfo];
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 pb-4 md:pb-8 flex flex-col h-[calc(100vh-6rem)] md:h-[calc(100vh-4rem)]">
-      <h1 className="text-2xl md:text-3xl font-bold text-center text-blue-900 mb-4 md:mb-6 mt-4 md:mt-2 shrink-0">
+    <div className="w-full max-w-5xl mx-auto px-4 pb-4 flex flex-col h-[calc(100vh-4rem)] md:h-[calc(100vh-2rem)]">
+      <h1 className="text-lg md:text-xl font-bold tracking-tight text-center text-blue-900 mb-2 mt-2 shrink-0">
         Registro de proveedores
       </h1>
 
       <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col flex-1">
         {/* Header estático dentro de la Card */}
         {currentStepInfo && (
-          <div className="shrink-0 p-4 md:p-6 pb-2 md:pb-4 border-b border-gray-100 bg-white z-10">
+          <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
             <h2 className="text-xl md:text-2xl font-bold text-[#001f5c] mb-1">
               {currentStepInfo.title}
             </h2>
@@ -130,44 +130,41 @@ export const ProviderRegistrationWizard: React.FC = () => {
         )}
 
         {/* Content Area con Scroll Interno */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-white relative">
+        <div className="flex-1 overflow-y-auto p-2 md:p-4 bg-white relative">
           <div className="max-w-4xl mx-auto h-full">{renderStep()}</div>
         </div>
 
         {/* Footer / Navigation - Estático inferior */}
-        <div className="shrink-0 bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10">
-          <div className="px-4 md:px-6 py-4 flex items-center justify-between">
-            <div className="w-24 md:w-32 flex justify-start">
-              {currentStep > 1 && (
-                <button
-                  onClick={prevStep}
-                  disabled={isSubmitting}
-                  className="px-4 md:px-6 py-2 border border-blue-900 text-blue-900 bg-white rounded-lg hover:bg-gray-50 font-medium disabled:opacity-50 transition-colors flex items-center gap-1 md:gap-2 text-sm md:text-base"
-                >
-                  <span aria-hidden="true">&lt;</span> Anterior
-                </button>
-              )}
-            </div>
-
-            {/* Step Indicator Centered */}
-            <div className="flex-1 flex justify-center items-center">
-              <StepIndicator currentStep={currentStep} totalSteps={4} />
-            </div>
-
-            <div className="w-24 md:w-32 flex justify-end">
+        <div className="shrink-0 bg-white border-t border-gray-200 py-2 px-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 flex justify-between items-center relative">
+          <div className="w-24 md:w-32 flex justify-start">
+            {currentStep > 1 && (
               <button
-                onClick={handleNext}
+                onClick={prevStep}
                 disabled={isSubmitting}
-                className="px-4 md:px-6 py-2 bg-[#001f5c] text-white rounded-lg hover:bg-[#001540] font-medium shadow-sm disabled:opacity-50 transition-colors flex items-center gap-1 md:gap-2 text-sm md:text-base"
+                className="px-6 py-2 border border-blue-900 text-blue-900 bg-white rounded-xl hover:bg-gray-50 font-medium disabled:opacity-50 transition-colors flex items-center gap-1 md:gap-2 text-base"
               >
-                {isSubmitting
-                  ? 'G...'
-                  : currentStep === 4
-                    ? 'Finalizar'
-                    : 'Siguiente'}{' '}
-                {currentStep !== 4 && <span aria-hidden="true">&gt;</span>}
+                <span aria-hidden="true">&lt;</span> Anterior
               </button>
-            </div>
+            )}
+          </div>
+
+          <div className="flex-1 flex justify-center items-center">
+            <StepIndicator currentStep={currentStep} totalSteps={4} />
+          </div>
+
+          <div className="w-24 md:w-32 flex justify-end">
+            <button
+              onClick={handleNext}
+              disabled={isSubmitting}
+              className="px-6 py-2 bg-[#001f5c] text-white rounded-xl hover:bg-[#001540] font-medium shadow-sm disabled:opacity-50 transition-colors flex items-center justify-center gap-1 md:gap-2 text-base"
+            >
+              {isSubmitting
+                ? 'G...'
+                : currentStep === 4
+                  ? 'Finalizar'
+                  : 'Siguiente'}{' '}
+              {currentStep !== 4 && <span aria-hidden="true">&gt;</span>}
+            </button>
           </div>
         </div>
       </div>

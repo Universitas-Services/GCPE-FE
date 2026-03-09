@@ -50,7 +50,7 @@ export const Step2Requirements: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full flex-grow">
-      <div className="flex-grow flex flex-col justify-center space-y-12 max-w-2xl mx-auto w-full">
+      <div className="flex-grow flex flex-col justify-center space-y-8 max-w-2xl mx-auto w-full">
         <BooleanGroup
           label="¿Está registrado en el Registro Nacional de Contratista (RNC)?"
           name="tiene_rnc"
