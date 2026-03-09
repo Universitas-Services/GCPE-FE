@@ -1,5 +1,6 @@
 import React from 'react';
 import { useProviderForm } from '../context/ProviderFormContext';
+import { SharedDatePicker } from '@/components/shared/SharedDatePicker';
 
 export const Step3Capacity: React.FC = () => {
   const { formData, updateFormData, errors } = useProviderForm();
@@ -155,12 +156,12 @@ export const Step3Capacity: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Fecha del último estado financiero
             </label>
-            <input
-              type="date"
+            <SharedDatePicker
               name="fecha_estado_financiero"
               value={formData.fecha_estado_financiero || ''}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.fecha_estado_financiero ? 'border-red-500' : 'border-gray-300'}`}
+              max={new Date().toISOString().split('T')[0]}
+              error={Boolean(errors.fecha_estado_financiero)}
             />
             {errors.fecha_estado_financiero && (
               <p className="text-red-500 text-xs mt-1">

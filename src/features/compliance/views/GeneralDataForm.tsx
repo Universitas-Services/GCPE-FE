@@ -4,8 +4,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { CalendarIcon } from 'lucide-react';
 import { useEffect } from 'react';
 
 import { Input } from '@/components/ui/input';
@@ -18,14 +16,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Calendar } from '@/components/ui/calendar';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { useCompliance } from '../context/ComplianceContext';
+import { SharedDatePicker } from '@/components/shared/SharedDatePicker';
 
 // 1. Definición del Schema de Validación con Zod
 const formSchema = z.object({
@@ -186,38 +179,26 @@ export function GeneralDataForm() {
             <Label className="text-[#0b1e4c] font-medium text-base">
               Fecha de revisión
             </Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={'outline'}
-                  className={cn(
-                    'h-12 w-full justify-start text-left font-normal border-gray-200 bg-white',
-                    !reviewDate && 'text-muted-foreground',
-                    errors.reviewDate && 'border-red-500'
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {reviewDate ? (
-                    format(reviewDate, 'PPP', { locale: es }) // Formato localizado
-                  ) : (
-                    <span>Seleccione una fecha</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={reviewDate}
-                  onSelect={(date) =>
-                    setValue('reviewDate', date as Date, {
-                      shouldValidate: true,
-                    })
-                  }
-                  initialFocus
-                  locale={es} // Localización en Español
-                />
-              </PopoverContent>
-            </Popover>
+            <SharedDatePicker
+              max={new Date().toISOString().split('T')[0]} // Bloquea fechas futuras
+              error={Boolean(errors.reviewDate)}
+              value={reviewDate ? format(reviewDate, 'yyyy-MM-dd') : ''}
+              onChange={(e) => {
+                if (e.target.value) {
+                  // Ajustamos la fecha para guardarla como Date que Zod espera
+                  const [year, month, day] = e.target.value
+                    .split('-')
+                    .map(Number);
+                  setValue('reviewDate', new Date(year, month - 1, day), {
+                    shouldValidate: true,
+                  });
+                } else {
+                  setValue('reviewDate', undefined as unknown as Date, {
+                    shouldValidate: true,
+                  });
+                }
+              }}
+            />
             {errors.reviewDate && (
               <span className="text-sm text-red-500">
                 {errors.reviewDate.message}
