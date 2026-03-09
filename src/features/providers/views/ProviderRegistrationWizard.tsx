@@ -1,4 +1,5 @@
 import React from 'react';
+import Swal from 'sweetalert2';
 import { useProviderForm } from '../context/ProviderFormContext';
 import { Step1Identification } from './Step1Identification';
 import { Step2Requirements } from './Step2Requirements';
@@ -39,9 +40,33 @@ export const ProviderRegistrationWizard: React.FC = () => {
       // Redirect or show success
       // TODO: Redirect to /dashboard/proveedores when list view is implemented
       router.push('/dashboard');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting form:', error);
-      alert('Error al registrar el proveedor. Por favor intente nuevamente.');
+
+      if (
+        error &&
+        Array.isArray(error.detail) &&
+        error.detail.some(
+          (err: any) =>
+            err.loc?.includes('fecha_estado_financiero') &&
+            err.msg?.includes('La fecha no puede ser futura')
+        )
+      ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de validación',
+          text: 'La fecha del estado financiero no puede ser futura.',
+          confirmButtonColor: '#0097b2',
+        });
+        return;
+      }
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al registrar el proveedor. Por favor intente nuevamente.',
+        confirmButtonColor: '#0097b2',
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -63,45 +88,51 @@ export const ProviderRegistrationWizard: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto pb-12">
+    <div className="w-full max-w-5xl mx-auto px-4 pb-12">
       <h1 className="text-3xl font-bold text-center text-blue-900 mb-8 mt-8">
         Registro de proveedores
       </h1>
 
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden min-h-[600px] flex flex-col">
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden min-h-[750px] flex flex-col">
         {/* Content Area */}
-        <div className="flex-grow">{renderStep()}</div>
+        <div className="flex-grow flex flex-col p-4 md:p-8 bg-gray-50">
+          {renderStep()}
+        </div>
 
         {/* Footer / Navigation */}
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-          {/* Step Indicator (Centered/Leftish) */}
-          <div className="flex-1">
-            <StepIndicator currentStep={currentStep} totalSteps={4} />
-          </div>
+        <div className="flex flex-col bg-gray-50 mt-auto">
+          {/* Buttons Row */}
+          <div className="px-6 py-4 bg-white border border-gray-200 rounded-b-xl flex items-center justify-between shadow-sm">
+            <div className="w-32 flex justify-start">
+              {currentStep > 1 && (
+                <button
+                  onClick={prevStep}
+                  disabled={isSubmitting}
+                  className="px-6 py-2 border border-gray-200 rounded-lg text-gray-700 bg-gray-100/50 hover:bg-gray-200 font-medium disabled:opacity-50 transition-colors"
+                >
+                  Anterior
+                </button>
+              )}
+            </div>
 
-          {/* Buttons (Right aligned) */}
-          <div className="flex space-x-3">
-            {currentStep > 1 && (
+            {/* Step Indicator Centered */}
+            <div className="flex-1 flex justify-center">
+              <StepIndicator currentStep={currentStep} totalSteps={4} />
+            </div>
+
+            <div className="w-32 flex justify-end">
               <button
-                onClick={prevStep}
+                onClick={handleNext}
                 disabled={isSubmitting}
-                className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 font-medium disabled:opacity-50"
+                className="px-6 py-2 bg-[#0091be] text-white rounded-lg hover:bg-[#007a9e] font-medium shadow-sm disabled:opacity-50 transition-colors"
               >
-                Atrás
+                {isSubmitting
+                  ? 'Guardando...'
+                  : currentStep === 4
+                    ? 'Finalizar'
+                    : 'Siguiente'}
               </button>
-            )}
-
-            <button
-              onClick={handleNext}
-              disabled={isSubmitting}
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium shadow-sm disabled:opacity-50 flex items-center"
-            >
-              {isSubmitting
-                ? 'Guardando...'
-                : currentStep === 4
-                  ? 'Finalizar'
-                  : 'Siguiente'}
-            </button>
+            </div>
           </div>
         </div>
       </div>

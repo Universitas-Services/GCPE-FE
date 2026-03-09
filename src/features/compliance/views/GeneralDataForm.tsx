@@ -116,7 +116,9 @@ export function GeneralDataForm() {
             >
               Dirección de correo electrónico
             </Label>
-            <p className="text-sm text-gray-500">Ejemplo: prueba@gmail.com</p>
+            <p className="text-sm text-gray-500 italic">
+              Ejemplo: prueba@gmail.com
+            </p>
             <Input
               id="email"
               className={cn(
@@ -141,7 +143,7 @@ export function GeneralDataForm() {
               Nombre del órgano, entidad, oficina o dependencia de la
               Administración Pública
             </Label>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 italic">
               Ejemplo: Instituto Nacional de Tránsito Terrestre (INTT)
             </p>
             <Input
@@ -164,7 +166,7 @@ export function GeneralDataForm() {
             >
               Nombre de la unidad u oficina que revisa
             </Label>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 italic">
               Ejemplo: Unidad Administradora
             </p>
             <Input
@@ -232,7 +234,7 @@ export function GeneralDataForm() {
             >
               Nombre completo de la persona que revisa y/o evalúa.
             </Label>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 italic">
               Ejemplo: Pedro José Hernández Pérez
             </p>
             <Input
@@ -255,7 +257,7 @@ export function GeneralDataForm() {
             >
               Indique la nomenclatura o código asignado al documento revisado
             </Label>
-            <p className="text-sm text-gray-500">Ejemplo: U.L-001</p>
+            <p className="text-sm text-gray-500 italic">Ejemplo: U.L-001</p>
             <Input
               id="documentCode"
               className="border-gray-200 bg-white h-12"

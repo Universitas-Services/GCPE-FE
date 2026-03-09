@@ -78,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       setIsAuthenticated(true);
-      router.push('/dashboard');
+      router.replace('/dashboard');
     } catch (error) {
       console.error(error);
       throw error;
@@ -99,7 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     authStorage.clearSession();
     setIsAuthenticated(false);
     setUser(null);
-    router.push('/login');
+    router.replace('/login');
   };
 
   return (

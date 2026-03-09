@@ -56,11 +56,11 @@ export function LoginForm() {
   return (
     <div className="flex min-h-screen w-full flex-col lg:flex-row">
       {/* Left Side - Gray Background */}
-      <div className="hidden lg:flex flex-col items-center justify-center bg-[#A8ADB5] p-10 lg:w-1/2 lg:px-20">
+      <div className="hidden lg:flex flex-col items-center justify-center bg-[#A6A9B0] p-10 lg:w-1/2 lg:px-20">
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="relative w-full max-w-lg animate-in fade-in zoom-in duration-700">
             <Image
-              src="/logo-con-letra.png"
+              src="/logo-con-letra-blanco.png"
               alt="Logo Principal"
               width={500}
               height={500}
@@ -149,7 +149,8 @@ export function LoginForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-6 text-lg shadow-sm disabled:opacity-50"
+              className="w-full text-white py-6 text-lg shadow-sm disabled:opacity-50"
+              variant="default"
             >
               {isSubmitting ? 'Iniciando sesión...' : 'Iniciar sesión'}
             </Button>
