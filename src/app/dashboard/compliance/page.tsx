@@ -116,14 +116,14 @@ function ComplianceContent() {
   const currentStepInfo = stepInfo[currentPage];
 
   return (
-    <div className="flex flex-col h-[calc(100vh-6rem)] md:h-[calc(100vh-4rem)] p-4 md:p-6">
+    <div className="flex flex-col h-[calc(100vh-4rem)] md:h-[calc(100vh-2rem)] p-2 md:p-4">
       {/* Outer Header (fuera de la card) */}
       <ComplianceHeader />
 
-      <div className="w-full max-w-5xl mx-auto flex flex-col h-full bg-white rounded-xl shadow-lg overflow-hidden flex-1 border border-gray-200">
+      <div className="w-full max-w-[1600px] mx-auto flex flex-col h-full bg-white rounded-xl shadow-lg overflow-hidden flex-1 border border-gray-200">
         {/* Header fijo interno */}
         {currentStepInfo && (
-          <div className="shrink-0 p-4 md:p-6 pb-2 md:pb-4 border-b border-gray-100 bg-white z-10">
+          <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
             <h2 className="text-xl md:text-2xl font-bold text-[#0b1e4c] mb-1">
               {currentStepInfo.title}
             </h2>
@@ -139,11 +139,11 @@ function ComplianceContent() {
         </div>
 
         {/* Paginación fija en la parte inferior */}
-        <div className="shrink-0 bg-white border-t border-gray-200 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 flex justify-between items-center px-8 relative">
+        <div className="shrink-0 bg-white border-t border-gray-200 py-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 flex justify-between items-center px-8 relative">
           <Button
             type="button"
             variant="outline"
-            className={`border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-6 text-lg rounded-xl transition-opacity ${
+            className={`border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-2 text-base rounded-xl transition-opacity ${
               currentPage === 1
                 ? 'opacity-0 pointer-events-none'
                 : 'opacity-100'
@@ -176,14 +176,14 @@ function ComplianceContent() {
             <Button
               type="submit"
               form="compliance-general-data"
-              className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
+              className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
             >
               Siguiente
             </Button>
           ) : currentPage < 6 ? (
             <Button
               type="button"
-              className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
+              className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
               onClick={goToNextPage}
             >
               Siguiente
@@ -193,7 +193,7 @@ function ComplianceContent() {
           {currentPage === 6 && (
             <Button
               type="button"
-              className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
+              className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
               onClick={handleCreateDocument}
               disabled={isSubmitting}
             >
@@ -204,7 +204,7 @@ function ComplianceContent() {
           {currentPage === 7 && (
             <Button
               type="button"
-              className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
+              className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
               onClick={handleDownloadPdf}
               disabled={!complianceId || isDownloading}
             >
