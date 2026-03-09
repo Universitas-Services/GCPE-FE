@@ -13,7 +13,7 @@ export function AdvancedReportForm() {
   const { complianceAnswers, setAnswer } = useCompliance();
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       <ComplianceQuestionItem
         key={ADVANCED_REPORT_QUESTION.id}
         id={ADVANCED_REPORT_QUESTION.id} // Ensure ID is passed if needed by component logic, but hideNoAplica handles the buttons

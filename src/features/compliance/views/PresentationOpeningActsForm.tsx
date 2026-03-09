@@ -26,7 +26,7 @@ export function PresentationOpeningActsForm() {
   const { complianceAnswers, setAnswer } = useCompliance();
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       {PRESENTATION_OPENING_ACTS_QUESTIONS.map((item) => (
         <ComplianceQuestionItem
           key={item.id}

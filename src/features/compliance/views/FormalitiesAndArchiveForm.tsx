@@ -40,7 +40,7 @@ export function FormalitiesAndArchiveForm() {
   const { complianceAnswers, setAnswer } = useCompliance();
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       {FORMALITIES_ARCHIVE_QUESTIONS.map((item) => (
         <ComplianceQuestionItem
           key={item.id}

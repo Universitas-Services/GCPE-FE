@@ -60,7 +60,7 @@ export function PreparatoryActsForm() {
   const { complianceAnswers, setAnswer } = useCompliance();
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       {PREPARATORY_ACTS_QUESTIONS.map((item) => (
         <ComplianceQuestionItem
           key={item.id}

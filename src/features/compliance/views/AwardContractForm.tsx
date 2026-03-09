@@ -47,7 +47,7 @@ export function AwardContractForm() {
   const { complianceAnswers, setAnswer } = useCompliance();
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       {AWARD_CONTRACT_QUESTIONS.map((item) => (
         <ComplianceQuestionItem
           key={item.id}

@@ -86,7 +86,7 @@ export function GeneralDataForm() {
       <form
         id="compliance-general-data"
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6"
+        className="space-y-4"
       >
         {/* Email */}
         <div className="space-y-2">
@@ -102,7 +102,7 @@ export function GeneralDataForm() {
           <Input
             id="email"
             className={cn(
-              'border-gray-200 bg-white h-12',
+              'border-gray-200 bg-white h-10',
               errors.email && 'border-red-500'
             )}
             {...register('email')}
@@ -126,7 +126,7 @@ export function GeneralDataForm() {
           </p>
           <Input
             id="entityName"
-            className="border-gray-200 bg-white h-12"
+            className="border-gray-200 bg-white h-10"
             {...register('entityName')}
           />
           {errors.entityName && (
@@ -149,7 +149,7 @@ export function GeneralDataForm() {
           </p>
           <Input
             id="unitName"
-            className="border-gray-200 bg-white h-12"
+            className="border-gray-200 bg-white h-10"
             {...register('unitName')}
           />
           {errors.unitName && (
@@ -205,7 +205,7 @@ export function GeneralDataForm() {
           </p>
           <Input
             id="reviewerName"
-            className="border-gray-200 bg-white h-12"
+            className="border-gray-200 bg-white h-10"
             {...register('reviewerName')}
           />
           {errors.reviewerName && (
@@ -226,7 +226,7 @@ export function GeneralDataForm() {
           <p className="text-sm text-gray-500 italic">Ejemplo: U.L-001</p>
           <Input
             id="documentCode"
-            className="border-gray-200 bg-white h-12"
+            className="border-gray-200 bg-white h-10"
             {...register('documentCode')}
           />
           {errors.documentCode && (

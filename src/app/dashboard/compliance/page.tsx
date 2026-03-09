@@ -134,7 +134,7 @@ function ComplianceContent() {
         )}
 
         {/* Contenedor con scroll interno para la Card / Formulario */}
-        <div className="flex-1 overflow-y-auto bg-gray-50/30 p-4 md:p-6 w-full relative">
+        <div className="flex-1 overflow-y-auto bg-gray-50/30 p-2 md:p-4 w-full relative">
           {renderStep(currentPage)}
         </div>
 
