@@ -14,7 +14,10 @@ export const Step3Capacity: React.FC = () => {
     const { name, value } = e.target;
     // Handle number inputs
     if (name === 'anos_experiencia') {
-      updateFormData({ [name]: parseInt(value) || 0 });
+      const numericValue = value.replace(/\D/g, '');
+      updateFormData({
+        [name]: numericValue === '' ? undefined : parseInt(numericValue, 10),
+      });
       return;
     }
     updateFormData({ [name]: value });
@@ -132,10 +135,11 @@ export const Step3Capacity: React.FC = () => {
               Años de experiencia comprobable
             </label>
             <input
-              type="number"
-              min="0"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
               name="anos_experiencia"
-              value={formData.anos_experiencia || 0}
+              value={formData.anos_experiencia ?? ''}
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.anos_experiencia ? 'border-red-500' : 'border-gray-300'}`}
             />
