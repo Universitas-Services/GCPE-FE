@@ -1,5 +1,6 @@
 import React from 'react';
 import { useProviderForm } from '../context/ProviderFormContext';
+import { Button } from '@/components/ui/button';
 
 export const Step4Completion: React.FC = () => {
   const { formData, updateFormData } = useProviderForm();
@@ -17,28 +18,32 @@ export const Step4Completion: React.FC = () => {
             incluye emisión de certificado de registro personalizado?
           </label>
           <div className="flex space-x-6">
-            <button
+            <Button
               type="button"
-              onClick={() => handleBooleanChange(true)}
-              className={`px-8 py-3 rounded-md border text-base font-medium transition-colors ${
+              variant={
                 formData.desea_version_pro_proveedores === true
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-              }`}
+                  ? 'default'
+                  : 'outline'
+              }
+              onClick={() => handleBooleanChange(true)}
+              className="px-8 py-3 text-base font-medium"
+              size="lg"
             >
               Sí
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
-              onClick={() => handleBooleanChange(false)}
-              className={`px-8 py-3 rounded-md border text-base font-medium transition-colors ${
+              variant={
                 formData.desea_version_pro_proveedores === false
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-              }`}
+                  ? 'default'
+                  : 'outline'
+              }
+              onClick={() => handleBooleanChange(false)}
+              className="px-8 py-3 text-base font-medium"
+              size="lg"
             >
               No
-            </button>
+            </Button>
           </div>
         </div>
 

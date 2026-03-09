@@ -1,5 +1,6 @@
 import React from 'react';
 import Swal from 'sweetalert2';
+import { Button } from '@/components/ui/button';
 import { useProviderForm } from '../context/ProviderFormContext';
 import { Step1Identification } from './Step1Identification';
 import { Step2Requirements } from './Step2Requirements';
@@ -138,13 +139,14 @@ export const ProviderRegistrationWizard: React.FC = () => {
         <div className="shrink-0 bg-white border-t border-gray-200 py-2 px-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 flex justify-between items-center relative">
           <div className="w-24 md:w-32 flex justify-start">
             {currentStep > 1 && (
-              <button
+              <Button
+                variant="outline"
                 onClick={prevStep}
                 disabled={isSubmitting}
-                className="px-6 py-2 border border-blue-900 text-blue-900 bg-white rounded-xl hover:bg-gray-50 font-medium disabled:opacity-50 transition-colors flex items-center gap-1 md:gap-2 text-base"
+                className="px-6 py-2 border-blue-900 text-blue-900 rounded-xl font-medium flex items-center gap-1 md:gap-2 text-base"
               >
                 <span aria-hidden="true">&lt;</span> Anterior
-              </button>
+              </Button>
             )}
           </div>
 
@@ -153,10 +155,10 @@ export const ProviderRegistrationWizard: React.FC = () => {
           </div>
 
           <div className="w-24 md:w-32 flex justify-end">
-            <button
+            <Button
               onClick={handleNext}
               disabled={isSubmitting}
-              className="px-6 py-2 bg-[#001f5c] text-white rounded-xl hover:bg-[#001540] font-medium shadow-sm disabled:opacity-50 transition-colors flex items-center justify-center gap-1 md:gap-2 text-base"
+              className="px-6 py-2 bg-[#001f5c] text-white rounded-xl hover:bg-[#001540] font-medium shadow-sm flex items-center justify-center gap-1 md:gap-2 text-base"
             >
               {isSubmitting
                 ? 'G...'
@@ -164,7 +166,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
                   ? 'Finalizar'
                   : 'Siguiente'}{' '}
               {currentStep !== 4 && <span aria-hidden="true">&gt;</span>}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

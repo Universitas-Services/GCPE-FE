@@ -1,5 +1,6 @@
 import React from 'react';
 import { useProviderForm } from '../context/ProviderFormContext';
+import { Button } from '@/components/ui/button';
 
 export const Step2Requirements: React.FC = () => {
   const { formData, updateFormData } = useProviderForm();
@@ -22,28 +23,24 @@ export const Step2Requirements: React.FC = () => {
         {label}
       </label>
       <div className="flex space-x-6">
-        <button
+        <Button
           type="button"
+          variant={value === true ? 'default' : 'outline'}
           onClick={() => handleBooleanChange(name, true)}
-          className={`px-8 py-3 rounded-md border text-base font-medium transition-colors ${
-            value === true
-              ? 'bg-blue-600 text-white border-blue-600'
-              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-          }`}
+          className="px-8 py-3 text-base font-medium"
+          size="lg"
         >
           SI
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
+          variant={value === false ? 'default' : 'outline'}
           onClick={() => handleBooleanChange(name, false)}
-          className={`px-8 py-3 rounded-md border text-base font-medium transition-colors ${
-            value === false
-              ? 'bg-blue-600 text-white border-blue-600'
-              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-          }`}
+          className="px-8 py-3 text-base font-medium"
+          size="lg"
         >
           NO
-        </button>
+        </Button>
       </div>
     </div>
   );
