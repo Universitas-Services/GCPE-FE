@@ -13,9 +13,68 @@ import {
   ComplianceProvider,
   useCompliance,
 } from '@/features/compliance';
+import { complianceService } from '@/features/compliance/services/compliance.service';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 
 function ComplianceContent() {
-  const { currentPage, totalPages, setCurrentPage } = useCompliance();
+  const {
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    generalData,
+    complianceAnswers,
+    setComplianceId,
+    complianceId,
+    goToNextPage,
+    goToPreviousPage,
+  } = useCompliance();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleCreateDocument = async () => {
+    try {
+      setIsSubmitting(true);
+      const response = await complianceService.submitComplianceForm(
+        generalData,
+        complianceAnswers
+      );
+      console.log('Respuesta del servidor al crear documento:', response);
+      const newId = response?.id || response?.pk;
+      if (newId) {
+        setComplianceId(newId);
+      } else {
+        console.warn('No se encontró un ID válido en la respuesta:', response);
+      }
+      goToNextPage();
+    } catch (error) {
+      console.error('Error al crear documento:', error);
+      alert(
+        'Error al crear el documento. Por favor verifique los datos e intente nuevamente.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!complianceId) {
+      alert(
+        'No se ha encontrado el ID del documento. Por favor regrese y cree el documento nuevamente.'
+      );
+      return;
+    }
+    try {
+      setIsDownloading(true);
+      await complianceService.downloadPdf(complianceId);
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      alert('Error al descargar el PDF.');
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   const stepInfo: Record<number, { title: string; description: string }> = {
     1: {
@@ -76,19 +135,82 @@ function ComplianceContent() {
 
         {/* Contenedor con scroll interno para la Card / Formulario */}
         <div className="flex-1 overflow-y-auto bg-gray-50/30 p-4 md:p-6 w-full relative">
-          <div className="max-w-4xl mx-auto pb-8">
-            {renderStep(currentPage)}
-          </div>
+          {renderStep(currentPage)}
         </div>
 
         {/* Paginación fija en la parte inferior */}
-        <div className="shrink-0 bg-white border-t border-gray-200 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 flex justify-center items-center">
-          <CompliancePagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-            className="mt-0"
-          />
+        <div className="shrink-0 bg-white border-t border-gray-200 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 flex justify-between items-center px-8 relative">
+          <Button
+            type="button"
+            variant="outline"
+            className={`border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-6 text-lg rounded-xl transition-opacity ${
+              currentPage === 1
+                ? 'opacity-0 pointer-events-none'
+                : 'opacity-100'
+            }`}
+            onClick={goToPreviousPage}
+            disabled={isSubmitting || isDownloading}
+          >
+            Anterior
+          </Button>
+
+          <div className="absolute left-1/2 md:left-1/2 transform -translate-x-1/2 hidden md:block w-auto">
+            <CompliancePagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              className="mt-0"
+            />
+          </div>
+
+          <div className="md:hidden block">
+            <CompliancePagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              className="mt-0"
+            />
+          </div>
+
+          {currentPage === 1 ? (
+            <Button
+              type="submit"
+              form="compliance-general-data"
+              className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
+            >
+              Siguiente
+            </Button>
+          ) : currentPage < 6 ? (
+            <Button
+              type="button"
+              className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
+              onClick={goToNextPage}
+            >
+              Siguiente
+            </Button>
+          ) : null}
+
+          {currentPage === 6 && (
+            <Button
+              type="button"
+              className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
+              onClick={handleCreateDocument}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Enviando...' : 'Crear documento'}
+            </Button>
+          )}
+
+          {currentPage === 7 && (
+            <Button
+              type="button"
+              className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
+              onClick={handleDownloadPdf}
+              disabled={!complianceId || isDownloading}
+            >
+              {isDownloading ? 'Descargando...' : 'Descargar documento PDF'}
+            </Button>
+          )}
         </div>
       </div>
     </div>

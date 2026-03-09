@@ -8,8 +8,7 @@ import { useEffect } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+
 import { cn } from '@/lib/utils';
 import { useCompliance } from '../context/ComplianceContext';
 import { SharedDatePicker } from '@/components/shared/SharedDatePicker';
@@ -83,170 +82,160 @@ export function GeneralDataForm() {
   };
 
   return (
-    <Card className="w-full max-w-5xl mx-auto shadow-sm border-gray-100">
-      <CardContent className="pt-6">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Email */}
-          <div className="space-y-2">
-            <Label
-              htmlFor="email"
-              className="text-[#0b1e4c] font-medium text-base"
-            >
-              Dirección de correo electrónico
-            </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: prueba@gmail.com
-            </p>
-            <Input
-              id="email"
-              className={cn(
-                'border-gray-200 bg-white h-12',
-                errors.email && 'border-red-500'
-              )}
-              {...register('email')}
-            />
-            {errors.email && (
-              <span className="text-sm text-red-500">
-                {errors.email.message}
-              </span>
+    <div className="w-full">
+      <form
+        id="compliance-general-data"
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6"
+      >
+        {/* Email */}
+        <div className="space-y-2">
+          <Label
+            htmlFor="email"
+            className="text-[#0b1e4c] font-medium text-base"
+          >
+            Dirección de correo electrónico
+          </Label>
+          <p className="text-sm text-gray-500 italic">
+            Ejemplo: prueba@gmail.com
+          </p>
+          <Input
+            id="email"
+            className={cn(
+              'border-gray-200 bg-white h-12',
+              errors.email && 'border-red-500'
             )}
-          </div>
+            {...register('email')}
+          />
+          {errors.email && (
+            <span className="text-sm text-red-500">{errors.email.message}</span>
+          )}
+        </div>
 
-          {/* Nombre Entidad */}
-          <div className="space-y-2">
-            <Label
-              htmlFor="entityName"
-              className="text-[#0b1e4c] font-medium text-base"
-            >
-              Nombre del órgano, entidad, oficina o dependencia de la
-              Administración Pública
-            </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Instituto Nacional de Tránsito Terrestre (INTT)
-            </p>
-            <Input
-              id="entityName"
-              className="border-gray-200 bg-white h-12"
-              {...register('entityName')}
-            />
-            {errors.entityName && (
-              <span className="text-sm text-red-500">
-                {errors.entityName.message}
-              </span>
-            )}
-          </div>
+        {/* Nombre Entidad */}
+        <div className="space-y-2">
+          <Label
+            htmlFor="entityName"
+            className="text-[#0b1e4c] font-medium text-base"
+          >
+            Nombre del órgano, entidad, oficina o dependencia de la
+            Administración Pública
+          </Label>
+          <p className="text-sm text-gray-500 italic">
+            Ejemplo: Instituto Nacional de Tránsito Terrestre (INTT)
+          </p>
+          <Input
+            id="entityName"
+            className="border-gray-200 bg-white h-12"
+            {...register('entityName')}
+          />
+          {errors.entityName && (
+            <span className="text-sm text-red-500">
+              {errors.entityName.message}
+            </span>
+          )}
+        </div>
 
-          {/* Nombre Unidad */}
-          <div className="space-y-2">
-            <Label
-              htmlFor="unitName"
-              className="text-[#0b1e4c] font-medium text-base"
-            >
-              Nombre de la unidad u oficina que revisa
-            </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Unidad Administradora
-            </p>
-            <Input
-              id="unitName"
-              className="border-gray-200 bg-white h-12"
-              {...register('unitName')}
-            />
-            {errors.unitName && (
-              <span className="text-sm text-red-500">
-                {errors.unitName.message}
-              </span>
-            )}
-          </div>
+        {/* Nombre Unidad */}
+        <div className="space-y-2">
+          <Label
+            htmlFor="unitName"
+            className="text-[#0b1e4c] font-medium text-base"
+          >
+            Nombre de la unidad u oficina que revisa
+          </Label>
+          <p className="text-sm text-gray-500 italic">
+            Ejemplo: Unidad Administradora
+          </p>
+          <Input
+            id="unitName"
+            className="border-gray-200 bg-white h-12"
+            {...register('unitName')}
+          />
+          {errors.unitName && (
+            <span className="text-sm text-red-500">
+              {errors.unitName.message}
+            </span>
+          )}
+        </div>
 
-          {/* --- NUEVO CAMPO: FECHA DE REVISIÓN --- */}
-          <div className="space-y-2 flex flex-col">
-            <Label className="text-[#0b1e4c] font-medium text-base">
-              Fecha de revisión
-            </Label>
-            <SharedDatePicker
-              max={new Date().toISOString().split('T')[0]} // Bloquea fechas futuras
-              error={Boolean(errors.reviewDate)}
-              value={reviewDate ? format(reviewDate, 'yyyy-MM-dd') : ''}
-              onChange={(e) => {
-                if (e.target.value) {
-                  // Ajustamos la fecha para guardarla como Date que Zod espera
-                  const [year, month, day] = e.target.value
-                    .split('-')
-                    .map(Number);
-                  setValue('reviewDate', new Date(year, month - 1, day), {
-                    shouldValidate: true,
-                  });
-                } else {
-                  setValue('reviewDate', undefined as unknown as Date, {
-                    shouldValidate: true,
-                  });
-                }
-              }}
-            />
-            {errors.reviewDate && (
-              <span className="text-sm text-red-500">
-                {errors.reviewDate.message}
-              </span>
-            )}
-          </div>
-          {/* -------------------------------------- */}
+        {/* --- NUEVO CAMPO: FECHA DE REVISIÓN --- */}
+        <div className="space-y-2 flex flex-col">
+          <Label className="text-[#0b1e4c] font-medium text-base">
+            Fecha de revisión
+          </Label>
+          <SharedDatePicker
+            max={new Date().toISOString().split('T')[0]} // Bloquea fechas futuras
+            error={Boolean(errors.reviewDate)}
+            value={reviewDate ? format(reviewDate, 'yyyy-MM-dd') : ''}
+            onChange={(e) => {
+              if (e.target.value) {
+                // Ajustamos la fecha para guardarla como Date que Zod espera
+                const [year, month, day] = e.target.value
+                  .split('-')
+                  .map(Number);
+                setValue('reviewDate', new Date(year, month - 1, day), {
+                  shouldValidate: true,
+                });
+              } else {
+                setValue('reviewDate', undefined as unknown as Date, {
+                  shouldValidate: true,
+                });
+              }
+            }}
+          />
+          {errors.reviewDate && (
+            <span className="text-sm text-red-500">
+              {errors.reviewDate.message}
+            </span>
+          )}
+        </div>
+        {/* -------------------------------------- */}
 
-          {/* Nombre Revisor */}
-          <div className="space-y-2">
-            <Label
-              htmlFor="reviewerName"
-              className="text-[#0b1e4c] font-medium text-base"
-            >
-              Nombre completo de la persona que revisa y/o evalúa.
-            </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Pedro José Hernández Pérez
-            </p>
-            <Input
-              id="reviewerName"
-              className="border-gray-200 bg-white h-12"
-              {...register('reviewerName')}
-            />
-            {errors.reviewerName && (
-              <span className="text-sm text-red-500">
-                {errors.reviewerName.message}
-              </span>
-            )}
-          </div>
+        {/* Nombre Revisor */}
+        <div className="space-y-2">
+          <Label
+            htmlFor="reviewerName"
+            className="text-[#0b1e4c] font-medium text-base"
+          >
+            Nombre completo de la persona que revisa y/o evalúa.
+          </Label>
+          <p className="text-sm text-gray-500 italic">
+            Ejemplo: Pedro José Hernández Pérez
+          </p>
+          <Input
+            id="reviewerName"
+            className="border-gray-200 bg-white h-12"
+            {...register('reviewerName')}
+          />
+          {errors.reviewerName && (
+            <span className="text-sm text-red-500">
+              {errors.reviewerName.message}
+            </span>
+          )}
+        </div>
 
-          {/* Código */}
-          <div className="space-y-2">
-            <Label
-              htmlFor="documentCode"
-              className="text-[#0b1e4c] font-medium text-base"
-            >
-              Indique la nomenclatura o código asignado al documento revisado
-            </Label>
-            <p className="text-sm text-gray-500 italic">Ejemplo: U.L-001</p>
-            <Input
-              id="documentCode"
-              className="border-gray-200 bg-white h-12"
-              {...register('documentCode')}
-            />
-            {errors.documentCode && (
-              <span className="text-sm text-red-500">
-                {errors.documentCode.message}
-              </span>
-            )}
-          </div>
-
-          {/* Action Button */}
-          <div className="flex justify-end pt-8">
-            <Button
-              type="submit"
-              className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
-            >
-              Siguiente
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+        {/* Código */}
+        <div className="space-y-2">
+          <Label
+            htmlFor="documentCode"
+            className="text-[#0b1e4c] font-medium text-base"
+          >
+            Indique la nomenclatura o código asignado al documento revisado
+          </Label>
+          <p className="text-sm text-gray-500 italic">Ejemplo: U.L-001</p>
+          <Input
+            id="documentCode"
+            className="border-gray-200 bg-white h-12"
+            {...register('documentCode')}
+          />
+          {errors.documentCode && (
+            <span className="text-sm text-red-500">
+              {errors.documentCode.message}
+            </span>
+          )}
+        </div>
+      </form>
+    </div>
   );
 }

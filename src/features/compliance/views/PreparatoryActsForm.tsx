@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+
 import { useCompliance } from '../context/ComplianceContext';
 import { ComplianceQuestionItem } from './ComplianceQuestionItem';
 
@@ -58,41 +57,20 @@ const PREPARATORY_ACTS_QUESTIONS = [
 ];
 
 export function PreparatoryActsForm() {
-  const { complianceAnswers, setAnswer, goToNextPage, goToPreviousPage } =
-    useCompliance();
+  const { complianceAnswers, setAnswer } = useCompliance();
 
   return (
-    <Card className="w-full max-w-5xl mx-auto shadow-sm border-gray-100">
-      <CardContent className="space-y-6 pt-6">
-        {PREPARATORY_ACTS_QUESTIONS.map((item) => (
-          <ComplianceQuestionItem
-            key={item.id}
-            id={item.id}
-            question={item.question}
-            citation={item.citation}
-            value={complianceAnswers[item.id]}
-            onChange={(val) => setAnswer(item.id, val)}
-          />
-        ))}
-
-        <div className="flex justify-between pt-8">
-          <Button
-            type="button"
-            variant="outline"
-            className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-6 text-lg rounded-xl"
-            onClick={goToPreviousPage}
-          >
-            Anterior
-          </Button>
-          <Button
-            type="button"
-            className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
-            onClick={goToNextPage}
-          >
-            Siguiente
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="w-full space-y-6">
+      {PREPARATORY_ACTS_QUESTIONS.map((item) => (
+        <ComplianceQuestionItem
+          key={item.id}
+          id={item.id}
+          question={item.question}
+          citation={item.citation}
+          value={complianceAnswers[item.id]}
+          onChange={(val) => setAnswer(item.id, val)}
+        />
+      ))}
+    </div>
   );
 }
