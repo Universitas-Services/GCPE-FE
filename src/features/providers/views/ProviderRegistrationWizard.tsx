@@ -137,37 +137,36 @@ export const ProviderRegistrationWizard: React.FC = () => {
 
         {/* Footer / Navigation - Estático inferior */}
         <div className="shrink-0 bg-white border-t border-gray-200 py-2 px-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 flex justify-between items-center relative">
-          <div className="w-24 md:w-32 flex justify-start">
-            {currentStep > 1 && (
-              <Button
-                variant="outline"
-                onClick={prevStep}
-                disabled={isSubmitting}
-                className="px-6 py-2 border-blue-900 text-blue-900 rounded-xl font-medium flex items-center gap-1 md:gap-2 text-base"
-              >
-                <span aria-hidden="true">&lt;</span> Anterior
-              </Button>
-            )}
-          </div>
+          <Button
+            type="button"
+            variant="outline"
+            className={`border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-2 text-base rounded-xl transition-opacity ${
+              currentStep === 1
+                ? 'opacity-0 pointer-events-none'
+                : 'opacity-100'
+            }`}
+            onClick={prevStep}
+            disabled={isSubmitting}
+          >
+            Anterior
+          </Button>
 
-          <div className="flex-1 flex justify-center items-center">
+          <div className="absolute left-1/2 transform -translate-x-1/2">
             <StepIndicator currentStep={currentStep} totalSteps={4} />
           </div>
 
-          <div className="w-24 md:w-32 flex justify-end">
-            <Button
-              onClick={handleNext}
-              disabled={isSubmitting}
-              className="px-6 py-2 bg-[#001f5c] text-white rounded-xl hover:bg-[#001540] font-medium shadow-sm flex items-center justify-center gap-1 md:gap-2 text-base"
-            >
-              {isSubmitting
-                ? 'G...'
-                : currentStep === 4
-                  ? 'Finalizar'
-                  : 'Siguiente'}{' '}
-              {currentStep !== 4 && <span aria-hidden="true">&gt;</span>}
-            </Button>
-          </div>
+          <Button
+            type="button"
+            className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
+            onClick={handleNext}
+            disabled={isSubmitting}
+          >
+            {isSubmitting
+              ? 'Guardando...'
+              : currentStep === 4
+                ? 'Finalizar'
+                : 'Siguiente'}
+          </Button>
         </div>
       </div>
     </div>

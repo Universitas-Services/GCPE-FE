@@ -3,31 +3,54 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
-import { Crown, X, CheckCircle2 } from 'lucide-react';
+import { X, CheckCircle2 } from 'lucide-react';
+import { IoMdTrophy } from 'react-icons/io';
+import { Button } from '@/components/ui/button';
 
 interface ProUpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+const features = [
+  {
+    title: 'Gestión documental',
+    description: 'Generación de documentos automáticos',
+  },
+  {
+    title: 'Gestión y control de datos',
+    description: 'Respaldo de datos y control de usuarios',
+  },
+  {
+    title: 'Automatización de expedientes',
+    description: 'Generación automática de expedientes de contrataciones',
+  },
+  {
+    title: 'Reportes de cumplimientos',
+    description:
+      'Análisis de revisión de cumplimientos en los expediente de contrataciones',
+  },
+  {
+    title: 'Registro y control de proveedores',
+    description:
+      'Métricas precisas de los proveedores registrados y control de su status',
+  },
+];
+
 export function ProUpgradeModal({ isOpen, onClose }: ProUpgradeModalProps) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
-  // Mount logic for SSR compatibility
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Body scroll lock logic
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
-
-    // Cleanup on unmount
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -48,96 +71,85 @@ export function ProUpgradeModal({ isOpen, onClose }: ProUpgradeModalProps) {
 
   const modalContent = (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={handleOverlayClick}
     >
       <div
-        className="relative w-full max-w-[480px] rounded-2xl bg-[#09151e] border border-gray-800 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking card
+        className="relative w-full max-w-[520px] rounded-2xl bg-white shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Glow Effects */}
-        <div className="absolute top-0 -left-4 w-72 h-72 bg-[#0097b2] rounded-full mix-blend-multiply filter blur-[128px] opacity-20 pointer-events-none"></div>
-        <div className="absolute top-0 -right-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-10 pointer-events-none"></div>
-
         {/* Close Button */}
-        <button
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-50 p-2"
+          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 z-50"
         >
           <X className="h-5 w-5" />
-        </button>
+        </Button>
 
-        <div className="px-8 pt-10 pb-8 flex flex-col items-center text-center relative z-10">
-          {/* Icon Badge */}
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-400 to-amber-600 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(251,191,36,0.5)]">
-            <Crown className="w-8 h-8 text-white relative z-10" />
+        <div className="px-8 pt-10 pb-8 flex flex-col items-center text-center">
+          {/* Trophy Icon */}
+          <div className="w-16 h-16 rounded-full bg-[#F5F5F5] flex items-center justify-center mb-6">
+            <IoMdTrophy className="w-8 h-8 text-amber-500" />
           </div>
 
-          {/* Texts */}
-          <span className="text-[10px] font-bold tracking-widest text-[#00c6d9] mb-3 uppercase">
-            Premium Access
-          </span>
-          <h2 className="text-3xl font-extrabold text-white leading-tight mb-4 tracking-tight">
-            Solo disponible en versión
-            <br />
-            Pro
+          {/* Title */}
+          <h2
+            className="text-xl font-semibold text-[#005282] leading-tight mb-3"
+            style={{ fontFamily: 'Inter, sans-serif' }}
+          >
+            Potencia tu gestión con la versión PRO
           </h2>
-          <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-[320px]">
-            <strong className="text-gray-200">
-              Desbloquea funciones avanzadas
-            </strong>{' '}
-            y reportes detallados para optimizar tu gestión de cumplimiento
-            empresarial.
+
+          {/* Subtitle */}
+          <p
+            className="text-sm font-medium leading-relaxed mb-8 max-w-[380px]"
+            style={{ fontFamily: 'Inter, sans-serif', color: '#787878' }}
+          >
+            Desbloquea herramientas avanzadas de cumplimiento legal y
+            automatización de contrataciones públicas para optimizar cada
+            proceso.
           </p>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center mb-10">
-            <button
-              onClick={handleUpgrade}
-              className="bg-[#008ba6] hover:bg-[#00748b] text-white font-semibold py-3 px-6 rounded-xl transition-all shadow-[0_4px_24px_rgba(0,151,178,0.4)] flex items-center justify-center gap-2 group w-full sm:w-auto"
-            >
-              Actualizar ahora
-              <span className="transition-transform group-hover:translate-x-1">
-                →
-              </span>
-            </button>
+          {/* Features Grid */}
+          <div className="w-full grid grid-cols-2 gap-x-6 gap-y-5 mb-8">
+            {features.map((feature, index) => (
+              <div
+                key={feature.title}
+                className={`flex items-start gap-3 text-left ${
+                  index === features.length - 1 && features.length % 2 !== 0
+                    ? 'col-span-2 max-w-[250px] mx-auto'
+                    : ''
+                }`}
+              >
+                <CheckCircle2 className="w-5 h-5 text-[#0097b2] mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-gray-800 leading-tight">
+                    {feature.title}
+                  </p>
+                  <p className="text-xs text-gray-500 leading-snug mt-0.5">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Footer Actions */}
+          <div className="flex items-center justify-between w-full pt-2">
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-200 font-medium py-3 px-4 text-sm transition-colors w-full sm:w-auto"
+              className="text-gray-500 hover:text-gray-700 text-sm font-medium transition-colors"
             >
               Tal vez más tarde
             </button>
-          </div>
-
-          {/* Separator line */}
-          <div className="w-full h-px bg-gray-800/60 mb-6"></div>
-
-          {/* Features Grid */}
-          <div className="grid grid-cols-2 gap-x-8 gap-y-4 w-full text-left">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#00c6d9]" />
-              <span className="text-xs text-gray-300 font-medium tracking-wide">
-                Analytics Predictivo
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#00c6d9]" />
-              <span className="text-xs text-gray-300 font-medium tracking-wide">
-                Exportación Masiva
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#00c6d9]" />
-              <span className="text-xs text-gray-300 font-medium tracking-wide">
-                Soporte 24/7 Prioritario
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#00c6d9]" />
-              <span className="text-xs text-gray-300 font-medium tracking-wide">
-                API de Cumplimiento
-              </span>
-            </div>
+            <Button
+              onClick={handleUpgrade}
+              className="bg-[#0097b2] hover:bg-[#008299] text-white font-semibold px-6 py-2.5 rounded-xl text-sm"
+            >
+              Actualizar a Pro ahora
+            </Button>
           </div>
         </div>
       </div>
