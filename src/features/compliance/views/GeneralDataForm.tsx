@@ -9,13 +9,7 @@ import { useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useCompliance } from '../context/ComplianceContext';
 import { SharedDatePicker } from '@/components/shared/SharedDatePicker';
@@ -90,16 +84,7 @@ export function GeneralDataForm() {
 
   return (
     <Card className="w-full max-w-5xl mx-auto shadow-sm border-gray-100">
-      <CardHeader className="pb-8">
-        <CardTitle className="text-2xl font-bold text-[#0b1e4c]">
-          Datos generales
-        </CardTitle>
-        <CardDescription className="text-gray-400 text-base italic">
-          Ingresa tus datos para continuar
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent>
+      <CardContent className="pt-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Email */}
           <div className="space-y-2">

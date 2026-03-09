@@ -1,13 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useCompliance } from '../context/ComplianceContext';
 import { ComplianceQuestionItem } from './ComplianceQuestionItem';
@@ -97,17 +91,7 @@ export function FormalitiesAndArchiveForm() {
 
   return (
     <Card className="w-full max-w-5xl mx-auto shadow-sm border-gray-100">
-      <CardHeader className="pb-8">
-        <CardTitle className="text-2xl font-bold text-[#0b1e4c]">
-          Formalidades y archivo del expediente
-        </CardTitle>
-        <CardDescription className="text-gray-400 text-base italic">
-          Objetivo: Asegurar que el expediente físico cumple con las normas de
-          control interno (SUNAI) y archivo.
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-6 pt-6">
         {FORMALITIES_ARCHIVE_QUESTIONS.map((item) => (
           <ComplianceQuestionItem
             key={item.id}

@@ -1,13 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useCompliance } from '../context/ComplianceContext';
 import { ComplianceQuestionItem } from './ComplianceQuestionItem';
@@ -46,17 +40,7 @@ export function AdvancedReportForm() {
 
   return (
     <Card className="w-full max-w-5xl mx-auto shadow-sm border-gray-100">
-      <CardHeader className="pb-8">
-        <CardTitle className="text-2xl font-bold text-[#0b1e4c]">
-          Avanzadas y reporte final
-        </CardTitle>
-        <CardDescription className="text-gray-400 text-base italic">
-          Objetivo: Ofrecer un análisis profundo (PRO) y finalizar el flujo de
-          trabajo.
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-6 pt-6">
         <ComplianceQuestionItem
           key={ADVANCED_REPORT_QUESTION.id}
           id={ADVANCED_REPORT_QUESTION.id} // Ensure ID is passed if needed by component logic, but hideNoAplica handles the buttons

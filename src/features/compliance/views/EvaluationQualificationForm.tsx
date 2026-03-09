@@ -1,13 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useCompliance } from '../context/ComplianceContext';
 import { ComplianceQuestionItem } from './ComplianceQuestionItem';
@@ -62,17 +56,7 @@ export function EvaluationQualificationForm() {
 
   return (
     <Card className="w-full max-w-5xl mx-auto shadow-sm border-gray-100">
-      <CardHeader className="pb-8">
-        <CardTitle className="text-2xl font-bold text-[#0b1e4c]">
-          Evaluación y calificación de oferentes
-        </CardTitle>
-        <CardDescription className="text-gray-400 text-base italic">
-          Objetivo: Revisar que las ofertas y las empresas participantes cumplan
-          con los requisitos legales y técnicos.
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-6 pt-6">
         {EVALUATION_QUALIFICATION_QUESTIONS.map((item) => (
           <ComplianceQuestionItem
             key={item.id}
