@@ -23,6 +23,11 @@ export const Step3Capacity: React.FC = () => {
       });
       return;
     }
+    if (name === 'patrimonio_reportado') {
+      const filteredValue = value.replace(/[^0-9.,]/g, '');
+      updateFormData({ [name]: filteredValue });
+      return;
+    }
     updateFormData({ [name]: value });
   };
 

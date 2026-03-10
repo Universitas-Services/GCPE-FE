@@ -28,7 +28,8 @@ export const providerSchema = z.object({
     .min(1, 'La dirección fiscal es requerida'),
   telefono_proveedor: z
     .string({ message: 'El teléfono es requerido' })
-    .min(1, 'El teléfono es requerido'),
+    .min(10, 'El teléfono debe tener mínimo 10 dígitos')
+    .max(11, 'El teléfono no debe exceder 11 dígitos'),
   nombre_rep_legal: z
     .string({ message: 'El nombre del representante legal es requerido' })
     .min(1, 'El nombre del representante legal es requerido'),
@@ -60,7 +61,11 @@ export const providerSchema = z.object({
     }),
   patrimonio_reportado: z
     .string({ message: 'El patrimonio reportado es requerido' })
-    .min(1, 'El patrimonio es requerido'),
+    .min(1, 'El patrimonio es requerido')
+    .regex(
+      /^(0|[1-9]\d{0,2}([.,]?\d{3})*|\d+)([.,]\d{1,2})?$/,
+      'Monto inválido. Use formato correcto (ej. 1000, 1000.50, 1.000,50)'
+    ),
   nivel_contratacion: z
     .string({ message: 'El nivel de contratación es requerido' })
     .min(1, 'El nivel de contratación es requerido'),
