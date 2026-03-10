@@ -1,15 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import {
-  LayoutDashboard,
-  FileText,
-  Menu,
-  Users,
-  BookOpen,
-  Info,
-  Scale,
-} from 'lucide-react';
+import { Menu, ChevronDown } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -43,6 +35,16 @@ import Image from 'next/image';
 import { useDashboard } from '../context/DashboardContext';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/features/auth/context/AuthContext';
+
+// Iconos
+import { IoIosJournal } from 'react-icons/io';
+import { IoNewspaperOutline, IoEarthOutline } from 'react-icons/io5';
+import { LiaRobotSolid } from 'react-icons/lia';
+import { AiOutlineBook } from 'react-icons/ai';
+import { BsQuestionCircle } from 'react-icons/bs';
+import { BookOpenIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
+
+const ICON_STYLE = { width: '20.8px', height: '20px' };
 
 function getInitials(name: string) {
   const parts = name.split(' ').filter(Boolean);
@@ -160,72 +162,219 @@ export function Sidebar({ className }: SidebarProps) {
     );
   };
 
-  const routes = [
+  const routeGroups = [
     {
-      label: 'Dashboard',
-      icon: LayoutDashboard,
-      href: '/dashboard',
-      active: pathname === '/dashboard',
-    },
-    {
-      label: 'Compliance',
-      icon: FileText,
-      href: '/dashboard/compliance',
-      active: pathname.startsWith('/dashboard/compliance'),
-    },
-    {
-      label: 'Proveedores',
-      icon: Users,
-      href: '/dashboard/proveedores',
-      active: pathname.startsWith('/dashboard/proveedores'),
-      // submenus
-      children: [
+      title: 'Menú principal',
+      items: [
         {
-          label: 'Registro',
-          href: '/dashboard/proveedores/registro',
-          active: pathname === '/dashboard/proveedores/registro',
+          label: 'Dashboard',
+          icon: IoIosJournal,
+          href: '/dashboard',
+          active: pathname === '/dashboard',
         },
         {
-          label: 'Listar proveedores',
-          href: '/dashboard/proveedores/lista',
-          active: pathname === '/dashboard/proveedores/lista',
+          label: 'Manual',
+          icon: BookOpenIcon,
+          href: '/dashboard/manual',
+          active: pathname.startsWith('/dashboard/manual'),
+        },
+        {
+          label: 'Registro de proveedores',
+          icon: IoNewspaperOutline,
+          href: '/dashboard/proveedores',
+          active: pathname.startsWith('/dashboard/proveedores'),
+          hasDropdown: true,
+          children: [
+            {
+              label: 'Registro',
+              href: '/dashboard/proveedores/registro',
+              active: pathname === '/dashboard/proveedores/registro',
+            },
+            {
+              label: 'Listar proveedores',
+              href: '/dashboard/proveedores/lista',
+              active: pathname === '/dashboard/proveedores/lista',
+            },
+          ],
+        },
+        {
+          label: 'Elaboración de Expediente de selección de Contratista',
+          icon: PencilSquareIcon,
+          href: '/dashboard/compliance',
+          active: pathname.startsWith('/dashboard/compliance'),
         },
       ],
     },
     {
-      label: 'Manual Express',
-      icon: BookOpen,
-      href: '/dashboard/manual',
-      active: pathname.startsWith('/dashboard/manual'),
-    },
-    {
-      label: 'Repositorio legal',
-      icon: Scale,
-      href: '/dashboard/repositorio-legal',
-      active: pathname.startsWith('/dashboard/repositorio-legal'),
-    },
-    {
-      label: 'Conócenos',
-      icon: Info,
-      href: '/dashboard/conocenos',
-      active: pathname.startsWith('/dashboard/conocenos'),
+      title: 'Otros Servicios',
+      items: [
+        {
+          label: 'Consultor IA',
+          icon: LiaRobotSolid,
+          href: '/dashboard/consultor-ia',
+          active: pathname.startsWith('/dashboard/consultor-ia'),
+        },
+        {
+          label: 'Conocenos',
+          icon: IoEarthOutline,
+          href: '/dashboard/conocenos',
+          active: pathname.startsWith('/dashboard/conocenos'),
+        },
+        {
+          label: 'Repositorio legal',
+          icon: AiOutlineBook,
+          href: '/dashboard/repositorio-legal',
+          active: pathname.startsWith('/dashboard/repositorio-legal'),
+        },
+        {
+          label: 'Preguntas Frecuentes',
+          icon: BsQuestionCircle,
+          href: '/dashboard/preguntas-frecuentes',
+          active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
+        },
+      ],
     },
   ];
+
+  const renderRouteItems = (group: any, isMobile = false) => {
+    return (
+      <div key={group.title} className="mb-6">
+        {(!isSidebarCollapsed || isMobile) && (
+          <h3 className="px-4 text-[15px] font-medium text-gray-500 mb-3 tracking-wide">
+            {group.title}
+          </h3>
+        )}
+        <div className="space-y-[6px]">
+          {group.items.map((route: any) => {
+            const hasChildren = route.hasDropdown;
+            const isOpen = openMenus.includes(route.href);
+            const isChildActive = route.children?.some(
+              (child: any) => child.active
+            );
+            const ItemIcon = route.icon;
+
+            const buttonContent = (
+              <Button
+                variant="ghost"
+                className={cn(
+                  'w-full justify-start transition-colors duration-200 hover:bg-[#F3F4F6] hover:text-gray-900 relative flex items-center h-auto min-h-[44px] cursor-pointer rounded-lg text-gray-700',
+                  (route.active || isChildActive) &&
+                    'bg-[#F3F4F6] text-gray-900 font-medium',
+                  isSidebarCollapsed && !isMobile
+                    ? 'px-2 justify-center'
+                    : 'px-4 py-2.5'
+                )}
+                onClick={() => {
+                  if (hasChildren && (!isSidebarCollapsed || isMobile)) {
+                    toggleMenu(route.href);
+                  }
+                }}
+                asChild={!hasChildren}
+              >
+                {!hasChildren ? (
+                  <Link href={route.href}>
+                    <ItemIcon
+                      style={ICON_STYLE}
+                      className={cn(
+                        'shrink-0 text-[#1a1a1a]',
+                        !isSidebarCollapsed || isMobile ? 'mr-3' : 'mr-0'
+                      )}
+                    />
+                    {(!isSidebarCollapsed || isMobile) && (
+                      <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[16px]">
+                        {route.label}
+                      </span>
+                    )}
+                  </Link>
+                ) : (
+                  <>
+                    <ItemIcon
+                      style={ICON_STYLE}
+                      className={cn(
+                        'shrink-0 text-[#1a1a1a]',
+                        !isSidebarCollapsed || isMobile ? 'mr-3' : 'mr-0'
+                      )}
+                    />
+                    {(!isSidebarCollapsed || isMobile) && (
+                      <>
+                        <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[16px]">
+                          {route.label}
+                        </span>
+                        <ChevronDown
+                          className={cn(
+                            'h-4 w-4 text-gray-500 transition-transform ml-2 shrink-0',
+                            isOpen && 'rotate-180'
+                          )}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </Button>
+            );
+
+            return (
+              <div key={route.href}>
+                {isSidebarCollapsed && !isMobile ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
+                    <TooltipContent
+                      side="right"
+                      className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md"
+                    >
+                      {route.label}
+                    </TooltipContent>
+                  </Tooltip>
+                ) : (
+                  buttonContent
+                )}
+
+                {hasChildren &&
+                  (!isSidebarCollapsed || isMobile) &&
+                  isOpen &&
+                  route.children &&
+                  route.children.length > 0 && (
+                    <div className="mt-1 ml-6 border-l-2 border-gray-100 pl-3 space-y-1">
+                      {route.children.map((child: any) => (
+                        <Button
+                          key={child.href}
+                          variant="ghost"
+                          className={cn(
+                            'w-full justify-start h-[38px] text-[15px] cursor-pointer transition-colors duration-200 hover:bg-[#F3F4F6] rounded-md text-gray-600',
+                            child.active &&
+                              'bg-[#F3F4F6] text-gray-900 font-medium'
+                          )}
+                          asChild
+                        >
+                          <Link href={child.href} className="flex items-center">
+                            {child.label}
+                          </Link>
+                        </Button>
+                      ))}
+                    </div>
+                  )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div
       className={cn(
-        'h-screen border-r bg-white hidden lg:flex lg:flex-col transition-all duration-300 ease-in-out',
-        isSidebarCollapsed ? 'w-16' : 'w-60',
+        'h-screen border-r bg-[#FFFFFF] hidden lg:flex lg:flex-col transition-all duration-300 ease-in-out',
+        isSidebarCollapsed ? 'w-16' : 'w-[280px]',
         className
       )}
     >
       <TooltipProvider delayDuration={150}>
-        <div className="space-y-4 py-4 h-full flex flex-col">
-          {/* Toggle Button / Header */}
+        <div className="flex flex-col h-full overflow-hidden">
+          {/* Toggle Button / Header restored exactly as it was */}
           <div
             className={cn(
-              'px-3 py-2 flex items-center mb-2',
+              'px-3 py-2 flex items-center mb-2 mt-2',
               isSidebarCollapsed ? 'justify-center' : 'justify-between'
             )}
           >
@@ -233,7 +382,10 @@ export function Sidebar({ className }: SidebarProps) {
               onClick={toggleSidebar}
               variant="ghost"
               size="icon"
-              className="hover:bg-gray-200 shrink-0"
+              className={cn(
+                'hover:bg-gray-200 shrink-0 flex items-center justify-center',
+                !isSidebarCollapsed && 'ml-2'
+              )}
             >
               <Menu className="h-6 w-6 text-[#0b1e4c]" />
             </Button>
@@ -251,135 +403,19 @@ export function Sidebar({ className }: SidebarProps) {
             )}
           </div>
 
-          <ScrollArea className="flex-1 px-3">
-            <div className="space-y-2">
-              {routes.map((route) => {
-                // Simple Item
-                if (!route.children) {
-                  const buttonContent = (
-                    <Button
-                      variant={route.active ? 'secondary' : 'ghost'}
-                      className={cn(
-                        'w-full justify-start transition-all duration-200 ease-in-out mb-1 hover:bg-gray-200 hover:text-[#0b1e4c] relative flex items-center h-auto min-h-[40px] py-1 cursor-pointer',
-                        route.active && 'bg-gray-200 shadow-sm font-semibold',
-                        isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
-                      )}
-                      asChild
-                    >
-                      <Link href={route.href}>
-                        <route.icon
-                          className={cn(
-                            'h-5 w-5 shrink-0 text-[#0b1e4c] transition-colors',
-                            isSidebarCollapsed ? 'mr-0' : 'mr-3'
-                          )}
-                        />
-                        {!isSidebarCollapsed && (
-                          <span className="whitespace-normal leading-tight text-left break-words flex-1">
-                            {route.label}
-                          </span>
-                        )}
-                      </Link>
-                    </Button>
-                  );
-
-                  return isSidebarCollapsed ? (
-                    <Tooltip key={route.href}>
-                      <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
-                      <TooltipContent
-                        side="right"
-                        className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md"
-                      >
-                        {route.label}
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : (
-                    <div key={route.href}>{buttonContent}</div>
-                  );
-                }
-
-                // Parent Item with Children
-                const isOpen = openMenus.includes(route.href);
-                const isChildActive = route.children.some(
-                  (child) => child.active
-                );
-
-                const buttonContent = (
-                  <Button
-                    variant={
-                      route.active || isChildActive ? 'secondary' : 'ghost'
-                    }
-                    className={cn(
-                      'w-full justify-start transition-all duration-200 ease-in-out hover:bg-gray-200 hover:text-[#0b1e4c] relative flex items-center h-auto min-h-[40px] py-1 cursor-pointer',
-                      (route.active || isChildActive) &&
-                        'bg-gray-200 shadow-sm font-semibold',
-                      isSidebarCollapsed ? 'px-2 justify-center' : 'px-4'
-                    )}
-                    onClick={() =>
-                      !isSidebarCollapsed && toggleMenu(route.href)
-                    }
-                  >
-                    <route.icon
-                      className={cn(
-                        'h-5 w-5 shrink-0 text-[#0b1e4c] transition-colors',
-                        isSidebarCollapsed ? 'mr-0' : 'mr-3'
-                      )}
-                    />
-                    {!isSidebarCollapsed && (
-                      <span className="whitespace-normal leading-tight text-left break-words flex-1">
-                        {route.label}
-                      </span>
-                    )}
-                  </Button>
-                );
-
-                return (
-                  <div key={route.href} className="mb-1">
-                    {isSidebarCollapsed ? (
-                      <Tooltip>
-                        <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
-                        <TooltipContent
-                          side="right"
-                          className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md"
-                        >
-                          {route.label}
-                        </TooltipContent>
-                      </Tooltip>
-                    ) : (
-                      buttonContent
-                    )}
-
-                    {/* Children Container */}
-                    {!isSidebarCollapsed && isOpen && (
-                      <div className="mt-1 ml-4 border-l-2 border-gray-200 pl-2 space-y-1">
-                        {route.children.map((child) => (
-                          <Button
-                            key={child.href}
-                            variant={child.active ? 'secondary' : 'ghost'}
-                            className={cn(
-                              'w-full justify-start h-9 text-sm cursor-pointer transition-colors duration-200 hover:bg-gray-200 hover:text-[#0b1e4c]',
-                              child.active &&
-                                'bg-gray-200 shadow-sm font-semibold'
-                            )}
-                            asChild
-                          >
-                            <Link
-                              href={child.href}
-                              className="flex items-center cursor-pointer"
-                            >
-                              {child.label}
-                            </Link>
-                          </Button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+          <ScrollArea
+            className={cn(
+              'flex-1 px-3 mt-4 w-full h-[calc(100vh-140px)]',
+              isSidebarCollapsed
+                ? 'overflow-hidden [&>div]:!overflow-hidden [&::-webkit-scrollbar]:!hidden [-ms-overflow-style:!none] [scrollbar-width:!none]'
+                : 'overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'
+            )}
+          >
+            {routeGroups.map((group) => renderRouteItems(group))}
           </ScrollArea>
 
-          {/* User Navbar */}
-          <div className="px-3 mt-auto">
+          {/* User Navbar exactly as it was */}
+          <div className="px-3 mt-auto mb-4 border-t border-gray-100 pt-4 bg-white">
             <UserNav isCollapsed={isSidebarCollapsed} />
           </div>
         </div>
@@ -390,48 +426,89 @@ export function Sidebar({ className }: SidebarProps) {
 
 export function MobileSidebar() {
   const pathname = usePathname();
-  const routes = [
+  const [openMenus, setOpenMenus] = useState<string[]>([
+    '/dashboard/proveedores',
+  ]);
+
+  const toggleMenu = (href: string) => {
+    setOpenMenus((prev) =>
+      prev.includes(href)
+        ? prev.filter((item) => item !== href)
+        : [...prev, href]
+    );
+  };
+
+  const routeGroups = [
     {
-      label: 'Dashboard',
-      icon: LayoutDashboard,
-      href: '/dashboard',
-      active: pathname === '/dashboard',
+      title: 'Menú principal',
+      items: [
+        {
+          label: 'Dashboard',
+          icon: IoIosJournal,
+          href: '/dashboard',
+          active: pathname === '/dashboard',
+        },
+        {
+          label: 'Manual',
+          icon: BookOpenIcon,
+          href: '/dashboard/manual',
+          active: pathname.startsWith('/dashboard/manual'),
+        },
+        {
+          label: 'Registro de proveedores',
+          icon: IoNewspaperOutline,
+          href: '/dashboard/proveedores',
+          active: pathname.startsWith('/dashboard/proveedores'),
+          hasDropdown: true,
+          children: [
+            {
+              label: 'Registro',
+              href: '/dashboard/proveedores/registro',
+              active: pathname === '/dashboard/proveedores/registro',
+            },
+            {
+              label: 'Listar proveedores',
+              href: '/dashboard/proveedores/lista',
+              active: pathname === '/dashboard/proveedores/lista',
+            },
+          ],
+        },
+        {
+          label: 'Elaboración de Expediente de selección de Contratista',
+          icon: PencilSquareIcon,
+          href: '/dashboard/compliance',
+          active: pathname.startsWith('/dashboard/compliance'),
+        },
+      ],
     },
     {
-      label: 'Compliance de Expediente de selección de contratista',
-      icon: FileText,
-      href: '/dashboard/compliance',
-      active: pathname.startsWith('/dashboard/compliance'),
-    },
-    {
-      label: 'Registro de proveedores',
-      icon: Users,
-      href: '/dashboard/proveedores/registro',
-      active: pathname.startsWith('/dashboard/proveedores'),
-    },
-    {
-      label: 'Listar proveedores',
-      icon: Users,
-      href: '/dashboard/proveedores/lista',
-      active: pathname === '/dashboard/proveedores/lista',
-    },
-    {
-      label: 'Elabora tu manual express',
-      icon: BookOpen,
-      href: '/dashboard/manual',
-      active: pathname.startsWith('/dashboard/manual'),
-    },
-    {
-      label: 'Repositorio legal',
-      icon: Scale,
-      href: '/dashboard/repositorio-legal',
-      active: pathname.startsWith('/dashboard/repositorio-legal'),
-    },
-    {
-      label: 'Conócenos',
-      icon: Info,
-      href: '/dashboard/conocenos',
-      active: pathname.startsWith('/dashboard/conocenos'),
+      title: 'Otros Servicios',
+      items: [
+        {
+          label: 'Consultor IA',
+          icon: LiaRobotSolid,
+          href: '/dashboard/consultor-ia',
+          active: pathname.startsWith('/dashboard/consultor-ia'),
+        },
+        {
+          label: 'Conocenos',
+          icon: IoEarthOutline,
+          href: '/dashboard/conocenos',
+          active: pathname.startsWith('/dashboard/conocenos'),
+        },
+        {
+          label: 'Repositorio legal',
+          icon: AiOutlineBook,
+          href: '/dashboard/repositorio-legal',
+          active: pathname.startsWith('/dashboard/repositorio-legal'),
+        },
+        {
+          label: 'Preguntas Frecuentes',
+          icon: BsQuestionCircle,
+          href: '/dashboard/preguntas-frecuentes',
+          active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
+        },
+      ],
     },
   ];
 
@@ -442,8 +519,7 @@ export function MobileSidebar() {
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0 bg-gray-100 w-72">
-        {/* Mantenemos el título oculto para accesibilidad */}
+      <SheetContent side="left" className="p-0 bg-[#FFFFFF] w-72">
         <SheetTitle className="hidden">Menú de Navegación</SheetTitle>
 
         <div className="space-y-4 py-4 h-full flex flex-col">
@@ -457,33 +533,101 @@ export function MobileSidebar() {
             />
             <h2 className="text-xl font-bold text-[#0b1e4c]">Universitas</h2>
           </div>
-          <ScrollArea className="flex-1 px-4">
-            <div className="space-y-1">
-              {routes.map((route) => (
-                <Button
-                  key={route.href}
-                  variant={route.active ? 'secondary' : 'ghost'}
-                  className={cn(
-                    'w-full justify-start transition-colors duration-200 group hover:bg-gray-200 hover:text-[#0b1e4c]',
-                    route.active && 'bg-gray-200 shadow-sm font-semibold'
-                  )}
-                  asChild
-                >
-                  <Link
-                    href={route.href}
-                    className="flex items-center h-auto py-2 cursor-pointer"
-                  >
-                    <route.icon className="mr-2 h-4 w-4 shrink-0 text-[#0b1e4c] group-hover:text-[#0b1e4c] transition-colors" />
-                    <span className="whitespace-normal text-left">
-                      {route.label}
-                    </span>
-                  </Link>
-                </Button>
-              ))}
-            </div>
+
+          <ScrollArea className="flex-1 px-4 overflow-y-auto w-full h-[calc(100vh-160px)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {routeGroups.map((group) => (
+              <div key={group.title} className="mb-6">
+                <h3 className="px-4 text-[15px] font-medium text-gray-500 mb-3 tracking-wide">
+                  {group.title}
+                </h3>
+                <div className="space-y-[6px]">
+                  {group.items.map((route: any) => {
+                    const hasChildren = route.hasDropdown;
+                    const isOpen = openMenus.includes(route.href);
+                    const isChildActive = route.children?.some(
+                      (child: any) => child.active
+                    );
+                    const ItemIcon = route.icon;
+
+                    return (
+                      <div key={route.href}>
+                        <Button
+                          variant="ghost"
+                          className={cn(
+                            'w-full justify-start transition-colors duration-200 hover:bg-[#F3F4F6] relative flex items-center h-auto min-h-[44px] cursor-pointer rounded-lg text-gray-700 px-4 py-2.5',
+                            (route.active || isChildActive) &&
+                              'bg-[#F3F4F6] text-gray-900 font-medium'
+                          )}
+                          onClick={() => {
+                            if (hasChildren) {
+                              toggleMenu(route.href);
+                            }
+                          }}
+                          asChild={!hasChildren}
+                        >
+                          {!hasChildren ? (
+                            <Link href={route.href}>
+                              <ItemIcon
+                                style={ICON_STYLE}
+                                className="shrink-0 mr-3 text-black"
+                              />
+                              <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[16px]">
+                                {route.label}
+                              </span>
+                            </Link>
+                          ) : (
+                            <>
+                              <ItemIcon
+                                style={ICON_STYLE}
+                                className="shrink-0 mr-3 text-black"
+                              />
+                              <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[16px]">
+                                {route.label}
+                              </span>
+                              <ChevronDown
+                                className={cn(
+                                  'h-4 w-4 text-gray-500 transition-transform ml-2 shrink-0',
+                                  isOpen && 'rotate-180'
+                                )}
+                              />
+                            </>
+                          )}
+                        </Button>
+
+                        {hasChildren &&
+                          isOpen &&
+                          route.children &&
+                          route.children.length > 0 && (
+                            <div className="mt-1 ml-6 border-l-2 border-gray-100 pl-3 space-y-1">
+                              {route.children.map((child: any) => (
+                                <Button
+                                  key={child.href}
+                                  variant="ghost"
+                                  className={cn(
+                                    'w-full justify-start h-[38px] text-[15px] cursor-pointer transition-colors duration-200 hover:bg-[#F3F4F6] rounded-md text-gray-600',
+                                    child.active &&
+                                      'bg-[#F3F4F6] text-gray-900 font-medium'
+                                  )}
+                                  asChild
+                                >
+                                  <Link
+                                    href={child.href}
+                                    className="flex items-center"
+                                  >
+                                    {child.label}
+                                  </Link>
+                                </Button>
+                              ))}
+                            </div>
+                          )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </ScrollArea>
 
-          {/* User Navbar for Mobile */}
           <div className="px-4 mt-auto border-t pt-4 mb-4">
             <UserNav isCollapsed={false} />
           </div>
