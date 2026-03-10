@@ -38,13 +38,17 @@ import { useAuth } from '@/features/auth/context/AuthContext';
 
 // Iconos
 import { IoIosJournal } from 'react-icons/io';
-import { IoNewspaperOutline, IoEarthOutline } from 'react-icons/io5';
+import {
+  IoNewspaperOutline,
+  IoEarthOutline,
+  IoSearchSharp,
+} from 'react-icons/io5';
 import { LiaRobotSolid } from 'react-icons/lia';
 import { AiOutlineBook } from 'react-icons/ai';
 import { BsQuestionCircle } from 'react-icons/bs';
 import { BookOpenIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 
-const ICON_STYLE = { width: '20.8px', height: '20px' };
+const ICON_STYLE = { width: '18px', height: '18px' };
 
 function getInitials(name: string) {
   const parts = name.split(' ').filter(Boolean);
@@ -167,7 +171,7 @@ export function Sidebar({ className }: SidebarProps) {
       title: 'Menú principal',
       items: [
         {
-          label: 'Dashboard',
+          label: 'Inicio',
           icon: IoIosJournal,
           href: '/dashboard',
           active: pathname === '/dashboard',
@@ -186,12 +190,12 @@ export function Sidebar({ className }: SidebarProps) {
           hasDropdown: true,
           children: [
             {
-              label: 'Registro',
+              label: 'Panel de registro',
               href: '/dashboard/proveedores/registro',
               active: pathname === '/dashboard/proveedores/registro',
             },
             {
-              label: 'Listar proveedores',
+              label: 'Ver proveedores registrados',
               href: '/dashboard/proveedores/lista',
               active: pathname === '/dashboard/proveedores/lista',
             },
@@ -200,6 +204,12 @@ export function Sidebar({ className }: SidebarProps) {
         {
           label: 'Elaboración de Expediente de selección de Contratista',
           icon: PencilSquareIcon,
+          href: '/dashboard/elaboracion',
+          active: pathname.startsWith('/dashboard/elaboracion'),
+        },
+        {
+          label: 'Compliance de Expediente de selección de Contratista',
+          icon: IoSearchSharp,
           href: '/dashboard/compliance',
           active: pathname.startsWith('/dashboard/compliance'),
         },
@@ -238,13 +248,13 @@ export function Sidebar({ className }: SidebarProps) {
 
   const renderRouteItems = (group: any, isMobile = false) => {
     return (
-      <div key={group.title} className="mb-6">
+      <div key={group.title} className="mb-4">
         {(!isSidebarCollapsed || isMobile) && (
-          <h3 className="px-4 text-[15px] font-medium text-gray-500 mb-3 tracking-wide">
+          <h3 className="px-4 text-[13px] font-medium text-gray-500 mb-2 tracking-wide">
             {group.title}
           </h3>
         )}
-        <div className="space-y-[6px]">
+        <div className="space-y-1">
           {group.items.map((route: any) => {
             const hasChildren = route.hasDropdown;
             const isOpen = openMenus.includes(route.href);
@@ -257,12 +267,12 @@ export function Sidebar({ className }: SidebarProps) {
               <Button
                 variant="ghost"
                 className={cn(
-                  'w-full justify-start transition-colors duration-200 hover:bg-[#F3F4F6] hover:text-gray-900 relative flex items-center h-auto min-h-[44px] cursor-pointer rounded-lg text-gray-700',
+                  'w-full justify-start transition-colors duration-200 hover:bg-[#F3F4F6] hover:text-gray-900 relative flex items-center h-auto min-h-[36px] cursor-pointer rounded-lg text-gray-700',
                   (route.active || isChildActive) &&
                     'bg-[#F3F4F6] text-gray-900 font-medium',
                   isSidebarCollapsed && !isMobile
                     ? 'px-2 justify-center'
-                    : 'px-4 py-2.5'
+                    : 'px-4 py-2'
                 )}
                 onClick={() => {
                   if (hasChildren && (!isSidebarCollapsed || isMobile)) {
@@ -281,7 +291,7 @@ export function Sidebar({ className }: SidebarProps) {
                       )}
                     />
                     {(!isSidebarCollapsed || isMobile) && (
-                      <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[16px]">
+                      <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[13.5px]">
                         {route.label}
                       </span>
                     )}
@@ -297,7 +307,7 @@ export function Sidebar({ className }: SidebarProps) {
                     />
                     {(!isSidebarCollapsed || isMobile) && (
                       <>
-                        <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[16px]">
+                        <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[13.5px]">
                           {route.label}
                         </span>
                         <ChevronDown
@@ -340,7 +350,7 @@ export function Sidebar({ className }: SidebarProps) {
                           key={child.href}
                           variant="ghost"
                           className={cn(
-                            'w-full justify-start h-[38px] text-[15px] cursor-pointer transition-colors duration-200 hover:bg-[#F3F4F6] rounded-md text-gray-600',
+                            'w-full justify-start h-[32px] text-[12.5px] cursor-pointer transition-colors duration-200 hover:bg-[#F3F4F6] rounded-md text-gray-600',
                             child.active &&
                               'bg-[#F3F4F6] text-gray-900 font-medium'
                           )}
@@ -474,7 +484,7 @@ export function MobileSidebar() {
           ],
         },
         {
-          label: 'Elaboración de Expediente de selección de Contratista',
+          label: 'Compliance de Expediente de selección de Contratista',
           icon: PencilSquareIcon,
           href: '/dashboard/compliance',
           active: pathname.startsWith('/dashboard/compliance'),
@@ -536,11 +546,11 @@ export function MobileSidebar() {
 
           <ScrollArea className="flex-1 px-4 overflow-y-auto w-full h-[calc(100vh-160px)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {routeGroups.map((group) => (
-              <div key={group.title} className="mb-6">
-                <h3 className="px-4 text-[15px] font-medium text-gray-500 mb-3 tracking-wide">
+              <div key={group.title} className="mb-4">
+                <h3 className="px-4 text-[13px] font-medium text-gray-500 mb-2 tracking-wide">
                   {group.title}
                 </h3>
-                <div className="space-y-[6px]">
+                <div className="space-y-1">
                   {group.items.map((route: any) => {
                     const hasChildren = route.hasDropdown;
                     const isOpen = openMenus.includes(route.href);
@@ -554,7 +564,7 @@ export function MobileSidebar() {
                         <Button
                           variant="ghost"
                           className={cn(
-                            'w-full justify-start transition-colors duration-200 hover:bg-[#F3F4F6] relative flex items-center h-auto min-h-[44px] cursor-pointer rounded-lg text-gray-700 px-4 py-2.5',
+                            'w-full justify-start transition-colors duration-200 hover:bg-[#F3F4F6] relative flex items-center h-auto min-h-[36px] cursor-pointer rounded-lg text-gray-700 px-4 py-2',
                             (route.active || isChildActive) &&
                               'bg-[#F3F4F6] text-gray-900 font-medium'
                           )}
@@ -571,7 +581,7 @@ export function MobileSidebar() {
                                 style={ICON_STYLE}
                                 className="shrink-0 mr-3 text-black"
                               />
-                              <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[16px]">
+                              <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[13.5px]">
                                 {route.label}
                               </span>
                             </Link>
@@ -581,7 +591,7 @@ export function MobileSidebar() {
                                 style={ICON_STYLE}
                                 className="shrink-0 mr-3 text-black"
                               />
-                              <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[16px]">
+                              <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[13.5px]">
                                 {route.label}
                               </span>
                               <ChevronDown
@@ -604,7 +614,7 @@ export function MobileSidebar() {
                                   key={child.href}
                                   variant="ghost"
                                   className={cn(
-                                    'w-full justify-start h-[38px] text-[15px] cursor-pointer transition-colors duration-200 hover:bg-[#F3F4F6] rounded-md text-gray-600',
+                                    'w-full justify-start h-[32px] text-[12.5px] cursor-pointer transition-colors duration-200 hover:bg-[#F3F4F6] rounded-md text-gray-600',
                                     child.active &&
                                       'bg-[#F3F4F6] text-gray-900 font-medium'
                                   )}
