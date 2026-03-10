@@ -24,8 +24,6 @@ function ComplianceContent() {
     setCurrentPage,
     generalData,
     complianceAnswers,
-    setComplianceId,
-    complianceId,
     goToNextPage,
     goToPreviousPage,
   } = useCompliance();
@@ -33,45 +31,35 @@ function ComplianceContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const handleCreateDocument = async () => {
+  const handleGenerateCompliance = async () => {
     try {
       setIsSubmitting(true);
+
+      // 1. Submit form (POST /api/compliance)
       const response = await complianceService.submitComplianceForm(
         generalData,
         complianceAnswers
       );
       console.log('Respuesta del servidor al crear documento:', response);
+
       const newId = response?.id || response?.pk;
-      if (newId) {
-        setComplianceId(newId);
-      } else {
+
+      if (!newId) {
         console.warn('No se encontró un ID válido en la respuesta:', response);
+        alert('Error: No se recibió un ID válido para generar el PDF.');
+        return;
       }
-      goToNextPage();
+
+      // 2. Automatically trigger PDF Download (GET /api/compliance/{id}/pdf)
+      setIsDownloading(true);
+      await complianceService.downloadPdf(newId);
     } catch (error) {
-      console.error('Error al crear documento:', error);
+      console.error('Error al generar compliance:', error);
       alert(
-        'Error al crear el documento. Por favor verifique los datos e intente nuevamente.'
+        'Error al generar compliance. Por favor verifique los datos e intente nuevamente.'
       );
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const handleDownloadPdf = async () => {
-    if (!complianceId) {
-      alert(
-        'No se ha encontrado el ID del documento. Por favor regrese y cree el documento nuevamente.'
-      );
-      return;
-    }
-    try {
-      setIsDownloading(true);
-      await complianceService.downloadPdf(complianceId);
-    } catch (error) {
-      console.error('Error downloading PDF:', error);
-      alert('Error al descargar el PDF.');
-    } finally {
       setIsDownloading(false);
     }
   };
@@ -180,7 +168,7 @@ function ComplianceContent() {
             >
               Siguiente
             </Button>
-          ) : currentPage < 6 ? (
+          ) : currentPage < 7 ? (
             <Button
               type="button"
               className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
@@ -190,25 +178,16 @@ function ComplianceContent() {
             </Button>
           ) : null}
 
-          {currentPage === 6 && (
-            <Button
-              type="button"
-              className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
-              onClick={handleCreateDocument}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Enviando...' : 'Crear documento'}
-            </Button>
-          )}
-
           {currentPage === 7 && (
             <Button
               type="button"
               className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
-              onClick={handleDownloadPdf}
-              disabled={!complianceId || isDownloading}
+              onClick={handleGenerateCompliance}
+              disabled={isSubmitting || isDownloading}
             >
-              {isDownloading ? 'Descargando...' : 'Descargar documento PDF'}
+              {isSubmitting || isDownloading
+                ? 'Generando y Descargando...'
+                : 'Generar compliance'}
             </Button>
           )}
         </div>
