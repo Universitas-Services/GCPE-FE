@@ -1,5 +1,13 @@
 import React from 'react';
 import { useProviderForm } from '../context/ProviderFormContext';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export const Step1Identification: React.FC = () => {
   const { formData, updateFormData, errors } = useProviderForm();
@@ -16,11 +24,8 @@ export const Step1Identification: React.FC = () => {
   const currentOperator = rawPhone.substring(0, 4);
   const currentNumber = rawPhone.substring(4);
 
-  const handlePhoneOperatorChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const operator = e.target.value;
-    updateFormData({ telefono_proveedor: operator + currentNumber });
+  const handlePhoneOperatorChange = (value: string) => {
+    updateFormData({ telefono_proveedor: value + currentNumber });
   };
 
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +41,7 @@ export const Step1Identification: React.FC = () => {
   const currentRifLetter = rawRif.charAt(0) === 'V' ? 'V' : 'J'; // Default to J
   const currentRifNumbers = rawRif.replace(/\D/g, ''); // Extract only the digits
 
-  const handleRifLetterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const letter = e.target.value;
+  const handleRifLetterChange = (letter: string) => {
     if (currentRifNumbers) {
       let formattedRif = `${letter}-`;
       if (currentRifNumbers.length <= 8) {
@@ -74,10 +78,7 @@ export const Step1Identification: React.FC = () => {
   const currentCedulaLetter = rawCedula.charAt(0) === 'E' ? 'E' : 'V'; // Default to V
   const currentCedulaNumbers = rawCedula.replace(/\D/g, ''); // Extract only the digits
 
-  const handleCedulaLetterChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const letter = e.target.value;
+  const handleCedulaLetterChange = (letter: string) => {
     if (currentCedulaNumbers) {
       // Re-apply formatting with the new letter
       const formattedNumber = currentCedulaNumbers.replace(
@@ -107,15 +108,7 @@ export const Step1Identification: React.FC = () => {
 
   return (
     <div className="flex-grow flex flex-col h-full">
-      <h2 className="text-xl font-bold text-blue-900 mb-2">
-        Datos de identificación del proveedor
-      </h2>
-      <p className="text-sm text-gray-500 mb-8">
-        Ingresa los datos básicos para generar una demostración del manual de
-        concurso abierto. Lo recibirás en tu correo en pocos minutos.
-      </p>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-grow">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 flex-grow">
         {/* Correo */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -124,12 +117,12 @@ export const Step1Identification: React.FC = () => {
           <p className="text-xs text-gray-500 mb-2 italic">
             Ejemplo: prueba@gmail.com
           </p>
-          <input
+          <Input
             type="email"
             name="correo_proveedor"
             value={formData.correo_proveedor || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.correo_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+            className={`h-10 ${errors.correo_proveedor ? 'border-red-500' : ''}`}
           />
           {errors.correo_proveedor && (
             <p className="text-red-500 text-xs mt-1">
@@ -147,12 +140,12 @@ export const Step1Identification: React.FC = () => {
             Ejemplo: Avenida 00, entre calles 00 y 00, Centro Comercial Central,
             Piso 2, Local 3
           </p>
-          <input
+          <Input
             type="text"
             name="direccion_fiscal"
             value={formData.direccion_fiscal || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.direccion_fiscal ? 'border-red-500' : 'border-gray-300'}`}
+            className={`h-10 ${errors.direccion_fiscal ? 'border-red-500' : ''}`}
           />
           {errors.direccion_fiscal && (
             <p className="text-red-500 text-xs mt-1">
@@ -169,12 +162,12 @@ export const Step1Identification: React.FC = () => {
           <p className="text-xs text-gray-500 mb-2 italic">
             Ejemplo: Industrias Carabobo C.A
           </p>
-          <input
+          <Input
             type="text"
             name="nombre_proveedor"
             value={formData.nombre_proveedor || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.nombre_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+            className={`h-10 ${errors.nombre_proveedor ? 'border-red-500' : ''}`}
           />
           {errors.nombre_proveedor && (
             <p className="text-red-500 text-xs mt-1">
@@ -190,33 +183,36 @@ export const Step1Identification: React.FC = () => {
           </label>
           <p className="text-xs text-gray-500 mb-2 italic">Ejemplo: 1234567</p>
           <div className="flex gap-2">
-            <select
+            <Select
               value={
                 ['0412', '0422', '0414', '0424', '0416', '0426'].includes(
                   currentOperator
                 )
                   ? currentOperator
-                  : ''
+                  : undefined
               }
-              onChange={handlePhoneOperatorChange}
-              className={`w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              onValueChange={handlePhoneOperatorChange}
             >
-              <option value="" disabled>
-                Cod
-              </option>
-              <option value="0412">0412</option>
-              <option value="0422">0422</option>
-              <option value="0414">0414</option>
-              <option value="0424">0424</option>
-              <option value="0416">0416</option>
-              <option value="0426">0426</option>
-            </select>
-            <input
+              <SelectTrigger
+                className={`w-24 h-10 ${errors.telefono_proveedor ? 'border-red-500' : ''}`}
+              >
+                <SelectValue placeholder="Cod" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0412">0412</SelectItem>
+                <SelectItem value="0422">0422</SelectItem>
+                <SelectItem value="0414">0414</SelectItem>
+                <SelectItem value="0424">0424</SelectItem>
+                <SelectItem value="0416">0416</SelectItem>
+                <SelectItem value="0426">0426</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input
               type="text"
               value={currentNumber}
               onChange={handlePhoneNumberChange}
               maxLength={7}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.telefono_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              className={`h-10 ${errors.telefono_proveedor ? 'border-red-500' : ''}`}
             />
           </div>
           {errors.telefono_proveedor && (
@@ -235,20 +231,26 @@ export const Step1Identification: React.FC = () => {
             Ejemplo: 123456789
           </p>
           <div className="flex gap-2">
-            <select
+            <Select
               value={currentRifLetter}
-              onChange={handleRifLetterChange}
-              className={`w-20 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              onValueChange={handleRifLetterChange}
             >
-              <option value="J">J</option>
-              <option value="V">V</option>
-            </select>
-            <input
+              <SelectTrigger
+                className={`w-20 h-10 ${errors.rif_proveedor ? 'border-red-500' : ''}`}
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="J">J</SelectItem>
+                <SelectItem value="V">V</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input
               type="text"
               value={currentRifNumbers}
               onChange={handleRifNumberChange}
               maxLength={9}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.rif_proveedor ? 'border-red-500' : 'border-gray-300'}`}
+              className={`h-10 ${errors.rif_proveedor ? 'border-red-500' : ''}`}
             />
           </div>
           {errors.rif_proveedor && (
@@ -264,12 +266,12 @@ export const Step1Identification: React.FC = () => {
           <p className="text-xs text-gray-500 mb-2 italic">
             Ejemplo: José Ramiréz González Pérez
           </p>
-          <input
+          <Input
             type="text"
             name="nombre_rep_legal"
             value={formData.nombre_rep_legal || ''}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.nombre_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
+            className={`h-10 ${errors.nombre_rep_legal ? 'border-red-500' : ''}`}
           />
           {errors.nombre_rep_legal && (
             <p className="text-red-500 text-xs mt-1">
@@ -283,16 +285,22 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Tipo de persona
           </label>
-          <select
-            name="tipo_persona"
-            value={formData.tipo_persona || ''}
-            onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.tipo_persona ? 'border-red-500' : 'border-gray-300'}`}
+          <Select
+            value={formData.tipo_persona || undefined}
+            onValueChange={(value) =>
+              updateFormData({ tipo_persona: value as 'Natural' | 'Juridica' })
+            }
           >
-            <option value="">Selecciona</option>
-            <option value="Natural">Persona Natural</option>
-            <option value="Juridica">Persona Jurídica</option>
-          </select>
+            <SelectTrigger
+              className={`w-full h-10 ${errors.tipo_persona ? 'border-red-500' : ''}`}
+            >
+              <SelectValue placeholder="Selecciona" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Natural">Persona Natural</SelectItem>
+              <SelectItem value="Juridica">Persona Jurídica</SelectItem>
+            </SelectContent>
+          </Select>
           {errors.tipo_persona && (
             <p className="text-red-500 text-xs mt-1">{errors.tipo_persona}</p>
           )}
@@ -307,20 +315,26 @@ export const Step1Identification: React.FC = () => {
             Ejemplo: 12.345.678
           </p>
           <div className="flex gap-2">
-            <select
+            <Select
               value={currentCedulaLetter}
-              onChange={handleCedulaLetterChange}
-              className={`w-20 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
+              onValueChange={handleCedulaLetterChange}
             >
-              <option value="V">V</option>
-              <option value="E">E</option>
-            </select>
-            <input
+              <SelectTrigger
+                className={`w-20 h-10 ${errors.cedula_rep_legal ? 'border-red-500' : ''}`}
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="V">V</SelectItem>
+                <SelectItem value="E">E</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input
               type="text"
-              value={currentCedulaNumbers.replace(/\B(?=(\d{3})+(?!\d))/g, '.')} // Display formatted with dots
+              value={currentCedulaNumbers.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
               onChange={handleCedulaNumberChange}
-              maxLength={10} // 8 digits + 2 dots
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cedula_rep_legal ? 'border-red-500' : 'border-gray-300'}`}
+              maxLength={10}
+              className={`h-10 ${errors.cedula_rep_legal ? 'border-red-500' : ''}`}
             />
           </div>
           {errors.cedula_rep_legal && (
@@ -335,24 +349,28 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Forma jurídica (Si aplica)
           </label>
-          <select
-            name="tipo_entidad_juridica"
-            value={formData.tipo_entidad_juridica || ''}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          <Select
+            value={formData.tipo_entidad_juridica || undefined}
+            onValueChange={(value) =>
+              updateFormData({ tipo_entidad_juridica: value })
+            }
           >
-            <option value="">Selecciona</option>
-            <option value="Compañía Anónima (C.A)">
-              Compañía Anónima (C.A)
-            </option>
-            <option value="Asociación Civil">Asociación Civil</option>
-            <option value="S.R.L.">
-              Sociedades de Responsabilidad Limitada (S.R.L.)
-            </option>
-            <option value="Fundaciones">Fundaciones</option>
-            <option value="Cooperativas">Cooperativas</option>
-            <option value="Pymes">Pymes</option>
-          </select>
+            <SelectTrigger className="w-full h-10">
+              <SelectValue placeholder="Selecciona" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Compañía Anónima (C.A)">
+                Compañía Anónima (C.A)
+              </SelectItem>
+              <SelectItem value="Asociación Civil">Asociación Civil</SelectItem>
+              <SelectItem value="S.R.L.">
+                Sociedades de Responsabilidad Limitada (S.R.L.)
+              </SelectItem>
+              <SelectItem value="Fundaciones">Fundaciones</SelectItem>
+              <SelectItem value="Cooperativas">Cooperativas</SelectItem>
+              <SelectItem value="Pymes">Pymes</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Estado */}
@@ -360,19 +378,22 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Estado
           </label>
-          <select
-            name="estado"
-            value={formData.estado || ''}
-            onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.estado ? 'border-red-500' : 'border-gray-300'}`}
+          <Select
+            value={formData.estado || undefined}
+            onValueChange={(value) => updateFormData({ estado: value })}
           >
-            <option value="">Selecciona</option>
-            <option value="Lara">Lara</option>
-            <option value="Carabobo">Carabobo</option>
-            <option value="Zulia">Zulia</option>
-            <option value="Distrito Capital">Distrito Capital</option>
-            {/* Add more states as needed */}
-          </select>
+            <SelectTrigger
+              className={`w-full h-10 ${errors.estado ? 'border-red-500' : ''}`}
+            >
+              <SelectValue placeholder="Selecciona" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Lara">Lara</SelectItem>
+              <SelectItem value="Carabobo">Carabobo</SelectItem>
+              <SelectItem value="Zulia">Zulia</SelectItem>
+              <SelectItem value="Distrito Capital">Distrito Capital</SelectItem>
+            </SelectContent>
+          </Select>
           {errors.estado && (
             <p className="text-red-500 text-xs mt-1">{errors.estado}</p>
           )}
@@ -383,17 +404,20 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Municipio
           </label>
-          <select
-            name="municipio"
-            value={formData.municipio || ''}
-            onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.municipio ? 'border-red-500' : 'border-gray-300'}`}
+          <Select
+            value={formData.municipio || undefined}
+            onValueChange={(value) => updateFormData({ municipio: value })}
           >
-            <option value="">Selecciona</option>
-            <option value="Iribarren">Iribarren</option>
-            <option value="Palavecino">Palavecino</option>
-            {/* Add more municipalities */}
-          </select>
+            <SelectTrigger
+              className={`w-full h-10 ${errors.municipio ? 'border-red-500' : ''}`}
+            >
+              <SelectValue placeholder="Selecciona" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Iribarren">Iribarren</SelectItem>
+              <SelectItem value="Palavecino">Palavecino</SelectItem>
+            </SelectContent>
+          </Select>
           {errors.municipio && (
             <p className="text-red-500 text-xs mt-1">{errors.municipio}</p>
           )}
@@ -404,17 +428,20 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Parroquia
           </label>
-          <select
-            name="parroquia"
-            value={formData.parroquia || ''}
-            onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.parroquia ? 'border-red-500' : 'border-gray-300'}`}
+          <Select
+            value={formData.parroquia || undefined}
+            onValueChange={(value) => updateFormData({ parroquia: value })}
           >
-            <option value="">Selecciona</option>
-            <option value="Concepción">Concepción</option>
-            <option value="Catedral">Catedral</option>
-            {/* Add more parishes */}
-          </select>
+            <SelectTrigger
+              className={`w-full h-10 ${errors.parroquia ? 'border-red-500' : ''}`}
+            >
+              <SelectValue placeholder="Selecciona" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Concepción">Concepción</SelectItem>
+              <SelectItem value="Catedral">Catedral</SelectItem>
+            </SelectContent>
+          </Select>
           {errors.parroquia && (
             <p className="text-red-500 text-xs mt-1">{errors.parroquia}</p>
           )}

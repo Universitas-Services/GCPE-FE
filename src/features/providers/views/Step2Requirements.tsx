@@ -1,5 +1,6 @@
 import React from 'react';
 import { useProviderForm } from '../context/ProviderFormContext';
+import { Button } from '@/components/ui/button';
 
 export const Step2Requirements: React.FC = () => {
   const { formData, updateFormData } = useProviderForm();
@@ -22,42 +23,31 @@ export const Step2Requirements: React.FC = () => {
         {label}
       </label>
       <div className="flex space-x-6">
-        <button
+        <Button
           type="button"
+          variant={value === true ? 'default' : 'outline'}
           onClick={() => handleBooleanChange(name, true)}
-          className={`px-8 py-3 rounded-md border text-base font-medium transition-colors ${
-            value === true
-              ? 'bg-blue-600 text-white border-blue-600'
-              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-          }`}
+          className="px-8 py-3 text-base font-medium"
+          size="lg"
         >
           SI
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
+          variant={value === false ? 'default' : 'outline'}
           onClick={() => handleBooleanChange(name, false)}
-          className={`px-8 py-3 rounded-md border text-base font-medium transition-colors ${
-            value === false
-              ? 'bg-blue-600 text-white border-blue-600'
-              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-          }`}
+          className="px-8 py-3 text-base font-medium"
+          size="lg"
         >
           NO
-        </button>
+        </Button>
       </div>
     </div>
   );
 
   return (
     <div className="flex flex-col h-full flex-grow">
-      <h2 className="text-xl font-bold text-blue-900 mb-2">
-        Validación de requisitos
-      </h2>
-      <p className="text-sm text-gray-500 mb-8">
-        Indica el estado de tus documentos legales.
-      </p>
-
-      <div className="flex-grow flex flex-col justify-center space-y-12 max-w-2xl mx-auto w-full">
+      <div className="flex-grow flex flex-col justify-center space-y-8 max-w-2xl mx-auto w-full">
         <BooleanGroup
           label="¿Está registrado en el Registro Nacional de Contratista (RNC)?"
           name="tiene_rnc"

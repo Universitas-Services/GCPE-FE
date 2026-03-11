@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   RecoveryProvider,
   useRecovery,
@@ -73,12 +74,14 @@ function RecoveryContent() {
                 <ArrowLeft className="h-6 w-6" />
               </Link>
             ) : (
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={handleBack}
                 className="text-gray-600 hover:text-gray-900"
               >
                 <ArrowLeft className="h-6 w-6" />
-              </button>
+              </Button>
             )}
           </div>
 

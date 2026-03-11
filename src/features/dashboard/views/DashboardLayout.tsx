@@ -13,7 +13,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
       <div
         className={cn(
           'hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 z-50 transition-width duration-300 ease-in-out',
-          isSidebarCollapsed ? 'w-16' : 'w-64'
+          isSidebarCollapsed ? 'w-16' : 'w-[280px]'
         )}
       >
         <Sidebar className="h-full" />
@@ -23,7 +23,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
       <div
         className={cn(
           'flex-1 transition-all duration-300 ease-in-out flex flex-col min-h-screen',
-          isSidebarCollapsed ? 'lg:pl-16' : 'lg:pl-64'
+          isSidebarCollapsed ? 'lg:pl-16' : 'lg:pl-[280px]'
         )}
       >
         <div className="flex items-center p-3 lg:hidden border-b bg-gray-50/50 shrink-0">

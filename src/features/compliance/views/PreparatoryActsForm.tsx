@@ -1,14 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+
 import { useCompliance } from '../context/ComplianceContext';
 import { ComplianceQuestionItem } from './ComplianceQuestionItem';
 
@@ -64,51 +57,20 @@ const PREPARATORY_ACTS_QUESTIONS = [
 ];
 
 export function PreparatoryActsForm() {
-  const { complianceAnswers, setAnswer, goToNextPage, goToPreviousPage } =
-    useCompliance();
+  const { complianceAnswers, setAnswer } = useCompliance();
 
   return (
-    <Card className="w-full max-w-5xl mx-auto shadow-sm border-gray-100">
-      <CardHeader className="pb-8">
-        <CardTitle className="text-2xl font-bold text-[#0b1e4c]">
-          Actos Preparatorios y Publicación
-        </CardTitle>
-        <CardDescription className="text-gray-400 text-base italic">
-          Objetivo: Verificar que el proceso inició correctamente y fue
-          publicado según la ley.
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent className="space-y-6">
-        {PREPARATORY_ACTS_QUESTIONS.map((item) => (
-          <ComplianceQuestionItem
-            key={item.id}
-            id={item.id}
-            question={item.question}
-            citation={item.citation}
-            value={complianceAnswers[item.id]}
-            onChange={(val) => setAnswer(item.id, val)}
-          />
-        ))}
-
-        <div className="flex justify-between pt-8">
-          <Button
-            type="button"
-            variant="outline"
-            className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-6 text-lg rounded-xl"
-            onClick={goToPreviousPage}
-          >
-            Anterior
-          </Button>
-          <Button
-            type="button"
-            className="bg-[#0097b2] hover:bg-[#008299] text-white px-8 py-6 text-lg rounded-xl"
-            onClick={goToNextPage}
-          >
-            Siguiente
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="w-full space-y-4">
+      {PREPARATORY_ACTS_QUESTIONS.map((item) => (
+        <ComplianceQuestionItem
+          key={item.id}
+          id={item.id}
+          question={item.question}
+          citation={item.citation}
+          value={complianceAnswers[item.id]}
+          onChange={(val) => setAnswer(item.id, val)}
+        />
+      ))}
+    </div>
   );
 }
