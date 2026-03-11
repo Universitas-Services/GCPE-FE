@@ -157,7 +157,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
 
           <Button
             type="button"
-            className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
+            className="btn-primary px-6 py-2 text-base rounded-xl"
             onClick={handleNext}
             disabled={isSubmitting}
           >

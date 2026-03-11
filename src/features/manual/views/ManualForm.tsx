@@ -39,7 +39,7 @@ export function ManualForm() {
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
       <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
-        <h2 className="text-xl md:text-2xl font-bold text-[#001f5c] mb-1">
+        <h2 className="text-xl md:text-2xl font-bold text-[#005282] mb-1">
           Elabora tu manual express
         </h2>
         <p className="text-sm text-gray-500">
@@ -161,7 +161,7 @@ export function ManualForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="bg-[#001f5c] hover:bg-[#001540] text-white px-6 py-2 text-base rounded-xl min-w-[150px] h-auto"
+            className="btn-primary px-6 py-2 text-base rounded-xl min-w-[150px] h-auto"
           >
             {isSubmitting ? 'Generando...' : 'Elaborar manual'}
           </Button>

@@ -46,29 +46,29 @@ export const Step3Capacity: React.FC = () => {
           <div className="flex space-x-4">
             <Button
               type="button"
-              variant={
-                formData.actividad_comercial_principal === true
-                  ? 'default'
-                  : 'outline'
-              }
+              variant="outline"
               onClick={() =>
                 handleBooleanChange('actividad_comercial_principal', true)
               }
-              className="px-6 py-2 text-sm font-medium"
+              className={`px-6 py-2 text-sm font-medium ${
+                formData.actividad_comercial_principal === true
+                  ? 'btn-option-selected'
+                  : 'btn-option-unselected'
+              }`}
             >
               SI
             </Button>
             <Button
               type="button"
-              variant={
-                formData.actividad_comercial_principal === false
-                  ? 'default'
-                  : 'outline'
-              }
+              variant="outline"
               onClick={() =>
                 handleBooleanChange('actividad_comercial_principal', false)
               }
-              className="px-6 py-2 text-sm font-medium"
+              className={`px-6 py-2 text-sm font-medium ${
+                formData.actividad_comercial_principal === false
+                  ? 'btn-option-selected'
+                  : 'btn-option-unselected'
+              }`}
             >
               NO
             </Button>
@@ -86,11 +86,13 @@ export const Step3Capacity: React.FC = () => {
                 <Button
                   key={type}
                   type="button"
-                  variant={
-                    formData.area_especialidad === type ? 'default' : 'outline'
-                  }
+                  variant="outline"
                   onClick={() => updateFormData({ area_especialidad: type })}
-                  className="px-4 py-2 text-sm font-medium"
+                  className={`px-4 py-2 text-sm font-medium ${
+                    formData.area_especialidad === type
+                      ? 'btn-option-selected'
+                      : 'btn-option-unselected'
+                  }`}
                 >
                   {type}
                 </Button>
@@ -113,13 +115,13 @@ export const Step3Capacity: React.FC = () => {
                 <Button
                   key={level}
                   type="button"
-                  variant={
-                    formData.nivel_contratacion === level
-                      ? 'default'
-                      : 'outline'
-                  }
+                  variant="outline"
                   onClick={() => updateFormData({ nivel_contratacion: level })}
-                  className="px-4 py-2 text-sm font-medium"
+                  className={`px-4 py-2 text-sm font-medium ${
+                    formData.nivel_contratacion === level
+                      ? 'btn-option-selected'
+                      : 'btn-option-unselected'
+                  }`}
                 >
                   {level}
                 </Button>

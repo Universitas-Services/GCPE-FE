@@ -33,7 +33,7 @@ export function ServiceCard({
           {description}
         </p>
         <Button
-          className="w-full bg-[#008CBA] hover:bg-[#007ba3] text-white rounded-lg h-10 font-medium transition-colors"
+          className="w-full btn-primary rounded-lg h-10 font-medium transition-colors"
           asChild
         >
           {download ? (

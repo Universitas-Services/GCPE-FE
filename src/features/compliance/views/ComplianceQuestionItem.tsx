@@ -71,10 +71,8 @@ function SelectionButton({
       variant="outline"
       onClick={onClick}
       className={cn(
-        'h-10 px-6 min-w-[80px] text-xs font-semibold rounded-lg border transition-all duration-200',
-        isSelected
-          ? 'bg-[#0097b2] text-white border-[#0097b2] shadow-md hover:bg-[#008299] hover:text-white'
-          : 'bg-white text-gray-400 border-gray-200 hover:border-[#0097b2] hover:text-[#0097b2] hover:bg-gray-50'
+        'h-10 px-6 min-w-[80px] text-xs font-semibold rounded-lg transition-all duration-200',
+        isSelected ? 'btn-option-selected' : 'btn-option-unselected'
       )}
     >
       {label}

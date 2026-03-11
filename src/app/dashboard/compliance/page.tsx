@@ -164,14 +164,14 @@ function ComplianceContent() {
             <Button
               type="submit"
               form="compliance-general-data"
-              className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
+              className="btn-primary px-6 py-2 text-base rounded-xl"
             >
               Siguiente
             </Button>
           ) : currentPage < 7 ? (
             <Button
               type="button"
-              className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
+              className="btn-primary px-6 py-2 text-base rounded-xl"
               onClick={goToNextPage}
             >
               Siguiente
@@ -181,7 +181,7 @@ function ComplianceContent() {
           {currentPage === 7 && (
             <Button
               type="button"
-              className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
+              className="btn-primary px-6 py-2 text-base rounded-xl"
               onClick={handleGenerateCompliance}
               disabled={isSubmitting || isDownloading}
             >

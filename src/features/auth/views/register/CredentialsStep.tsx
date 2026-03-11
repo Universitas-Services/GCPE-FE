@@ -100,7 +100,7 @@ export function CredentialsStep() {
 
         <Button
           type="submit"
-          className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-6 text-lg shadow-sm"
+          className="w-full btn-primary py-6 text-lg shadow-sm"
         >
           Siguiente
         </Button>
