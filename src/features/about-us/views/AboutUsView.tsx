@@ -98,7 +98,7 @@ export function AboutUsView() {
     <div className="flex-1 w-full max-h-full overflow-hidden flex flex-col bg-gray-50/50">
       <div className="flex-1 overflow-y-auto w-full p-6 md:p-8 lg:p-10">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold text-center text-[#0b1e4c] mb-10">
+          <h1 className="text-3xl font-bold text-center text-[#005282] mb-10">
             Conócenos
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">

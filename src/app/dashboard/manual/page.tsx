@@ -4,7 +4,7 @@ export default function ManualPage() {
   return (
     <div className="w-full h-[calc(100vh-4rem)] md:h-[calc(100vh-2rem)] p-2 md:p-4 flex flex-col">
       <div className="text-center space-y-0.5 mb-2 md:mb-2 mt-2 shrink-0">
-        <h1 className="text-lg md:text-xl font-bold tracking-tight text-blue-900">
+        <h1 className="text-lg md:text-xl font-bold tracking-tight text-[#005282]">
           Manual express
         </h1>
       </div>

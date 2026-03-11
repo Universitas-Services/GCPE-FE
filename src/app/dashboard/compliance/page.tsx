@@ -112,7 +112,7 @@ function ComplianceContent() {
         {/* Header fijo interno */}
         {currentStepInfo && (
           <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
-            <h2 className="text-xl md:text-2xl font-bold text-[#0b1e4c] mb-1">
+            <h2 className="text-xl md:text-2xl font-bold text-[#005282] mb-1">
               {currentStepInfo.title}
             </h2>
             <p className="text-sm text-gray-500">

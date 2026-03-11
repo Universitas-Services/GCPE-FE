@@ -61,7 +61,7 @@ export default function ProvidersListPage() {
   return (
     <div className="p-6 md:p-8 space-y-6 bg-gray-50/50 min-h-screen">
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold tracking-tight text-[#0b1e4c]">
+        <h1 className="text-2xl font-bold tracking-tight text-[#005282]">
           Proveedores Registrados
         </h1>
         <p className="text-gray-500">
