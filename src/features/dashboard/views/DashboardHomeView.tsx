@@ -209,12 +209,12 @@ export function DashboardHomeView() {
           <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100 flex justify-center w-full">
             <Link
               href="/dashboard/pro"
-              className="z-10 w-full mt-2 flex justify-center"
+              className="z-10 mt-2 flex justify-center"
             >
               <Button
                 variant="secondary"
                 size="sm"
-                className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+                className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform cursor-pointer"
               >
                 Actualizar a la versión PRO{' '}
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -244,12 +244,12 @@ export function DashboardHomeView() {
           <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100 flex justify-center w-full">
             <Link
               href="/dashboard/pro"
-              className="z-10 w-full mt-2 flex justify-center"
+              className="z-10 mt-2 flex justify-center"
             >
               <Button
                 variant="secondary"
                 size="sm"
-                className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+                className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform cursor-pointer"
               >
                 Actualizar a la versión PRO{' '}
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -278,12 +278,12 @@ export function DashboardHomeView() {
           <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100 flex justify-center w-full">
             <Link
               href="/dashboard/pro"
-              className="z-10 w-full mt-2 flex justify-center"
+              className="z-10 mt-2 flex justify-center"
             >
               <Button
                 variant="secondary"
                 size="sm"
-                className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+                className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform cursor-pointer"
               >
                 Actualizar a la versión PRO{' '}
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -322,7 +322,7 @@ export function DashboardHomeView() {
           <Button
             variant="secondary"
             size="sm"
-            className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+            className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform cursor-pointer"
           >
             Actualizar a la versión PRO <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
