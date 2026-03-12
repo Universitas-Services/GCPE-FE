@@ -65,7 +65,10 @@ function UserNav({ isCollapsed = false }: { isCollapsed?: boolean }) {
     userService.getProfile().then(setProfile).catch(console.error);
   }, []);
 
-  const initials = profile ? getInitials(profile.username) : 'U';
+  const fullName = profile?.first_name
+    ? `${profile.first_name} ${profile.last_name || ''}`.trim()
+    : profile?.username || '';
+  const initials = profile ? getInitials(fullName) : 'U';
 
   return (
     <DropdownMenu>
