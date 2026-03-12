@@ -72,7 +72,7 @@ export function LoginForm() {
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="flex flex-1 flex-col items-center justify-center bg-[#eaeef4] p-8 lg:p-20">
+      <div className="flex flex-1 flex-col items-center justify-center bg-[#E8EDF2] p-8 lg:p-20">
         <div className="w-full max-w-md space-y-8">
           <div className="flex flex-col items-center space-y-2 text-center">
             <div className="mb-4">
@@ -84,10 +84,10 @@ export function LoginForm() {
                 className="h-12 w-auto"
               />
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-3xl font-bold tracking-tight text-[#005282]">
               Bienvenido
             </h1>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-[#66686A]">
               Ingresa tus credenciales para acceder al sistema
             </p>
           </div>
@@ -134,7 +134,7 @@ export function LoginForm() {
             <div className="flex items-center justify-end">
               <Link
                 href="/recovery"
-                className="text-sm font-medium text-[#008CBA] hover:underline"
+                className="text-sm font-medium text-[#008CBA] hover:text-[#005282]"
               >
                 ¿Olvidaste tu contraseña?
               </Link>
@@ -161,7 +161,7 @@ export function LoginForm() {
               <Separator className="w-full bg-gray-300" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-[#eaeef4] px-2 text-gray-500">O</span>
+              <span className="bg-[#E8EDF2] px-2 text-gray-500">O</span>
             </div>
           </div>
 
@@ -169,7 +169,7 @@ export function LoginForm() {
             ¿No tienes cuenta?{' '}
             <Link
               href="/register"
-              className="font-bold text-[#008CBA] hover:underline"
+              className="font-bold text-[#0091B2] hover:text-[#005282]"
             >
               Registrate AQUÍ
             </Link>

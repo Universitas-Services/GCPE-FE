@@ -11,6 +11,13 @@ import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import { registerService } from '@/features/auth/services/register.service';
 import Swal from 'sweetalert2';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
 
 const personalDataSchema = z.object({
@@ -27,6 +34,7 @@ type PersonalDataFormValues = z.infer<typeof personalDataSchema>;
 export function PersonalDataStep() {
   const { formData, updateFormData, prevStep } = useRegister();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const router = useRouter();
 
   const {
@@ -60,18 +68,8 @@ export function PersonalDataStep() {
         telefono: finalData.phone,
       });
 
-      // Si todo sale bien, mostramos pop-up de éxito
-      await Swal.fire({
-        icon: 'success',
-        title: '¡Registro exitoso!',
-        text: 'Tu cuenta ha sido creada correctamente.',
-        confirmButtonText: 'Ir al Iniciar Sesión',
-        confirmButtonColor: '#008CBA',
-        allowOutsideClick: false,
-      });
-
-      // Redirigimos al login
-      router.push('/login');
+      // Si todo sale bien, mostramos el modal de éxito
+      setShowSuccessModal(true);
     } catch (error: unknown) {
       console.error('Error al registrar usuario:', error);
 
@@ -204,6 +202,37 @@ export function PersonalDataStep() {
           {isSubmitting ? 'Registrando...' : 'Registrarte'}
         </Button>
       </form>
+
+      {/* Success Modal */}
+      <Dialog
+        open={showSuccessModal}
+        onOpenChange={(open) => {
+          if (!open) {
+            /* close not allowed outside */
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-[600px] bg-[#E8EDF2] border-0 p-6 [&>button]:hidden">
+          <DialogHeader className="space-y-3">
+            <DialogTitle className="text-2xl font-bold text-[#005282]">
+              Registro exitoso
+            </DialogTitle>
+            <DialogDescription className="text-sm text-[#66686A] mt-2 leading-relaxed text-left">
+              Hemos enviado un correo para que confirmes y actives tu cuenta. Si
+              no lo ubicas en la bandeja de entrada, revisa en SPAM,
+              notificaciones o promociones.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4 flex justify-center w-full">
+            <Button
+              className="w-full bg-[#0091BE] hover:bg-[#007da6] text-white py-5 text-base font-semibold transition-colors"
+              onClick={() => router.push('/login')}
+            >
+              Entendido
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

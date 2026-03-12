@@ -110,7 +110,7 @@ export function CredentialsStep() {
             <Separator className="w-full bg-gray-300" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-[#eaeef4] px-2 text-gray-400">o</span>
+            <span className="bg-[#E8EDF2] px-2 text-gray-400">o</span>
           </div>
         </div>
 
