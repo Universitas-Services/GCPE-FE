@@ -71,7 +71,7 @@ export function DashboardHomeView() {
         {isLoading ? (
           <Skeleton className="h-8 w-64 mb-1" />
         ) : (
-          <h1 className="text-2xl font-bold tracking-tight text-[#005282] leading-tight">
+          <h1 className="text-2xl font-bold tracking-tight text-[#101829] leading-tight">
             Hola,{' '}
             <span className="text-[#005282]">
               {profile?.first_name} {profile?.last_name || 'Usuario'}
@@ -102,12 +102,14 @@ export function DashboardHomeView() {
           <Card className="relative overflow-hidden border-slate-200 hover:shadow-md transition-shadow flex flex-col justify-between p-3 bg-white">
             <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50/50 rounded-bl-full -z-10 opacity-70"></div>
             <CardHeader className="p-0 mb-2">
-              <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center mb-2">
-                <Book className="w-5 h-5 text-[#005496]" />
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                  <Book className="w-5 h-5 text-[#005496]" />
+                </div>
+                <CardTitle className="text-sm font-bold leading-tight text-[#005282]">
+                  Manual Express
+                </CardTitle>
               </div>
-              <CardTitle className="text-sm font-bold leading-tight text-[#005496]">
-                Manual Express
-              </CardTitle>
               <CardDescription className="text-[11px] mt-1.5 text-slate-600 leading-relaxed">
                 Genera al instante tu demo de manual para concursos abiertos de
                 bienes (Acto Único / Apertura Única).
@@ -119,7 +121,7 @@ export function DashboardHomeView() {
             <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100">
               <Link
                 href="/dashboard/manual"
-                className="inline-flex items-center text-[11px] font-bold text-[#005496] hover:text-blue-800 transition-colors"
+                className="inline-flex items-center text-[11px] font-bold text-[#0091BE] hover:text-[#005282] transition-colors"
               >
                 Acceder <ArrowRight className="ml-1 w-3.5 h-3.5" />
               </Link>
@@ -130,17 +132,14 @@ export function DashboardHomeView() {
           <Card className="relative overflow-hidden border-slate-200 hover:shadow-md transition-shadow flex flex-col justify-between p-3 bg-white">
             <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50/50 rounded-bl-full -z-10 opacity-70"></div>
             <CardHeader className="p-0 mb-2">
-              <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mb-2">
-                <Store className="w-5 h-5 text-[#00C853]" />
-              </div>
-              <CardTitle className="text-sm font-bold leading-tight text-[#005496]">
-                <Link
-                  href="/dashboard/proveedores/registro"
-                  className="hover:underline"
-                >
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+                  <Store className="w-5 h-5 text-[#00C853]" />
+                </div>
+                <CardTitle className="text-sm font-bold leading-tight text-[#005282]">
                   Registro de Proveedores
-                </Link>
-              </CardTitle>
+                </CardTitle>
+              </div>
               <CardDescription className="text-[11px] mt-1.5 text-slate-600 leading-relaxed">
                 Registra y gestiona el listado oficial de proveedores,
                 asegurando un control eficiente y en orden.
@@ -149,7 +148,7 @@ export function DashboardHomeView() {
             <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100">
               <Link
                 href="/dashboard/proveedores/registro"
-                className="inline-flex items-center text-[11px] font-bold text-[#005496] hover:text-blue-800 transition-colors mt-auto"
+                className="inline-flex items-center text-[11px] font-bold text-[#0091BE] hover:text-[#005282] transition-colors mt-auto"
               >
                 Registrar proveedor <ArrowRight className="ml-1 w-3.5 h-3.5" />
               </Link>
@@ -160,12 +159,14 @@ export function DashboardHomeView() {
           <Card className="relative overflow-hidden border-slate-200 hover:shadow-md transition-shadow flex flex-col justify-between p-3 bg-white">
             <div className="absolute top-0 right-0 w-24 h-24 bg-amber-50/50 rounded-bl-full -z-10 opacity-70"></div>
             <CardHeader className="p-0 mb-2">
-              <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center mb-2">
-                <ShieldCheck className="w-5 h-5 text-[#FFC107]" />
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-5 h-5 text-[#FFC107]" />
+                </div>
+                <CardTitle className="text-sm font-bold leading-tight text-[#005282]">
+                  Compliance de expediente
+                </CardTitle>
               </div>
-              <CardTitle className="text-sm font-bold leading-tight text-[#005496]">
-                Compliance de expediente
-              </CardTitle>
               <CardDescription className="text-[11px] mt-1.5 text-slate-600 leading-relaxed">
                 Válida al instante el cumplimiento documental de expedientes de
                 bienes bajo la modalidad de concurso abierto, acto único y
@@ -175,7 +176,7 @@ export function DashboardHomeView() {
             <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100">
               <Link
                 href="/dashboard/compliance"
-                className="inline-flex items-center text-[11px] font-bold text-[#005496] hover:text-blue-800 transition-colors"
+                className="inline-flex items-center text-[11px] font-bold text-[#0091BE] hover:text-[#005282] transition-colors"
               >
                 Verificar cumplimiento{' '}
                 <ArrowRight className="ml-1 w-3.5 h-3.5" />
@@ -194,7 +195,7 @@ export function DashboardHomeView() {
               <div className="w-8 h-8 rounded-md bg-emerald-50 flex items-center justify-center shrink-0">
                 <Users className="w-4 h-4 text-[#00C853]" />
               </div>
-              <CardTitle className="text-sm font-bold text-[#005496] leading-tight">
+              <CardTitle className="text-sm font-bold text-[#005282] leading-tight">
                 Proveedores registrados
               </CardTitle>
             </div>
@@ -205,12 +206,19 @@ export function DashboardHomeView() {
               Interno de la SUNAI .
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100">
+          <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100 flex justify-center w-full">
             <Link
               href="/dashboard/pro"
-              className="inline-flex text-[11px] font-bold text-[#005496] hover:text-blue-800 transition-colors"
+              className="z-10 w-full mt-2 flex justify-center"
             >
-              [Actualiza a la versión PRO]
+              <Button
+                variant="secondary"
+                size="sm"
+                className="w-full md:w-auto bg-white text-teal-800 hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+              >
+                Actualizar a la versión PRO{' '}
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
             </Link>
           </CardContent>
         </Card>
@@ -222,7 +230,7 @@ export function DashboardHomeView() {
               <div className="w-8 h-8 rounded-md bg-amber-50 flex items-center justify-center shrink-0">
                 <FileCheck className="w-4 h-4 text-[#FFC107]" />
               </div>
-              <CardTitle className="text-sm font-bold text-[#005496] leading-tight">
+              <CardTitle className="text-sm font-bold text-[#005282] leading-tight">
                 Compliance realizado
               </CardTitle>
             </div>
@@ -233,12 +241,19 @@ export function DashboardHomeView() {
               avanzada.
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100">
+          <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100 flex justify-center w-full">
             <Link
               href="/dashboard/pro"
-              className="inline-flex text-[11px] font-bold text-[#005496] hover:text-blue-800 transition-colors"
+              className="z-10 w-full mt-2 flex justify-center"
             >
-              [Actualiza a la versión PRO]
+              <Button
+                variant="secondary"
+                size="sm"
+                className="w-full md:w-auto bg-white text-teal-800 hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+              >
+                Actualizar a la versión PRO{' '}
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
             </Link>
           </CardContent>
         </Card>
@@ -250,7 +265,7 @@ export function DashboardHomeView() {
               <div className="w-8 h-8 rounded-md bg-blue-50 flex items-center justify-center shrink-0">
                 <FileText className="w-4 h-4 text-[#005496]" />
               </div>
-              <CardTitle className="text-sm font-bold text-[#005496] leading-tight">
+              <CardTitle className="text-sm font-bold text-[#005282] leading-tight">
                 Elaboración de expedientes de contrataciones
               </CardTitle>
             </div>
@@ -260,12 +275,19 @@ export function DashboardHomeView() {
               cumplimiento automático de la Ley de Contrataciones Públicas .
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100">
+          <CardContent className="p-0 mt-2 pt-2 border-t border-slate-100 flex justify-center w-full">
             <Link
               href="/dashboard/pro"
-              className="inline-flex text-[11px] font-bold text-[#005496] hover:text-blue-800 transition-colors"
+              className="z-10 w-full mt-2 flex justify-center"
             >
-              [Actualiza a la versión PRO]
+              <Button
+                variant="secondary"
+                size="sm"
+                className="w-full md:w-auto bg-white text-teal-800 hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+              >
+                Actualizar a la versión PRO{' '}
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
             </Link>
           </CardContent>
         </Card>
@@ -302,7 +324,7 @@ export function DashboardHomeView() {
             size="sm"
             className="w-full md:w-auto bg-white text-teal-800 hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
           >
-            Actualizar a PRO <ArrowRight className="w-4 h-4 ml-1" />
+            Actualizar a la versión PRO <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
         </Link>
       </div>
