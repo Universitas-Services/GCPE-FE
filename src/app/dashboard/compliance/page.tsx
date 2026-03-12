@@ -12,10 +12,11 @@ import {
   AdvancedReportForm,
   ComplianceProvider,
   useCompliance,
+  ComplianceSuccessModal,
 } from '@/features/compliance';
 import { complianceService } from '@/features/compliance/services/compliance.service';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function ComplianceContent() {
   const {
@@ -30,6 +31,24 @@ function ComplianceContent() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [hasShownModalForQ25, setHasShownModalForQ25] = useState(false);
+
+  const answer25 = complianceAnswers[25];
+  const prevAnswer25Ref = useRef(answer25);
+
+  useEffect(() => {
+    if (
+      currentPage === 7 &&
+      prevAnswer25Ref.current === undefined &&
+      answer25 !== undefined &&
+      !hasShownModalForQ25
+    ) {
+      setShowSuccessModal(true);
+      setHasShownModalForQ25(true);
+    }
+    prevAnswer25Ref.current = answer25;
+  }, [currentPage, answer25, hasShownModalForQ25]);
 
   const handleGenerateCompliance = async () => {
     try {
@@ -108,6 +127,16 @@ function ComplianceContent() {
       {/* Outer Header (fuera de la card) */}
       <ComplianceHeader />
 
+      <ComplianceSuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        onGenerate={() => {
+          setShowSuccessModal(false);
+          handleGenerateCompliance();
+        }}
+        isGenerating={isSubmitting || isDownloading}
+      />
+
       <div className="w-full max-w-[1600px] mx-auto flex flex-col h-full bg-white rounded-xl shadow-lg overflow-hidden flex-1 border border-gray-200">
         {/* Header fijo interno */}
         {currentStepInfo && (
@@ -183,7 +212,11 @@ function ComplianceContent() {
               type="button"
               className="btn-primary px-6 py-2 text-base rounded-xl"
               onClick={handleGenerateCompliance}
-              disabled={isSubmitting || isDownloading}
+              disabled={
+                isSubmitting ||
+                isDownloading ||
+                complianceAnswers[25] === undefined
+              }
             >
               {isSubmitting || isDownloading
                 ? 'Generando y Descargando...'

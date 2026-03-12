@@ -7,4 +7,5 @@ export { EvaluationQualificationForm } from './views/EvaluationQualificationForm
 export { FormalitiesAndArchiveForm } from './views/FormalitiesAndArchiveForm';
 export { AdvancedReportForm } from './views/AdvancedReportForm';
 export { AwardContractForm } from './views/AwardContractForm';
+export { ComplianceSuccessModal } from './views/ComplianceSuccessModal';
 export { ComplianceProvider, useCompliance } from './context/ComplianceContext';
