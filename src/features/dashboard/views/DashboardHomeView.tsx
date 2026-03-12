@@ -214,7 +214,7 @@ export function DashboardHomeView() {
               <Button
                 variant="secondary"
                 size="sm"
-                className="w-full md:w-auto bg-white text-teal-800 hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+                className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
               >
                 Actualizar a la versión PRO{' '}
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -249,7 +249,7 @@ export function DashboardHomeView() {
               <Button
                 variant="secondary"
                 size="sm"
-                className="w-full md:w-auto bg-white text-teal-800 hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+                className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
               >
                 Actualizar a la versión PRO{' '}
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -283,7 +283,7 @@ export function DashboardHomeView() {
               <Button
                 variant="secondary"
                 size="sm"
-                className="w-full md:w-auto bg-white text-teal-800 hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+                className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
               >
                 Actualizar a la versión PRO{' '}
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -322,7 +322,7 @@ export function DashboardHomeView() {
           <Button
             variant="secondary"
             size="sm"
-            className="w-full md:w-auto bg-white text-teal-800 hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
+            className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-2 h-10 px-6 text-sm hover:scale-105 transition-transform"
           >
             Actualizar a la versión PRO <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
