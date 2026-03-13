@@ -7,10 +7,6 @@ import { Input } from '@/components/ui/input';
 export const Step3Capacity: React.FC = () => {
   const { formData, updateFormData, errors } = useProviderForm();
 
-  const handleBooleanChange = (name: string, value: boolean) => {
-    updateFormData({ [name]: value });
-  };
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -35,7 +31,7 @@ export const Step3Capacity: React.FC = () => {
     <div className="flex flex-col h-full flex-grow">
       <div className="flex-grow flex flex-col space-y-8">
         {/* Actividad Comercial Principal */}
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Actividad comercial principal
           </label>
@@ -43,36 +39,21 @@ export const Step3Capacity: React.FC = () => {
             Ejemplo: El objeto principal es la prestación de servicios de
             consultoría...
           </p>
-          <div className="flex space-x-4">
-            <Button
-              type="button"
-              variant={
-                formData.actividad_comercial_principal === true
-                  ? 'default'
-                  : 'outline'
-              }
-              onClick={() =>
-                handleBooleanChange('actividad_comercial_principal', true)
-              }
-              className="px-6 py-2 text-sm font-medium"
-            >
-              SI
-            </Button>
-            <Button
-              type="button"
-              variant={
-                formData.actividad_comercial_principal === false
-                  ? 'default'
-                  : 'outline'
-              }
-              onClick={() =>
-                handleBooleanChange('actividad_comercial_principal', false)
-              }
-              className="px-6 py-2 text-sm font-medium"
-            >
-              NO
-            </Button>
-          </div>
+          <Input
+            type="text"
+            name="actividad_comercial_principal"
+            value={(formData.actividad_comercial_principal as string) || ''}
+            onChange={handleChange}
+            className={`w-full h-10 ${
+              errors.actividad_comercial_principal ? 'border-red-500' : ''
+            }`}
+            placeholder="Ingrese su actividad comercial principal"
+          />
+          {errors.actividad_comercial_principal && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.actividad_comercial_principal}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
@@ -86,11 +67,13 @@ export const Step3Capacity: React.FC = () => {
                 <Button
                   key={type}
                   type="button"
-                  variant={
-                    formData.area_especialidad === type ? 'default' : 'outline'
-                  }
+                  variant="outline"
                   onClick={() => updateFormData({ area_especialidad: type })}
-                  className="px-4 py-2 text-sm font-medium"
+                  className={`px-4 py-2 text-sm font-medium ${
+                    formData.area_especialidad === type
+                      ? 'btn-option-selected'
+                      : 'btn-option-unselected'
+                  }`}
                 >
                   {type}
                 </Button>
@@ -113,13 +96,13 @@ export const Step3Capacity: React.FC = () => {
                 <Button
                   key={level}
                   type="button"
-                  variant={
-                    formData.nivel_contratacion === level
-                      ? 'default'
-                      : 'outline'
-                  }
+                  variant="outline"
                   onClick={() => updateFormData({ nivel_contratacion: level })}
-                  className="px-4 py-2 text-sm font-medium"
+                  className={`px-4 py-2 text-sm font-medium ${
+                    formData.nivel_contratacion === level
+                      ? 'btn-option-selected'
+                      : 'btn-option-unselected'
+                  }`}
                 >
                   {level}
                 </Button>

@@ -65,7 +65,7 @@ function RecoveryContent() {
       </div>
 
       {/* Right Side - Form Content */}
-      <div className="flex flex-1 flex-col items-center justify-center bg-[#eaeef4] p-4 lg:p-20">
+      <div className="flex flex-1 flex-col items-center justify-center bg-[#E8EDF2] p-4 lg:p-20">
         <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-8 sm:p-12 relative">
           {/* Back Button */}
           <div className="absolute top-8 left-8">
@@ -86,7 +86,7 @@ function RecoveryContent() {
           </div>
 
           <div className="mt-8 flex flex-col items-center space-y-2 text-center mb-8">
-            <h1 className="text-2xl font-bold text-[#005a7a]">
+            <h1 className="text-2xl font-bold text-[#005282]">
               {currentInfo.title}
             </h1>
             <p className="text-sm text-gray-500">{currentInfo.subtitle}</p>

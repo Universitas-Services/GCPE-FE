@@ -100,7 +100,7 @@ export function CredentialsStep() {
 
         <Button
           type="submit"
-          className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-6 text-lg shadow-sm"
+          className="w-full btn-primary py-6 text-lg shadow-sm"
         >
           Siguiente
         </Button>
@@ -110,7 +110,7 @@ export function CredentialsStep() {
             <Separator className="w-full bg-gray-300" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-[#eaeef4] px-2 text-gray-400">o</span>
+            <span className="bg-[#E8EDF2] px-2 text-gray-400">o</span>
           </div>
         </div>
 

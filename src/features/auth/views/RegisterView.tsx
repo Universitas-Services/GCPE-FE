@@ -28,7 +28,7 @@ function RegisterContent() {
       </div>
 
       {/* Right Side - Registration Form */}
-      <div className="flex flex-1 flex-col items-center justify-center bg-[#eaeef4] p-8 lg:p-20">
+      <div className="flex flex-1 flex-col items-center justify-center bg-[#E8EDF2] p-8 lg:p-20">
         <div className="w-full max-w-md space-y-8 bg-white p-8 rounded-xl shadow-lg">
           {/* Header */}
           <div className="flex flex-col items-center space-y-2 text-center">
@@ -42,7 +42,7 @@ function RegisterContent() {
 
             {currentStep === 1 ? (
               <>
-                <h1 className="text-3xl font-bold tracking-tight text-[#005f7f]">
+                <h1 className="text-3xl font-bold tracking-tight text-[#005282]">
                   Crea tu cuenta
                 </h1>
                 <p className="text-sm text-gray-500">
@@ -51,7 +51,7 @@ function RegisterContent() {
               </>
             ) : (
               <>
-                <h1 className="text-3xl font-bold tracking-tight text-[#005f7f]">
+                <h1 className="text-3xl font-bold tracking-tight text-[#005282]">
                   Completa tus datos
                 </h1>
                 <p className="text-sm text-gray-500">

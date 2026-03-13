@@ -125,7 +125,7 @@ export function ProUpgradeModal({ isOpen, onClose }: ProUpgradeModalProps) {
               >
                 <CheckCircle2 className="w-5 h-5 text-[#0097b2] mt-0.5 shrink-0" />
                 <div>
-                  <p className="text-sm font-semibold text-gray-800 leading-tight">
+                  <p className="text-sm font-bold text-gray-800 leading-tight">
                     {feature.title}
                   </p>
                   <p className="text-xs text-gray-500 leading-snug mt-0.5">

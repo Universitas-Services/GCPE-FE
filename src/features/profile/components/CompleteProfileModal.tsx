@@ -152,7 +152,7 @@ export function CompleteProfileModal({
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-2 h-10 font-medium"
+              className="w-full btn-primary py-2 h-10 font-medium"
             >
               {isSubmitting ? 'Guardando...' : 'Guardar y continuar'}
             </Button>

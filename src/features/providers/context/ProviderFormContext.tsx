@@ -28,7 +28,7 @@ export const ProviderFormProvider: React.FC<{ children: ReactNode }> = ({
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<Partial<ProviderFormData>>({
     tipo_persona: 'Juridica', // Default based on example
-    actividad_comercial_principal: false,
+    actividad_comercial_principal: '',
     tiene_rnc: false,
     tiene_solvencia_laboral: false,
     tiene_licencia_municipal: false,

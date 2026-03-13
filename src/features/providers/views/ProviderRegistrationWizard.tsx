@@ -113,7 +113,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 pb-4 flex flex-col h-[calc(100vh-4rem)] md:h-[calc(100vh-2rem)]">
-      <h1 className="text-lg md:text-xl font-bold tracking-tight text-center text-blue-900 mb-2 mt-2 shrink-0">
+      <h1 className="text-lg md:text-xl font-bold tracking-tight text-center text-[#005282] mb-2 mt-2 shrink-0">
         Registro de proveedores
       </h1>
 
@@ -121,7 +121,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
         {/* Header estático dentro de la Card */}
         {currentStepInfo && (
           <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
-            <h2 className="text-xl md:text-2xl font-bold text-[#001f5c] mb-1">
+            <h2 className="text-xl md:text-2xl font-bold text-[#005282] mb-1">
               {currentStepInfo.title}
             </h2>
             <p className="text-sm text-gray-500">
@@ -157,7 +157,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
 
           <Button
             type="button"
-            className="bg-[#0097b2] hover:bg-[#008299] text-white px-6 py-2 text-base rounded-xl"
+            className="btn-primary px-6 py-2 text-base rounded-xl"
             onClick={handleNext}
             disabled={isSubmitting}
           >
