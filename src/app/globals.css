@@ -7,6 +7,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-button-background: var(--button-background);
+  --color-button-hover: var(--button-hover);
   --color-button-foreground: var(--button-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -55,6 +56,7 @@
   --card: #ffffff;
   --card-foreground: #0a0a0a;
   --button-background: #0091be;
+  --button-hover: #005282;
   --button-foreground: #ffffff;
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);

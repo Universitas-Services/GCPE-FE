@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { manualSchema, ManualFormSchema } from '../schemas/manualSchema';
@@ -8,10 +8,22 @@ import { createManual } from '../services/manualService';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 export function ManualForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
 
   const {
     register,
@@ -21,19 +33,35 @@ export function ManualForm() {
     resolver: zodResolver(manualSchema),
   });
 
+  useEffect(() => {
+    if (isSubmitting) {
+      const interval = setInterval(() => {
+        setProgress((prev) => (prev >= 90 ? 90 : prev + 10));
+      }, 500);
+      return () => clearInterval(interval);
+    } else {
+      setProgress(0);
+    }
+  }, [isSubmitting]);
+
   const onSubmit = async (data: ManualFormSchema) => {
     setIsSubmitting(true);
     setSubmitError(null);
+    setSubmitSuccess(null);
+    setProgress(10);
     try {
       await createManual(data);
-      alert('Manual generado exitosamente');
+      setProgress(100);
+      setSubmitSuccess('Correo enviado exitosamente');
     } catch (error) {
       console.error(error);
       setSubmitError(
-        'Hubo un error al generar el manual. Por favor intente nuevamente.'
+        'Fallo en el envío del correo electrónico, por favor intente nuevamente o contacte a soporte'
       );
     } finally {
-      setIsSubmitting(false);
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 500);
     }
   };
   return (
@@ -151,10 +179,6 @@ export function ManualForm() {
               </p>
             )}
           </div>
-
-          {submitError && (
-            <p className="text-sm text-red-500 font-bold">{submitError}</p>
-          )}
         </div>
 
         <div className="shrink-0 py-2 px-8 border-t border-gray-200 bg-white flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 items-center">
@@ -163,10 +187,66 @@ export function ManualForm() {
             disabled={isSubmitting}
             className="btn-primary px-6 py-2 text-base rounded-xl min-w-[150px] h-auto"
           >
-            {isSubmitting ? 'Generando...' : 'Elaborar manual'}
+            {isSubmitting ? 'Enviando...' : 'Enviar manual'}
           </Button>
         </div>
       </form>
+
+      {/* Full Screen Loading Overlay */}
+      {isSubmitting && (
+        <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center">
+          <div className="bg-white p-8 rounded-2xl shadow-xl w-[90%] max-w-md flex flex-col items-center space-y-6">
+            <div className="text-center space-y-2">
+              <h3 className="text-xl font-bold text-[#005282]">
+                Enviando a su correo electrónico
+              </h3>
+              <p className="text-sm text-gray-500">
+                Por favor, espere un momento mientras generamos y enviamos su
+                manual express.
+              </p>
+            </div>
+            <Progress value={progress} className="w-full h-2" />
+            <p className="text-xs font-medium text-gray-400">
+              {progress}% completado
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Alert Dialog Modal */}
+      <AlertDialog
+        open={Boolean(submitSuccess) || Boolean(submitError)}
+        onOpenChange={(open: boolean) => {
+          if (!open) {
+            setSubmitSuccess(null);
+            setSubmitError(null);
+          }
+        }}
+      >
+        <AlertDialogContent className="w-[90%] max-w-md rounded-2xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle
+              className={submitSuccess ? 'text-green-600' : 'text-red-500'}
+            >
+              {submitSuccess ? '¡Envío Exitoso!' : 'Error de Envío'}
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-base text-gray-700">
+              {submitSuccess || submitError}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction
+              className="px-6 py-2 rounded-xl text-base"
+              onClick={() => {
+                setSubmitSuccess(null);
+                setSubmitError(null);
+              }}
+            >
+              Aceptar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
