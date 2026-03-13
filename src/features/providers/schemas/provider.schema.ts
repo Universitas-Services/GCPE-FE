@@ -43,9 +43,9 @@ export const providerSchema = z.object({
   tiene_licencia_municipal: z.boolean({ message: 'Este campo es requerido' }),
 
   // Step 3
-  actividad_comercial_principal: z.boolean({
-    message: 'Este campo es requerido',
-  }),
+  actividad_comercial_principal: z
+    .string({ message: 'La actividad comercial principal es requerida' })
+    .min(1, 'La actividad comercial principal es requerida'),
   area_especialidad: z
     .string({ message: 'El área de especialidad es requerida' })
     .min(1, 'El área de especialidad es requerida'),

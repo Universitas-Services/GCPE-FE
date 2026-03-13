@@ -15,7 +15,7 @@ export interface ProviderData {
   tiene_rnc: boolean;
   tiene_solvencia_laboral: boolean;
   tiene_licencia_municipal: boolean;
-  actividad_comercial_principal: boolean;
+  actividad_comercial_principal: string;
   area_especialidad: string;
   anos_experiencia: number;
   fecha_estado_financiero: string;
@@ -43,7 +43,7 @@ export interface ProviderListResponse {
   tiene_rnc: boolean;
   tiene_solvencia_laboral: boolean;
   tiene_licencia_municipal: boolean;
-  actividad_comercial_principal: boolean;
+  actividad_comercial_principal: string;
   area_especialidad: string;
   anos_experiencia: number;
   fecha_estado_financiero: string;

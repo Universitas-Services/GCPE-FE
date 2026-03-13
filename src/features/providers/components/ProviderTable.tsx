@@ -38,7 +38,8 @@ export function ProviderTable({ providers, isLoading }: ProviderTableProps) {
               <th className="px-6 py-3 font-medium">Empresa / Razón Social</th>
               <th className="px-6 py-3 font-medium">RIF</th>
               <th className="px-6 py-3 font-medium">Correo Electrónico</th>
-              <th className="px-6 py-3 font-medium">Estado</th>
+              <th className="px-6 py-3 font-medium">Tipo</th>
+              <th className="px-12 py-3 font-medium">Estado</th>
               <th className="px-6 py-3 font-medium">Representante Legal</th>
               <th className="px-6 py-3 font-medium text-right">Acciones</th>
             </tr>
@@ -51,10 +52,11 @@ export function ProviderTable({ providers, isLoading }: ProviderTableProps) {
               >
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                   {provider.nombre_proveedor}
-                  <div className="text-xs text-gray-500 font-normal mt-0.5">
-                    {provider.actividad_comercial_principal
-                      ? 'Activo Comercial'
-                      : 'Servicios'}
+                  <div
+                    className="text-xs text-gray-500 font-normal mt-0.5 truncate max-w-[200px]"
+                    title={provider.actividad_comercial_principal as string}
+                  >
+                    {provider.actividad_comercial_principal}
                   </div>
                 </td>
                 <td className="px-6 py-4 text-gray-600">
@@ -63,9 +65,12 @@ export function ProviderTable({ providers, isLoading }: ProviderTableProps) {
                 <td className="px-6 py-4 text-gray-600">
                   {provider.correo_proveedor}
                 </td>
+                <td className="px-6 py-4 text-gray-600">
+                  {provider.area_especialidad}
+                </td>
                 <td className="px-6 py-4">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                    Pro
+                    Disponible pro
                   </span>
                 </td>
                 <td className="px-6 py-4 text-gray-600">
