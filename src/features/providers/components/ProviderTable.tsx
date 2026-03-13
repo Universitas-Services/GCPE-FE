@@ -54,7 +54,7 @@ export function ProviderTable({ providers, isLoading }: ProviderTableProps) {
                   {provider.nombre_proveedor}
                   <div
                     className="text-xs text-gray-500 font-normal mt-0.5 truncate max-w-[200px]"
-                    title={provider.actividad_comercial_principal as string}
+                    title={String(provider.actividad_comercial_principal || '')}
                   >
                     {provider.actividad_comercial_principal}
                   </div>

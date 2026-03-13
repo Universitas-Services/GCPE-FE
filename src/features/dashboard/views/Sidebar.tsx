@@ -22,6 +22,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   userService,
@@ -329,15 +334,60 @@ export function Sidebar({ className }: SidebarProps) {
             return (
               <div key={route.href}>
                 {isSidebarCollapsed && !isMobile ? (
-                  <Tooltip>
-                    <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
-                    <TooltipContent
-                      side="right"
-                      className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md"
-                    >
-                      {route.label}
-                    </TooltipContent>
-                  </Tooltip>
+                  hasChildren ? (
+                    <Popover>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <PopoverTrigger asChild>
+                            {buttonContent}
+                          </PopoverTrigger>
+                        </TooltipTrigger>
+                        <TooltipContent
+                          side="right"
+                          className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md z-[50]"
+                        >
+                          {route.label}
+                        </TooltipContent>
+                      </Tooltip>
+                      <PopoverContent
+                        side="right"
+                        align="start"
+                        sideOffset={14}
+                        className="w-48 p-2 bg-[#0091BE] border-none shadow-lg rounded-xl z-[51]"
+                      >
+                        <div className="flex flex-col space-y-1">
+                          <div className="px-3 pb-2 mb-1 border-b border-white/20">
+                            <span className="text-white font-semibold text-[13px] tracking-wide">
+                              {route.label}
+                            </span>
+                          </div>
+                          {route.children &&
+                            route.children.map((child: any) => (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                className={cn(
+                                  'px-3 py-2 text-sm text-white font-medium hover:bg-white/10 rounded-lg transition-colors',
+                                  child.active && 'bg-white/20'
+                                )}
+                              >
+                                {child.label}
+                              </Link>
+                            ))}
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  ) : (
+                    <Tooltip>
+                      <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
+                      <TooltipContent
+                        side="right"
+                        className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md"
+                      >
+                        {route.label}
+                      </TooltipContent>
+                    </Tooltip>
+                  )
                 ) : (
                   buttonContent
                 )}
