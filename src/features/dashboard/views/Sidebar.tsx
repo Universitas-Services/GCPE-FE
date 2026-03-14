@@ -166,6 +166,13 @@ export function Sidebar({ className }: SidebarProps) {
     '/dashboard/proveedores',
   ]);
 
+  // Cerrar submenús abiertos al colapsar para evitar flash al re-expandir
+  useEffect(() => {
+    if (isSidebarCollapsed) {
+      setOpenMenus([]);
+    }
+  }, [isSidebarCollapsed]);
+
   const toggleMenu = (href: string) => {
     setOpenMenus((prev) =>
       prev.includes(href)
@@ -427,13 +434,18 @@ export function Sidebar({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        'h-screen border-r bg-[#FFFFFF] hidden lg:flex lg:flex-col transition-all duration-300 ease-in-out',
+        'h-screen border-r bg-[#FFFFFF] hidden lg:flex lg:flex-col transition-all duration-300 ease-in-out overflow-hidden',
         isSidebarCollapsed ? 'w-16' : 'w-[280px]',
         className
       )}
     >
       <TooltipProvider delayDuration={150}>
-        <div className="flex flex-col h-full overflow-hidden">
+        <div
+          className={cn(
+            'flex flex-col h-full overflow-hidden',
+            !isSidebarCollapsed && 'min-w-[280px]'
+          )}
+        >
           {/* Toggle Button / Header restored exactly as it was */}
           <div
             className={cn(
