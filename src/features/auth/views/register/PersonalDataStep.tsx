@@ -9,6 +9,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { registerService } from '@/features/auth/services/register.service';
 import Swal from 'sweetalert2';
 import {
@@ -23,7 +30,19 @@ import { useRouter } from 'next/navigation';
 const personalDataSchema = z.object({
   firstName: z.string().min(2, { message: 'El nombre es requerido' }),
   lastName: z.string().min(2, { message: 'El apellido es requerido' }),
-  phone: z.string().min(6, { message: 'El teléfono es requerido' }),
+  phone: z
+    .string()
+    .min(11, {
+      message: 'Debes seleccionar la operadora e ingresar los 7 dígitos',
+    })
+    .max(11, { message: 'El teléfono debe tener 7 dígitos' })
+    .refine(
+      (val) =>
+        ['0412', '0422', '0414', '0424', '0416', '0426'].includes(
+          val.substring(0, 4)
+        ),
+      { message: 'Selecciona una operadora válida' }
+    ),
   acceptedTerms: z.boolean().refine((val) => val === true, {
     message: 'Debes aceptar los términos y condiciones',
   }),
@@ -37,9 +56,15 @@ export function PersonalDataStep() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const router = useRouter();
 
+  // Separar operadora y número del teléfono almacenado
+  const rawPhone = formData.phone || '';
+  const currentOperator = rawPhone.substring(0, 4);
+  const currentNumber = rawPhone.substring(4);
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<PersonalDataFormValues>({
     resolver: zodResolver(personalDataSchema),
@@ -50,6 +75,22 @@ export function PersonalDataStep() {
       acceptedTerms: formData.acceptedTerms || false,
     },
   });
+
+  const handlePhoneOperatorChange = (value: string) => {
+    const newPhone = value + currentNumber;
+    updateFormData({ phone: newPhone });
+    setValue('phone', newPhone, { shouldValidate: true });
+  };
+
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Solo dígitos, máximo 7 caracteres
+    if (/^\d{0,7}$/.test(value)) {
+      const newPhone = currentOperator + value;
+      updateFormData({ phone: newPhone });
+      setValue('phone', newPhone, { shouldValidate: true });
+    }
+  };
 
   const onSubmit = async (data: PersonalDataFormValues) => {
     setIsSubmitting(true);
@@ -142,13 +183,44 @@ export function PersonalDataStep() {
         {/* Phone */}
         <div className="space-y-2">
           <Label htmlFor="phone">Teléfono</Label>
-          <Input
-            id="phone"
-            type="tel"
-            placeholder="Ingresa tu número"
-            className={errors.phone ? 'border-red-500' : ''}
-            {...register('phone')}
-          />
+          <p className="text-xs text-gray-500 italic">Ejemplo: 1234567</p>
+          <div className="flex gap-2">
+            <Select
+              value={
+                ['0412', '0422', '0414', '0424', '0416', '0426'].includes(
+                  currentOperator
+                )
+                  ? currentOperator
+                  : undefined
+              }
+              onValueChange={handlePhoneOperatorChange}
+            >
+              <SelectTrigger
+                className={`w-24 h-10 ${errors.phone ? 'border-red-500' : ''}`}
+              >
+                <SelectValue placeholder="Cod" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0412">0412</SelectItem>
+                <SelectItem value="0422">0422</SelectItem>
+                <SelectItem value="0414">0414</SelectItem>
+                <SelectItem value="0424">0424</SelectItem>
+                <SelectItem value="0416">0416</SelectItem>
+                <SelectItem value="0426">0426</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input
+              id="phone"
+              type="text"
+              value={currentNumber}
+              onChange={handlePhoneNumberChange}
+              maxLength={7}
+              placeholder="1234567"
+              className={`h-10 ${errors.phone ? 'border-red-500' : ''}`}
+            />
+          </div>
+          {/* Campo oculto para react-hook-form */}
+          <input type="hidden" {...register('phone')} />
           {errors.phone && (
             <p className="text-sm text-red-500">{errors.phone.message}</p>
           )}

@@ -353,11 +353,11 @@ export function Sidebar({ className }: SidebarProps) {
                         side="right"
                         align="start"
                         sideOffset={14}
-                        className="w-48 p-2 bg-[#0091BE] border-none shadow-lg rounded-xl z-[51]"
+                        className="w-48 p-2 bg-card border-none shadow-lg rounded-xl z-[51]"
                       >
                         <div className="flex flex-col space-y-1">
-                          <div className="px-3 pb-2 mb-1 border-b border-white/20">
-                            <span className="text-white font-semibold text-[13px] tracking-wide">
+                          <div className="px-3 pb-2 mb-1 border-b border-gray-200">
+                            <span className="text-black font-semibold text-[13px] tracking-wide">
                               {route.label}
                             </span>
                           </div>
@@ -367,8 +367,8 @@ export function Sidebar({ className }: SidebarProps) {
                                 key={child.href}
                                 href={child.href}
                                 className={cn(
-                                  'px-3 py-2 text-sm text-white font-medium hover:bg-white/10 rounded-lg transition-colors',
-                                  child.active && 'bg-white/20'
+                                  'px-3 py-2 text-sm text-black font-medium hover:bg-[#F3F4F6] rounded-lg transition-colors',
+                                  child.active && 'bg-[#F3F4F6]'
                                 )}
                               >
                                 {child.label}
