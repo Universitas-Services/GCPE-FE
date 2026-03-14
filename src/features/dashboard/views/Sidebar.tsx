@@ -437,7 +437,7 @@ export function Sidebar({ className }: SidebarProps) {
           {/* Toggle Button / Header restored exactly as it was */}
           <div
             className={cn(
-              'px-3 py-2 flex items-center mb-2 mt-2',
+              'px-3 py-2 flex items-center mt-2',
               isSidebarCollapsed ? 'justify-center' : 'justify-between'
             )}
           >
@@ -468,7 +468,7 @@ export function Sidebar({ className }: SidebarProps) {
 
           <ScrollArea
             className={cn(
-              'flex-1 px-3 mt-4 w-full h-[calc(100vh-140px)]',
+              'flex-1 px-3 mt-0 w-full h-[calc(100vh-140px)]',
               isSidebarCollapsed
                 ? 'overflow-hidden [&>div]:!overflow-hidden [&::-webkit-scrollbar]:!hidden [-ms-overflow-style:!none] [scrollbar-width:!none]'
                 : 'overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'
