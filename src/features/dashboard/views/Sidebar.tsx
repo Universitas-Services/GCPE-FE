@@ -351,7 +351,7 @@ export function Sidebar({ className }: SidebarProps) {
                         </TooltipTrigger>
                         <TooltipContent
                           side="right"
-                          className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md z-[50]"
+                          className="bg-[#FFFFFF] text-black font-medium border-none ml-2 shadow-md z-[50]"
                         >
                           {route.label}
                         </TooltipContent>
@@ -389,7 +389,7 @@ export function Sidebar({ className }: SidebarProps) {
                       <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
                       <TooltipContent
                         side="right"
-                        className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md"
+                        className="bg-[#FFFFFF] text-black font-medium border-none ml-2 shadow-md"
                       >
                         {route.label}
                       </TooltipContent>
