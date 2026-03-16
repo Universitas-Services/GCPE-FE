@@ -28,8 +28,8 @@ export const Step3Capacity: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full flex-grow">
-      <div className="flex-grow flex flex-col space-y-8">
+    <div className="flex flex-col pb-12">
+      <div className="flex flex-col space-y-8">
         {/* Actividad Comercial Principal */}
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">

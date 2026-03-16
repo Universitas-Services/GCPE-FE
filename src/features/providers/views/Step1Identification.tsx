@@ -107,8 +107,8 @@ export const Step1Identification: React.FC = () => {
   };
 
   return (
-    <div className="flex-grow flex flex-col h-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 flex-grow">
+    <div className="flex flex-col pb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
         {/* Correo */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
