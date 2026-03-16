@@ -166,6 +166,13 @@ export function Sidebar({ className }: SidebarProps) {
     '/dashboard/proveedores',
   ]);
 
+  // Cerrar submenús abiertos al colapsar para evitar flash al re-expandir
+  useEffect(() => {
+    if (isSidebarCollapsed) {
+      setOpenMenus([]);
+    }
+  }, [isSidebarCollapsed]);
+
   const toggleMenu = (href: string) => {
     setOpenMenus((prev) =>
       prev.includes(href)
@@ -344,7 +351,7 @@ export function Sidebar({ className }: SidebarProps) {
                         </TooltipTrigger>
                         <TooltipContent
                           side="right"
-                          className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md z-[50]"
+                          className="bg-[#FFFFFF] text-black font-medium border-none ml-2 shadow-md z-[50]"
                         >
                           {route.label}
                         </TooltipContent>
@@ -353,11 +360,11 @@ export function Sidebar({ className }: SidebarProps) {
                         side="right"
                         align="start"
                         sideOffset={14}
-                        className="w-48 p-2 bg-[#0091BE] border-none shadow-lg rounded-xl z-[51]"
+                        className="w-48 p-2 bg-card border-none shadow-lg rounded-xl z-[51]"
                       >
                         <div className="flex flex-col space-y-1">
-                          <div className="px-3 pb-2 mb-1 border-b border-white/20">
-                            <span className="text-white font-semibold text-[13px] tracking-wide">
+                          <div className="px-3 pb-2 mb-1 border-b border-gray-200">
+                            <span className="text-black font-semibold text-[13px] tracking-wide">
                               {route.label}
                             </span>
                           </div>
@@ -367,8 +374,8 @@ export function Sidebar({ className }: SidebarProps) {
                                 key={child.href}
                                 href={child.href}
                                 className={cn(
-                                  'px-3 py-2 text-sm text-white font-medium hover:bg-white/10 rounded-lg transition-colors',
-                                  child.active && 'bg-white/20'
+                                  'px-3 py-2 text-sm text-black font-medium hover:bg-[#F3F4F6] rounded-lg transition-colors',
+                                  child.active && 'bg-[#F3F4F6]'
                                 )}
                               >
                                 {child.label}
@@ -382,7 +389,7 @@ export function Sidebar({ className }: SidebarProps) {
                       <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
                       <TooltipContent
                         side="right"
-                        className="bg-[#0091BE] text-white font-medium border-none ml-2 shadow-md"
+                        className="bg-[#FFFFFF] text-black font-medium border-none ml-2 shadow-md"
                       >
                         {route.label}
                       </TooltipContent>
@@ -427,17 +434,22 @@ export function Sidebar({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        'h-screen border-r bg-[#FFFFFF] hidden lg:flex lg:flex-col transition-all duration-300 ease-in-out',
+        'h-screen border-r bg-[#FFFFFF] hidden lg:flex lg:flex-col transition-all duration-300 ease-in-out overflow-hidden',
         isSidebarCollapsed ? 'w-16' : 'w-[280px]',
         className
       )}
     >
       <TooltipProvider delayDuration={150}>
-        <div className="flex flex-col h-full overflow-hidden">
+        <div
+          className={cn(
+            'flex flex-col h-full overflow-hidden',
+            !isSidebarCollapsed && 'min-w-[280px]'
+          )}
+        >
           {/* Toggle Button / Header restored exactly as it was */}
           <div
             className={cn(
-              'px-3 py-2 flex items-center mb-2 mt-2',
+              'px-3 py-2 flex items-center mt-2',
               isSidebarCollapsed ? 'justify-center' : 'justify-between'
             )}
           >
@@ -468,7 +480,7 @@ export function Sidebar({ className }: SidebarProps) {
 
           <ScrollArea
             className={cn(
-              'flex-1 px-3 mt-4 w-full h-[calc(100vh-140px)]',
+              'flex-1 px-3 mt-0 w-full h-[calc(100vh-140px)]',
               isSidebarCollapsed
                 ? 'overflow-hidden [&>div]:!overflow-hidden [&::-webkit-scrollbar]:!hidden [-ms-overflow-style:!none] [scrollbar-width:!none]'
                 : 'overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'
