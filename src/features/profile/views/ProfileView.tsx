@@ -7,6 +7,7 @@ import { DeleteAccountView } from './DeleteAccountView';
 import { Button } from '@/components/ui/button';
 import { Settings, KeyRound, Trash2, List } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { FormHeader } from '@/components/shared/FormHeader';
 
 type TabType = 'edit_profile' | 'change_password' | 'delete_account';
 
@@ -27,10 +28,8 @@ export const ProfileView = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-8">
-      <h1 className="text-3xl font-bold text-center text-[#003366] mb-8">
-        Gestión de perfil
-      </h1>
+    <div className="max-w-6xl mx-auto p-4 md:p-8 bg-background">
+      <FormHeader title="Gestión de perfil" className="text-center mb-8" />
 
       <Card className="bg-white rounded-xl shadow-md overflow-hidden min-h-[600px]">
         {/* Header Section */}

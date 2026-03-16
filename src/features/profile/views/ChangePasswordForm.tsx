@@ -3,13 +3,8 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { FormHeader } from '@/components/shared/FormHeader';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -72,13 +67,11 @@ export const ChangePasswordForm = () => {
   return (
     <Card className="border-none shadow-none">
       <CardHeader>
-        <CardTitle className="text-xl text-[#003366]">
-          Cambiar contraseña
-        </CardTitle>
-        <CardDescription>
-          Para mayor seguridad, te recomendamos usar una contraseña única que no
-          utilices en otros sitios.
-        </CardDescription>
+        <FormHeader
+          title="Cambiar contraseña"
+          description="Para mayor seguridad, te recomendamos usar una contraseña única que no utilices en otros sitios."
+          className="mb-0"
+        />
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

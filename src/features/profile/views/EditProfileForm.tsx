@@ -3,13 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { FormHeader } from '@/components/shared/FormHeader';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -130,12 +125,11 @@ export const EditProfileForm = () => {
   return (
     <Card className="border-none shadow-none">
       <CardHeader>
-        <CardTitle className="text-xl text-[#003366]">
-          Información del perfil
-        </CardTitle>
-        <CardDescription>
-          Consulta y actualiza los datos de tu cuenta.
-        </CardDescription>
+        <FormHeader
+          title="Información del perfil"
+          description="Consulta y actualiza los datos de tu cuenta."
+          className="mb-0"
+        />
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

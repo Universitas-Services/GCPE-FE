@@ -16,6 +16,7 @@ import {
 } from '@/features/compliance';
 import { complianceService } from '@/features/compliance/services/compliance.service';
 import { Button } from '@/components/ui/button';
+import { FormHeader } from '@/components/shared/FormHeader';
 import { useState, useEffect, useRef } from 'react';
 
 function ComplianceContent() {
@@ -141,12 +142,11 @@ function ComplianceContent() {
         {/* Header fijo interno */}
         {currentStepInfo && (
           <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
-            <h2 className="text-xl md:text-2xl font-bold text-[#005282] mb-1">
-              {currentStepInfo.title}
-            </h2>
-            <p className="text-sm text-gray-500">
-              {currentStepInfo.description}
-            </p>
+            <FormHeader
+              title={currentStepInfo.title}
+              description={currentStepInfo.description}
+              className="mb-0"
+            />
           </div>
         )}
 

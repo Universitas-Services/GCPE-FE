@@ -49,7 +49,7 @@ export const FAQView: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#E8EDF2] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-center text-[#34495E] mb-10 mt-6">
+        <h1 className="text-3xl font-bold text-center text-[#005282] mb-10 mt-6">
           Preguntas frecuentes
         </h1>
 

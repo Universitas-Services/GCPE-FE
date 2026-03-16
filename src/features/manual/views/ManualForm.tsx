@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { manualSchema, ManualFormSchema } from '../schemas/manualSchema';
 import { createManual } from '../services/manualService';
 import { Button } from '@/components/ui/button';
+import { FormHeader } from '@/components/shared/FormHeader';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
@@ -67,13 +68,11 @@ export function ManualForm() {
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
       <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
-        <h2 className="text-xl md:text-2xl font-bold text-[#005282] mb-1">
-          Elabora tu manual express
-        </h2>
-        <p className="text-sm text-gray-500">
-          Ingresa los datos básicos para generar una demostración del manual de
-          concurso abierto. Lo recibirás en tu correo en pocos minutos.
-        </p>
+        <FormHeader
+          title="Elabora tu manual express"
+          description="Ingresa los datos básicos para generar una demostración del manual de concurso abierto. Lo recibirás en tu correo en pocos minutos."
+          className="mb-0"
+        />
       </div>
 
       <form

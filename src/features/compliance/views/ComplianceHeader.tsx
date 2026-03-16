@@ -1,12 +1,11 @@
+import { FormHeader } from '@/components/shared/FormHeader';
+
 export function ComplianceHeader() {
   return (
-    <div className="text-center space-y-0.5 mb-2 mt-2 shrink-0">
-      <h1 className="text-lg md:text-xl font-bold tracking-tight text-[#005282]">
-        Compliance Expediente
-      </h1>
-      <p className="text-xs md:text-sm font-medium text-gray-600">
-        Concurso Abierto: Acto único, apertura única
-      </p>
-    </div>
+    <FormHeader
+      title="Compliance Expediente"
+      description="Concurso Abierto: Acto único, apertura única"
+      className="text-center mb-2 mt-2 shrink-0"
+    />
   );
 }
