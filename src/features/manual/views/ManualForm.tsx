@@ -85,11 +85,11 @@ export function ManualForm() {
           <div className="space-y-2">
             <Label
               htmlFor="nombre_institucion_ente"
-              className="text-base font-semibold"
+              className="text-base font-medium"
             >
               1. Indique el Nombre de la Institución / Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic"></p>
+            <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
             <Input
               id="nombre_institucion_ente"
               {...register('nombre_institucion_ente')}
@@ -105,12 +105,12 @@ export function ManualForm() {
           <div className="space-y-2">
             <Label
               htmlFor="siglas_institucion_ente"
-              className="text-base font-semibold"
+              className="text-base font-medium"
             >
               2. Indique el Acrónimo y/o siglas de la Institución / Ente /
               Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic"></p>
+            <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
             <Input
               id="siglas_institucion_ente"
               {...register('siglas_institucion_ente')}
@@ -126,13 +126,13 @@ export function ManualForm() {
           <div className="space-y-2">
             <Label
               htmlFor="nombre_unidad_admin_financiera"
-              className="text-base font-semibold"
+              className="text-base font-medium"
             >
               3. Indique el Nombre de la unidad / Gerencia y/u Oficina
               responsable de la gestión Administrativa y Financiera de la
               Institución / Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic"></p>
+            <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
             <Input
               id="nombre_unidad_admin_financiera"
               {...register('nombre_unidad_admin_financiera')}
@@ -150,13 +150,13 @@ export function ManualForm() {
           <div className="space-y-2">
             <Label
               htmlFor="nombre_unidad_sistemas_tecnologia"
-              className="text-base font-semibold"
+              className="text-base font-medium"
             >
               4. Indique el Nombre de la Unidad / Gerencia y/u Oficina
               responsable del Área de Sistema y Tecnología de la Institución /
               Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic"></p>
+            <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
             <Input
               id="nombre_unidad_sistemas_tecnologia"
               {...register('nombre_unidad_sistemas_tecnologia')}

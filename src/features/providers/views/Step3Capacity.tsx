@@ -35,7 +35,7 @@ export const Step3Capacity: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Actividad comercial principal
           </label>
-          <p className="text-xs text-gray-500 mb-2 italic">
+          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
             Ejemplo: El objeto principal es la prestación de servicios de
             consultoría...
           </p>
@@ -160,7 +160,9 @@ export const Step3Capacity: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Patrimonio neto reportado
             </label>
-            <p className="text-xs text-gray-500 mb-2 italic">Ejemplo: 0.00</p>
+            <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
+              Ejemplo: 0.00
+            </p>
             <Input
               type="text"
               name="patrimonio_reportado"

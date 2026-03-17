@@ -114,7 +114,7 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Correo electrónico del proveedor
           </label>
-          <p className="text-xs text-gray-500 mb-2 italic">
+          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
             Ejemplo: prueba@gmail.com
           </p>
           <Input
@@ -136,7 +136,7 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Dirección fiscal (como se indica en el RIF)
           </label>
-          <p className="text-xs text-gray-500 mb-2 italic">
+          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
             Ejemplo: Avenida 00, entre calles 00 y 00, Centro Comercial Central,
             Piso 2, Local 3
           </p>
@@ -159,7 +159,7 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Nombre de la empresa o razón social
           </label>
-          <p className="text-xs text-gray-500 mb-2 italic">
+          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
             Ejemplo: Industrias Carabobo C.A
           </p>
           <Input
@@ -181,7 +181,9 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Teléfono de contacto
           </label>
-          <p className="text-xs text-gray-500 mb-2 italic">Ejemplo: 1234567</p>
+          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
+            Ejemplo: 1234567
+          </p>
           <div className="flex gap-2">
             <Select
               value={
@@ -230,7 +232,7 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Registro de Información Fiscal (RIF)
           </label>
-          <p className="text-xs text-gray-500 mb-2 italic">
+          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
             Ejemplo: 123456789
           </p>
           <div className="flex gap-2">
@@ -269,7 +271,7 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Nombre del Representante Legal
           </label>
-          <p className="text-xs text-gray-500 mb-2 italic">
+          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
             Ejemplo: José Ramiréz González Pérez
           </p>
           <Input
@@ -317,7 +319,7 @@ export const Step1Identification: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Cédula del Representante Legal
           </label>
-          <p className="text-xs text-gray-500 mb-2 italic">
+          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
             Ejemplo: 12.345.678
           </p>
           <div className="flex gap-2">
