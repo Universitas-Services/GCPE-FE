@@ -72,6 +72,8 @@ export function ManualForm() {
           title="Elabora tu manual express"
           description="Ingresa los datos básicos para generar una demostración del manual de concurso abierto. Lo recibirás en tu correo en pocos minutos."
           className="mb-0"
+          titleClassName="text-[26px] md:text-[26px] font-bold"
+          descriptionClassName="leading-[22.5px]"
         />
       </div>
 
@@ -87,9 +89,7 @@ export function ManualForm() {
             >
               1. Indique el Nombre de la Institución / Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Ingresa el nombre de la Institución/Ente/Órgano
-            </p>
+            <p className="text-sm text-gray-500 italic"></p>
             <Input
               id="nombre_institucion_ente"
               {...register('nombre_institucion_ente')}
@@ -110,9 +110,7 @@ export function ManualForm() {
               2. Indique el Acrónimo y/o siglas de la Institución / Ente /
               Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Ingresa el nombre de la Institución/Ente/Órgano
-            </p>
+            <p className="text-sm text-gray-500 italic"></p>
             <Input
               id="siglas_institucion_ente"
               {...register('siglas_institucion_ente')}
@@ -134,10 +132,7 @@ export function ManualForm() {
               responsable de la gestión Administrativa y Financiera de la
               Institución / Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Ingresa el nombre de la Unidad/Gerencia y/u Oficina
-              responsable de la gestión Administrativa y Financiera.
-            </p>
+            <p className="text-sm text-gray-500 italic"></p>
             <Input
               id="nombre_unidad_admin_financiera"
               {...register('nombre_unidad_admin_financiera')}
@@ -161,10 +156,7 @@ export function ManualForm() {
               responsable del Área de Sistema y Tecnología de la Institución /
               Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Ingresa el nombre de la Unidad/Gerencia y/u Oficina
-              responsable del Área de Sistema y Tecnología.
-            </p>
+            <p className="text-sm text-gray-500 italic"></p>
             <Input
               id="nombre_unidad_sistemas_tecnologia"
               {...register('nombre_unidad_sistemas_tecnologia')}
@@ -184,9 +176,9 @@ export function ManualForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="btn-primary px-6 py-2 text-base rounded-xl min-w-[150px] h-auto"
+            className="btn-primary px-2 py-1 text-base rounded-xl min-w-[150px] h-auto"
           >
-            {isSubmitting ? 'Enviando...' : 'Enviar manual'}
+            {isSubmitting ? 'Enviando...' : 'Elaborar manual'}
           </Button>
         </div>
       </form>
