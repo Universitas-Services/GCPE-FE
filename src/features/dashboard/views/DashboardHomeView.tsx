@@ -286,7 +286,7 @@ export function DashboardHomeView() {
         </div>
 
         {/* Pro Banner */}
-        <div className="bg-gradient-to-r from-teal-700 to-sky-500 rounded-lg px-4 py-6.5 flex flex-col md:flex-row items-center justify-between gap-2 shadow-lg overflow-hidden relative">
+        <div className="bg-gradient-to-r from-teal-700 to-sky-500 rounded-lg px-4 py-5 flex flex-col md:flex-row items-center justify-between gap-2 shadow-lg overflow-hidden relative">
           <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
           <div className="absolute -left-10 -top-10 w-28 h-28 bg-black/10 rounded-full blur-xl"></div>
 
