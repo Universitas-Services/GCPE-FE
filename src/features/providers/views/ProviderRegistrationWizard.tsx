@@ -1,6 +1,7 @@
 import React from 'react';
 import Swal from 'sweetalert2';
 import { Button } from '@/components/ui/button';
+import { FormHeader } from '@/components/shared/FormHeader';
 import { useProviderForm } from '../context/ProviderFormContext';
 import { Step1Identification } from './Step1Identification';
 import { Step2Requirements } from './Step2Requirements';
@@ -113,20 +114,20 @@ export const ProviderRegistrationWizard: React.FC = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 pb-4 flex flex-col h-[calc(100vh-4rem)] md:h-[calc(100vh-2rem)]">
-      <h1 className="text-lg md:text-xl font-bold tracking-tight text-center text-[#005282] mb-2 mt-2 shrink-0">
-        Registro de proveedores
-      </h1>
+      <FormHeader
+        title="Registro de proveedores"
+        className="text-center mb-2 mt-2 shrink-0"
+      />
 
       <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col flex-1">
         {/* Header estático dentro de la Card */}
         {currentStepInfo && (
           <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
-            <h2 className="text-xl md:text-2xl font-bold text-[#005282] mb-1">
-              {currentStepInfo.title}
-            </h2>
-            <p className="text-sm text-gray-500">
-              {currentStepInfo.description}
-            </p>
+            <FormHeader
+              title={currentStepInfo.title}
+              description={currentStepInfo.description}
+              className="mb-0"
+            />
           </div>
         )}
 

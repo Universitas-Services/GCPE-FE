@@ -200,7 +200,10 @@ export function PersonalDataStep() {
               >
                 <SelectValue placeholder="Cod" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent
+                position="popper"
+                className="min-w-0 w-[var(--radix-select-trigger-width)]"
+              >
                 <SelectItem value="0412">0412</SelectItem>
                 <SelectItem value="0422">0422</SelectItem>
                 <SelectItem value="0414">0414</SelectItem>

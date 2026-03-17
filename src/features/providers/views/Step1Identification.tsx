@@ -107,8 +107,8 @@ export const Step1Identification: React.FC = () => {
   };
 
   return (
-    <div className="flex-grow flex flex-col h-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 flex-grow">
+    <div className="flex flex-col pb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
         {/* Correo */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -198,7 +198,10 @@ export const Step1Identification: React.FC = () => {
               >
                 <SelectValue placeholder="Cod" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent
+                position="popper"
+                className="min-w-0 w-[var(--radix-select-trigger-width)]"
+              >
                 <SelectItem value="0412">0412</SelectItem>
                 <SelectItem value="0422">0422</SelectItem>
                 <SelectItem value="0414">0414</SelectItem>
@@ -240,7 +243,10 @@ export const Step1Identification: React.FC = () => {
               >
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent
+                position="popper"
+                className="min-w-0 w-[var(--radix-select-trigger-width)]"
+              >
                 <SelectItem value="J">J</SelectItem>
                 <SelectItem value="V">V</SelectItem>
               </SelectContent>
@@ -324,7 +330,10 @@ export const Step1Identification: React.FC = () => {
               >
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent
+                position="popper"
+                className="min-w-0 w-[var(--radix-select-trigger-width)]"
+              >
                 <SelectItem value="V">V</SelectItem>
                 <SelectItem value="E">E</SelectItem>
               </SelectContent>
