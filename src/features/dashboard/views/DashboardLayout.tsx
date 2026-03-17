@@ -8,7 +8,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
   const { isSidebarCollapsed } = useDashboard();
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       {/* Desktop Sidebar */}
       <div
         className={cn(
@@ -22,7 +22,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
       {/* Main Content */}
       <div
         className={cn(
-          'flex-1 transition-all duration-300 ease-in-out flex flex-col min-h-screen',
+          'flex-1 transition-all duration-300 ease-in-out flex flex-col h-screen overflow-hidden',
           isSidebarCollapsed ? 'lg:pl-16' : 'lg:pl-[280px]'
         )}
       >
@@ -30,7 +30,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
           <MobileSidebar />
           <span className="ml-2 font-semibold">Menu</span>
         </div>
-        <main className="p-3 lg:p-4 bg-background flex-1 flex flex-col">
+        <main className="p-3 lg:p-4 bg-background flex-1 flex flex-col min-h-0 overflow-auto">
           {children}
         </main>
       </div>
