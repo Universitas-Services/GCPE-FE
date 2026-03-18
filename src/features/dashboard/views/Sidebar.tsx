@@ -52,7 +52,12 @@ import {
 import { LiaRobotSolid } from 'react-icons/lia';
 import { AiOutlineBook } from 'react-icons/ai';
 import { BsQuestionCircle } from 'react-icons/bs';
-import { BookOpenIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
+import { FaUsers } from 'react-icons/fa';
+import {
+  BookOpenIcon,
+  PencilSquareIcon,
+  InformationCircleIcon,
+} from '@heroicons/react/24/outline';
 
 const ICON_STYLE = { width: '18px', height: '18px' };
 
@@ -260,6 +265,18 @@ export function Sidebar({ className }: SidebarProps) {
           icon: BsQuestionCircle,
           href: '/dashboard/preguntas-frecuentes',
           active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
+        },
+        {
+          label: 'Asistencia al usuario',
+          icon: FaUsers,
+          href: '/dashboard/asistencia',
+          active: pathname.startsWith('/dashboard/asistencia'),
+        },
+        {
+          label: 'Acerca de',
+          icon: InformationCircleIcon,
+          href: '/dashboard/acerca-de',
+          active: pathname.startsWith('/dashboard/acerca-de'),
         },
       ],
     },
@@ -510,10 +527,22 @@ export function Sidebar({ className }: SidebarProps) {
             {routeGroups.map((group) => renderRouteItems(group))}
           </ScrollArea>
 
-          {/* User Navbar exactly as it was */}
-          <div className="px-3 mt-auto mb-4 border-t border-gray-100 pt-4 bg-white">
+          {/* User Navbar */}
+          <div className="px-3 mt-auto mb-2 border-t border-gray-100 pt-4 bg-white">
             <UserNav isCollapsed={isSidebarCollapsed} />
           </div>
+
+          {/* Copyright - visible solo cuando NO está colapsado */}
+          {!isSidebarCollapsed && (
+            <div className="px-3 pb-4 text-center">
+              <p
+                className="text-[7px] font-bold text-[#727272] leading-tight"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                Copyright © 2026 Universitas Services | GESTOR CONTRATACIONES
+              </p>
+            </div>
+          )}
         </div>
       </TooltipProvider>
 
@@ -617,6 +646,18 @@ export function MobileSidebar() {
           icon: BsQuestionCircle,
           href: '/dashboard/preguntas-frecuentes',
           active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
+        },
+        {
+          label: 'Asistencia al usuario',
+          icon: FaUsers,
+          href: '/dashboard/asistencia',
+          active: pathname.startsWith('/dashboard/asistencia'),
+        },
+        {
+          label: 'Acerca de',
+          icon: InformationCircleIcon,
+          href: '/dashboard/acerca-de',
+          active: pathname.startsWith('/dashboard/acerca-de'),
         },
       ],
     },
@@ -752,6 +793,14 @@ export function MobileSidebar() {
 
           <div className="px-4 mt-auto border-t pt-4 mb-4">
             <UserNav isCollapsed={false} />
+          </div>
+          <div className="px-4 pb-4 text-center">
+            <p
+              className="text-[7px] font-bold text-[#727272] leading-tight"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+              Copyright © 2026 Universitas Services | GESTOR CONTRATACIONES
+            </p>
           </div>
         </div>
       </SheetContent>
