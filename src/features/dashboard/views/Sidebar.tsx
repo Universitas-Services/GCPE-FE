@@ -40,6 +40,7 @@ import Image from 'next/image';
 import { useDashboard } from '../context/DashboardContext';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/features/auth/context/AuthContext';
+import { ProUpgradeModal } from '@/components/advertisements/ProUpgradeModal';
 
 // Iconos
 import { IoIosJournal } from 'react-icons/io';
@@ -51,7 +52,12 @@ import {
 import { LiaRobotSolid } from 'react-icons/lia';
 import { AiOutlineBook } from 'react-icons/ai';
 import { BsQuestionCircle } from 'react-icons/bs';
-import { BookOpenIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
+import { FaUsers } from 'react-icons/fa';
+import {
+  BookOpenIcon,
+  PencilSquareIcon,
+  InformationCircleIcon,
+} from '@heroicons/react/24/outline';
 
 const ICON_STYLE = { width: '18px', height: '18px' };
 
@@ -165,6 +171,7 @@ export function Sidebar({ className }: SidebarProps) {
   const [openMenus, setOpenMenus] = useState<string[]>([
     '/dashboard/proveedores',
   ]);
+  const [isProModalOpen, setIsProModalOpen] = useState(false);
 
   // Cerrar submenús abiertos al colapsar para evitar flash al re-expandir
   useEffect(() => {
@@ -198,7 +205,7 @@ export function Sidebar({ className }: SidebarProps) {
           active: pathname.startsWith('/dashboard/manual'),
         },
         {
-          label: 'Registro de proveedores',
+          label: 'Registrar proveedor',
           icon: IoNewspaperOutline,
           href: '/dashboard/proveedores',
           active: pathname.startsWith('/dashboard/proveedores'),
@@ -221,6 +228,8 @@ export function Sidebar({ className }: SidebarProps) {
           icon: PencilSquareIcon,
           href: '/dashboard/elaboracion',
           active: pathname.startsWith('/dashboard/elaboracion'),
+          isProFeature: true,
+          onClick: () => setIsProModalOpen(true),
         },
         {
           label: 'Compliance de Expediente de selección de Contratista',
@@ -240,7 +249,7 @@ export function Sidebar({ className }: SidebarProps) {
           active: pathname.startsWith('/dashboard/consultor-ia'),
         },
         {
-          label: 'Conocenos',
+          label: 'Conócenos',
           icon: IoEarthOutline,
           href: '/dashboard/conocenos',
           active: pathname.startsWith('/dashboard/conocenos'),
@@ -256,6 +265,18 @@ export function Sidebar({ className }: SidebarProps) {
           icon: BsQuestionCircle,
           href: '/dashboard/preguntas-frecuentes',
           active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
+        },
+        {
+          label: 'Asistencia al usuario',
+          icon: FaUsers,
+          href: '/dashboard/asistencia',
+          active: pathname.startsWith('/dashboard/asistencia'),
+        },
+        {
+          label: 'Acerca de',
+          icon: InformationCircleIcon,
+          href: '/dashboard/acerca-de',
+          active: pathname.startsWith('/dashboard/acerca-de'),
         },
       ],
     },
@@ -292,11 +313,13 @@ export function Sidebar({ className }: SidebarProps) {
                 onClick={() => {
                   if (hasChildren && (!isSidebarCollapsed || isMobile)) {
                     toggleMenu(route.href);
+                  } else if (route.isProFeature) {
+                    route.onClick?.();
                   }
                 }}
-                asChild={!hasChildren}
+                asChild={!hasChildren && !route.isProFeature}
               >
-                {!hasChildren ? (
+                {!hasChildren && !route.isProFeature ? (
                   <Link href={route.href}>
                     <ItemIcon
                       style={ICON_STYLE}
@@ -311,6 +334,21 @@ export function Sidebar({ className }: SidebarProps) {
                       </span>
                     )}
                   </Link>
+                ) : route.isProFeature ? (
+                  <>
+                    <ItemIcon
+                      style={ICON_STYLE}
+                      className={cn(
+                        'shrink-0 text-[#1a1a1a]',
+                        !isSidebarCollapsed || isMobile ? 'mr-3' : 'mr-0'
+                      )}
+                    />
+                    {(!isSidebarCollapsed || isMobile) && (
+                      <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[13.5px]">
+                        {route.label}
+                      </span>
+                    )}
+                  </>
                 ) : (
                   <>
                     <ItemIcon
@@ -489,12 +527,29 @@ export function Sidebar({ className }: SidebarProps) {
             {routeGroups.map((group) => renderRouteItems(group))}
           </ScrollArea>
 
-          {/* User Navbar exactly as it was */}
-          <div className="px-3 mt-auto mb-4 border-t border-gray-100 pt-4 bg-white">
+          {/* User Navbar */}
+          <div className="px-3 mt-auto mb-2 border-t border-gray-100 pt-4 bg-white">
             <UserNav isCollapsed={isSidebarCollapsed} />
           </div>
+
+          {/* Copyright - visible solo cuando NO está colapsado */}
+          {!isSidebarCollapsed && (
+            <div className="px-3 pb-4 text-center">
+              <p
+                className="text-[7px] font-bold text-[#727272] leading-tight"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                Copyright © 2026 Universitas Services | GESTOR CONTRATACIONES
+              </p>
+            </div>
+          )}
         </div>
       </TooltipProvider>
+
+      <ProUpgradeModal
+        isOpen={isProModalOpen}
+        onClose={() => setIsProModalOpen(false)}
+      />
     </div>
   );
 }
@@ -504,6 +559,7 @@ export function MobileSidebar() {
   const [openMenus, setOpenMenus] = useState<string[]>([
     '/dashboard/proveedores',
   ]);
+  const [isProModalOpen, setIsProModalOpen] = useState(false);
 
   const toggleMenu = (href: string) => {
     setOpenMenus((prev) =>
@@ -549,8 +605,16 @@ export function MobileSidebar() {
           ],
         },
         {
-          label: 'Compliance de Expediente de selección de Contratista',
+          label: 'Elaboración de Expediente de selección de Contratista',
           icon: PencilSquareIcon,
+          href: '/dashboard/elaboracion',
+          active: pathname.startsWith('/dashboard/elaboracion'),
+          isProFeature: true,
+          onClick: () => setIsProModalOpen(true),
+        },
+        {
+          label: 'Compliance de Expediente de selección de Contratista',
+          icon: IoSearchSharp,
           href: '/dashboard/compliance',
           active: pathname.startsWith('/dashboard/compliance'),
         },
@@ -582,6 +646,18 @@ export function MobileSidebar() {
           icon: BsQuestionCircle,
           href: '/dashboard/preguntas-frecuentes',
           active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
+        },
+        {
+          label: 'Asistencia al usuario',
+          icon: FaUsers,
+          href: '/dashboard/asistencia',
+          active: pathname.startsWith('/dashboard/asistencia'),
+        },
+        {
+          label: 'Acerca de',
+          icon: InformationCircleIcon,
+          href: '/dashboard/acerca-de',
+          active: pathname.startsWith('/dashboard/acerca-de'),
         },
       ],
     },
@@ -636,11 +712,13 @@ export function MobileSidebar() {
                           onClick={() => {
                             if (hasChildren) {
                               toggleMenu(route.href);
+                            } else if (route.isProFeature) {
+                              route.onClick?.();
                             }
                           }}
-                          asChild={!hasChildren}
+                          asChild={!hasChildren && !route.isProFeature}
                         >
-                          {!hasChildren ? (
+                          {!hasChildren && !route.isProFeature ? (
                             <Link href={route.href}>
                               <ItemIcon
                                 style={ICON_STYLE}
@@ -650,6 +728,16 @@ export function MobileSidebar() {
                                 {route.label}
                               </span>
                             </Link>
+                          ) : route.isProFeature ? (
+                            <>
+                              <ItemIcon
+                                style={ICON_STYLE}
+                                className="shrink-0 mr-3 text-black"
+                              />
+                              <span className="whitespace-normal leading-tight text-left break-words flex-1 text-[13.5px]">
+                                {route.label}
+                              </span>
+                            </>
                           ) : (
                             <>
                               <ItemIcon
@@ -706,8 +794,21 @@ export function MobileSidebar() {
           <div className="px-4 mt-auto border-t pt-4 mb-4">
             <UserNav isCollapsed={false} />
           </div>
+          <div className="px-4 pb-4 text-center">
+            <p
+              className="text-[7px] font-bold text-[#727272] leading-tight"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+              Copyright © 2026 Universitas Services | GESTOR CONTRATACIONES
+            </p>
+          </div>
         </div>
       </SheetContent>
+
+      <ProUpgradeModal
+        isOpen={isProModalOpen}
+        onClose={() => setIsProModalOpen(false)}
+      />
     </Sheet>
   );
 }

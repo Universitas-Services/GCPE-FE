@@ -22,8 +22,9 @@ import {
 
 export function ManualForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogType, setDialogType] = useState<'success' | 'error'>('success');
+  const [dialogMessage, setDialogMessage] = useState('');
   const [progress, setProgress] = useState(0);
 
   const {
@@ -47,18 +48,20 @@ export function ManualForm() {
 
   const onSubmit = async (data: ManualFormSchema) => {
     setIsSubmitting(true);
-    setSubmitError(null);
-    setSubmitSuccess(null);
     setProgress(10);
     try {
       await createManual(data);
       setProgress(100);
-      setSubmitSuccess('Correo enviado exitosamente');
+      setDialogType('success');
+      setDialogMessage('Correo enviado exitosamente');
+      setDialogOpen(true);
     } catch (error) {
       console.error(error);
-      setSubmitError(
+      setDialogType('error');
+      setDialogMessage(
         'Fallo en el envío del correo electrónico, por favor intente nuevamente o contacte a soporte'
       );
+      setDialogOpen(true);
     } finally {
       setTimeout(() => {
         setIsSubmitting(false);
@@ -72,6 +75,8 @@ export function ManualForm() {
           title="Elabora tu manual express"
           description="Ingresa los datos básicos para generar una demostración del manual de concurso abierto. Lo recibirás en tu correo en pocos minutos."
           className="mb-0"
+          titleClassName="text-[26px] md:text-[26px] font-bold"
+          descriptionClassName="leading-[22.5px]"
         />
       </div>
 
@@ -83,13 +88,11 @@ export function ManualForm() {
           <div className="space-y-2">
             <Label
               htmlFor="nombre_institucion_ente"
-              className="text-base font-semibold"
+              className="text-base font-medium"
             >
               1. Indique el Nombre de la Institución / Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Ingresa el nombre de la Institución/Ente/Órgano
-            </p>
+            <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
             <Input
               id="nombre_institucion_ente"
               {...register('nombre_institucion_ente')}
@@ -105,14 +108,12 @@ export function ManualForm() {
           <div className="space-y-2">
             <Label
               htmlFor="siglas_institucion_ente"
-              className="text-base font-semibold"
+              className="text-base font-medium"
             >
               2. Indique el Acrónimo y/o siglas de la Institución / Ente /
               Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Ingresa el nombre de la Institución/Ente/Órgano
-            </p>
+            <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
             <Input
               id="siglas_institucion_ente"
               {...register('siglas_institucion_ente')}
@@ -128,16 +129,13 @@ export function ManualForm() {
           <div className="space-y-2">
             <Label
               htmlFor="nombre_unidad_admin_financiera"
-              className="text-base font-semibold"
+              className="text-base font-medium"
             >
               3. Indique el Nombre de la unidad / Gerencia y/u Oficina
               responsable de la gestión Administrativa y Financiera de la
               Institución / Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Ingresa el nombre de la Unidad/Gerencia y/u Oficina
-              responsable de la gestión Administrativa y Financiera.
-            </p>
+            <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
             <Input
               id="nombre_unidad_admin_financiera"
               {...register('nombre_unidad_admin_financiera')}
@@ -155,16 +153,13 @@ export function ManualForm() {
           <div className="space-y-2">
             <Label
               htmlFor="nombre_unidad_sistemas_tecnologia"
-              className="text-base font-semibold"
+              className="text-base font-medium"
             >
               4. Indique el Nombre de la Unidad / Gerencia y/u Oficina
               responsable del Área de Sistema y Tecnología de la Institución /
               Ente / Órgano.
             </Label>
-            <p className="text-sm text-gray-500 italic">
-              Ejemplo: Ingresa el nombre de la Unidad/Gerencia y/u Oficina
-              responsable del Área de Sistema y Tecnología.
-            </p>
+            <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
             <Input
               id="nombre_unidad_sistemas_tecnologia"
               {...register('nombre_unidad_sistemas_tecnologia')}
@@ -184,9 +179,9 @@ export function ManualForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="btn-primary px-6 py-2 text-base rounded-xl min-w-[150px] h-auto"
+            className="btn-primary px-2 py-1 text-base rounded-xl min-w-[150px] h-auto"
           >
-            {isSubmitting ? 'Enviando...' : 'Enviar manual'}
+            {isSubmitting ? 'Enviando...' : 'Elaborar manual'}
           </Button>
         </div>
       </form>
@@ -213,33 +208,24 @@ export function ManualForm() {
       )}
 
       {/* Alert Dialog Modal */}
-      <AlertDialog
-        open={Boolean(submitSuccess) || Boolean(submitError)}
-        onOpenChange={(open: boolean) => {
-          if (!open) {
-            setSubmitSuccess(null);
-            setSubmitError(null);
-          }
-        }}
-      >
+      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <AlertDialogContent className="w-[90%] max-w-md rounded-2xl">
           <AlertDialogHeader>
             <AlertDialogTitle
-              className={submitSuccess ? 'text-green-600' : 'text-red-500'}
+              className={
+                dialogType === 'success' ? 'text-green-600' : 'text-red-500'
+              }
             >
-              {submitSuccess ? '¡Envío Exitoso!' : 'Error de Envío'}
+              {dialogType === 'success' ? '¡Envío Exitoso!' : 'Error de Envío'}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-base text-gray-700">
-              {submitSuccess || submitError}
+              {dialogMessage}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction
               className="px-6 py-2 rounded-xl text-base"
-              onClick={() => {
-                setSubmitSuccess(null);
-                setSubmitError(null);
-              }}
+              onClick={() => setDialogOpen(false)}
             >
               Aceptar
             </AlertDialogAction>
