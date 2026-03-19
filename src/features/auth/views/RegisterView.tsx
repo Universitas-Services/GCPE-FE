@@ -5,21 +5,23 @@ import { RegisterProvider, useRegister } from '../context/RegisterContext';
 import { RegisterStepper } from './register/RegisterStepper';
 import { CredentialsStep } from './register/CredentialsStep';
 import { PersonalDataStep } from './register/PersonalDataStep';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 function RegisterContent() {
-  const { currentStep } = useRegister();
+  const { currentStep, prevStep } = useRegister();
 
   return (
     <div className="flex min-h-screen w-full flex-col lg:flex-row">
       {/* Left Side - Gray Background with Logo */}
-      <div className="hidden lg:flex flex-col items-center justify-center bg-[#A6A9B0] p-10 lg:w-1/2 lg:px-20 transition-all duration-500 ease-in-out">
-        <div className="flex flex-col items-center space-y-4 text-center">
-          <div className="relative w-full max-w-lg animate-in fade-in zoom-in duration-700">
+      <div className="hidden lg:flex flex-col items-center justify-center bg-[#A6A9B0] p-6 lg:w-1/2 transition-all duration-500 ease-in-out">
+        <div className="flex flex-col items-center text-center">
+          <div className="relative w-full max-w-md animate-in fade-in zoom-in duration-700">
             <Image
               src="/logo-con-letra-blanco.png"
               alt="Sistema Integrado de Selección de Contratista"
-              width={500}
-              height={500}
+              width={350}
+              height={350}
               className="object-contain drop-shadow-xl"
               priority
             />
@@ -28,33 +30,35 @@ function RegisterContent() {
       </div>
 
       {/* Right Side - Registration Form */}
-      <div className="flex flex-1 flex-col items-center justify-center bg-[#E8EDF2] p-8 lg:p-20">
-        <div className="w-full max-w-md space-y-8 bg-white p-8 rounded-xl shadow-lg">
+      <div className="flex flex-1 flex-col items-center justify-center bg-[#E8EDF2] p-4 lg:p-6 overflow-auto">
+        <div className="relative w-full max-w-md space-y-5 bg-white p-6 rounded-xl shadow-lg">
+          {currentStep === 2 && (
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={prevStep}
+              className="absolute top-6 left-6 p-0 hover:bg-transparent text-black hover:text-gray-700 cursor-pointer h-auto w-auto z-10 animate-in fade-in duration-300"
+            >
+              <ArrowLeft className="h-6 w-6" strokeWidth={2.5} />
+            </Button>
+          )}
           {/* Header */}
-          <div className="flex flex-col items-center space-y-2 text-center">
-            {/* Only show "Crea tu cuenta" on step 1, or both? 
-                 Design for Step 1: "Crea tu cuenta"
-                 Design for Step 2: "Completa tus datos" with back arrow
-                 The headers are slightly different. I'll handle them conditionally or inside the steps?
-                 The design shows the stepper is shared.
-                 Let's make the header dynamic here.
-             */}
-
+          <div className="flex flex-col items-center space-y-1 text-center">
             {currentStep === 1 ? (
               <>
-                <h1 className="text-3xl font-bold tracking-tight text-[#005282]">
+                <h1 className="text-[30px] font-bold tracking-tight text-[#005282]">
                   Crea tu cuenta
                 </h1>
-                <p className="text-sm text-gray-500">
+                <p className="text-[14.81px] font-medium text-gray-500">
                   Por favor introduce tus datos para continuar
                 </p>
               </>
             ) : (
               <>
-                <h1 className="text-3xl font-bold tracking-tight text-[#005282]">
+                <h1 className="text-[30px] font-bold tracking-tight text-[#005282]">
                   Completa tus datos
                 </h1>
-                <p className="text-sm text-gray-500">
+                <p className="text-[14.81px] font-medium text-gray-500">
                   Por favor introduce tus datos para continuar
                 </p>
               </>

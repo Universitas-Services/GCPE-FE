@@ -13,11 +13,14 @@ import {
   ComplianceProvider,
   useCompliance,
   ComplianceSuccessModal,
+  ComplianceDownloadSuccessModal,
+  ComplianceErrorModal,
 } from '@/features/compliance';
 import { complianceService } from '@/features/compliance/services/compliance.service';
 import { Button } from '@/components/ui/button';
 import { FormHeader } from '@/components/shared/FormHeader';
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
 function ComplianceContent() {
   const {
@@ -30,10 +33,18 @@ function ComplianceContent() {
     goToPreviousPage,
   } = useCompliance();
 
+  const router = useRouter();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [hasShownModalForQ25, setHasShownModalForQ25] = useState(false);
+  const [showDownloadSuccessModal, setShowDownloadSuccessModal] =
+    useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const answer25 = complianceAnswers[25];
   const prevAnswer25Ref = useRef(answer25);
@@ -51,6 +62,61 @@ function ComplianceContent() {
     prevAnswer25Ref.current = answer25;
   }, [currentPage, answer25, hasShownModalForQ25]);
 
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
+  }, [currentPage]);
+
+  const handleError = (error: unknown) => {
+    let title = 'Error al generar compliance';
+    let message = 'Ocurrió un error inesperado. Por favor, intenta nuevamente.';
+
+    if (error instanceof Error) {
+      const errorMsg = error.message;
+
+      if (errorMsg.includes('PDF')) {
+        title = 'Error al descargar el PDF';
+        message = 'No se pudo descargar el PDF. Por favor, intenta nuevamente.';
+      } else if (
+        errorMsg.includes('401') ||
+        errorMsg.includes('Unauthorized')
+      ) {
+        title = 'Sesión expirada';
+        message = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.';
+      } else if (errorMsg.includes('403') || errorMsg.includes('Forbidden')) {
+        title = 'Acceso denegado';
+        message = 'No tienes permisos para realizar esta acción.';
+      } else if (errorMsg.includes('404') || errorMsg.includes('Not Found')) {
+        title = 'Recurso no encontrado';
+        message =
+          'El recurso solicitado no fue encontrado. Intenta nuevamente.';
+      } else if (
+        errorMsg.includes('500') ||
+        errorMsg.includes('Internal Server Error')
+      ) {
+        title = 'Error del servidor';
+        message =
+          'Hubo un problema en el servidor. Por favor, intenta más tarde.';
+      } else if (errorMsg.includes('400') || errorMsg.includes('Bad Request')) {
+        title = 'Datos inválidos';
+        message =
+          errorMsg ||
+          'Los datos proporcionados son inválidos. Verifica la información.';
+      } else if (errorMsg.includes('Network') || errorMsg.includes('network')) {
+        title = 'Error de conexión';
+        message =
+          'No se pudo conectar con el servidor. Verifica tu conexión a internet.';
+      } else {
+        message = errorMsg || message;
+      }
+    }
+
+    setErrorTitle(title);
+    setErrorMessage(message);
+    setShowErrorModal(true);
+  };
+
   const handleGenerateCompliance = async () => {
     try {
       setIsSubmitting(true);
@@ -66,18 +132,24 @@ function ComplianceContent() {
 
       if (!newId) {
         console.warn('No se encontró un ID válido en la respuesta:', response);
-        alert('Error: No se recibió un ID válido para generar el PDF.');
+        handleError(
+          new Error('No se recibió un ID válido para generar el PDF.')
+        );
         return;
       }
 
       // 2. Automatically trigger PDF Download (GET /api/compliance/{id}/pdf)
       setIsDownloading(true);
       await complianceService.downloadPdf(newId);
+
+      // Show success modal and redirect to dashboard
+      setShowDownloadSuccessModal(true);
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 4000);
     } catch (error) {
       console.error('Error al generar compliance:', error);
-      alert(
-        'Error al generar compliance. Por favor verifique los datos e intente nuevamente.'
-      );
+      handleError(error);
     } finally {
       setIsSubmitting(false);
       setIsDownloading(false);
@@ -138,6 +210,21 @@ function ComplianceContent() {
         isGenerating={isSubmitting || isDownloading}
       />
 
+      <ComplianceDownloadSuccessModal
+        isOpen={showDownloadSuccessModal}
+        onClose={() => {
+          setShowDownloadSuccessModal(false);
+          router.push('/dashboard');
+        }}
+      />
+
+      <ComplianceErrorModal
+        isOpen={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+        errorTitle={errorTitle}
+        errorMessage={errorMessage}
+      />
+
       <div className="w-full max-w-[1600px] mx-auto flex flex-col h-full bg-white rounded-xl shadow-lg overflow-hidden flex-1 border border-gray-200">
         {/* Header fijo interno */}
         {currentStepInfo && (
@@ -151,7 +238,10 @@ function ComplianceContent() {
         )}
 
         {/* Contenedor con scroll interno para la Card / Formulario */}
-        <div className="flex-1 overflow-y-auto bg-gray-50/30 p-2 md:p-4 w-full relative">
+        <div
+          ref={scrollContainerRef}
+          className="flex-1 overflow-y-auto bg-gray-50/30 p-2 md:p-4 w-full relative"
+        >
           {renderStep(currentPage)}
         </div>
 
@@ -219,7 +309,7 @@ function ComplianceContent() {
               }
             >
               {isSubmitting || isDownloading
-                ? 'Generando y Descargando...'
+                ? 'Generando y descargando...'
                 : 'Generar compliance'}
             </Button>
           )}

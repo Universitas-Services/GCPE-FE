@@ -1,6 +1,12 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 
 // Tipos para los datos generales
 export interface GeneralData {
@@ -57,6 +63,11 @@ export function ComplianceProvider({ children }: { children: ReactNode }) {
   const [complianceId, setComplianceId] = useState<number | null>(null);
 
   const totalPages = 7; // Definido en el requerimiento original (vista de paginación)
+
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const setGeneralData = (data: GeneralData) => {
     setGeneralDataState(data);
