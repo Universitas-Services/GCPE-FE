@@ -34,6 +34,7 @@ function ComplianceContent() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [hasShownModalForQ25, setHasShownModalForQ25] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const answer25 = complianceAnswers[25];
   const prevAnswer25Ref = useRef(answer25);
@@ -50,6 +51,12 @@ function ComplianceContent() {
     }
     prevAnswer25Ref.current = answer25;
   }, [currentPage, answer25, hasShownModalForQ25]);
+
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
+  }, [currentPage]);
 
   const handleGenerateCompliance = async () => {
     try {
@@ -151,7 +158,10 @@ function ComplianceContent() {
         )}
 
         {/* Contenedor con scroll interno para la Card / Formulario */}
-        <div className="flex-1 overflow-y-auto bg-gray-50/30 p-2 md:p-4 w-full relative">
+        <div
+          ref={scrollContainerRef}
+          className="flex-1 overflow-y-auto bg-gray-50/30 p-2 md:p-4 w-full relative"
+        >
           {renderStep(currentPage)}
         </div>
 
