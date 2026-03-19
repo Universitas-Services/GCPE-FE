@@ -7,7 +7,6 @@ import { useRegister } from '@/features/auth/context/RegisterContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import {
   Select,
@@ -51,12 +50,11 @@ const personalDataSchema = z.object({
 type PersonalDataFormValues = z.infer<typeof personalDataSchema>;
 
 export function PersonalDataStep() {
-  const { formData, updateFormData, prevStep } = useRegister();
+  const { formData, updateFormData } = useRegister();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const router = useRouter();
 
-  // Separar operadora y número del teléfono almacenado
   const rawPhone = formData.phone || '';
   const currentOperator = rawPhone.substring(0, 4);
   const currentNumber = rawPhone.substring(4);
@@ -84,7 +82,6 @@ export function PersonalDataStep() {
 
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Solo dígitos, máximo 7 caracteres
     if (/^\d{0,7}$/.test(value)) {
       const newPhone = currentOperator + value;
       updateFormData({ phone: newPhone });
@@ -97,7 +94,6 @@ export function PersonalDataStep() {
     updateFormData(data);
 
     try {
-      // Utilizamos los datos combinados del paso 1 y paso 2
       const finalData = { ...formData, ...data };
 
       await registerService.register({
@@ -109,15 +105,12 @@ export function PersonalDataStep() {
         telefono: finalData.phone,
       });
 
-      // Si todo sale bien, mostramos el modal de éxito
       setShowSuccessModal(true);
     } catch (error: unknown) {
       console.error('Error al registrar usuario:', error);
 
       let errorMessage = 'Ocurrió un error inesperado al registrar el usuario.';
 
-      // Control de error específico de email repetido
-      // asumiendo que el backend envía los mensajes estructurados
       if (error instanceof Error) {
         const msgLower = error.message.toLowerCase();
         if (msgLower.includes('email') || msgLower.includes('correo')) {
@@ -140,50 +133,45 @@ export function PersonalDataStep() {
   };
 
   return (
-    <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
-      <div className="flex items-center mb-4">
-        <Button
-          variant="ghost"
-          onClick={prevStep}
-          className="p-0 hover:bg-transparent -ml-2 text-gray-600"
-        >
-          <ArrowLeft className="h-5 w-5 mr-1" />
-        </Button>
-      </div>
-
+    <div className="w-full max-w-md space-y-3 animate-in fade-in slide-in-from-right-4 duration-300">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* First Name */}
-        <div className="space-y-2">
-          <Label htmlFor="firstName">Nombre</Label>
+        <div className="space-y-1">
+          <Label htmlFor="firstName" className="text-[12.96px] font-semibold">
+            Nombre
+          </Label>
           <Input
             id="firstName"
             placeholder="Ingresa tu nombre"
-            className={errors.firstName ? 'border-red-500' : ''}
+            className={`h-9 ${errors.firstName ? 'border-red-500' : ''}`}
             {...register('firstName')}
           />
           {errors.firstName && (
-            <p className="text-sm text-red-500">{errors.firstName.message}</p>
+            <p className="text-xs text-red-500">{errors.firstName.message}</p>
           )}
         </div>
 
         {/* Last Name */}
-        <div className="space-y-2">
-          <Label htmlFor="lastName">Apellido</Label>
+        <div className="space-y-1">
+          <Label htmlFor="lastName" className="text-[12.96px] font-semibold">
+            Apellido
+          </Label>
           <Input
             id="lastName"
             placeholder="Ingresa tu apellido"
-            className={errors.lastName ? 'border-red-500' : ''}
+            className={`h-9 ${errors.lastName ? 'border-red-500' : ''}`}
             {...register('lastName')}
           />
           {errors.lastName && (
-            <p className="text-sm text-red-500">{errors.lastName.message}</p>
+            <p className="text-xs text-red-500">{errors.lastName.message}</p>
           )}
         </div>
 
         {/* Phone */}
-        <div className="space-y-2">
-          <Label htmlFor="phone">Teléfono</Label>
-          <p className="text-xs text-gray-500 italic">Ejemplo: 1234567</p>
+        <div className="space-y-1">
+          <Label htmlFor="phone" className="text-[12.96px] font-semibold">
+            Teléfono
+          </Label>
           <div className="flex gap-2">
             <Select
               value={
@@ -196,7 +184,7 @@ export function PersonalDataStep() {
               onValueChange={handlePhoneOperatorChange}
             >
               <SelectTrigger
-                className={`w-24 h-10 ${errors.phone ? 'border-red-500' : ''}`}
+                className={`w-20 h-9 cursor-pointer ${errors.phone ? 'border-red-500' : ''}`}
               >
                 <SelectValue placeholder="Cod" />
               </SelectTrigger>
@@ -219,88 +207,79 @@ export function PersonalDataStep() {
               onChange={handlePhoneNumberChange}
               maxLength={7}
               placeholder="1234567"
-              className={`h-10 ${errors.phone ? 'border-red-500' : ''}`}
+              className={`h-9 flex-1 ${errors.phone ? 'border-red-500' : ''}`}
             />
           </div>
-          {/* Campo oculto para react-hook-form */}
           <input type="hidden" {...register('phone')} />
           {errors.phone && (
-            <p className="text-sm text-red-500">{errors.phone.message}</p>
+            <p className="text-xs text-red-500">{errors.phone.message}</p>
           )}
         </div>
 
         {/* Terms Checkbox */}
-        <div className="p-4 bg-gray-50 rounded-md border border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center h-5">
-              <input
-                id="acceptedTerms"
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-[#008CBA] focus:ring-[#008CBA] cursor-pointer"
-                {...register('acceptedTerms', {
-                  setValueAs: (v) => v === 'on' || v === true,
-                })}
-              />
-            </div>
-            <Label
-              htmlFor="acceptedTerms"
-              className="text-sm font-normal text-gray-600 cursor-pointer block leading-normal"
-            >
+        <div className="p-4 bg-[#F1F3F5] rounded-xl border border-transparent">
+          <div className="flex items-center gap-3">
+            <input
+              id="acceptedTerms"
+              type="checkbox"
+              className="h-4 w-4 rounded border-gray-300 text-[#008CBA] focus:ring-[#008CBA] cursor-pointer shrink-0 mt-0.5 self-start"
+              {...register('acceptedTerms', {
+                setValueAs: (v) => v === 'on' || v === true,
+              })}
+            />
+            <div className="text-[13px] font-normal text-gray-500 leading-snug">
               Al crear una cuenta, aceptas los{' '}
               <a
                 href="#"
-                className="font-semibold text-[#008CBA] hover:underline"
+                className="font-medium text-[#008CBA] hover:underline"
               >
-                Términos y condiciones
-              </a>{' '}
-              y las{' '}
-              <a
-                href="#"
-                className="font-semibold text-[#008CBA] hover:underline"
-              >
-                Políticas de privacidad
+                Términos y condiciones y las Políticas de privacidad
               </a>
-            </Label>
+            </div>
           </div>
           {errors.acceptedTerms && (
-            <p className="text-xs text-red-500 mt-2 ml-7">
+            <p className="text-[11px] text-red-500 mt-1 ml-7">
               {errors.acceptedTerms.message}
             </p>
           )}
         </div>
 
+        {/* Decorative Divider */}
+        <div className="flex items-center gap-3 py-1 opacity-70">
+          <div className="h-[1px] flex-1 bg-gray-300"></div>
+          <div className="h-2 w-2 rounded-full border border-gray-400 bg-transparent shrink-0"></div>
+          <div className="h-[1px] flex-1 bg-gray-300"></div>
+        </div>
+
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-6 text-lg shadow-sm disabled:opacity-70 mt-4"
+          className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-2 text-sm shadow-sm disabled:opacity-70"
         >
           {isSubmitting ? 'Registrando...' : 'Registrarte'}
         </Button>
       </form>
 
       {/* Success Modal */}
-      <Dialog
-        open={showSuccessModal}
-        onOpenChange={(open) => {
-          if (!open) {
-            /* close not allowed outside */
-          }
-        }}
-      >
-        <DialogContent className="sm:max-w-[600px] bg-[#E8EDF2] border-0 p-6 [&>button]:hidden">
-          <DialogHeader className="space-y-3">
-            <DialogTitle className="text-2xl font-bold text-[#005282]">
+      <Dialog open={showSuccessModal}>
+        <DialogContent
+          className="sm:max-w-[500px] bg-[#E8EDF2] border-0 p-6 [&>button]:hidden rounded-xl"
+          onInteractOutside={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <DialogHeader className="space-y-2">
+            <DialogTitle className="text-xl font-bold text-[#005282]">
               Registro exitoso
             </DialogTitle>
-            <DialogDescription className="text-sm text-[#66686A] mt-2 leading-relaxed text-left">
+            <DialogDescription className="text-xs text-[#66686A] leading-relaxed text-left">
               Hemos enviado un correo para que confirmes y actives tu cuenta. Si
-              no lo ubicas en la bandeja de entrada, revisa en SPAM,
-              notificaciones o promociones.
+              no lo ubicas en la bandeja de entrada, revisa en SPAM.
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-4 flex justify-center w-full">
+          <div className="mt-3 flex justify-center w-full">
             <Button
-              className="w-full bg-[#0091BE] hover:bg-[#007da6] text-white py-5 text-base font-semibold transition-colors"
+              className="w-full bg-[#0091BE] hover:bg-[#007da6] text-white py-3 text-sm font-semibold transition-colors"
               onClick={() => router.push('/login')}
             >
               Entendido
