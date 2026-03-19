@@ -22,12 +22,12 @@ export function ComplianceQuestionItem({
   return (
     <div className="space-y-4 py-6 border-b border-gray-100 last:border-0">
       <div className="space-y-1">
-        <h3 className="text-base font-bold text-[#0b1e4c]">
+        <h3 className="text-[14px] font-medium text-[#0b1e4c] leading-4">
           {id ? `${id}. ` : ''}
           {question}
         </h3>
         {citation && (
-          <p className="text-sm text-gray-400 italic leading-relaxed">
+          <p className="text-[13px] text-gray-400 italic leading-4">
             {citation}
           </p>
         )}
@@ -38,17 +38,20 @@ export function ComplianceQuestionItem({
           label="SI"
           isSelected={value === 'SI'}
           onClick={() => onChange('SI')}
+          width="w-[43px]"
         />
         <SelectionButton
           label="NO"
           isSelected={value === 'NO'}
           onClick={() => onChange('NO')}
+          width="w-[43px]"
         />
         {!hideNoAplica && (
           <SelectionButton
             label="NO APLICA"
             isSelected={value === 'NO_APLICA'}
             onClick={() => onChange('NO_APLICA')}
+            width="w-[79px]"
           />
         )}
       </div>
@@ -60,10 +63,12 @@ function SelectionButton({
   label,
   isSelected,
   onClick,
+  width,
 }: {
   label: string;
   isSelected: boolean;
   onClick: () => void;
+  width?: string;
 }) {
   return (
     <Button
@@ -71,7 +76,8 @@ function SelectionButton({
       variant="outline"
       onClick={onClick}
       className={cn(
-        'h-10 px-6 min-w-[80px] text-xs font-semibold rounded-lg transition-all duration-200',
+        'h-[35px] text-[11px] font-medium rounded-lg transition-all duration-200',
+        width,
         isSelected ? 'btn-option-selected' : 'btn-option-unselected'
       )}
     >

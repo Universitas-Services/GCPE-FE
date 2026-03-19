@@ -205,14 +205,14 @@ export function Sidebar({ className }: SidebarProps) {
           active: pathname.startsWith('/dashboard/manual'),
         },
         {
-          label: 'Registrar proveedor',
+          label: 'Registro de proveedores',
           icon: IoNewspaperOutline,
           href: '/dashboard/proveedores',
           active: pathname.startsWith('/dashboard/proveedores'),
           hasDropdown: true,
           children: [
             {
-              label: 'Panel de registro',
+              label: 'Registrar nuevo proveedor',
               href: '/dashboard/proveedores/registro',
               active: pathname === '/dashboard/proveedores/registro',
             },

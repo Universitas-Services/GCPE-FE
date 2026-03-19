@@ -219,7 +219,7 @@ function ComplianceContent() {
               }
             >
               {isSubmitting || isDownloading
-                ? 'Generando y Descargando...'
+                ? 'Generando y ...'
                 : 'Generar compliance'}
             </Button>
           )}
