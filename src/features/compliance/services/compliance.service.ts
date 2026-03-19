@@ -71,9 +71,12 @@ export const complianceService = {
     });
 
     if (!response.ok) {
+      const status = response.status;
       const errorData = await response.json().catch(() => ({}));
       console.error('Submission failed:', errorData);
-      throw new Error(errorData.detail || 'Error al enviar el formulario');
+      throw new Error(
+        `[${status}] ${errorData.detail || 'Error al enviar el formulario'}`
+      );
     }
 
     return response.json();
@@ -83,7 +86,8 @@ export const complianceService = {
     const response = await fetchApi(`/api/compliance/${id}/pdf`);
 
     if (!response.ok) {
-      throw new Error('Error al descargar el PDF');
+      const status = response.status;
+      throw new Error(`[${status}] PDF: Error al descargar el PDF`);
     }
 
     const blob = await response.blob();

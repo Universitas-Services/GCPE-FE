@@ -24,9 +24,9 @@ export const SharedDatePicker = React.forwardRef<
   HTMLInputElement,
   SharedDatePickerProps
 >(({ error, className = '', onChange, value, name, ...props }, ref) => {
-  // Parsing string back to date reliably
+  const [open, setOpen] = React.useState(false);
+
   const parsedDate = value ? new Date(value as string) : undefined;
-  // Account for timezone offset to avoid previous day bugs
   const date =
     parsedDate && !isNaN(parsedDate.getTime())
       ? new Date(parsedDate.getTime() + parsedDate.getTimezoneOffset() * 60000)
@@ -34,7 +34,6 @@ export const SharedDatePicker = React.forwardRef<
 
   const handleSelect = (selectedDate: Date | undefined) => {
     if (onChange) {
-      // Mocked event target so it works with handleChange naturally
       const event = {
         target: {
           name,
@@ -43,10 +42,11 @@ export const SharedDatePicker = React.forwardRef<
       } as React.ChangeEvent<HTMLInputElement>;
       onChange(event);
     }
+    setOpen(false);
   };
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           type="button"
