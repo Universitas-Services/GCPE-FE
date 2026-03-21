@@ -295,9 +295,16 @@ export const Step1Identification: React.FC = () => {
           </label>
           <Select
             value={formData.tipo_persona || undefined}
-            onValueChange={(value) =>
-              updateFormData({ tipo_persona: value as 'Natural' | 'Juridica' })
-            }
+            onValueChange={(value) => {
+              const newValue = value as 'Natural' | 'Juridica';
+              updateFormData({
+                tipo_persona: newValue,
+                tipo_entidad_juridica:
+                  newValue === 'Natural'
+                    ? undefined
+                    : formData.tipo_entidad_juridica,
+              });
+            }}
           >
             <SelectTrigger
               className={`w-full h-10 ${errors.tipo_persona ? 'border-red-500' : ''}`}
@@ -365,6 +372,7 @@ export const Step1Identification: React.FC = () => {
             onValueChange={(value) =>
               updateFormData({ tipo_entidad_juridica: value })
             }
+            disabled={formData.tipo_persona !== 'Juridica'}
           >
             <SelectTrigger className="w-full h-10">
               <SelectValue placeholder="Selecciona" />

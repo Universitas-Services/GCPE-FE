@@ -46,16 +46,6 @@ export const Step4Completion: React.FC = () => {
             </Button>
           </div>
         </div>
-
-        <div className="bg-blue-50 border border-blue-100 rounded-lg p-8 text-center mt-auto">
-          <h3 className="text-xl font-bold text-blue-800 mb-4">
-            ¡Has completado el 60% del registro con éxito!
-          </h3>
-          <p className="text-gray-600 text-base">
-            Para ver el listado completo de tus proveedores registrados, puedes
-            hacer clic en ver proveedores.
-          </p>
-        </div>
       </div>
     </div>
   );

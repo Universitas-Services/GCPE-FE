@@ -1,5 +1,4 @@
-import React from 'react';
-import Swal from 'sweetalert2';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { FormHeader } from '@/components/shared/FormHeader';
 import { useProviderForm } from '../context/ProviderFormContext';
@@ -11,6 +10,8 @@ import { StepIndicator } from '../components/StepIndicator';
 import { createProvider } from '../services/providers.service';
 import { ProviderFormData } from '../types/provider.types';
 import { useRouter } from 'next/navigation';
+import { ProviderSuccessModal } from './ProviderSuccessModal';
+import { ProviderErrorModal } from './ProviderErrorModal';
 
 export const ProviderRegistrationWizard: React.FC = () => {
   const {
@@ -23,6 +24,10 @@ export const ProviderRegistrationWizard: React.FC = () => {
     setIsSubmitting,
   } = useProviderForm();
   const router = useRouter();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleNext = () => {
     const isValid = validateStep(currentStep);
@@ -39,9 +44,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
     setIsSubmitting(true);
     try {
       await createProvider(formData as ProviderFormData);
-      // Redirect or show success
-      // TODO: Redirect to /dashboard/proveedores when list view is implemented
-      router.push('/dashboard');
+      setShowSuccessModal(true);
     } catch (error: any) {
       console.error('Error submitting form:', error);
 
@@ -54,24 +57,31 @@ export const ProviderRegistrationWizard: React.FC = () => {
             err.msg?.includes('La fecha no puede ser futura')
         )
       ) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error de validación',
-          text: 'La fecha del estado financiero no puede ser futura.',
-          confirmButtonColor: '#0097b2',
-        });
+        setErrorTitle('Error de validación');
+        setErrorMessage('La fecha del estado financiero no puede ser futura.');
+        setShowErrorModal(true);
         return;
       }
 
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Error al registrar el proveedor. Por favor intente nuevamente.',
-        confirmButtonColor: '#0097b2',
-      });
+      const errorMsg =
+        error?.message ||
+        error?.detail ||
+        'Error al registrar el proveedor. Por favor intente nuevamente.';
+      setErrorTitle('Error');
+      setErrorMessage(
+        typeof errorMsg === 'string'
+          ? errorMsg
+          : 'Error al registrar el proveedor. Por favor intente nuevamente.'
+      );
+      setShowErrorModal(true);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleViewProviders = () => {
+    setShowSuccessModal(false);
+    router.push('/dashboard/proveedores');
   };
 
   const renderStep = () => {
@@ -170,6 +180,19 @@ export const ProviderRegistrationWizard: React.FC = () => {
           </Button>
         </div>
       </div>
+
+      <ProviderSuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        onViewProviders={handleViewProviders}
+      />
+
+      <ProviderErrorModal
+        isOpen={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+        errorTitle={errorTitle}
+        errorMessage={errorMessage}
+      />
     </div>
   );
 };
