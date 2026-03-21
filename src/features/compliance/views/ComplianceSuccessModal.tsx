@@ -24,7 +24,7 @@ export function ComplianceSuccessModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] p-8 bg-[#E8EDF2] border-none rounded-2xl shadow-xl">
         <DialogHeader className="mb-4 text-center">
-          <DialogTitle className="text-2xl font-bold text-[#005282] mb-3">
+          <DialogTitle className="app-title mb-3">
             ¡Has completado tu revisión con éxito!
           </DialogTitle>
           <p className="text-[#64748B] text-base px-2">

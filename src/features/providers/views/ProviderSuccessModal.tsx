@@ -26,7 +26,7 @@ export function ProviderSuccessModal({
           <div className="flex justify-center mb-3">
             <CheckCircle className="h-16 w-16 text-green-500" />
           </div>
-          <DialogTitle className="text-2xl font-bold text-[#005282] mb-3">
+          <DialogTitle className="app-title mb-3">
             ¡Has completado el registro con éxito!
           </DialogTitle>
           <p className="text-[#64748B] text-base px-2">

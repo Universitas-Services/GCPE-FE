@@ -60,11 +60,9 @@ export default function ProvidersListPage() {
 
   return (
     <div className="p-6 md:p-8 space-y-6 bg-background min-h-screen">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold tracking-tight text-[#005282]">
-          Proveedores Registrados
-        </h1>
-        <p className="text-gray-500">
+      <div className="flex flex-col">
+        <h1 className="app-title">Proveedores Registrados</h1>
+        <p className="text-gray-500 mt-[22.5px]">
           Gestiona y monitorea la base de datos de proveedores activos.
         </p>
       </div>

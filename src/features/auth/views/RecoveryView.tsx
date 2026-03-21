@@ -86,10 +86,10 @@ function RecoveryContent() {
           </div>
 
           <div className="mt-8 flex flex-col items-center space-y-2 text-center mb-8">
-            <h1 className="text-2xl font-bold text-[#005282]">
-              {currentInfo.title}
-            </h1>
-            <p className="text-sm text-gray-500">{currentInfo.subtitle}</p>
+            <h1 className="app-title">{currentInfo.title}</h1>
+            <p className="text-sm text-gray-500 mt-[22.5px]">
+              {currentInfo.subtitle}
+            </p>
           </div>
 
           <div className="grid grid-cols-3 w-full max-w-xs mx-auto mb-10">
