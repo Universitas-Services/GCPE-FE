@@ -19,9 +19,7 @@ export const Step2Requirements: React.FC = () => {
     value: boolean;
   }) => (
     <div className="mb-6">
-      <label className="block text-[14px] font-medium text-[#0b1e4c] leading-4 mb-4">
-        {label}
-      </label>
+      <label className="block form-label-titulos leading-4 mb-4">{label}</label>
       <div className="flex space-x-6">
         <Button
           type="button"

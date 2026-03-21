@@ -22,7 +22,7 @@ export function ComplianceQuestionItem({
   return (
     <div className="space-y-4 py-6 border-b border-gray-100 last:border-0">
       <div className="space-y-1">
-        <h3 className="text-[14px] font-medium text-[#0b1e4c] leading-4">
+        <h3 className="form-label-titulos leading-4">
           {id ? `${id}. ` : ''}
           {question}
         </h3>

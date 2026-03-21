@@ -90,15 +90,10 @@ export function GeneralDataForm() {
       >
         {/* Email */}
         <div className="space-y-2">
-          <Label
-            htmlFor="email"
-            className="text-[#0b1e4c] font-medium text-base"
-          >
+          <Label htmlFor="email" className="form-label-titulos">
             Dirección de correo electrónico
           </Label>
-          <p className="text-[13px] text-slate-500 italic font-medium mt-1">
-            Ejemplo: prueba@gmail.com
-          </p>
+          <p className="form-label-ejemplo mt-1">Ejemplo: prueba@gmail.com</p>
           <Input
             id="email"
             className={cn(
@@ -114,14 +109,11 @@ export function GeneralDataForm() {
 
         {/* Nombre Entidad */}
         <div className="space-y-2">
-          <Label
-            htmlFor="entityName"
-            className="text-[#0b1e4c] font-medium text-base"
-          >
+          <Label htmlFor="entityName" className="form-label-titulos">
             Nombre del órgano, entidad, oficina o dependencia de la
             Administración Pública
           </Label>
-          <p className="text-[13px] text-slate-500 italic font-medium mt-1">
+          <p className="form-label-ejemplo mt-1">
             Ejemplo: Instituto Nacional de Tránsito Terrestre (INTT)
           </p>
           <Input
@@ -138,13 +130,10 @@ export function GeneralDataForm() {
 
         {/* Nombre Unidad */}
         <div className="space-y-2">
-          <Label
-            htmlFor="unitName"
-            className="text-[#0b1e4c] font-medium text-base"
-          >
+          <Label htmlFor="unitName" className="form-label-titulos">
             Nombre de la unidad u oficina que revisa
           </Label>
-          <p className="text-[13px] text-slate-500 italic font-medium mt-1">
+          <p className="form-label-ejemplo mt-1">
             Ejemplo: Unidad Administradora
           </p>
           <Input
@@ -161,9 +150,7 @@ export function GeneralDataForm() {
 
         {/* --- NUEVO CAMPO: FECHA DE REVISIÓN --- */}
         <div className="space-y-2 flex flex-col">
-          <Label className="text-[#0b1e4c] font-medium text-base">
-            Fecha de revisión
-          </Label>
+          <Label className="form-label-titulos">Fecha de revisión</Label>
           <SharedDatePicker
             max={new Date().toISOString().split('T')[0]} // Bloquea fechas futuras
             error={Boolean(errors.reviewDate)}
@@ -194,13 +181,10 @@ export function GeneralDataForm() {
 
         {/* Nombre Revisor */}
         <div className="space-y-2">
-          <Label
-            htmlFor="reviewerName"
-            className="text-[#0b1e4c] font-medium text-base"
-          >
+          <Label htmlFor="reviewerName" className="form-label-titulos">
             Nombre completo de la persona que revisa y/o evalúa.
           </Label>
-          <p className="text-[13px] text-slate-500 italic font-medium mt-1">
+          <p className="form-label-ejemplo mt-1">
             Ejemplo: Pedro José Hernández Pérez
           </p>
           <Input
@@ -217,15 +201,10 @@ export function GeneralDataForm() {
 
         {/* Código */}
         <div className="space-y-2">
-          <Label
-            htmlFor="documentCode"
-            className="text-[#0b1e4c] font-medium text-base"
-          >
+          <Label htmlFor="documentCode" className="form-label-titulos">
             Indique la nomenclatura o código asignado al documento revisado
           </Label>
-          <p className="text-[13px] text-slate-500 italic font-medium mt-1">
-            Ejemplo: U.L-001
-          </p>
+          <p className="form-label-ejemplo mt-1">Ejemplo: U.L-001</p>
           <Input
             id="documentCode"
             className="border-gray-200 bg-white h-10"

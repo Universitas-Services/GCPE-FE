@@ -123,10 +123,10 @@ export const ProviderRegistrationWizard: React.FC = () => {
   const currentStepInfo = stepInfo[currentStep as keyof typeof stepInfo];
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 pb-4 flex flex-col h-[calc(100vh-4rem)] md:h-[calc(100vh-2rem)]">
+    <div className="w-full max-w-full mx-auto px-4 pb-4 flex flex-col h-[calc(100vh-4rem)] md:h-[calc(100vh-2rem)]">
       <FormHeader
         title="Registro de proveedores"
-        className="text-center mb-2 mt-2 shrink-0"
+        className="text-center mb-10 mt-2 shrink-0"
       />
 
       <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col flex-1">
@@ -143,7 +143,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
 
         {/* Content Area con Scroll Interno */}
         <div className="flex-1 overflow-y-auto p-2 md:p-4 bg-white relative">
-          <div className="max-w-4xl mx-auto h-full">{renderStep()}</div>
+          <div className="max-w-full mx-auto h-full">{renderStep()}</div>
         </div>
 
         {/* Footer / Navigation - Estático inferior */}

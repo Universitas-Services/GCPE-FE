@@ -168,3 +168,15 @@
   background-color: #005282 !important;
   color: #ffffff !important;
 }
+
+.form-label-titulos {
+  font-weight: 500;
+  font-size: 14px;
+  color: #0d141c;
+}
+
+.form-label-ejemplo {
+  font-weight: 500;
+  font-size: 11px;
+  color: #c1c1c1;
+}
