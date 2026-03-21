@@ -13,7 +13,7 @@ export const Step4Completion: React.FC = () => {
     <div className="flex flex-col h-full flex-grow">
       <div className="flex-grow flex flex-col space-y-12 mb-8">
         <div>
-          <label className="block text-lg font-medium text-gray-800 mb-6">
+          <label className="block text-[14px] font-medium text-[#0b1e4c] leading-4 mb-6">
             ¿Deseas adquirir el servicio de registro de proveedores completo que
             incluye emisión de certificado de registro personalizado?
           </label>
@@ -26,7 +26,7 @@ export const Step4Completion: React.FC = () => {
                   : 'outline'
               }
               onClick={() => handleBooleanChange(true)}
-              className="px-8 py-3 text-base font-medium"
+              className="px-8 py-3 text-[11px] font-medium"
               size="lg"
             >
               Sí
@@ -39,7 +39,7 @@ export const Step4Completion: React.FC = () => {
                   : 'outline'
               }
               onClick={() => handleBooleanChange(false)}
-              className="px-8 py-3 text-base font-medium"
+              className="px-8 py-3 text-[11px] font-medium"
               size="lg"
             >
               No

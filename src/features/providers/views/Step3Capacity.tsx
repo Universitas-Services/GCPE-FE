@@ -32,10 +32,10 @@ export const Step3Capacity: React.FC = () => {
       <div className="flex flex-col space-y-8">
         {/* Actividad Comercial Principal */}
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-base font-medium text-[#0b1e4c] mb-2">
             Actividad comercial principal
           </label>
-          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
+          <p className="text-[13px] text-slate-500 italic font-medium leading-4 mb-2 mt-1">
             Ejemplo: El objeto principal es la prestación de servicios de
             consultoría...
           </p>
@@ -50,7 +50,7 @@ export const Step3Capacity: React.FC = () => {
             placeholder="Ingrese su actividad comercial principal"
           />
           {errors.actividad_comercial_principal && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-500 text-sm mt-1">
               {errors.actividad_comercial_principal}
             </p>
           )}
@@ -59,7 +59,7 @@ export const Step3Capacity: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
           {/* Área de especialidad */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-base font-medium text-[#0b1e4c] mb-2">
               Área de especialidad
             </label>
             <div className="flex space-x-2">
@@ -80,7 +80,7 @@ export const Step3Capacity: React.FC = () => {
               ))}
             </div>
             {errors.area_especialidad && (
-              <p className="text-red-500 text-xs mt-1">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.area_especialidad}
               </p>
             )}
@@ -88,7 +88,7 @@ export const Step3Capacity: React.FC = () => {
 
           {/* Nivel de contratación */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-base font-medium text-[#0b1e4c] mb-2">
               Nivel de contratación
             </label>
             <div className="flex space-x-2">
@@ -109,7 +109,7 @@ export const Step3Capacity: React.FC = () => {
               ))}
             </div>
             {errors.nivel_contratacion && (
-              <p className="text-red-500 text-xs mt-1">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.nivel_contratacion}
               </p>
             )}
@@ -117,7 +117,7 @@ export const Step3Capacity: React.FC = () => {
 
           {/* Años de experiencia */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-base font-medium text-[#0b1e4c] mb-1">
               Años de experiencia comprobable
             </label>
             <Input
@@ -130,7 +130,7 @@ export const Step3Capacity: React.FC = () => {
               className={`h-10 ${errors.anos_experiencia ? 'border-red-500' : ''}`}
             />
             {errors.anos_experiencia && (
-              <p className="text-red-500 text-xs mt-1">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.anos_experiencia}
               </p>
             )}
@@ -138,7 +138,7 @@ export const Step3Capacity: React.FC = () => {
 
           {/* Fecha último estado financiero */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-base font-medium text-[#0b1e4c] mb-1">
               Fecha del último estado financiero
             </label>
             <SharedDatePicker
@@ -149,7 +149,7 @@ export const Step3Capacity: React.FC = () => {
               error={Boolean(errors.fecha_estado_financiero)}
             />
             {errors.fecha_estado_financiero && (
-              <p className="text-red-500 text-xs mt-1">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.fecha_estado_financiero}
               </p>
             )}
@@ -157,10 +157,10 @@ export const Step3Capacity: React.FC = () => {
 
           {/* Patrimonio Neto Reportado */}
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-base font-medium text-[#0b1e4c] mb-1">
               Patrimonio neto reportado
             </label>
-            <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
+            <p className="text-[13px] text-slate-500 italic font-medium leading-4 mb-2 mt-1">
               Ejemplo: 0.00
             </p>
             <Input
@@ -171,7 +171,7 @@ export const Step3Capacity: React.FC = () => {
               className={`h-10 ${errors.patrimonio_reportado ? 'border-red-500' : ''}`}
             />
             {errors.patrimonio_reportado && (
-              <p className="text-red-500 text-xs mt-1">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.patrimonio_reportado}
               </p>
             )}
