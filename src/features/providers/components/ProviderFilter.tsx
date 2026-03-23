@@ -21,7 +21,7 @@ export function ProviderFilter({
       <div className="relative w-full sm:w-[400px]">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
         <Input
-          placeholder="Buscar por tipo de proveedor, RIF o correo..."
+          placeholder="Buscar por nombre, RIF o correo..."
           className="pl-10 bg-white"
           onChange={(e) => onSearch(e.target.value)}
         />
