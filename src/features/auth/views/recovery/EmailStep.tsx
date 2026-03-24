@@ -38,11 +38,14 @@ export function EmailStep() {
       await recoveryService.sendPasswordResetEmail(data.email);
       updateFormData(data);
       nextStep();
-    } catch {
+    } catch (error) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'El correo no existe en la base de datos',
+        text:
+          error instanceof Error
+            ? error.message
+            : 'El correo no existe en la base de datos',
         confirmButtonColor: '#008CBA',
       });
     } finally {
