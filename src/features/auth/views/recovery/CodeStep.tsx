@@ -1,9 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import Swal from 'sweetalert2';
+import { toast } from 'sonner';
 import { useRecovery } from '@/features/auth/context/RecoveryContext';
+import { recoveryService } from '@/features/auth/services/recovery.service';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,6 +20,7 @@ type CodeFormValues = z.infer<typeof codeSchema>;
 
 export function CodeStep() {
   const { formData, updateFormData, nextStep } = useRecovery();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     register,
@@ -28,11 +33,29 @@ export function CodeStep() {
     },
   });
 
-  const onSubmit = (data: CodeFormValues) => {
-    updateFormData(data);
-    // Here we would verify the code via API
-    console.log('Verifying code:', data.code);
-    nextStep();
+  const onSubmit = async (data: CodeFormValues) => {
+    setIsSubmitting(true);
+    try {
+      const resetToken = await recoveryService.verifyResetCode(
+        formData.email || '',
+        data.code
+      );
+      updateFormData({ ...data, resetToken });
+      toast.success('Código verificado correctamente');
+      nextStep();
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text:
+          error instanceof Error
+            ? error.message
+            : 'El código ingresado no es válido',
+        confirmButtonColor: '#008CBA',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -45,6 +68,7 @@ export function CodeStep() {
           id="code"
           type="text"
           placeholder="Ejem:123456"
+          disabled={isSubmitting}
           className={`bg-gray-50 border-gray-200 ${errors.code ? 'border-red-500' : ''}`}
           {...register('code')}
         />
@@ -55,9 +79,10 @@ export function CodeStep() {
 
       <Button
         type="submit"
+        disabled={isSubmitting}
         className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-6 text-lg shadow-sm"
       >
-        Verificar
+        {isSubmitting ? 'Verificando...' : 'Verificar'}
       </Button>
     </form>
   );

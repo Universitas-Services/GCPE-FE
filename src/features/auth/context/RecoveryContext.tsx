@@ -5,6 +5,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 export interface RecoveryFormData {
   email?: string;
   code?: string;
+  resetToken?: string;
   password?: string;
   confirmPassword?: string;
 }
