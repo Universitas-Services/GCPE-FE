@@ -213,3 +213,18 @@
   font-size: 13px;
   line-height: 1.2;
 }
+
+.faq-question-title {
+  color: #005282;
+  font-family: var(--font-inter);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.faq-question-text {
+  color: #66686a;
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 14px;
+}
