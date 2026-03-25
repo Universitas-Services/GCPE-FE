@@ -14,6 +14,7 @@ export const profileService = {
   async getProfile(): Promise<ProfileResponse> {
     const response = await fetch('/api/profile', {
       method: 'GET',
+      cache: 'no-store',
     });
 
     if (!response.ok) {
