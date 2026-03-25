@@ -1,5 +1,4 @@
-import React from 'react';
-import Swal from 'sweetalert2';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { FormHeader } from '@/components/shared/FormHeader';
 import { useProviderForm } from '../context/ProviderFormContext';
@@ -11,6 +10,8 @@ import { StepIndicator } from '../components/StepIndicator';
 import { createProvider } from '../services/providers.service';
 import { ProviderFormData } from '../types/provider.types';
 import { useRouter } from 'next/navigation';
+import { ProviderSuccessModal } from './ProviderSuccessModal';
+import { ProviderErrorModal } from './ProviderErrorModal';
 
 export const ProviderRegistrationWizard: React.FC = () => {
   const {
@@ -23,6 +24,10 @@ export const ProviderRegistrationWizard: React.FC = () => {
     setIsSubmitting,
   } = useProviderForm();
   const router = useRouter();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleNext = () => {
     const isValid = validateStep(currentStep);
@@ -39,9 +44,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
     setIsSubmitting(true);
     try {
       await createProvider(formData as ProviderFormData);
-      // Redirect or show success
-      // TODO: Redirect to /dashboard/proveedores when list view is implemented
-      router.push('/dashboard');
+      setShowSuccessModal(true);
     } catch (error: any) {
       console.error('Error submitting form:', error);
 
@@ -54,24 +57,31 @@ export const ProviderRegistrationWizard: React.FC = () => {
             err.msg?.includes('La fecha no puede ser futura')
         )
       ) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error de validación',
-          text: 'La fecha del estado financiero no puede ser futura.',
-          confirmButtonColor: '#0097b2',
-        });
+        setErrorTitle('Error de validación');
+        setErrorMessage('La fecha del estado financiero no puede ser futura.');
+        setShowErrorModal(true);
         return;
       }
 
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Error al registrar el proveedor. Por favor intente nuevamente.',
-        confirmButtonColor: '#0097b2',
-      });
+      const errorMsg =
+        error?.message ||
+        error?.detail ||
+        'Error al registrar el proveedor. Por favor intente nuevamente.';
+      setErrorTitle('Error');
+      setErrorMessage(
+        typeof errorMsg === 'string'
+          ? errorMsg
+          : 'Error al registrar el proveedor. Por favor intente nuevamente.'
+      );
+      setShowErrorModal(true);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleViewProviders = () => {
+    setShowSuccessModal(false);
+    router.push('/dashboard/proveedores/lista');
   };
 
   const renderStep = () => {
@@ -113,10 +123,10 @@ export const ProviderRegistrationWizard: React.FC = () => {
   const currentStepInfo = stepInfo[currentStep as keyof typeof stepInfo];
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 pb-4 flex flex-col h-[calc(100vh-4rem)] md:h-[calc(100vh-2rem)]">
+    <div className="w-full max-w-full mx-auto px-4 pb-4 flex flex-col h-[calc(100vh-4rem)] md:h-[calc(100vh-2rem)]">
       <FormHeader
         title="Registro de proveedores"
-        className="text-center mb-2 mt-2 shrink-0"
+        className="text-center mb-10 mt-2 shrink-0"
       />
 
       <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col flex-1">
@@ -133,7 +143,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
 
         {/* Content Area con Scroll Interno */}
         <div className="flex-1 overflow-y-auto p-2 md:p-4 bg-white relative">
-          <div className="max-w-4xl mx-auto h-full">{renderStep()}</div>
+          <div className="max-w-full mx-auto h-full">{renderStep()}</div>
         </div>
 
         {/* Footer / Navigation - Estático inferior */}
@@ -170,6 +180,19 @@ export const ProviderRegistrationWizard: React.FC = () => {
           </Button>
         </div>
       </div>
+
+      <ProviderSuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        onViewProviders={handleViewProviders}
+      />
+
+      <ProviderErrorModal
+        isOpen={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+        errorTitle={errorTitle}
+        errorMessage={errorMessage}
+      />
     </div>
   );
 };

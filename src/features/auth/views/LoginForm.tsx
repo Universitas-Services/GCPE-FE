@@ -84,10 +84,8 @@ export function LoginForm() {
                 className="h-12 w-auto"
               />
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-[#005282]">
-              Bienvenido
-            </h1>
-            <p className="text-sm text-[#66686A]">
+            <h1 className="app-title">Bienvenido</h1>
+            <p className="text-sm text-[#66686A] mt-[22.5px]">
               Ingresa tus credenciales para acceder al sistema
             </p>
           </div>

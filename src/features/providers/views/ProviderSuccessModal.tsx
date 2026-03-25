@@ -6,30 +6,32 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { CheckCircle } from 'lucide-react';
 
-interface ComplianceSuccessModalProps {
+interface ProviderSuccessModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onGenerate: () => void;
-  isGenerating: boolean;
+  onViewProviders: () => void;
 }
 
-export function ComplianceSuccessModal({
+export function ProviderSuccessModal({
   isOpen,
   onClose,
-  onGenerate,
-  isGenerating,
-}: ComplianceSuccessModalProps) {
+  onViewProviders,
+}: ProviderSuccessModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] p-8 bg-[#E8EDF2] border-none rounded-2xl shadow-xl">
         <DialogHeader className="mb-4 text-center">
+          <div className="flex justify-center mb-3">
+            <CheckCircle className="h-16 w-16 text-green-500" />
+          </div>
           <DialogTitle className="app-title mb-3">
-            ¡Has completado tu revisión con éxito!
+            ¡Has completado el registro con éxito!
           </DialogTitle>
           <p className="text-[#64748B] text-base px-2">
-            Por favor, haz clic en el botón Generar compliance para procesar los
-            datos y recibir tu reporte de auditoría completo.
+            Para ver el listado completo de tus proveedores registrados, puedes
+            hacer clic en ver proveedores.
           </p>
         </DialogHeader>
 
@@ -37,10 +39,9 @@ export function ComplianceSuccessModal({
           <Button
             type="button"
             className="w-full max-w-[300px] btn-primary py-3 h-auto text-base rounded-xl"
-            onClick={onGenerate}
-            disabled={isGenerating}
+            onClick={onViewProviders}
           >
-            {isGenerating ? 'Generando...' : 'Generar compliance'}
+            Ver proveedores
           </Button>
         </div>
       </DialogContent>

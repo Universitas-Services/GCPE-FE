@@ -87,10 +87,31 @@ export function ManualForm() {
         <div className="flex-1 overflow-y-auto p-2 md:p-4 space-y-4 pt-4">
           <div className="space-y-2">
             <Label
+              htmlFor="correo_electronico_manual"
+              className="text-base font-medium"
+            >
+              1. Indique correo electrónico donde enviar su manual
+            </Label>
+            <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
+            <Input
+              id="correo_electronico_manual"
+              type="email"
+              {...register('correo_electronico_manual')}
+              className={`h-10 ${errors.correo_electronico_manual ? 'border-red-500' : ''}`}
+            />
+            {errors.correo_electronico_manual && (
+              <p className="text-sm text-red-500">
+                {errors.correo_electronico_manual.message}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label
               htmlFor="nombre_institucion_ente"
               className="text-base font-medium"
             >
-              1. Indique el Nombre de la Institución / Ente / Órgano.
+              2. Indique el Nombre de la Institución / Ente / Órgano.
             </Label>
             <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
             <Input
@@ -110,7 +131,7 @@ export function ManualForm() {
               htmlFor="siglas_institucion_ente"
               className="text-base font-medium"
             >
-              2. Indique el Acrónimo y/o siglas de la Institución / Ente /
+              3. Indique el Acrónimo y/o siglas de la Institución / Ente /
               Órgano.
             </Label>
             <p className="text-[13px] text-slate-500 italic font-medium mt-1"></p>
@@ -131,7 +152,7 @@ export function ManualForm() {
               htmlFor="nombre_unidad_admin_financiera"
               className="text-base font-medium"
             >
-              3. Indique el Nombre de la unidad / Gerencia y/u Oficina
+              4. Indique el Nombre de la unidad / Gerencia y/u Oficina
               responsable de la gestión Administrativa y Financiera de la
               Institución / Ente / Órgano.
             </Label>
@@ -155,7 +176,7 @@ export function ManualForm() {
               htmlFor="nombre_unidad_sistemas_tecnologia"
               className="text-base font-medium"
             >
-              4. Indique el Nombre de la Unidad / Gerencia y/u Oficina
+              5. Indique el Nombre de la Unidad / Gerencia y/u Oficina
               responsable del Área de Sistema y Tecnología de la Institución /
               Ente / Órgano.
             </Label>

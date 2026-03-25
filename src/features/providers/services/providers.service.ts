@@ -25,8 +25,20 @@ export const createProvider = async (
   return response.json();
 };
 
-export const getProviders = async (): Promise<any[]> => {
-  const response = await fetchApi('/api/proveedores?skip=0&limit=100');
+export const getProviders = async (params?: {
+  q?: string;
+  page?: number;
+  page_size?: number;
+}): Promise<any> => {
+  const queryParams = new URLSearchParams();
+  if (params?.q) queryParams.append('q', params.q);
+  if (params?.page) queryParams.append('page', params.page.toString());
+  if (params?.page_size)
+    queryParams.append('page_size', params.page_size.toString());
+
+  const queryString = queryParams.toString();
+  const url = `/api/proveedores${queryString ? `?${queryString}` : ''}`;
+  const response = await fetchApi(url);
 
   if (!response.ok) {
     let errorData;

@@ -73,14 +73,14 @@ export function DashboardHomeView() {
           {isLoading ? (
             <Skeleton className="h-8 w-64 mb-1" />
           ) : (
-            <h1 className="text-xl font-bold tracking-tight text-[#101829] leading-tight">
-              Hola,{' '}
+            <h1 className="app-greeting-name text-[#171717]">
+              <span>{'Hola, '}</span>
               <span className="text-[#005282]">
                 {profile?.first_name} {profile?.last_name || 'Usuario'}
               </span>
             </h1>
           )}
-          <p className="text-slate-600 font-medium text-xs mt-0.5">
+          <p className="form-description">
             Aquí tienes el resumen de tu gestión hoy.
           </p>
         </div>
@@ -93,7 +93,7 @@ export function DashboardHomeView() {
               <div className="bg-[#005496] rounded-sm"></div>
               <div className="bg-[#005496] rounded-sm"></div>
             </div>
-            <h2 className="text-sm font-semibold text-[#005282]">
+            <h2 className="font-inter font-bold text-[#005282]">
               Módulos Principales
             </h2>
           </div>
@@ -102,19 +102,19 @@ export function DashboardHomeView() {
             {/* Manual Express */}
             <Card className="relative overflow-hidden border-slate-200 hover:shadow-md transition-shadow flex flex-col justify-between p-2.5 bg-white">
               <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50/50 rounded-bl-full -z-10 opacity-70"></div>
-              <CardHeader className="p-0 mb-1">
+              <CardHeader className="p-0 mb-0.5">
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
                     <Book className="w-4 h-4 text-[#005496]" />
                   </div>
-                  <CardTitle className="text-[13px] font-bold leading-tight text-[#005282]">
+                  <CardTitle className="dashboard-card-title text-[#005282]">
                     Manual Express
                   </CardTitle>
                 </div>
-                <CardDescription className="text-[10.5px] mt-1 text-slate-600 leading-snug">
+                <CardDescription className="form-label-ejemplo">
                   Genera al instante tu demo de manual para concursos abiertos
                   de bienes (Acto Único / Apertura Única).
-                  <span className="block mt-0.5 font-medium text-slate-500">
+                  <span className="form-label-ejemplo">
                     Simplifica tu proceso de contratación desde el primer paso.
                   </span>
                 </CardDescription>
@@ -132,16 +132,16 @@ export function DashboardHomeView() {
             {/* Registro de Proveedores */}
             <Card className="relative overflow-hidden border-slate-200 hover:shadow-md transition-shadow flex flex-col justify-between p-2.5 bg-white">
               <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50/50 rounded-bl-full -z-10 opacity-70"></div>
-              <CardHeader className="p-0 mb-1">
+              <CardHeader className="p-0 mb-0.5">
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
                     <Store className="w-4 h-4 text-[#00C853]" />
                   </div>
-                  <CardTitle className="text-[13px] font-bold leading-tight text-[#005282]">
+                  <CardTitle className="dashboard-card-title text-[#005282]">
                     Registro de Proveedores
                   </CardTitle>
                 </div>
-                <CardDescription className="text-[10.5px] mt-1 text-slate-600 leading-snug">
+                <CardDescription className="form-label-ejemplo">
                   Registra y gestiona el listado oficial de proveedores,
                   asegurando un control eficiente y en orden.
                 </CardDescription>
@@ -160,16 +160,16 @@ export function DashboardHomeView() {
             {/* Compliance Expediente */}
             <Card className="relative overflow-hidden border-slate-200 hover:shadow-md transition-shadow flex flex-col justify-between p-2.5 bg-white">
               <div className="absolute top-0 right-0 w-24 h-24 bg-amber-50/50 rounded-bl-full -z-10 opacity-70"></div>
-              <CardHeader className="p-0 mb-1">
+              <CardHeader className="p-0 mb-0.5">
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
                     <ShieldCheck className="w-4 h-4 text-[#FFC107]" />
                   </div>
-                  <CardTitle className="text-[13px] font-bold leading-tight text-[#005282]">
+                  <CardTitle className="dashboard-card-title text-[#005282]">
                     Compliance de expediente
                   </CardTitle>
                 </div>
-                <CardDescription className="text-[10.5px] mt-1 text-slate-600 leading-snug">
+                <CardDescription className="form-label-ejemplo">
                   Válida al instante el cumplimiento documental de expedientes
                   de bienes bajo la modalidad de concurso abierto, acto único y
                   apertura única .
@@ -188,19 +188,19 @@ export function DashboardHomeView() {
           </div>
         </div>
         {/* Lower Cards - PRO Modules & Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-2.5 bg-white">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1.5">
+          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
             <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-50/50 rounded-bl-full -z-10 opacity-70"></div>
-            <CardHeader className="p-0 mb-1">
+            <CardHeader className="p-0 mb-0.5">
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-7 h-7 rounded-md bg-emerald-50 flex items-center justify-center shrink-0">
                   <Users className="w-3.5 h-3.5 text-[#00C853]" />
                 </div>
-                <CardTitle className="text-[13px] font-bold text-[#005282] leading-tight">
+                <CardTitle className="dashboard-card-title text-[#005282]">
                   Proveedores registrados
                 </CardTitle>
               </div>
-              <CardDescription className="text-[10.5px] leading-snug text-slate-600">
+              <CardDescription className="form-label-ejemplo">
                 Lleva el control total de tus proveedores: gestiona su
                 información documental, emite certificados de registro y asegura
                 la actualización anual en cumplimiento con las Normas de Control
@@ -221,18 +221,18 @@ export function DashboardHomeView() {
             </CardContent>
           </Card>
 
-          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-2.5 bg-white">
+          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
             <div className="absolute top-0 right-0 w-20 h-20 bg-amber-50/50 rounded-bl-full -z-10 opacity-70"></div>
-            <CardHeader className="p-0 mb-1">
+            <CardHeader className="p-0 mb-0.5">
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-7 h-7 rounded-md bg-amber-50 flex items-center justify-center shrink-0">
                   <FileCheck className="w-3.5 h-3.5 text-[#FFC107]" />
                 </div>
-                <CardTitle className="text-[13px] font-bold text-[#005282] leading-tight">
+                <CardTitle className="dashboard-card-title text-[#005282]">
                   Compliance realizado
                 </CardTitle>
               </div>
-              <CardDescription className="text-[10.5px] leading-snug text-slate-600">
+              <CardDescription className="form-label-ejemplo">
                 ¿Deseas revisar a detalle el contenido de cada acta de tu
                 expediente y conocer tu porcentaje exacto de cumplimiento? Obtén
                 análisis profundos y métricas de gestión con nuestra herramienta
@@ -253,18 +253,18 @@ export function DashboardHomeView() {
             </CardContent>
           </Card>
 
-          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-2.5 bg-white">
+          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
             <div className="absolute top-0 right-0 w-20 h-20 bg-blue-50/50 rounded-bl-full -z-10 opacity-70"></div>
-            <CardHeader className="p-0 mb-1">
+            <CardHeader className="p-0 mb-0.5">
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-7 h-7 rounded-md bg-blue-50 flex items-center justify-center shrink-0">
                   <FileText className="w-3.5 h-3.5 text-[#005496]" />
                 </div>
-                <CardTitle className="text-[13px] font-bold text-[#005282] leading-tight">
+                <CardTitle className="dashboard-card-title text-[#005282]">
                   Elaboración de expedientes de contrataciones
                 </CardTitle>
               </div>
-              <CardDescription className="text-[10.5px] leading-snug text-slate-600">
+              <CardDescription className="form-label-ejemplo">
                 Automatiza tus procesos de contratación pública. Genera
                 cronogramas y actas listas al instante, garantizando el
                 cumplimiento automático de la Ley de Contrataciones Públicas .
@@ -298,7 +298,7 @@ export function DashboardHomeView() {
               <h3 className="text-base md:text-lg font-bold text-white leading-tight">
                 ¡Lleva tu gestión al siguiente nivel!
               </h3>
-              <p className="text-teal-50 text-[11px] md:text-xs max-w-xl leading-snug mt-1">
+              <p className="text-teal-50 text-[11px] md:text-xs max-w-xl leading-snug mt-1 font-semibold">
                 Desbloquea la generación automática de tus expedientes de
                 Contrataciones Públicas en todas sus modalidades, el análisis de
                 cumplimiento porcentual de tus expedientes, gestión avanzada de

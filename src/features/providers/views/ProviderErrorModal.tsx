@@ -8,19 +8,19 @@ import {
 import { Button } from '@/components/ui/button';
 import { XCircle } from 'lucide-react';
 
-interface ComplianceErrorModalProps {
+interface ProviderErrorModalProps {
   isOpen: boolean;
   onClose: () => void;
   errorTitle?: string;
   errorMessage?: string;
 }
 
-export function ComplianceErrorModal({
+export function ProviderErrorModal({
   isOpen,
   onClose,
   errorTitle = 'Error',
   errorMessage = 'Ocurrió un error inesperado. Por favor, intenta nuevamente.',
-}: ComplianceErrorModalProps) {
+}: ProviderErrorModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px] p-8 bg-[#E8EDF2] border-none rounded-2xl shadow-xl">

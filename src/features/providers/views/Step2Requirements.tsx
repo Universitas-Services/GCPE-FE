@@ -19,15 +19,13 @@ export const Step2Requirements: React.FC = () => {
     value: boolean;
   }) => (
     <div className="mb-6">
-      <label className="block text-base font-medium text-gray-800 mb-4">
-        {label}
-      </label>
+      <label className="block form-label-titulos leading-4 mb-4">{label}</label>
       <div className="flex space-x-6">
         <Button
           type="button"
           variant={value === true ? 'default' : 'outline'}
           onClick={() => handleBooleanChange(name, true)}
-          className="px-8 py-3 text-base font-medium"
+          className="px-8 py-3 text-[11px] font-medium"
           size="lg"
         >
           SI
@@ -36,7 +34,7 @@ export const Step2Requirements: React.FC = () => {
           type="button"
           variant={value === false ? 'default' : 'outline'}
           onClick={() => handleBooleanChange(name, false)}
-          className="px-8 py-3 text-base font-medium"
+          className="px-8 py-3 text-[11px] font-medium"
           size="lg"
         >
           NO

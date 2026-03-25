@@ -1,10 +1,11 @@
-'use client';
+import { AcercaDeView } from '@/features/acerca-de';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Acerca de - Universitas GCPE',
+  description: 'Acerca de Gestor de Contrataciones',
+};
 
 export default function AcercaDePage() {
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-4">Acerca de</h1>
-      <p className="text-gray-600">Página de información en desarrollo.</p>
-    </div>
-  );
+  return <AcercaDeView />;
 }

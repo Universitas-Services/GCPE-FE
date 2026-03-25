@@ -1,9 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import Swal from 'sweetalert2';
+import { toast } from 'sonner';
 import { useRecovery } from '@/features/auth/context/RecoveryContext';
+import { recoveryService } from '@/features/auth/services/recovery.service';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -27,6 +31,7 @@ type PasswordFormValues = z.infer<typeof passwordSchema>;
 
 export function NewPasswordStep() {
   const { formData, updateFormData } = useRecovery();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   const {
@@ -41,15 +46,32 @@ export function NewPasswordStep() {
     },
   });
 
-  const onSubmit = (data: PasswordFormValues) => {
-    updateFormData(data);
-    // Here we would call API to reset password
-    console.log('Resetting password for:', formData.email);
-    console.log('New password:', data.password);
-
-    // Redirect to login or show success message
-    // For now redirecting to login
-    router.push('/login');
+  const onSubmit = async (data: PasswordFormValues) => {
+    setIsSubmitting(true);
+    try {
+      await recoveryService.resetPassword(
+        formData.resetToken || '',
+        data.password,
+        data.confirmPassword
+      );
+      updateFormData(data);
+      toast.success('Contraseña cambiada exitosamente');
+      router.push('/login');
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text:
+          error instanceof Error
+            ? error.message
+            : 'Ocurrió un error al intentar cambiar la contraseña',
+        confirmButtonColor: '#008CBA',
+      }).then(() => {
+        router.push('/login');
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -62,6 +84,7 @@ export function NewPasswordStep() {
           id="password"
           type="password"
           placeholder="Mínimo de caracteres"
+          disabled={isSubmitting}
           className={`bg-gray-50 border-gray-200 ${errors.password ? 'border-red-500' : ''}`}
           {...register('password')}
         />
@@ -78,6 +101,7 @@ export function NewPasswordStep() {
           id="confirmPassword"
           type="password"
           placeholder="Confirma tu nueva contraseña"
+          disabled={isSubmitting}
           className={`bg-gray-50 border-gray-200 ${errors.confirmPassword ? 'border-red-500' : ''}`}
           {...register('confirmPassword')}
         />
@@ -90,9 +114,10 @@ export function NewPasswordStep() {
 
       <Button
         type="submit"
+        disabled={isSubmitting}
         className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-6 text-lg shadow-sm"
       >
-        Actualizar
+        {isSubmitting ? 'Actualizando...' : 'Actualizar'}
       </Button>
     </form>
   );

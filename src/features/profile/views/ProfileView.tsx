@@ -36,10 +36,8 @@ export const ProfileView = () => {
         <div className="p-6 md:p-8 border-b border-gray-100 flex items-center gap-4">
           <List className="w-8 h-8 text-[#003366]" />
           <div>
-            <h2 className="text-2xl font-semibold text-[#003366]">
-              Configuración de tu perfil
-            </h2>
-            <p className="text-gray-500 text-sm italic">
+            <h2 className="app-title">Configuración de tu perfil</h2>
+            <p className="text-gray-500 text-sm italic mt-[22.5px]">
               Gestiona la información de tu cuenta y tu configuración de
               seguridad.
             </p>

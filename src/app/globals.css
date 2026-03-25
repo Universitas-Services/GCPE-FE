@@ -168,3 +168,63 @@
   background-color: #005282 !important;
   color: #ffffff !important;
 }
+
+.form-label-titulos {
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 16px;
+  color: #0d141c;
+}
+
+.form-label-ejemplo {
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 11px;
+  color: #66686a;
+  font-style: italic;
+}
+
+.form-description {
+  font-family: var(--font-roboto);
+  font-weight: 500;
+  font-size: 16px;
+  color: #9c9c9c;
+  font-style: italic;
+}
+
+.app-title {
+  font-family: var(--font-inter);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.2;
+  color: #005282;
+}
+
+.app-greeting-name {
+  font-family: var(--font-inter);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.dashboard-card-title {
+  font-family: var(--font-inter);
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.faq-question-title {
+  color: #005282;
+  font-family: var(--font-inter);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.faq-question-text {
+  color: #66686a;
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 14px;
+}

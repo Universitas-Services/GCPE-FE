@@ -103,7 +103,7 @@ export function CompleteProfileModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent className="sm:max-w-md p-6">
         <DialogHeader className="mb-4 text-left">
-          <DialogTitle className="text-2xl font-bold text-[#0f4d7b] mb-1">
+          <DialogTitle className="app-title mb-1">
             ¡Bienvenido! Completa tu perfil
           </DialogTitle>
           <DialogDescription className="text-gray-500 text-sm">

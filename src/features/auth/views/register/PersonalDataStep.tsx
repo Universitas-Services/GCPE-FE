@@ -269,9 +269,7 @@ export function PersonalDataStep() {
           }}
         >
           <DialogHeader className="space-y-2">
-            <DialogTitle className="text-xl font-bold text-[#005282]">
-              Registro exitoso
-            </DialogTitle>
+            <DialogTitle className="app-title">Registro exitoso</DialogTitle>
             <DialogDescription className="text-xs text-[#66686A] leading-relaxed text-left">
               Hemos enviado un correo para que confirmes y actives tu cuenta. Si
               no lo ubicas en la bandeja de entrada, revisa en SPAM.

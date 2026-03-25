@@ -1,6 +1,10 @@
 import { z } from 'zod';
 
 export const manualSchema = z.object({
+  correo_electronico_manual: z
+    .string()
+    .min(1, 'El correo electrónico es requerido')
+    .email('Debe ser un correo electrónico válido'),
   nombre_institucion_ente: z
     .string()
     .min(1, 'El nombre de la Institución/Ente/Órgano es requerido'),

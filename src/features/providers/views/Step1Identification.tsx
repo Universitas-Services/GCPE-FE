@@ -108,13 +108,13 @@ export const Step1Identification: React.FC = () => {
 
   return (
     <div className="flex flex-col pb-12">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
         {/* Correo */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block form-label-titulos mb-1">
             Correo electrónico del proveedor
           </label>
-          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
+          <p className="form-label-ejemplo mb-2 mt-1">
             Ejemplo: prueba@gmail.com
           </p>
           <Input
@@ -125,7 +125,7 @@ export const Step1Identification: React.FC = () => {
             className={`h-10 ${errors.correo_proveedor ? 'border-red-500' : ''}`}
           />
           {errors.correo_proveedor && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-500 text-sm mt-1">
               {errors.correo_proveedor}
             </p>
           )}
@@ -133,10 +133,10 @@ export const Step1Identification: React.FC = () => {
 
         {/* Dirección Fiscal */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block form-label-titulos mb-1">
             Dirección fiscal (como se indica en el RIF)
           </label>
-          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
+          <p className="form-label-ejemplo mb-2 mt-1">
             Ejemplo: Avenida 00, entre calles 00 y 00, Centro Comercial Central,
             Piso 2, Local 3
           </p>
@@ -148,7 +148,7 @@ export const Step1Identification: React.FC = () => {
             className={`h-10 ${errors.direccion_fiscal ? 'border-red-500' : ''}`}
           />
           {errors.direccion_fiscal && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-500 text-sm mt-1">
               {errors.direccion_fiscal}
             </p>
           )}
@@ -156,10 +156,10 @@ export const Step1Identification: React.FC = () => {
 
         {/* Nombre */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block form-label-titulos mb-1">
             Nombre de la empresa o razón social
           </label>
-          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
+          <p className="form-label-ejemplo mb-2 mt-1">
             Ejemplo: Industrias Carabobo C.A
           </p>
           <Input
@@ -170,7 +170,7 @@ export const Step1Identification: React.FC = () => {
             className={`h-10 ${errors.nombre_proveedor ? 'border-red-500' : ''}`}
           />
           {errors.nombre_proveedor && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-500 text-sm mt-1">
               {errors.nombre_proveedor}
             </p>
           )}
@@ -178,12 +178,10 @@ export const Step1Identification: React.FC = () => {
 
         {/* Teléfono */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block form-label-titulos mb-1">
             Teléfono de contacto
           </label>
-          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
-            Ejemplo: 1234567
-          </p>
+          <p className="form-label-ejemplo mb-2 mt-1">Ejemplo: 1234567</p>
           <div className="flex gap-2">
             <Select
               value={
@@ -221,7 +219,7 @@ export const Step1Identification: React.FC = () => {
             />
           </div>
           {errors.telefono_proveedor && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-500 text-sm mt-1">
               {errors.telefono_proveedor}
             </p>
           )}
@@ -229,12 +227,10 @@ export const Step1Identification: React.FC = () => {
 
         {/* RIF */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block form-label-titulos mb-1">
             Registro de Información Fiscal (RIF)
           </label>
-          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
-            Ejemplo: 123456789
-          </p>
+          <p className="form-label-ejemplo mb-2 mt-1">Ejemplo: 123456789</p>
           <div className="flex gap-2">
             <Select
               value={currentRifLetter}
@@ -262,16 +258,16 @@ export const Step1Identification: React.FC = () => {
             />
           </div>
           {errors.rif_proveedor && (
-            <p className="text-red-500 text-xs mt-1">{errors.rif_proveedor}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.rif_proveedor}</p>
           )}
         </div>
 
         {/* Nombre Rep Legal */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block form-label-titulos mb-1">
             Nombre del Representante Legal
           </label>
-          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
+          <p className="form-label-ejemplo mb-2 mt-1">
             Ejemplo: José Ramiréz González Pérez
           </p>
           <Input
@@ -282,7 +278,7 @@ export const Step1Identification: React.FC = () => {
             className={`h-10 ${errors.nombre_rep_legal ? 'border-red-500' : ''}`}
           />
           {errors.nombre_rep_legal && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-500 text-sm mt-1">
               {errors.nombre_rep_legal}
             </p>
           )}
@@ -290,14 +286,21 @@ export const Step1Identification: React.FC = () => {
 
         {/* Tipo Persona */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block form-label-titulos mb-1">
             Tipo de persona
           </label>
           <Select
             value={formData.tipo_persona || undefined}
-            onValueChange={(value) =>
-              updateFormData({ tipo_persona: value as 'Natural' | 'Juridica' })
-            }
+            onValueChange={(value) => {
+              const newValue = value as 'Natural' | 'Juridica';
+              updateFormData({
+                tipo_persona: newValue,
+                tipo_entidad_juridica:
+                  newValue === 'Natural'
+                    ? undefined
+                    : formData.tipo_entidad_juridica,
+              });
+            }}
           >
             <SelectTrigger
               className={`w-full h-10 ${errors.tipo_persona ? 'border-red-500' : ''}`}
@@ -310,18 +313,16 @@ export const Step1Identification: React.FC = () => {
             </SelectContent>
           </Select>
           {errors.tipo_persona && (
-            <p className="text-red-500 text-xs mt-1">{errors.tipo_persona}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.tipo_persona}</p>
           )}
         </div>
 
         {/* Cédula Rep Legal */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block form-label-titulos mb-1">
             Cédula del Representante Legal
           </label>
-          <p className="text-[13px] text-slate-500 italic font-medium mb-2 mt-1">
-            Ejemplo: 12.345.678
-          </p>
+          <p className="form-label-ejemplo mb-2 mt-1">Ejemplo: 12.345.678</p>
           <div className="flex gap-2">
             <Select
               value={currentCedulaLetter}
@@ -349,7 +350,7 @@ export const Step1Identification: React.FC = () => {
             />
           </div>
           {errors.cedula_rep_legal && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-500 text-sm mt-1">
               {errors.cedula_rep_legal}
             </p>
           )}
@@ -357,7 +358,7 @@ export const Step1Identification: React.FC = () => {
 
         {/* Forma Jurídica */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block form-label-titulos mb-1">
             Forma jurídica (Si aplica)
           </label>
           <Select
@@ -365,6 +366,7 @@ export const Step1Identification: React.FC = () => {
             onValueChange={(value) =>
               updateFormData({ tipo_entidad_juridica: value })
             }
+            disabled={formData.tipo_persona !== 'Juridica'}
           >
             <SelectTrigger className="w-full h-10">
               <SelectValue placeholder="Selecciona" />
@@ -386,9 +388,7 @@ export const Step1Identification: React.FC = () => {
 
         {/* Estado */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Estado
-          </label>
+          <label className="block form-label-titulos mb-1">Estado</label>
           <Select
             value={formData.estado || undefined}
             onValueChange={(value) => updateFormData({ estado: value })}
@@ -406,15 +406,13 @@ export const Step1Identification: React.FC = () => {
             </SelectContent>
           </Select>
           {errors.estado && (
-            <p className="text-red-500 text-xs mt-1">{errors.estado}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.estado}</p>
           )}
         </div>
 
         {/* Municipio */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Municipio
-          </label>
+          <label className="block form-label-titulos mb-1">Municipio</label>
           <Select
             value={formData.municipio || undefined}
             onValueChange={(value) => updateFormData({ municipio: value })}
@@ -430,15 +428,13 @@ export const Step1Identification: React.FC = () => {
             </SelectContent>
           </Select>
           {errors.municipio && (
-            <p className="text-red-500 text-xs mt-1">{errors.municipio}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.municipio}</p>
           )}
         </div>
 
         {/* Parroquia */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Parroquia
-          </label>
+          <label className="block form-label-titulos mb-1">Parroquia</label>
           <Select
             value={formData.parroquia || undefined}
             onValueChange={(value) => updateFormData({ parroquia: value })}
@@ -454,7 +450,7 @@ export const Step1Identification: React.FC = () => {
             </SelectContent>
           </Select>
           {errors.parroquia && (
-            <p className="text-red-500 text-xs mt-1">{errors.parroquia}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.parroquia}</p>
           )}
         </div>
       </div>
