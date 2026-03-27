@@ -25,7 +25,7 @@ export const Step2Requirements: React.FC = () => {
           type="button"
           variant={value === true ? 'default' : 'outline'}
           onClick={() => handleBooleanChange(name, true)}
-          className="px-8 py-3 text-[11px] font-medium"
+          className="px-8 py-3 form-label-buttons"
           size="lg"
         >
           SI
@@ -34,7 +34,7 @@ export const Step2Requirements: React.FC = () => {
           type="button"
           variant={value === false ? 'default' : 'outline'}
           onClick={() => handleBooleanChange(name, false)}
-          className="px-8 py-3 text-[11px] font-medium"
+          className="px-8 py-3 form-label-buttons"
           size="lg"
         >
           NO

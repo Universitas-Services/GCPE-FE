@@ -184,6 +184,13 @@
   font-style: italic;
 }
 
+.form-label-buttons {
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 11px;
+  color: #66686a;
+}
+
 .form-description {
   font-family: var(--font-roboto);
   font-weight: 500;
