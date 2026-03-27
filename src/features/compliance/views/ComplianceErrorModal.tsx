@@ -28,8 +28,10 @@ export function ComplianceErrorModal({
           <div className="flex justify-center mb-3">
             <XCircle className="h-16 w-16 text-red-500" />
           </div>
-          <DialogTitle className="app-title mb-3">{errorTitle}</DialogTitle>
-          <p className="text-[#64748B] text-base px-2">{errorMessage}</p>
+          <DialogTitle className="text-2xl font-inter font-bold text-[#005282] text-center mb-3">
+            {errorTitle}
+          </DialogTitle>
+          <p className="faq-question-text text-center">{errorMessage}</p>
         </DialogHeader>
 
         <div className="flex justify-center pt-2">

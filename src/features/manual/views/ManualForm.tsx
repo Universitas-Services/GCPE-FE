@@ -200,7 +200,7 @@ export function ManualForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="btn-primary px-2 py-1 text-base rounded-xl min-w-[150px] h-auto"
+            className="form-label-buttons btn-primary px-2 py-1 text-base rounded-xl min-w-[150px] h-auto"
           >
             {isSubmitting ? 'Enviando...' : 'Elaborar manual'}
           </Button>
@@ -230,22 +230,18 @@ export function ManualForm() {
 
       {/* Alert Dialog Modal */}
       <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <AlertDialogContent className="w-[90%] max-w-md rounded-2xl">
+        <AlertDialogContent className="w-[90%] max-w-md rounded-2xl bg-[#E8EDF2] border-none">
           <AlertDialogHeader>
-            <AlertDialogTitle
-              className={
-                dialogType === 'success' ? 'text-green-600' : 'text-red-500'
-              }
-            >
+            <AlertDialogTitle className="text-2xl font-inter font-bold text-[#005282] text-center mb-3">
               {dialogType === 'success' ? '¡Envío Exitoso!' : 'Error de Envío'}
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-base text-gray-700">
+            <AlertDialogDescription className="faq-question-text text-center">
               {dialogMessage}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction
-              className="px-6 py-2 rounded-xl text-base"
+              className="form-label-buttons px-6 py-2 rounded-xl text-base"
               onClick={() => setDialogOpen(false)}
             >
               Aceptar

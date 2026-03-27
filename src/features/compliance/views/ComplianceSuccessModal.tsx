@@ -24,10 +24,10 @@ export function ComplianceSuccessModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] p-8 bg-[#E8EDF2] border-none rounded-2xl shadow-xl">
         <DialogHeader className="mb-4 text-center">
-          <DialogTitle className="app-title mb-3">
+          <DialogTitle className="text-2xl font-inter font-bold text-[#005282] text-center mb-3">
             ¡Has completado tu revisión con éxito!
           </DialogTitle>
-          <p className="text-[#64748B] text-base px-2">
+          <p className="faq-question-text text-center">
             Por favor, haz clic en el botón Generar compliance para procesar los
             datos y recibir tu reporte de auditoría completo.
           </p>

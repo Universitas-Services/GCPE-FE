@@ -16,7 +16,7 @@ export const Step2Requirements: React.FC = () => {
   }: {
     label: string;
     name: string;
-    value: boolean;
+    value?: boolean;
   }) => (
     <div className="mb-6">
       <label className="block form-label-titulos leading-4 mb-4">{label}</label>
@@ -49,19 +49,19 @@ export const Step2Requirements: React.FC = () => {
         <BooleanGroup
           label="¿Está registrado en el Registro Nacional de Contratista (RNC)?"
           name="tiene_rnc"
-          value={formData.tiene_rnc ?? false}
+          value={formData.tiene_rnc}
         />
 
         <BooleanGroup
           label="¿Tiene solvencia laboral vigente?"
           name="tiene_solvencia_laboral"
-          value={formData.tiene_solvencia_laboral ?? false}
+          value={formData.tiene_solvencia_laboral}
         />
 
         <BooleanGroup
           label="¿Tiene licencia de funcionamiento municipal vigente?"
           name="tiene_licencia_municipal"
-          value={formData.tiene_licencia_municipal ?? false}
+          value={formData.tiene_licencia_municipal}
         />
       </div>
     </div>

@@ -69,7 +69,7 @@ export const Step3Capacity: React.FC = () => {
                   type="button"
                   variant="outline"
                   onClick={() => updateFormData({ area_especialidad: type })}
-                  className={`px-4 py-2 text-sm font-medium ${
+                  className={`form-label-buttons px-4 py-2 text-sm font-medium ${
                     formData.area_especialidad === type
                       ? 'btn-option-selected'
                       : 'btn-option-unselected'
@@ -98,7 +98,7 @@ export const Step3Capacity: React.FC = () => {
                   type="button"
                   variant="outline"
                   onClick={() => updateFormData({ nivel_contratacion: level })}
-                  className={`px-4 py-2 text-sm font-medium ${
+                  className={`form-label-buttons px-4 py-2 text-sm font-medium ${
                     formData.nivel_contratacion === level
                       ? 'btn-option-selected'
                       : 'btn-option-unselected'
