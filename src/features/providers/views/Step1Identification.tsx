@@ -356,17 +356,22 @@ export const Step1Identification: React.FC = () => {
           )}
         </div>
 
-        {/* Forma Jurídica */}
-        <div>
+        {/* Forma Jurídica - Solo visible para Persona Jurídica */}
+        <div
+          className={`transition-all duration-300 ease-in-out overflow-hidden ${
+            formData.tipo_persona === 'Juridica'
+              ? 'opacity-100 max-h-[200px] mt-0'
+              : 'opacity-0 max-h-0 mt-0'
+          }`}
+        >
           <label className="block form-label-titulos mb-1">
-            Forma jurídica (Si aplica)
+            Forma jurídica
           </label>
           <Select
             value={formData.tipo_entidad_juridica || undefined}
             onValueChange={(value) =>
               updateFormData({ tipo_entidad_juridica: value })
             }
-            disabled={formData.tipo_persona !== 'Juridica'}
           >
             <SelectTrigger className="w-full h-10">
               <SelectValue placeholder="Selecciona" />
