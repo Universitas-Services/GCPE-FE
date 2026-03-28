@@ -75,8 +75,6 @@ export function ManualForm() {
           title="Elabora tu manual express"
           description="Ingresa los datos básicos para generar una demostración del manual de concurso abierto. Lo recibirás en tu correo en pocos minutos."
           className="mb-0"
-          titleClassName="text-[26px] md:text-[26px] font-bold"
-          descriptionClassName="leading-[22.5px]"
         />
       </div>
 
