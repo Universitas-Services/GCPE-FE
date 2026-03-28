@@ -115,6 +115,15 @@ function UserNav() {
         side="top"
         sideOffset={8}
       >
+        <div className="px-2 py-2">
+          <p className="text-sm font-medium leading-tight">
+            {profile?.first_name} {profile?.last_name || 'Usuario'}
+          </p>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            {profile?.email || 'cargando...'}
+          </p>
+        </div>
+        <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link href="/dashboard/pro">Actualizar a cuenta pro</Link>
         </DropdownMenuItem>
