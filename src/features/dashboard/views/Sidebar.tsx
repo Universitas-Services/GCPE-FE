@@ -53,7 +53,6 @@ import {
 import { LiaRobotSolid } from 'react-icons/lia';
 import { AiOutlineBook } from 'react-icons/ai';
 import { BsQuestionCircle } from 'react-icons/bs';
-import { FaUsers } from 'react-icons/fa';
 import {
   BookOpenIcon,
   PencilSquareIcon,
@@ -61,6 +60,20 @@ import {
 } from '@heroicons/react/24/outline';
 
 const ICON_STYLE = { width: '18px', height: '18px' };
+
+// Wrapper para que InformationCircleIcon (heroicons outline, trazo fino)
+// se vea del mismo tamaño visual que los demás iconos
+const InfoIcon = (props: React.ComponentProps<'svg'>) => (
+  <InformationCircleIcon
+    {...props}
+    style={{
+      ...props.style,
+      width: '18px',
+      height: '18px',
+      transform: 'scale(1.35)',
+    }}
+  />
+);
 
 function getInitials(name: string) {
   const parts = name.split(' ').filter(Boolean);
@@ -92,13 +105,18 @@ function UserNav() {
             isSidebarCollapsed && 'justify-center p-0'
           )}
         >
-          <Avatar className="h-8 w-8 rounded-full shrink-0">
-            <AvatarFallback className="rounded-full bg-[#008CBA] text-white">
+          <Avatar
+            className={cn(
+              'rounded-full shrink-0',
+              isSidebarCollapsed ? 'h-9 w-9' : 'h-9 w-9'
+            )}
+          >
+            <AvatarFallback className="rounded-full bg-[#008CBA] text-white text-sm font-medium">
               {initials}
             </AvatarFallback>
           </Avatar>
           {!isSidebarCollapsed && (
-            <div className="grid flex-1 text-left text-sm leading-tight">
+            <div className="grid flex-1 text-left text-sm leading-normal gap-0.5">
               <span className="truncate font-medium">
                 {profile?.first_name} {profile?.last_name || 'Usuario'}
               </span>
@@ -249,14 +267,8 @@ export function Sidebar({ className }: SidebarProps) {
           active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
         },
         {
-          label: 'Asistencia al usuario',
-          icon: FaUsers,
-          href: '/dashboard/asistencia',
-          active: pathname.startsWith('/dashboard/asistencia'),
-        },
-        {
           label: 'Acerca de',
-          icon: InformationCircleIcon,
+          icon: InfoIcon,
           href: '/dashboard/acerca-de',
           active: pathname.startsWith('/dashboard/acerca-de'),
         },
@@ -633,14 +645,8 @@ export function MobileSidebar() {
           active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
         },
         {
-          label: 'Asistencia al usuario',
-          icon: FaUsers,
-          href: '/dashboard/asistencia',
-          active: pathname.startsWith('/dashboard/asistencia'),
-        },
-        {
           label: 'Acerca de',
-          icon: InformationCircleIcon,
+          icon: InfoIcon,
           href: '/dashboard/acerca-de',
           active: pathname.startsWith('/dashboard/acerca-de'),
         },

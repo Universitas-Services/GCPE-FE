@@ -5,7 +5,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function handleProxyRequest(
   request: NextRequest,
-  isRetry = false
+  isRetry = false,
+  savedBody?: Blob | null
 ): Promise<NextResponse> {
   try {
     const pathname = request.nextUrl.pathname; // ej: /api/proveedores
@@ -36,12 +37,21 @@ async function handleProxyRequest(
       headers,
     };
 
+    // Guardar el body para poder reutilizarlo en un posible retry
+    // (request.blob() consume el stream y no puede leerse dos veces)
+    let bodyBlob: Blob | null = null;
     if (request.method !== 'GET' && request.method !== 'HEAD') {
-      const bodyBlob = await request.blob();
+      bodyBlob = savedBody ?? (await request.blob());
       init.body = bodyBlob;
     }
 
+    console.log(
+      `[BFF Proxy] ${request.method} ${pathname} → ${backendUrl} (retry=${isRetry})`
+    );
     const response = await fetch(backendUrl, init);
+    console.log(
+      `[BFF Proxy] Response: ${response.status} ${response.statusText}`
+    );
 
     // Si recibimos 401 y no es un reintento, intentamos refrescar el token
     if (response.status === 401 && !isRetry) {
@@ -81,10 +91,11 @@ async function handleProxyRequest(
             });
           }
 
-          // Reintentamos la petición original recursivamente con las nuevas cookies (ahora disponibles en la request)
-          // El request.headers NO cambiará mágicamente para la llamada fetch interna de retry, así que el proxy de retry
-          // extraerá las cookies seteadas de cookieStore y las usará para el nuevo Bearer.
-          return handleProxyRequest(request, true);
+          // Reintentamos la petición original con el body guardado y el nuevo token
+          console.log(
+            '[BFF Proxy] Token refreshed successfully, retrying original request...'
+          );
+          return handleProxyRequest(request, true, bodyBlob);
         }
       }
 
