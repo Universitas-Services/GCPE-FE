@@ -72,10 +72,10 @@ export function LoginForm() {
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="flex flex-1 flex-col items-center justify-center bg-[#E8EDF2] p-8 lg:p-20">
-        <div className="w-full max-w-md space-y-8">
+      <div className="flex flex-1 flex-col items-center justify-center bg-[#E8EDF2] p-6 lg:py-8 lg:px-20">
+        <div className="w-full max-w-md space-y-5">
           <div className="flex flex-col items-center space-y-2 text-center">
-            <div className="mb-4">
+            <div className="mb-2">
               <Image
                 src="/logo.png"
                 alt="Logo Pequeño"
@@ -85,12 +85,12 @@ export function LoginForm() {
               />
             </div>
             <h1 className="app-title">Bienvenido</h1>
-            <p className="text-sm text-[#66686A] mt-[22.5px]">
+            <p className="text-sm text-[#66686A] mt-2">
               Ingresa tus credenciales para acceder al sistema
             </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Campo Usuario (Modificado) */}
             <div className="space-y-2">
               <Label htmlFor="username" className="text-gray-700">
@@ -163,7 +163,7 @@ export function LoginForm() {
             </div>
           </div>
 
-          <div className="mt-6 text-center text-sm text-gray-500">
+          <div className="mt-4 text-center text-sm text-gray-500">
             ¿No tienes cuenta?{' '}
             <Link
               href="/register"
