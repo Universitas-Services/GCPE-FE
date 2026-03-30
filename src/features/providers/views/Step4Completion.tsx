@@ -26,7 +26,7 @@ export const Step4Completion: React.FC = () => {
                   : 'outline'
               }
               onClick={() => handleBooleanChange(true)}
-              className="px-8 py-3 text-[11px] font-medium"
+              className="form-label-buttons px-8 py-3 text-[11px] font-medium"
               size="lg"
             >
               Sí
@@ -39,7 +39,7 @@ export const Step4Completion: React.FC = () => {
                   : 'outline'
               }
               onClick={() => handleBooleanChange(false)}
-              className="px-8 py-3 text-[11px] font-medium"
+              className="form-label-buttons px-8 py-3 text-[11px] font-medium"
               size="lg"
             >
               No

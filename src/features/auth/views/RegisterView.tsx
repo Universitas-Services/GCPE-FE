@@ -46,15 +46,15 @@ function RegisterContent() {
           <div className="flex flex-col items-center space-y-1 text-center">
             {currentStep === 1 ? (
               <>
-                <h1 className="app-title">Crea tu cuenta</h1>
-                <p className="text-[14.81px] font-medium text-gray-500 mt-[22.5px]">
+                <h1 className="app-title-recovery">Crea tu cuenta</h1>
+                <p className="text-[12px] font-medium text-gray-500 mt-[0px]">
                   Por favor introduce tus datos para continuar
                 </p>
               </>
             ) : (
               <>
-                <h1 className="app-title">Completa tus datos</h1>
-                <p className="text-[14.81px] font-medium text-gray-500 mt-[22.5px]">
+                <h1 className="app-title-recovery">Completa tus datos</h1>
+                <p className="text-[12px] font-medium text-gray-500 mt-[0px]">
                   Por favor introduce tus datos para continuar
                 </p>
               </>

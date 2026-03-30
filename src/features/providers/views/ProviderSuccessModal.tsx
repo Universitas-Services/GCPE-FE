@@ -26,10 +26,10 @@ export function ProviderSuccessModal({
           <div className="flex justify-center mb-3">
             <CheckCircle className="h-16 w-16 text-green-500" />
           </div>
-          <DialogTitle className="app-title mb-3">
+          <DialogTitle className="text-2xl font-inter font-bold text-[#005282] text-center mb-3">
             ¡Has completado el registro con éxito!
           </DialogTitle>
-          <p className="text-[#64748B] text-base px-2">
+          <p className="faq-question-text text-center">
             Para ver el listado completo de tus proveedores registrados, puedes
             hacer clic en ver proveedores.
           </p>

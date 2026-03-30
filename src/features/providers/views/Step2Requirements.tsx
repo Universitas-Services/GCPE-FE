@@ -16,7 +16,7 @@ export const Step2Requirements: React.FC = () => {
   }: {
     label: string;
     name: string;
-    value: boolean;
+    value?: boolean;
   }) => (
     <div className="mb-6">
       <label className="block form-label-titulos leading-4 mb-4">{label}</label>
@@ -25,7 +25,7 @@ export const Step2Requirements: React.FC = () => {
           type="button"
           variant={value === true ? 'default' : 'outline'}
           onClick={() => handleBooleanChange(name, true)}
-          className="px-8 py-3 text-[11px] font-medium"
+          className="px-8 py-3 form-label-buttons"
           size="lg"
         >
           SI
@@ -34,7 +34,7 @@ export const Step2Requirements: React.FC = () => {
           type="button"
           variant={value === false ? 'default' : 'outline'}
           onClick={() => handleBooleanChange(name, false)}
-          className="px-8 py-3 text-[11px] font-medium"
+          className="px-8 py-3 form-label-buttons"
           size="lg"
         >
           NO
@@ -45,23 +45,23 @@ export const Step2Requirements: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full flex-grow">
-      <div className="flex-grow flex flex-col justify-center space-y-8 max-w-2xl mx-auto w-full">
+      <div className="flex-grow flex flex-col justify-center space-y-8 max-w-2xl mx-auto w-full form-label-titulos">
         <BooleanGroup
           label="¿Está registrado en el Registro Nacional de Contratista (RNC)?"
           name="tiene_rnc"
-          value={formData.tiene_rnc ?? false}
+          value={formData.tiene_rnc}
         />
 
         <BooleanGroup
           label="¿Tiene solvencia laboral vigente?"
           name="tiene_solvencia_laboral"
-          value={formData.tiene_solvencia_laboral ?? false}
+          value={formData.tiene_solvencia_laboral}
         />
 
         <BooleanGroup
           label="¿Tiene licencia de funcionamiento municipal vigente?"
           name="tiene_licencia_municipal"
-          value={formData.tiene_licencia_municipal ?? false}
+          value={formData.tiene_licencia_municipal}
         />
       </div>
     </div>

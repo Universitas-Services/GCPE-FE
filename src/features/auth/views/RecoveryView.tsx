@@ -65,10 +65,10 @@ function RecoveryContent() {
       </div>
 
       {/* Right Side - Form Content */}
-      <div className="flex flex-1 flex-col items-center justify-center bg-[#E8EDF2] p-4 lg:p-20">
-        <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-8 sm:p-12 relative">
+      <div className="flex flex-1 flex-col items-center justify-center bg-[#E8EDF2] p-4 lg:p-8">
+        <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6 sm:p-10 relative">
           {/* Back Button */}
-          <div className="absolute top-8 left-8">
+          <div className="absolute top-6 left-6">
             {currentStep === 1 ? (
               <Link href="/login" className="text-gray-600 hover:text-gray-900">
                 <ArrowLeft className="h-6 w-6" />
@@ -85,14 +85,12 @@ function RecoveryContent() {
             )}
           </div>
 
-          <div className="mt-8 flex flex-col items-center space-y-2 text-center mb-8">
-            <h1 className="app-title">{currentInfo.title}</h1>
-            <p className="text-sm text-gray-500 mt-[22.5px]">
-              {currentInfo.subtitle}
-            </p>
+          <div className="mt-4 flex flex-col items-center space-y-2 text-center mb-6">
+            <h1 className="app-title-recovery">{currentInfo.title}</h1>
+            <p className="text-sm text-gray-500 mt-1">{currentInfo.subtitle}</p>
           </div>
 
-          <div className="grid grid-cols-3 w-full max-w-xs mx-auto mb-10">
+          <div className="grid grid-cols-3 w-full max-w-xs mx-auto mb-6">
             {[1, 2, 3].map((step) => {
               const isActiveOrCompleted = currentStep >= step;
               const labels = ['Correo', 'Código', 'Nueva contraseña']; // Short labels

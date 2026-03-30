@@ -76,7 +76,7 @@ function SelectionButton({
       variant="outline"
       onClick={onClick}
       className={cn(
-        'h-[35px] text-[11px] font-medium rounded-lg transition-all duration-200',
+        'form-label-buttons h-[35px] text-[11px] font-medium rounded-lg transition-all duration-200',
         width,
         isSelected ? 'btn-option-selected' : 'btn-option-unselected'
       )}

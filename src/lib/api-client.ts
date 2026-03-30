@@ -27,6 +27,7 @@ export async function fetchApi(
   // La petición se hace RELATIVA al dominio actual de Next.js.
   // Es decir, 'fetch(/api/proveedores)' impactará en nuestro interceptor [...proxy]/route.ts
   return fetch(endpoint, {
+    cache: 'no-store',
     ...options,
     headers,
   });
