@@ -10,15 +10,7 @@ import { FormHeader } from '@/components/shared/FormHeader';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+import { ManualAlertDialog } from './ManualAlertDialog';
 
 export function ManualForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -198,7 +190,7 @@ export function ManualForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="form-label-buttons btn-primary px-2 py-1 text-base rounded-xl min-w-[150px] h-auto"
+            className="btn-primary px-6 py-2 text-base rounded-xl"
           >
             {isSubmitting ? 'Enviando...' : 'Elaborar manual'}
           </Button>
@@ -227,26 +219,12 @@ export function ManualForm() {
       )}
 
       {/* Alert Dialog Modal */}
-      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <AlertDialogContent className="w-[90%] max-w-md rounded-2xl bg-[#E8EDF2] border-none">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-2xl font-inter font-bold text-[#005282] text-center mb-3">
-              {dialogType === 'success' ? '¡Envío Exitoso!' : 'Error de Envío'}
-            </AlertDialogTitle>
-            <AlertDialogDescription className="faq-question-text text-center">
-              {dialogMessage}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction
-              className="form-label-buttons px-6 py-2 rounded-xl text-base"
-              onClick={() => setDialogOpen(false)}
-            >
-              Aceptar
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <ManualAlertDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        type={dialogType}
+        message={dialogMessage}
+      />
     </div>
   );
 }
