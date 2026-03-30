@@ -20,26 +20,26 @@ export const Step4Completion: React.FC = () => {
           <div className="flex space-x-6">
             <Button
               type="button"
-              variant={
-                formData.desea_version_pro_proveedores === true
-                  ? 'default'
-                  : 'outline'
-              }
+              variant="outline"
               onClick={() => handleBooleanChange(true)}
-              className="form-label-buttons px-8 py-3 text-[11px] font-medium"
+              className={`form-label-buttons px-8 py-3 text-[11px] font-medium ${
+                formData.desea_version_pro_proveedores === true
+                  ? 'btn-option-selected'
+                  : 'btn-option-unselected'
+              }`}
               size="lg"
             >
               Sí
             </Button>
             <Button
               type="button"
-              variant={
-                formData.desea_version_pro_proveedores === false
-                  ? 'default'
-                  : 'outline'
-              }
+              variant="outline"
               onClick={() => handleBooleanChange(false)}
-              className="form-label-buttons px-8 py-3 text-[11px] font-medium"
+              className={`form-label-buttons px-8 py-3 text-[11px] font-medium ${
+                formData.desea_version_pro_proveedores === false
+                  ? 'btn-option-selected'
+                  : 'btn-option-unselected'
+              }`}
               size="lg"
             >
               No

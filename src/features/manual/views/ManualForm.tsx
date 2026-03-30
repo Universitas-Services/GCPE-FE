@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { manualSchema, ManualFormSchema } from '../schemas/manualSchema';
@@ -9,24 +9,15 @@ import { Button } from '@/components/ui/button';
 import { FormHeader } from '@/components/shared/FormHeader';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
+import { ManualAlertDialog } from './ManualAlertDialog';
 
 export function ManualForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<'success' | 'error'>('success');
   const [dialogMessage, setDialogMessage] = useState('');
-  const [progress, setProgress] = useState(0);
-
   const {
     register,
     handleSubmit,
@@ -35,26 +26,18 @@ export function ManualForm() {
     resolver: zodResolver(manualSchema),
   });
 
-  useEffect(() => {
-    if (isSubmitting) {
-      const interval = setInterval(() => {
-        setProgress((prev) => (prev >= 90 ? 90 : prev + 10));
-      }, 500);
-      return () => clearInterval(interval);
-    } else {
-      setProgress(0);
-    }
-  }, [isSubmitting]);
-
   const onSubmit = async (data: ManualFormSchema) => {
     setIsSubmitting(true);
-    setProgress(10);
+    toast.info(
+      'Estamos elaborando su manual, en breves minutos estara disponible en su correo electronico',
+      { position: 'top-center' }
+    );
     try {
       await createManual(data);
-      setProgress(100);
-      setDialogType('success');
-      setDialogMessage('Correo enviado exitosamente');
-      setDialogOpen(true);
+      toast.success(
+        'Su manual se ha elaborado y enviado correctamente a su correo electronico',
+        { position: 'top-center' }
+      );
     } catch (error) {
       console.error(error);
       setDialogType('error');
@@ -198,55 +181,27 @@ export function ManualForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="form-label-buttons btn-primary px-2 py-1 text-base rounded-xl min-w-[150px] h-auto"
+            className="btn-primary px-6 py-2 text-base rounded-xl"
           >
-            {isSubmitting ? 'Enviando...' : 'Elaborar manual'}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Enviando...
+              </>
+            ) : (
+              'Elaborar manual'
+            )}
           </Button>
         </div>
       </form>
 
-      {/* Full Screen Loading Overlay */}
-      {isSubmitting && (
-        <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-white p-8 rounded-2xl shadow-xl w-[90%] max-w-md flex flex-col items-center space-y-6">
-            <div className="text-center space-y-2">
-              <h3 className="text-xl font-bold text-[#005282]">
-                Enviando a su correo electrónico
-              </h3>
-              <p className="text-sm text-gray-500">
-                Por favor, espere un momento mientras generamos y enviamos su
-                manual express.
-              </p>
-            </div>
-            <Progress value={progress} className="w-full h-2" />
-            <p className="text-xs font-medium text-gray-400">
-              {progress}% completado
-            </p>
-          </div>
-        </div>
-      )}
-
       {/* Alert Dialog Modal */}
-      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <AlertDialogContent className="w-[90%] max-w-md rounded-2xl bg-[#E8EDF2] border-none">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-2xl font-inter font-bold text-[#005282] text-center mb-3">
-              {dialogType === 'success' ? '¡Envío Exitoso!' : 'Error de Envío'}
-            </AlertDialogTitle>
-            <AlertDialogDescription className="faq-question-text text-center">
-              {dialogMessage}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction
-              className="form-label-buttons px-6 py-2 rounded-xl text-base"
-              onClick={() => setDialogOpen(false)}
-            >
-              Aceptar
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <ManualAlertDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        type={dialogType}
+        message={dialogMessage}
+      />
     </div>
   );
 }

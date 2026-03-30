@@ -23,18 +23,22 @@ export const Step2Requirements: React.FC = () => {
       <div className="flex space-x-6">
         <Button
           type="button"
-          variant={value === true ? 'default' : 'outline'}
+          variant="outline"
           onClick={() => handleBooleanChange(name, true)}
-          className="px-8 py-3 form-label-buttons"
+          className={`px-8 py-3 form-label-buttons ${
+            value === true ? 'btn-option-selected' : 'btn-option-unselected'
+          }`}
           size="lg"
         >
           SI
         </Button>
         <Button
           type="button"
-          variant={value === false ? 'default' : 'outline'}
+          variant="outline"
           onClick={() => handleBooleanChange(name, false)}
-          className="px-8 py-3 form-label-buttons"
+          className={`px-8 py-3 form-label-buttons ${
+            value === false ? 'btn-option-selected' : 'btn-option-unselected'
+          }`}
           size="lg"
         >
           NO

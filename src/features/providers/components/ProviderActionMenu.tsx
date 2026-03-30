@@ -1,4 +1,4 @@
-import { MoreHorizontal, FileText, Mail, Upload } from 'lucide-react';
+import { MoreHorizontal, FileText, Mail, Upload, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -59,6 +59,14 @@ export function ProviderActionMenu({ providerId }: ProviderActionMenuProps) {
             >
               <Upload className="mr-2 h-4 w-4" />
               Cargar documento
+            </Button>
+            <Button
+              variant="ghost"
+              className="justify-start rounded-none h-10 px-4 font-normal text-red-600 hover:text-red-700 hover:bg-red-50"
+              onClick={handleProAction}
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Eliminar proveedor
             </Button>
           </div>
         </PopoverContent>

@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button';
 import { FormHeader } from '@/components/shared/FormHeader';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 function ComplianceContent() {
   const {
@@ -308,9 +309,14 @@ function ComplianceContent() {
                 complianceAnswers[25] === undefined
               }
             >
-              {isSubmitting || isDownloading
-                ? 'Generando y descargando...'
-                : 'Generar compliance'}
+              {isSubmitting || isDownloading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Generando y descargando...
+                </>
+              ) : (
+                'Generar compliance'
+              )}
             </Button>
           )}
         </div>
