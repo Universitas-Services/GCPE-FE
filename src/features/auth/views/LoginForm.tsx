@@ -84,7 +84,7 @@ export function LoginForm() {
                 className="h-12 w-auto"
               />
             </div>
-            <h1 className="app-title">Bienvenido</h1>
+            <h1 className="app-title-recovery">Bienvenido</h1>
             <p className="text-sm text-[#66686A] mt-2">
               Ingresa tus credenciales para acceder al sistema
             </p>

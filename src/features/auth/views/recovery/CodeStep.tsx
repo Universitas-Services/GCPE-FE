@@ -59,7 +59,7 @@ export function CodeStep() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="code" className="text-gray-700">
           Codigo de verificación
@@ -80,7 +80,7 @@ export function CodeStep() {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-6 text-lg shadow-sm"
+        className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-4 text-lg shadow-sm"
       >
         {isSubmitting ? 'Verificando...' : 'Verificar'}
       </Button>
