@@ -14,8 +14,6 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      // ESTO ES LO QUE BUSCAS:
-      all: true, // Fuerza a incluir todos los archivos en el reporte
       include: ['src/**/*.tsx', 'src/**/*.ts'], // Archivos a analizar
       exclude: [
         ...configDefaults.exclude,
