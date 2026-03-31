@@ -1,0 +1,49 @@
+﻿
+> gestor-de-contrataciones-express@0.1.0 lint
+> eslint .
+
+
+C:\Users\unive\OneDrive\Documentos\Proyectos\gestor-de-contrataciones-express\src\features\auth\context\AuthContext.test.tsx
+    1:48  error  'afterEach' is defined but never used          @typescript-eslint/no-unused-vars
+   83:11  error  'fetchSpy' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  117:76  error  Unexpected empty arrow function                no-empty-function
+
+C:\Users\unive\OneDrive\Documentos\Proyectos\gestor-de-contrataciones-express\src\features\auth\context\RecoveryContext.test.tsx
+  66:76  error  Unexpected empty arrow function  no-empty-function
+
+C:\Users\unive\OneDrive\Documentos\Proyectos\gestor-de-contrataciones-express\src\features\auth\views\LoginForm.tsx
+  48:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  49:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\unive\OneDrive\Documentos\Proyectos\gestor-de-contrataciones-express\src\features\dashboard\context\DashboardContext.test.tsx
+  35:76  error  Unexpected empty arrow function  no-empty-function
+
+C:\Users\unive\OneDrive\Documentos\Proyectos\gestor-de-contrataciones-express\src\features\dashboard\views\Sidebar.tsx
+  279:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  288:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  292:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  405:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  442:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  690:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  694:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  760:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\unive\OneDrive\Documentos\Proyectos\gestor-de-contrataciones-express\src\features\manual\views\ManualForm.test.tsx
+  30:13  error  Unexpected empty method 'observe'     no-empty-function
+  31:15  error  Unexpected empty method 'unobserve'   no-empty-function
+  32:16  error  Unexpected empty method 'disconnect'  no-empty-function
+
+C:\Users\unive\OneDrive\Documentos\Proyectos\gestor-de-contrataciones-express\src\features\providers\context\ProviderFormContext.tsx
+   99:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   99:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  102:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\unive\OneDrive\Documentos\Proyectos\gestor-de-contrataciones-express\src\features\providers\services\providers.service.ts
+  32:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\unive\OneDrive\Documentos\Proyectos\gestor-de-contrataciones-express\src\features\providers\views\ProviderRegistrationWizard.tsx
+  48:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Ô£û 24 problems (8 errors, 16 warnings)
+
