@@ -18,7 +18,6 @@ export const complianceService = {
     // Map context data to payload structure
     const payload = {
       // General Data
-      correo_electronico: generalData.email || 'NA',
       nombre_organo_entidad: generalData.entityName || 'NA',
       nombre_unidad_revisora: generalData.unitName || 'NA',
       nomenclatura: generalData.documentCode || 'NA',
@@ -65,7 +64,7 @@ export const complianceService = {
 
     complianceFormSchema.parse(payload);
 
-    const response = await fetchApi('/api/compliance', {
+    const response = await fetchApi('/api/compliance/enviar-email', {
       method: 'POST',
       body: JSON.stringify(payload),
     });

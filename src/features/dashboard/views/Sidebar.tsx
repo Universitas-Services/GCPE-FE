@@ -86,6 +86,7 @@ function UserNav() {
   const { logout } = useAuth();
   const { isSidebarCollapsed } = useDashboard();
   const [profile, setProfile] = useState<UserProfileResponse | null>(null);
+  const mounted = useMounted();
 
   useEffect(() => {
     userService.getProfile().then(setProfile).catch(console.error);
@@ -96,37 +97,43 @@ function UserNav() {
     : profile?.username || '';
   const initials = profile ? getInitials(fullName) : 'U';
 
+  const userButton = (
+    <button
+      className={cn(
+        'flex w-full items-center gap-2 rounded-md p-2 text-left text-sm outline-none cursor-pointer hover:bg-transparent bg-transparent border-none',
+        isSidebarCollapsed && 'justify-center p-0'
+      )}
+    >
+      <Avatar
+        className={cn(
+          'rounded-full shrink-0',
+          isSidebarCollapsed ? 'h-9 w-9' : 'h-9 w-9'
+        )}
+      >
+        <AvatarFallback className="rounded-full bg-[#008CBA] text-white text-sm font-medium">
+          {initials}
+        </AvatarFallback>
+      </Avatar>
+      {!isSidebarCollapsed && (
+        <div className="grid flex-1 text-left text-sm leading-normal gap-0.5">
+          <span className="truncate font-medium">
+            {profile?.first_name} {profile?.last_name || 'Usuario'}
+          </span>
+          <span className="truncate text-xs text-muted-foreground">
+            {profile?.email || 'cargando...'}
+          </span>
+        </div>
+      )}
+    </button>
+  );
+
+  if (!mounted) {
+    return userButton;
+  }
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button
-          className={cn(
-            'flex w-full items-center gap-2 rounded-md p-2 text-left text-sm outline-none cursor-pointer hover:bg-transparent bg-transparent border-none',
-            isSidebarCollapsed && 'justify-center p-0'
-          )}
-        >
-          <Avatar
-            className={cn(
-              'rounded-full shrink-0',
-              isSidebarCollapsed ? 'h-9 w-9' : 'h-9 w-9'
-            )}
-          >
-            <AvatarFallback className="rounded-full bg-[#008CBA] text-white text-sm font-medium">
-              {initials}
-            </AvatarFallback>
-          </Avatar>
-          {!isSidebarCollapsed && (
-            <div className="grid flex-1 text-left text-sm leading-normal gap-0.5">
-              <span className="truncate font-medium">
-                {profile?.first_name} {profile?.last_name || 'Usuario'}
-              </span>
-              <span className="truncate text-xs text-muted-foreground">
-                {profile?.email || 'cargando...'}
-              </span>
-            </div>
-          )}
-        </button>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>{userButton}</DropdownMenuTrigger>
       <DropdownMenuContent
         className="w-56"
         align="start"
@@ -142,10 +149,10 @@ function UserNav() {
           </p>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href="/dashboard/pro">Actualizar a cuenta pro</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href="/dashboard/profile">Gestión de perfil</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -162,6 +169,26 @@ function UserNav() {
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
+}
+
+interface SidebarRoute {
+  label: string;
+  icon: React.ElementType;
+  href: string;
+  active: boolean;
+  hasDropdown?: boolean;
+  isProFeature?: boolean;
+  onClick?: () => void;
+  children?: Array<{
+    label: string;
+    href: string;
+    active: boolean;
+  }>;
+}
+
+interface SidebarRouteGroup {
+  title: string;
+  items: SidebarRoute[];
 }
 
 export function Sidebar({ className }: SidebarProps) {
@@ -276,7 +303,7 @@ export function Sidebar({ className }: SidebarProps) {
     },
   ];
 
-  const renderRouteItems = (group: any, isMobile = false) => {
+  const renderRouteItems = (group: SidebarRouteGroup, isMobile = false) => {
     return (
       <div key={group.title} className="mb-4">
         {(!isSidebarCollapsed || isMobile) && (
@@ -285,12 +312,10 @@ export function Sidebar({ className }: SidebarProps) {
           </h3>
         )}
         <div className="space-y-1">
-          {group.items.map((route: any) => {
+          {group.items.map((route) => {
             const hasChildren = route.hasDropdown;
             const isOpen = openMenus.includes(route.href);
-            const isChildActive = route.children?.some(
-              (child: any) => child.active
-            );
+            const isChildActive = route.children?.some((child) => child.active);
             const ItemIcon = route.icon;
 
             const buttonContent = (
@@ -402,7 +427,7 @@ export function Sidebar({ className }: SidebarProps) {
                               </span>
                             </div>
                             {route.children &&
-                              route.children.map((child: any) => (
+                              route.children.map((child) => (
                                 <Link
                                   key={child.href}
                                   href={child.href}
@@ -439,7 +464,7 @@ export function Sidebar({ className }: SidebarProps) {
                   route.children &&
                   route.children.length > 0 && (
                     <div className="mt-1 ml-6 border-l-2 border-gray-100 pl-3 space-y-1">
-                      {route.children.map((child: any) => (
+                      {route.children.map((child) => (
                         <Button
                           key={child.href}
                           variant="ghost"
@@ -681,17 +706,17 @@ export function MobileSidebar() {
               </div>
 
               <ScrollArea className="flex-1 px-4 overflow-y-auto w-full h-[calc(100vh-160px)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                {routeGroups.map((group) => (
+                {routeGroups.map((group: SidebarRouteGroup) => (
                   <div key={group.title} className="mb-4">
                     <h3 className="px-4 text-[13px] font-medium text-gray-500 mb-2 tracking-wide">
                       {group.title}
                     </h3>
                     <div className="space-y-1">
-                      {group.items.map((route: any) => {
+                      {group.items.map((route) => {
                         const hasChildren = route.hasDropdown;
                         const isOpen = openMenus.includes(route.href);
                         const isChildActive = route.children?.some(
-                          (child: any) => child.active
+                          (child) => child.active
                         );
                         const ItemIcon = route.icon;
 
@@ -757,7 +782,7 @@ export function MobileSidebar() {
                               route.children &&
                               route.children.length > 0 && (
                                 <div className="mt-1 ml-6 border-l-2 border-gray-100 pl-3 space-y-1">
-                                  {route.children.map((child: any) => (
+                                  {route.children.map((child) => (
                                     <Button
                                       key={child.href}
                                       variant="ghost"
