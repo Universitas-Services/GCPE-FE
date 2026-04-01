@@ -3,7 +3,7 @@ import * as z from 'zod';
 // Schema based on the provided JSON structure and Variable names
 export const complianceFormSchema = z.object({
   // General Data
-  correo_electronico: z.string().email(),
+  persona_contacto: z.string().email(),
   nombre_organo_entidad: z.string(),
   nombre_unidad_revisora: z.string(),
   fecha_revision: z.string(), // YYYY-MM-DD

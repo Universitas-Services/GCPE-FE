@@ -13,8 +13,6 @@ import {
   ComplianceProvider,
   useCompliance,
   ComplianceSuccessModal,
-  ComplianceDownloadSuccessModal,
-  ComplianceErrorModal,
 } from '@/features/compliance';
 import { complianceService } from '@/features/compliance/services/compliance.service';
 import { Button } from '@/components/ui/button';
@@ -22,6 +20,7 @@ import { FormHeader } from '@/components/shared/FormHeader';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 function ComplianceContent() {
   const {
@@ -37,14 +36,8 @@ function ComplianceContent() {
   const router = useRouter();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [hasShownModalForQ25, setHasShownModalForQ25] = useState(false);
-  const [showDownloadSuccessModal, setShowDownloadSuccessModal] =
-    useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [errorTitle, setErrorTitle] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const answer25 = complianceAnswers[25];
@@ -69,92 +62,59 @@ function ComplianceContent() {
     }
   }, [currentPage]);
 
-  const handleError = (error: unknown) => {
-    let title = 'Error al generar compliance';
-    let message = 'Ocurrió un error inesperado. Por favor, intenta nuevamente.';
+  const handleGenerateCompliance = () => {
+    setIsSubmitting(true);
 
-    if (error instanceof Error) {
-      const errorMsg = error.message;
+    // 1. Mostrar toast inicial de procesamiento y navegación al inicio
+    toast.success('¡Solicitud de envío exitoso!', {
+      description: (
+        <span className="text-slate-800 font-medium">
+          Tu reporte de compliance se esta generando y enviando al correo
+          electrónico establecido exitosamente, redireccionando al inicio en 4
+          segundos.
+        </span>
+      ),
+      position: 'top-center',
+      duration: 4000,
+    });
 
-      if (errorMsg.includes('PDF')) {
-        title = 'Error al descargar el PDF';
-        message = 'No se pudo descargar el PDF. Por favor, intenta nuevamente.';
-      } else if (
-        errorMsg.includes('401') ||
-        errorMsg.includes('Unauthorized')
-      ) {
-        title = 'Sesión expirada';
-        message = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.';
-      } else if (errorMsg.includes('403') || errorMsg.includes('Forbidden')) {
-        title = 'Acceso denegado';
-        message = 'No tienes permisos para realizar esta acción.';
-      } else if (errorMsg.includes('404') || errorMsg.includes('Not Found')) {
-        title = 'Recurso no encontrado';
-        message =
-          'El recurso solicitado no fue encontrado. Intenta nuevamente.';
-      } else if (
-        errorMsg.includes('500') ||
-        errorMsg.includes('Internal Server Error')
-      ) {
-        title = 'Error del servidor';
-        message =
-          'Hubo un problema en el servidor. Por favor, intenta más tarde.';
-      } else if (errorMsg.includes('400') || errorMsg.includes('Bad Request')) {
-        title = 'Datos inválidos';
-        message =
-          errorMsg ||
-          'Los datos proporcionados son inválidos. Verifica la información.';
-      } else if (errorMsg.includes('Network') || errorMsg.includes('network')) {
-        title = 'Error de conexión';
-        message =
-          'No se pudo conectar con el servidor. Verifica tu conexión a internet.';
-      } else {
-        message = errorMsg || message;
-      }
-    }
+    // 2. Redireccionar al inicio tras 4 segundos
+    setTimeout(() => {
+      router.push('/dashboard');
+    }, 4000);
 
-    setErrorTitle(title);
-    setErrorMessage(message);
-    setShowErrorModal(true);
-  };
-
-  const handleGenerateCompliance = async () => {
-    try {
-      setIsSubmitting(true);
-
-      // 1. Submit form (POST /api/compliance)
-      const response = await complianceService.submitComplianceForm(
-        generalData,
-        complianceAnswers
-      );
-      console.log('Respuesta del servidor al crear documento:', response);
-
-      const newId = response?.id || response?.pk;
-
-      if (!newId) {
-        console.warn('No se encontró un ID válido en la respuesta:', response);
-        handleError(
-          new Error('No se recibió un ID válido para generar el PDF.')
-        );
-        return;
-      }
-
-      // 2. Automatically trigger PDF Download (GET /api/compliance/{id}/pdf)
-      setIsDownloading(true);
-      await complianceService.downloadPdf(newId);
-
-      // Show success modal and redirect to dashboard
-      setShowDownloadSuccessModal(true);
-      setTimeout(() => {
-        router.push('/dashboard');
-      }, 4000);
-    } catch (error) {
-      console.error('Error al generar compliance:', error);
-      handleError(error);
-    } finally {
-      setIsSubmitting(false);
-      setIsDownloading(false);
-    }
+    // 3. Ejecutar envío de formulario en background
+    complianceService
+      .submitComplianceForm(generalData, complianceAnswers)
+      .then((response) => {
+        console.log('Respuesta del servidor al crear documento:', response);
+        toast.success('¡Reporte compliance enviado exitosamente!', {
+          description: (
+            <span className="text-slate-800 font-medium">
+              La generacion de su reporte ha culminado exitosamente por favor
+              revise el correo electrónico.
+            </span>
+          ),
+          position: 'top-center',
+          duration: 6000,
+        });
+      })
+      .catch((error) => {
+        console.error('Error al generar compliance:', error);
+        toast.error('Ocurrió un error', {
+          description: (
+            <span className="text-slate-800 font-medium">
+              {error instanceof Error
+                ? error.message
+                : 'No se pudo generar el reporte. Inténtelo más tarde.'}
+            </span>
+          ),
+          position: 'top-center',
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   const stepInfo: Record<number, { title: string; description: string }> = {
@@ -163,7 +123,7 @@ function ComplianceContent() {
       description: 'Ingresa tus datos para continuar',
     },
     2: {
-      title: 'Actos Preparatorios y Publicación',
+      title: 'Actos preparatorios y publicación',
       description:
         'Objetivo: Verificar que el proceso inició correctamente y fue publicado según la ley.',
     },
@@ -208,22 +168,7 @@ function ComplianceContent() {
           setShowSuccessModal(false);
           handleGenerateCompliance();
         }}
-        isGenerating={isSubmitting || isDownloading}
-      />
-
-      <ComplianceDownloadSuccessModal
-        isOpen={showDownloadSuccessModal}
-        onClose={() => {
-          setShowDownloadSuccessModal(false);
-          router.push('/dashboard');
-        }}
-      />
-
-      <ComplianceErrorModal
-        isOpen={showErrorModal}
-        onClose={() => setShowErrorModal(false)}
-        errorTitle={errorTitle}
-        errorMessage={errorMessage}
+        isGenerating={isSubmitting}
       />
 
       <div className="w-full max-w-[1600px] mx-auto flex flex-col h-full bg-white rounded-xl shadow-lg overflow-hidden flex-1 border border-gray-200">
@@ -257,7 +202,7 @@ function ComplianceContent() {
                 : 'opacity-100'
             }`}
             onClick={goToPreviousPage}
-            disabled={isSubmitting || isDownloading}
+            disabled={isSubmitting}
           >
             Anterior
           </Button>
@@ -303,16 +248,12 @@ function ComplianceContent() {
               type="button"
               className="btn-primary px-6 py-2 text-base rounded-xl"
               onClick={handleGenerateCompliance}
-              disabled={
-                isSubmitting ||
-                isDownloading ||
-                complianceAnswers[25] === undefined
-              }
+              disabled={isSubmitting || complianceAnswers[25] === undefined}
             >
-              {isSubmitting || isDownloading ? (
+              {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Generando y descargando...
+                  Generando y enviando...
                 </>
               ) : (
                 'Generar compliance'

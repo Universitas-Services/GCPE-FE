@@ -8,6 +8,5 @@ export { FormalitiesAndArchiveForm } from './views/FormalitiesAndArchiveForm';
 export { AdvancedReportForm } from './views/AdvancedReportForm';
 export { AwardContractForm } from './views/AwardContractForm';
 export { ComplianceSuccessModal } from './views/ComplianceSuccessModal';
-export { ComplianceDownloadSuccessModal } from './views/ComplianceDownloadSuccessModal';
 export { ComplianceErrorModal } from './views/ComplianceErrorModal';
 export { ComplianceProvider, useCompliance } from './context/ComplianceContext';
