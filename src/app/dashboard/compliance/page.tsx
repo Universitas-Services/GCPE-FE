@@ -70,7 +70,8 @@ function ComplianceContent() {
       description: (
         <span className="text-slate-800 font-medium">
           Tu reporte de compliance se esta generando y enviando al correo
-          electrónico establecido exitosamente, redireccionando al inicio.
+          electrónico establecido exitosamente, redireccionando al inicio en 4
+          segundos.
         </span>
       ),
       position: 'top-center',
