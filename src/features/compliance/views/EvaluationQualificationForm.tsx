@@ -15,7 +15,7 @@ const EVALUATION_QUALIFICATION_QUESTIONS = [
   {
     id: 11,
     question:
-      '¿El expediente de contrataciones agregó las Garantías de sostenimiento de la oferta de los oferentes?',
+      '¿El expediente de contrataciones agregó las garantías de sostenimiento de la oferta de los oferentes?',
     citation:
       'Artículos 19, 20, 63, 64, LCP; 32.13 RLCP; 31, 32 LOPA; 6 LCC; 38.5.91.1.9.29 LOCGR; 34 (2) NORMAS DE CONTROL INTERNO SUNAI.',
   },
@@ -36,7 +36,7 @@ const EVALUATION_QUALIFICATION_QUESTIONS = [
   {
     id: 14,
     question:
-      '¿El expediente de contrataciones incorporó las Solvencias requeridas (banavih, laboral, ivss, inces)?',
+      '¿El expediente de contrataciones incorporó las solvencias requeridas (banavih, laboral, ivss, inces)?',
     citation:
       'Artículos 19, 20 LCP; 32.13, 127 RLCP; 31, 32 LOPA; Resolución No. 8.100 del 29-11-2012 G.O. #40.064 del 04-12-2012, Ministerio del Poder Popular para el Trabajo y Seguridad Social; 6 LCC; 38.5.91.1.9.29 LOCGR; 34 (2) NORMAS DE CONTROL INTERNO SUNAI.',
   },

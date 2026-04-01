@@ -93,7 +93,10 @@ export function GeneralDataForm() {
           <Label htmlFor="email" className="form-label-titulos">
             Dirección de correo electrónico
           </Label>
-          <p className="form-label-ejemplo mt-1">Ejemplo: prueba@gmail.com</p>
+          <p className="form-label-ejemplo mt-1">
+            Correo electronico donde se enviara el documento Compliance. ||
+            Ejemplo: prueba@gmail.com{' '}
+          </p>
           <Input
             id="email"
             className={cn(

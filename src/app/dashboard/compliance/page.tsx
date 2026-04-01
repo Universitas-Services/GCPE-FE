@@ -163,7 +163,7 @@ function ComplianceContent() {
       description: 'Ingresa tus datos para continuar',
     },
     2: {
-      title: 'Actos Preparatorios y Publicación',
+      title: 'Actos preparatorios y publicación',
       description:
         'Objetivo: Verificar que el proceso inició correctamente y fue publicado según la ley.',
     },
