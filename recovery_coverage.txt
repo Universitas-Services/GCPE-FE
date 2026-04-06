@@ -1,0 +1,200 @@
+﻿
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/unive/OneDrive/Documentos/Proyectos/gestor-de-contrataciones-express[39m
+      [2mCoverage enabled with [22m[33mv8[39m
+
+ [32mÔ£ô[39m src/features/auth/services/recovery.service.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m10 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m 11:24:27
+[2m   Duration [22m 2.04s[2m (transform 73ms, setup 158ms, import 63ms, tests 9ms, environment 847ms)[22m
+
+[34m % [39m[2mCoverage report from [22m[33mv8[39m
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |    1.45 |     1.17 |    1.12 |    1.43 |                   
+ app               |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 5                 
+ app/(auth)/login  |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4                 
+ ...tas-frecuentes |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4                 
+ ...auth)/recovery |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4                 
+ ...auth)/register |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4-11              
+ ...api/[...proxy] |       0 |        0 |       0 |       0 |                   
+  route.ts         |       0 |        0 |       0 |       0 | 4-145             
+ ...api/auth/login |       0 |        0 |       0 |       0 |                   
+  route.ts         |       0 |        0 |       0 |       0 | 3-63              
+ ...pi/auth/logout |       0 |        0 |       0 |       0 |                   
+  route.ts         |       0 |        0 |       0 |       0 | 6-30              
+ ...i/auth/refresh |       0 |        0 |       0 |       0 |                   
+  route.ts         |       0 |        0 |       0 |       0 | 4-60              
+ app/api/profile   |       0 |        0 |       0 |       0 |                   
+  route.ts         |       0 |        0 |       0 |       0 | 4-68              
+ app/dashboard     |       0 |      100 |       0 |       0 |                   
+  layout.tsx       |       0 |      100 |       0 |       0 | 5                 
+  page.tsx         |       0 |      100 |       0 |       0 | 6                 
+ ...oard/acerca-de |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4-10              
+ ...ard/asistencia |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4                 
+ ...ard/compliance |       0 |        0 |       0 |       0 |                   
+  page.tsx         |       0 |        0 |       0 |       0 | 35-354            
+ ...oard/conocenos |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4-10              
+ ...d/consultor-ia |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 5                 
+ ...shboard/manual |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 5                 
+ ...tas-frecuentes |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4                 
+ ...hboard/profile |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4                 
+ ...veedores/lista |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4                 
+ ...dores/registro |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 10                
+ ...ositorio-legal |       0 |      100 |       0 |       0 |                   
+  page.tsx         |       0 |      100 |       0 |       0 | 4-10              
+ ...advertisements |       0 |        0 |       0 |       0 |                   
+  ...radeModal.tsx |       0 |        0 |       0 |       0 | 15-159            
+ ...res-components |       0 |        0 |       0 |       0 |                   
+  ServiceCard.tsx  |       0 |        0 |       0 |       0 | 26                
+ components/shared |       0 |        0 |       0 |       0 |                   
+  FormHeader.tsx   |       0 |        0 |       0 |       0 | 19                
+  ...atePicker.tsx |       0 |        0 |       0 |       0 | 23-96             
+ features/about-us |       0 |        0 |       0 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 |                   
+ ...about-us/views |       0 |      100 |       0 |       0 |                   
+  AboutUsView.tsx  |       0 |      100 |       0 |       0 | 3-104             
+ ...ures/acerca-de |       0 |        0 |       0 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 |                   
+ ...cerca-de/views |       0 |      100 |       0 |       0 |                   
+  AcercaDeView.tsx |       0 |      100 |       0 |       0 | 5                 
+ features/auth     |       0 |        0 |       0 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 |                   
+ ...s/auth/context |       0 |        0 |       0 |       0 |                   
+  AuthContext.tsx  |       0 |        0 |       0 |       0 | 31-119            
+  ...ryContext.tsx |       0 |        0 |       0 |       0 | 21-50             
+  ...erContext.tsx |       0 |        0 |       0 |       0 | 24-53             
+ ...es/auth/guards |       0 |        0 |       0 |       0 |                   
+  ...AuthGuard.tsx |       0 |        0 |       0 |       0 | 18-32             
+ features/auth/lib |       0 |        0 |       0 |       0 |                   
+  auth-storage.ts  |       0 |        0 |       0 |       0 | 4-39              
+ .../auth/services |   22.89 |       30 |      25 |   23.37 |                   
+  auth.service.ts  |       0 |        0 |       0 |       0 | 24-97             
+  ...ry.service.ts |   90.47 |      100 |   66.66 |     100 |                   
+  ...er.service.ts |       0 |        0 |       0 |       0 | 22-64             
+  session-check.ts |       0 |        0 |       0 |       0 | 3-64              
+ ...res/auth/views |       0 |        0 |       0 |       0 |                   
+  LoginForm.tsx    |       0 |        0 |       0 |       0 | 18-56             
+  RecoveryView.tsx |       0 |        0 |       0 |       0 | 16-132            
+  RegisterView.tsx |       0 |        0 |       0 |       0 | 12-75             
+ ...views/recovery |       0 |        0 |       0 |       0 |                   
+  CodeStep.tsx     |       0 |        0 |       0 |       0 | 15-61             
+  EmailStep.tsx    |       0 |        0 |       0 |       0 | 14-56             
+  ...swordStep.tsx |       0 |        0 |       0 |       0 | 16-77             
+ ...views/register |       0 |        0 |       0 |       0 |                   
+  ...tialsStep.tsx |       0 |        0 |       0 |       0 | 13-51             
+  ...lDataStep.tsx |       0 |        0 |       0 |       0 | 29-281            
+  ...erStepper.tsx |       0 |        0 |       0 |       0 | 7-9               
+ ...res/compliance |       0 |        0 |       0 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 |                   
+ ...liance/context |       0 |        0 |       0 |       0 |                   
+  ...ceContext.tsx |       0 |        0 |       0 |       0 | 46-121            
+ ...liance/schemas |       0 |      100 |     100 |       0 |                   
+  ...nce.schema.ts |       0 |      100 |     100 |       0 | 4                 
+ ...iance/services |       0 |        0 |       0 |       0 |                   
+  ...ce.service.ts |       0 |        0 |       0 |       0 | 7-101             
+ ...mpliance/views |       0 |        0 |       0 |       0 |                   
+  ...eportForm.tsx |       0 |      100 |       0 |       0 | 6-22              
+  ...tractForm.tsx |       0 |      100 |       0 |       0 | 8-58              
+  ...cessModal.tsx |       0 |      100 |       0 |       0 | 18                
+  ...rrorModal.tsx |       0 |        0 |       0 |       0 | 24                
+  ...nceHeader.tsx |       0 |      100 |       0 |       0 | 4                 
+  ...agination.tsx |       0 |        0 |       0 |       0 | 22-32             
+  ...stionItem.tsx |       0 |        0 |       0 |       0 | 22-73             
+  ...cessModal.tsx |       0 |        0 |       0 |       0 | 23                
+  ...ationForm.tsx |       0 |      100 |       0 |       0 | 8-64              
+  ...chiveForm.tsx |       0 |      100 |       0 |       0 | 8-51              
+  ...lDataForm.tsx |       0 |        0 |       0 |       0 | 17-171            
+  ...yActsForm.tsx |       0 |      100 |       0 |       0 | 8-71              
+  ...gActsForm.tsx |       0 |      100 |       0 |       0 | 8-37              
+ ...s/consultor-ia |       0 |        0 |       0 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 |                   
+ ...ultor-ia/views |       0 |        0 |       0 |       0 |                   
+  ...torIAView.tsx |       0 |        0 |       0 |       0 | 14-43             
+ ...ures/dashboard |       0 |        0 |       0 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 |                   
+ ...hboard/context |       0 |        0 |       0 |       0 |                   
+  ...rdContext.tsx |       0 |        0 |       0 |       0 | 10-33             
+ ...board/services |       0 |        0 |       0 |       0 |                   
+  user.service.ts  |       0 |        0 |       0 |       0 | 10-25             
+ ...ashboard/views |       0 |        0 |       0 |       0 |                   
+  ...dHomeView.tsx |       0 |        0 |       0 |       0 | 35-369            
+  ...ardLayout.tsx |       0 |        0 |       0 |       0 | 8-46              
+  Sidebar.tsx      |       0 |        0 |       0 |       0 | 62-805            
+ features/faq      |       0 |        0 |       0 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 |                   
+ ...ures/faq/views |       0 |      100 |       0 |       0 |                   
+  FAQView.tsx      |       0 |      100 |       0 |       0 | 20-212            
+ ...gal-repository |       0 |        0 |       0 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 |                   
+ ...pository/views |       0 |      100 |       0 |       0 |                   
+  ...itoryView.tsx |       0 |      100 |       0 |       0 | 3-104             
+ ...manual/schemas |       0 |      100 |     100 |       0 |                   
+  manualSchema.ts  |       0 |      100 |     100 |       0 | 3                 
+ ...anual/services |       0 |        0 |       0 |       0 |                   
+  manualService.ts |       0 |        0 |       0 |       0 | 4-11              
+ ...s/manual/types |       0 |        0 |       0 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 |                   
+ ...s/manual/views |       0 |        0 |       0 |       0 |                   
+  ...ertDialog.tsx |       0 |        0 |       0 |       0 | 25-39             
+  ManualForm.tsx   |       0 |        0 |       0 |       0 | 17-54             
+ ...ile/components |       0 |        0 |       0 |       0 |                   
+  ...fileModal.tsx |       0 |        0 |       0 |       0 | 18-103            
+ ...rofile/schemas |       0 |      100 |       0 |       0 |                   
+  ...ord.schema.ts |       0 |      100 |       0 |       0 | 3-17              
+  ...ile.schema.ts |       0 |      100 |     100 |       0 | 3                 
+ ...ofile/services |       0 |        0 |       0 |       0 |                   
+  ...rd.service.ts |       0 |        0 |       0 |       0 | 3-37              
+  ...le.service.ts |       0 |        0 |       0 |       0 | 12-95             
+ .../profile/views |       0 |        0 |       0 |       0 |                   
+  ...swordForm.tsx |       0 |        0 |       0 |       0 | 19-67             
+  ...countView.tsx |       0 |        0 |       0 |       0 | 15-66             
+  ...ofileForm.tsx |       0 |        0 |       0 |       0 | 18-231            
+  ProfileView.tsx  |       0 |        0 |       0 |       0 | 14-84             
+ ...ures/providers |       0 |        0 |       0 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 |                   
+ ...ers/components |       0 |        0 |       0 |       0 |                   
+  ...ctionMenu.tsx |       0 |      100 |       0 |       0 | 16-27             
+  ...derFilter.tsx |       0 |      100 |       0 |       0 | 19-53             
+  ...iderTable.tsx |       0 |        0 |       0 |       0 | 16-49             
+  ...Indicator.tsx |       0 |        0 |       0 |       0 | 14-23             
+ ...viders/context |       0 |        0 |       0 |       0 |                   
+  ...rmContext.tsx |       0 |        0 |       0 |       0 | 21-151            
+ ...viders/schemas |       0 |      100 |       0 |       0 |                   
+  ...der.schema.ts |       0 |      100 |       0 |       0 | 3-59              
+ ...iders/services |       0 |        0 |       0 |       0 |                   
+  ...rs.service.ts |       0 |        0 |       0 |       0 | 4-54              
+ ...roviders/types |       0 |        0 |       0 |       0 |                   
+  ...ider.types.ts |       0 |        0 |       0 |       0 |                   
+ ...roviders/views |       0 |        0 |       0 |       0 |                   
+  ...rrorModal.tsx |       0 |        0 |       0 |       0 | 24                
+  ...ionWizard.tsx |       0 |        0 |       0 |       0 | 16-192            
+  ...cessModal.tsx |       0 |      100 |       0 |       0 | 22                
+  ...sListPage.tsx |       0 |        0 |       0 |       0 | 10-170            
+  ...ification.tsx |       0 |        0 |       0 |       0 | 12-445            
+  ...uirements.tsx |       0 |        0 |       0 |       0 | 5-50              
+  ...3Capacity.tsx |       0 |        0 |       0 |       0 | 7-100             
+  ...ompletion.tsx |       0 |        0 |       0 |       0 | 5-37              
+ hooks             |       0 |      100 |       0 |       0 |                   
+  use-mounted.ts   |       0 |      100 |       0 |       0 | 6-12              
+  use-sidebar.ts   |       0 |        0 |       0 |       0 |                   
+ lib               |       0 |        0 |       0 |       0 |                   
+  api-client.ts    |       0 |        0 |       0 |       0 | 20-29             
+  utils.ts         |       0 |      100 |       0 |       0 | 5                 
+-------------------|---------|----------|---------|---------|-------------------
