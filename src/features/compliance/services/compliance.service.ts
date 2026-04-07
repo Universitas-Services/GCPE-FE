@@ -65,7 +65,7 @@ export const complianceService = {
 
     complianceFormSchema.parse(payload);
 
-    const response = await fetchApi('/api/compliance', {
+    const response = await fetchApi('/api/compliance/enviar-email', {
       method: 'POST',
       body: JSON.stringify(payload),
     });
