@@ -3,7 +3,7 @@ import { complianceFormSchema } from './compliance.schema';
 
 describe('complianceFormSchema', () => {
   const validPayload = {
-    correo_electronico: 'test@example.com',
+    persona_contacto: 'test@example.com',
     nombre_organo_entidad: 'Entidad Test',
     nombre_unidad_revisora: 'Unidad Test',
     fecha_revision: '2025-12-31',
@@ -40,10 +40,10 @@ describe('complianceFormSchema', () => {
     expect(result.success).toBe(true);
   });
 
-  it('should fail when correo_electronico is not a valid email', () => {
+  it('should fail when persona_contacto is not a valid email', () => {
     const result = complianceFormSchema.safeParse({
       ...validPayload,
-      correo_electronico: 'not-an-email',
+      persona_contacto: 'not-an-email',
     });
     expect(result.success).toBe(false);
   });

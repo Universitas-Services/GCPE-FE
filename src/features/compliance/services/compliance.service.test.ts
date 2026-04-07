@@ -56,15 +56,18 @@ describe('complianceService', () => {
         answers
       );
 
-      expect(mockFetchApi).toHaveBeenCalledWith('/api/compliance', {
-        method: 'POST',
-        body: expect.any(String),
-      });
+      expect(mockFetchApi).toHaveBeenCalledWith(
+        '/api/compliance/enviar-email',
+        {
+          method: 'POST',
+          body: expect.any(String),
+        }
+      );
 
       const calledBody = JSON.parse(
         (mockFetchApi.mock.calls[0][1] as any).body
       );
-      expect(calledBody.correo_electronico).toBe('test@example.com');
+      expect(calledBody.persona_contacto).toBe('test@example.com');
       expect(calledBody.nombre_organo_entidad).toBe('Entidad Test');
       expect(calledBody.nombre_unidad_revisora).toBe('Unidad Test');
       expect(calledBody.nomenclatura).toBe('DOC-001');
