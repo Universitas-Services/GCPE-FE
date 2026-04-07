@@ -11,9 +11,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { ManualAlertDialog } from './ManualAlertDialog';
 
 export function ManualForm() {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<'success' | 'error'>('success');
@@ -26,30 +28,41 @@ export function ManualForm() {
     resolver: zodResolver(manualSchema),
   });
 
-  const onSubmit = async (data: ManualFormSchema) => {
+  const onSubmit = (data: ManualFormSchema) => {
     setIsSubmitting(true);
     toast.info(
-      'Estamos elaborando su manual, en breves minutos estara disponible en su correo electronico',
-      { position: 'top-center' }
+      <span className="text-slate-800 font-medium">
+        Estamos elaborando su manual, en breves minutos estara disponible en su
+        correo electronico, redireccionando al dashboard en 4 segundos...
+      </span>,
+      { position: 'top-center', duration: 4000 }
     );
-    try {
-      await createManual(data);
-      toast.success(
-        'Su manual se ha elaborado y enviado correctamente a su correo electronico',
-        { position: 'top-center' }
-      );
-    } catch (error) {
-      console.error(error);
-      setDialogType('error');
-      setDialogMessage(
-        'Fallo en el envío del correo electrónico, por favor intente nuevamente o contacte a soporte'
-      );
-      setDialogOpen(true);
-    } finally {
-      setTimeout(() => {
+
+    setTimeout(() => {
+      router.push('/dashboard');
+    }, 4000);
+
+    createManual(data)
+      .then(() => {
+        toast.success(
+          <span className="text-slate-800 font-medium">
+            Su manual se ha elaborado y enviado correctamente a su correo
+            electrónico
+          </span>,
+          { position: 'top-center', duration: 6000 }
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+        setDialogType('error');
+        setDialogMessage(
+          'Fallo en el envío del correo electrónico, por favor intente nuevamente o contacte a soporte'
+        );
+        setDialogOpen(true);
+      })
+      .finally(() => {
         setIsSubmitting(false);
-      }, 500);
-    }
+      });
   };
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">

@@ -18,7 +18,6 @@ export const complianceService = {
     // Map context data to payload structure
     const payload = {
       // General Data
-      correo_electronico: generalData.email || 'NA',
       nombre_organo_entidad: generalData.entityName || 'NA',
       nombre_unidad_revisora: generalData.unitName || 'NA',
       nomenclatura: generalData.documentCode || 'NA',
