@@ -12,14 +12,10 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { ManualAlertDialog } from './ManualAlertDialog';
 
 export function ManualForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogType, setDialogType] = useState<'success' | 'error'>('success');
-  const [dialogMessage, setDialogMessage] = useState('');
   const {
     register,
     handleSubmit,
@@ -32,16 +28,13 @@ export function ManualForm() {
     setIsSubmitting(true);
     toast.info(
       <span className="text-slate-800 font-medium">
-        Estamos elaborando su manual, en breves minutos estara disponible en su
-        correo electronico, redireccionando al dashboard en 4 segundos...
+        Estamos elaborando su manual, en breves minutos estará disponible en su
+        correo electrónico, redireccionando al dashboard en 4 segundos...
       </span>,
       { position: 'top-center', duration: 4000 }
     );
 
-    setTimeout(() => {
-      router.push('/dashboard');
-    }, 4000);
-
+    // Fire-and-forget: lanzar la petición sin bloquear la redirección ni el proxy
     createManual(data)
       .then(() => {
         toast.success(
@@ -54,15 +47,20 @@ export function ManualForm() {
       })
       .catch((error) => {
         console.error(error);
-        setDialogType('error');
-        setDialogMessage(
-          'Fallo en el envío del correo electrónico, por favor intente nuevamente o contacte a soporte'
+        toast.error(
+          <span className="text-slate-800 font-medium">
+            Fallo en el envío del correo electrónico, por favor intente
+            nuevamente o contacte a soporte
+          </span>,
+          { position: 'top-center', duration: 6000 }
         );
-        setDialogOpen(true);
-      })
-      .finally(() => {
-        setIsSubmitting(false);
       });
+
+    // Redirigir al dashboard independientemente del estado del envío
+    setTimeout(() => {
+      setIsSubmitting(false);
+      router.push('/dashboard');
+    }, 4000);
   };
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
@@ -207,14 +205,6 @@ export function ManualForm() {
           </Button>
         </div>
       </form>
-
-      {/* Alert Dialog Modal */}
-      <ManualAlertDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        type={dialogType}
-        message={dialogMessage}
-      />
     </div>
   );
 }

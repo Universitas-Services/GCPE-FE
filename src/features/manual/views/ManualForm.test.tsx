@@ -140,7 +140,7 @@ describe('ManualForm Integration Tests', () => {
     });
   });
 
-  it('debe disparar el dialogo de Dialog/Alert (Fallo) si falla el servicio', async () => {
+  it('debe disparar un toast de error si falla el servicio', async () => {
     const user = userEvent.setup();
     render(<ManualForm />);
 
@@ -162,12 +162,18 @@ describe('ManualForm Integration Tests', () => {
       manualService.createManual as unknown as ReturnType<typeof vi.fn>
     ).mockRejectedValueOnce(new Error('Network error'));
 
+    // Silenciamos el console.error del catch
+    vi.spyOn(console, 'error').mockImplementation(vi.fn());
+
     const submitBtn = screen.getByRole('button', { name: /Elaborar manual/i });
     await user.click(submitBtn);
 
-    // Assert de UI del modal - Dependiendo de ManualAlertDialog, debe exponer el mensaje de dialogo
-    expect(
-      await screen.findByText(/Fallo en el envío del correo electrónico/i)
-    ).toBeInTheDocument();
+    // Assert que se invocó toast.error con el mensaje de fallo
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.any(Object)
+      );
+    });
   });
 });
