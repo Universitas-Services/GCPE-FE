@@ -1,4 +1,5 @@
 import { EditProfileFormValues } from '../schemas/edit-profile.schema';
+import { fetchApi } from '@/lib/api-client';
 
 export interface ProfileResponse {
   email: string;
@@ -12,7 +13,7 @@ export interface ProfileResponse {
 export const profileService = {
   // Get user profile data
   async getProfile(): Promise<ProfileResponse> {
-    const response = await fetch('/api/profile', {
+    const response = await fetchApi('/api/perfil', {
       method: 'GET',
       cache: 'no-store',
     });
@@ -35,7 +36,7 @@ export const profileService = {
       cargo: data.role,
     };
 
-    const response = await fetch('/api/profile', {
+    const response = await fetchApi('/api/perfil', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +57,7 @@ export const profileService = {
     nombre_institucion_ente: string;
     cargo: string;
   }): Promise<ProfileResponse> {
-    const response = await fetch('/api/perfil', {
+    const response = await fetchApi('/api/perfil', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -79,7 +80,7 @@ export const profileService = {
 
   // Delete user account
   async deleteAccount(): Promise<void> {
-    const response = await fetch('/api/auth/delete-account', {
+    const response = await fetchApi('/api/auth/delete-account', {
       method: 'DELETE',
     });
 

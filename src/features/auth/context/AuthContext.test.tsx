@@ -35,7 +35,9 @@ describe('AuthContext', () => {
 
   it('should initialize with user if stored in cookie/localStorage', () => {
     const fakeUser = { id: 1, email: 'user@test.com', name: 'Test' };
-    (authStorage.getUser as unknown as ReturnType<typeof vi.fn>).mockReturnValue(fakeUser);
+    (
+      authStorage.getUser as unknown as ReturnType<typeof vi.fn>
+    ).mockReturnValue(fakeUser);
 
     const { result } = renderHook(() => useAuth(), { wrapper });
 
@@ -45,7 +47,9 @@ describe('AuthContext', () => {
   });
 
   it('should initialize empty if no user is found', () => {
-    (authStorage.getUser as unknown as ReturnType<typeof vi.fn>).mockReturnValue(null);
+    (
+      authStorage.getUser as unknown as ReturnType<typeof vi.fn>
+    ).mockReturnValue(null);
 
     const { result } = renderHook(() => useAuth(), { wrapper });
 
@@ -55,9 +59,11 @@ describe('AuthContext', () => {
   });
 
   it('should handle login successfully', async () => {
-    (authStorage.getUser as unknown as ReturnType<typeof vi.fn>).mockReturnValue(null);
+    (
+      authStorage.getUser as unknown as ReturnType<typeof vi.fn>
+    ).mockReturnValue(null);
     const fakeUser = { id: 2, email: 'nuevo@test.com', name: 'Nuevo' };
-    
+
     // Simular que el fetch de login devuelve al usuario
     const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
@@ -67,18 +73,56 @@ describe('AuthContext', () => {
     const { result } = renderHook(() => useAuth(), { wrapper });
 
     await act(async () => {
-      await result.current.login({ username: 'nuevo@test.com', password: 'password123' });
+      await result.current.login({
+        username: 'nuevo@test.com',
+        password: 'password123',
+      });
     });
 
-    expect(fetchSpy).toHaveBeenCalledWith('/api/auth/login', expect.objectContaining({ method: 'POST' }));
+    expect(fetchSpy).toHaveBeenCalledWith(
+      '/api/auth/login',
+      expect.objectContaining({ method: 'POST' })
+    );
     expect(authStorage.setUser).toHaveBeenCalledWith(fakeUser);
     expect(result.current.user).toEqual(fakeUser);
     expect(result.current.isAuthenticated).toBe(true);
     expect(mockReplace).toHaveBeenCalledWith('/dashboard');
   });
 
+  it('should handle login successfully with no user object', async () => {
+    (
+      authStorage.getUser as unknown as ReturnType<typeof vi.fn>
+    ).mockReturnValue(null);
+
+    // Simular que el fetch de login devuelve sin user object
+    const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({}),
+    } as unknown as Response);
+
+    const { result } = renderHook(() => useAuth(), { wrapper });
+
+    await act(async () => {
+      await result.current.login({
+        username: 'nuevo@test.com',
+        password: 'password123',
+      });
+    });
+
+    expect(fetchSpy).toHaveBeenCalledWith(
+      '/api/auth/login',
+      expect.objectContaining({ method: 'POST' })
+    );
+    expect(authStorage.setUser).not.toHaveBeenCalled();
+    expect(result.current.user).toBe(null);
+    expect(result.current.isAuthenticated).toBe(true);
+    expect(mockReplace).toHaveBeenCalledWith('/dashboard');
+  });
+
   it('should throw error if login fetch fails', async () => {
-    (authStorage.getUser as unknown as ReturnType<typeof vi.fn>).mockReturnValue(null);
+    (
+      authStorage.getUser as unknown as ReturnType<typeof vi.fn>
+    ).mockReturnValue(null);
 
     vi.spyOn(global, 'fetch').mockResolvedValue({
       ok: false,
@@ -87,13 +131,35 @@ describe('AuthContext', () => {
 
     const { result } = renderHook(() => useAuth(), { wrapper });
 
-    await expect(result.current.login({ username: 'user', password: 'bad' })).rejects.toThrow('Clave errónea');
+    await expect(
+      result.current.login({ username: 'user', password: 'bad' })
+    ).rejects.toThrow('Clave errónea');
+    expect(result.current.isAuthenticated).toBe(false);
+  });
+
+  it('should throw fallback error if login fetch fails without detail', async () => {
+    (
+      authStorage.getUser as unknown as ReturnType<typeof vi.fn>
+    ).mockReturnValue(null);
+
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: false,
+      json: async () => ({}), // No detail
+    } as unknown as Response);
+
+    const { result } = renderHook(() => useAuth(), { wrapper });
+
+    await expect(
+      result.current.login({ username: 'user', password: 'bad' })
+    ).rejects.toThrow('Error al iniciar sesión');
     expect(result.current.isAuthenticated).toBe(false);
   });
 
   it('should handle logout successfully', async () => {
     const fakeUser = { id: 1, email: 'user@test.com' };
-    (authStorage.getUser as unknown as ReturnType<typeof vi.fn>).mockReturnValue(fakeUser);
+    (
+      authStorage.getUser as unknown as ReturnType<typeof vi.fn>
+    ).mockReturnValue(fakeUser);
 
     const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
@@ -105,21 +171,57 @@ describe('AuthContext', () => {
       await result.current.logout();
     });
 
-    expect(fetchSpy).toHaveBeenCalledWith('/api/auth/logout', expect.objectContaining({ method: 'POST' }));
+    expect(fetchSpy).toHaveBeenCalledWith(
+      '/api/auth/logout',
+      expect.objectContaining({ method: 'POST' })
+    );
     expect(authStorage.clearSession).toHaveBeenCalled();
     expect(result.current.user).toBe(null);
     expect(result.current.isAuthenticated).toBe(false);
     expect(mockReplace).toHaveBeenCalledWith('/login');
   });
 
+  it('should handle logout gracefully if fetch fails', async () => {
+    const fakeUser = { id: 1, email: 'user@test.com' };
+    (
+      authStorage.getUser as unknown as ReturnType<typeof vi.fn>
+    ).mockReturnValue(fakeUser);
+
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
+    const fetchSpy = vi
+      .spyOn(global, 'fetch')
+      .mockRejectedValue(new Error('Network error'));
+
+    const { result } = renderHook(() => useAuth(), { wrapper });
+
+    await act(async () => {
+      await result.current.logout();
+    });
+
+    expect(fetchSpy).toHaveBeenCalledWith(
+      '/api/auth/logout',
+      expect.objectContaining({ method: 'POST' })
+    );
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Error durante el logout:',
+      expect.any(Error)
+    );
+    expect(authStorage.clearSession).toHaveBeenCalled();
+    expect(result.current.user).toBe(null);
+    expect(result.current.isAuthenticated).toBe(false);
+    expect(mockReplace).toHaveBeenCalledWith('/login');
+
+    consoleSpy.mockRestore();
+  });
+
   it('should throw error when useAuth is used outside provider', () => {
     // Al suprimir el console.error temporalmente pasamos la advertencia limpia de React
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
-    
+
     expect(() => {
       renderHook(() => useAuth());
     }).toThrow('useAuth must be used within an AuthProvider');
-    
+
     consoleSpy.mockRestore();
   });
 });

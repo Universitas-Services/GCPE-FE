@@ -1,5 +1,17 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { useProviderForm } from '../context/ProviderFormContext';
+import {
+  getEstadosAction,
+  getMunicipiosAction,
+  getParroquiasAction,
+} from '../services/territory.server.action';
+
+export interface TerritorioItem {
+  id: string | number;
+  nombre: string;
+}
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -11,6 +23,64 @@ import {
 
 export const Step1Identification: React.FC = () => {
   const { formData, updateFormData, errors } = useProviderForm();
+
+  const [estadosData, setEstadosData] = useState<TerritorioItem[]>([]);
+  const [municipiosData, setMunicipiosData] = useState<TerritorioItem[]>([]);
+  const [parroquiasData, setParroquiasData] = useState<TerritorioItem[]>([]);
+
+  const [isLoadingEstados, setIsLoadingEstados] = useState(false);
+  const [isLoadingMunicipios, setIsLoadingMunicipios] = useState(false);
+  const [isLoadingParroquias, setIsLoadingParroquias] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    setIsLoadingEstados(true);
+    getEstadosAction().then((data) => {
+      if (mounted) {
+        setEstadosData(data);
+        setIsLoadingEstados(false);
+      }
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    if (formData.estado) {
+      setIsLoadingMunicipios(true);
+      getMunicipiosAction(formData.estado).then((data) => {
+        if (mounted) {
+          setMunicipiosData(data);
+          setIsLoadingMunicipios(false);
+        }
+      });
+    } else {
+      setMunicipiosData([]);
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [formData.estado]);
+
+  useEffect(() => {
+    let mounted = true;
+    if (formData.municipio) {
+      setIsLoadingParroquias(true);
+      getParroquiasAction(formData.municipio).then((data) => {
+        if (mounted) {
+          setParroquiasData(data);
+          setIsLoadingParroquias(false);
+        }
+      });
+    } else {
+      setParroquiasData([]);
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [formData.municipio]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -396,18 +466,24 @@ export const Step1Identification: React.FC = () => {
           <label className="block form-label-titulos mb-1">Estado</label>
           <Select
             value={formData.estado || undefined}
-            onValueChange={(value) => updateFormData({ estado: value })}
+            onValueChange={(value) =>
+              updateFormData({ estado: value, municipio: '', parroquia: '' })
+            }
+            disabled={isLoadingEstados}
           >
             <SelectTrigger
               className={`w-full h-10 ${errors.estado ? 'border-red-500' : ''}`}
             >
-              <SelectValue placeholder="Selecciona" />
+              <SelectValue
+                placeholder={isLoadingEstados ? 'Cargando...' : 'Selecciona'}
+              />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Lara">Lara</SelectItem>
-              <SelectItem value="Carabobo">Carabobo</SelectItem>
-              <SelectItem value="Zulia">Zulia</SelectItem>
-              <SelectItem value="Distrito Capital">Distrito Capital</SelectItem>
+              {estadosData.map((estado) => (
+                <SelectItem key={estado.id} value={String(estado.id)}>
+                  {estado.nombre}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           {errors.estado && (
@@ -420,16 +496,24 @@ export const Step1Identification: React.FC = () => {
           <label className="block form-label-titulos mb-1">Municipio</label>
           <Select
             value={formData.municipio || undefined}
-            onValueChange={(value) => updateFormData({ municipio: value })}
+            onValueChange={(value) =>
+              updateFormData({ municipio: value, parroquia: '' })
+            }
+            disabled={isLoadingMunicipios || !formData.estado}
           >
             <SelectTrigger
               className={`w-full h-10 ${errors.municipio ? 'border-red-500' : ''}`}
             >
-              <SelectValue placeholder="Selecciona" />
+              <SelectValue
+                placeholder={isLoadingMunicipios ? 'Cargando...' : 'Selecciona'}
+              />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Iribarren">Iribarren</SelectItem>
-              <SelectItem value="Palavecino">Palavecino</SelectItem>
+              {municipiosData.map((municipio) => (
+                <SelectItem key={municipio.id} value={String(municipio.id)}>
+                  {municipio.nombre}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           {errors.municipio && (
@@ -443,15 +527,21 @@ export const Step1Identification: React.FC = () => {
           <Select
             value={formData.parroquia || undefined}
             onValueChange={(value) => updateFormData({ parroquia: value })}
+            disabled={isLoadingParroquias || !formData.municipio}
           >
             <SelectTrigger
               className={`w-full h-10 ${errors.parroquia ? 'border-red-500' : ''}`}
             >
-              <SelectValue placeholder="Selecciona" />
+              <SelectValue
+                placeholder={isLoadingParroquias ? 'Cargando...' : 'Selecciona'}
+              />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Concepción">Concepción</SelectItem>
-              <SelectItem value="Catedral">Catedral</SelectItem>
+              {parroquiasData.map((parroquia) => (
+                <SelectItem key={parroquia.id} value={String(parroquia.id)}>
+                  {parroquia.nombre}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           {errors.parroquia && (

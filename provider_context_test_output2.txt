@@ -1,0 +1,86 @@
+﻿
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/unive/OneDrive/Documentos/Proyectos/gestor-de-contrataciones-express[39m
+      [2mCoverage enabled with [22m[33mv8[39m
+
+ [31mÔØ»[39m src/features/providers/context/ProviderFormContext.test.tsx [2m([22m[2m11 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 46[2mms[22m[39m
+       [32mÔ£ô[39m should initialize with correct default values[32m 16[2mms[22m[39m
+       [32mÔ£ô[39m should throw error when used outside Provider[32m 6[2mms[22m[39m
+       [32mÔ£ô[39m should increment step without exceeding 4[32m 3[2mms[22m[39m
+       [32mÔ£ô[39m should decrement step without going below 1[32m 2[2mms[22m[39m
+       [32mÔ£ô[39m should update formData seamlessly while wiping explicit errors out[32m 2[2mms[22m[39m
+       [32mÔ£ô[39m should reset form entirely[32m 2[2mms[22m[39m
+       [32mÔ£ô[39m should validate correctly and map Step 1 Schema[32m 4[2mms[22m[39m
+       [32mÔ£ô[39m should handle Zod validation errors seamlessly across fields resolving array mapping natively[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should ignore Zod issues if they are gracefully malformed (not arrays or missing paths)[39m[32m 5[2mms[22m[39m
+       [32mÔ£ô[39m should return true immediately if passing a step out of bounds defaulting behavior[32m 1[2mms[22m[39m
+       [32mÔ£ô[39m should log non-zod errors safely and return false[32m 2[2mms[22m[39m
+node.exe : 
+En línea: 1 Carácter: 1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (:  
+  String) [], RemoteExc   
+ eption
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+[31mÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»
+[39m[1m[41m Failed 
+Tests 1 [49m[22m[31mÔÄ»
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[39m
+
+[41m[1m FAIL [22m[49m 
+src/features/providers/con
+text/ProviderFormContext.t
+est.tsx[2m > [22mProvide
+rFormContext[2m > 
+[22mValidation[2m > 
+[22mshould ignore Zod 
+issues if they are 
+gracefully malformed (not 
+arrays or missing paths)
+[31m[1mTypeError[22m: 
+Cannot redefine property: 
+issues[39m
+[36m [2mÔØ»[22m src/fea
+tures/providers/context/Pr
+oviderFormContext.test.tsx
+:[2m177:14[22m[39m
+    [90m175| [39m      
+[90m// Simulate a custom 
+malformed Zod error[39m
+    [90m176| [39m      
+[35mconst[39m 
+fakeZodError [33m=[39m 
+[35mnew[39m [33mZodErro
+r[39m([])[33m;[39m
+    [90m177| [39m      O
+bject.defineProperty(fakeZ
+odError, 'issues', { 
+value: 'not an aÔÇª
+    [90m   | [39m       
+      [31m^[39m
+    [90m178| [39m
+    [90m179| [39m      p
+arseMock[33m.[39m[34mmo
+ckImplementationOnce[39m(
+() [33m=>[39m {
+
+[31m[2mÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ
+»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»Ô
+Ä»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»
+ÔÄ»[1/1]ÔÄ»[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 11:12:46
+[2m   Duration [22m 2.47s[2m (transform 90ms, setup 219ms, import 350ms, tests 46ms, environment 866ms)[22m
+

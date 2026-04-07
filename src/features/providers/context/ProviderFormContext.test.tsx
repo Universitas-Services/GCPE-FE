@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
@@ -167,6 +168,43 @@ describe('ProviderFormContext', () => {
         correo_proveedor: 'Correo inválido',
         nombre_proveedor: 'Nombre vacío',
       });
+    });
+
+    it('should ignore Zod issues if they are gracefully malformed (not arrays or missing paths)', () => {
+      const { result } = renderHook(() => useProviderForm(), { wrapper });
+
+      // Simulate a custom malformed Zod error
+      const fakeZodError = Object.create(ZodError.prototype);
+      fakeZodError.errors = 'not an array'; // Edge case 1: issues is not array
+
+      parseMock.mockImplementationOnce(() => {
+        throw fakeZodError;
+      });
+
+      let isValid = true;
+      act(() => {
+        isValid = result.current.validateStep(1);
+      });
+
+      expect(isValid).toBe(false);
+      expect(result.current.errors).toEqual({});
+
+      // Now with an array but missing paths
+      const fakeZodError2 = new ZodError([
+        { path: [], message: 'Empty path', code: 'custom' },
+        { message: 'No path', code: 'custom' } as any,
+      ]);
+
+      parseMock.mockImplementationOnce(() => {
+        throw fakeZodError2;
+      });
+
+      act(() => {
+        isValid = result.current.validateStep(1);
+      });
+
+      expect(isValid).toBe(false);
+      expect(result.current.errors).toEqual({});
     });
 
     it('should return true immediately if passing a step out of bounds defaulting behavior', () => {
