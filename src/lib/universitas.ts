@@ -7,10 +7,10 @@ declare global {
   var universitasGlobal: UniversitasAPI | undefined;
 }
 
-// Instanciamos el SDK apuntando a tu backend en Render
+// Instanciamos el SDK apuntando a la API Global de Universitas
 export const universitas =
   globalThis.universitasGlobal ||
-  new UniversitasAPI(process.env.NEXT_PUBLIC_API_URL);
+  new UniversitasAPI(process.env.UNIVERSITAS_SDK_URL);
 
 // En desarrollo, guardamos la instancia en globalThis para que sobreviva a las recargas del HMR
 if (process.env.NODE_ENV !== 'production') {
