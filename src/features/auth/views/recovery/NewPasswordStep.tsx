@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
+import { Eye, EyeOff } from 'lucide-react';
 
 const passwordSchema = z
   .object({
@@ -32,6 +33,7 @@ type PasswordFormValues = z.infer<typeof passwordSchema>;
 export function NewPasswordStep() {
   const { formData, updateFormData } = useRecovery();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const {
@@ -80,14 +82,27 @@ export function NewPasswordStep() {
         <Label htmlFor="password" className="text-gray-700">
           Nueva contraseña
         </Label>
-        <Input
-          id="password"
-          type="password"
-          placeholder="Mínimo de caracteres"
-          disabled={isSubmitting}
-          className={`bg-gray-50 border-gray-200 ${errors.password ? 'border-red-500' : ''}`}
-          {...register('password')}
-        />
+        <div className="relative">
+          <Input
+            id="password"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Mínimo de caracteres"
+            disabled={isSubmitting}
+            className={`bg-gray-50 border-gray-200 pr-10 ${errors.password ? 'border-red-500' : ''}`}
+            {...register('password')}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            {showPassword ? (
+              <EyeOff className="h-5 w-5" />
+            ) : (
+              <Eye className="h-5 w-5" />
+            )}
+          </button>
+        </div>
         {errors.password && (
           <p className="text-sm text-red-500">{errors.password.message}</p>
         )}
@@ -97,14 +112,27 @@ export function NewPasswordStep() {
         <Label htmlFor="confirmPassword" className="text-gray-700">
           Confirmar nueva contraseña
         </Label>
-        <Input
-          id="confirmPassword"
-          type="password"
-          placeholder="Confirma tu nueva contraseña"
-          disabled={isSubmitting}
-          className={`bg-gray-50 border-gray-200 ${errors.confirmPassword ? 'border-red-500' : ''}`}
-          {...register('confirmPassword')}
-        />
+        <div className="relative">
+          <Input
+            id="confirmPassword"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Confirma tu nueva contraseña"
+            disabled={isSubmitting}
+            className={`bg-gray-50 border-gray-200 pr-10 ${errors.confirmPassword ? 'border-red-500' : ''}`}
+            {...register('confirmPassword')}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            {showPassword ? (
+              <EyeOff className="h-5 w-5" />
+            ) : (
+              <Eye className="h-5 w-5" />
+            )}
+          </button>
+        </div>
         {errors.confirmPassword && (
           <p className="text-sm text-red-500">
             {errors.confirmPassword.message}
