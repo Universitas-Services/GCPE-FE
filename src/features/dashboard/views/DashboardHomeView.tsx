@@ -119,12 +119,18 @@ export function DashboardHomeView() {
                   </span>
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100">
+              <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
                 <Link
                   href="/dashboard/manual"
-                  className="inline-flex items-center text-[11px] font-bold text-[#0091BE] hover:text-[#005282] transition-colors"
+                  className="z-10 flex justify-center"
                 >
-                  Acceder <ArrowRight className="ml-1 w-3.5 h-3.5" />
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-1.5 h-8 px-4 text-xs hover:scale-105 transition-transform cursor-pointer"
+                  >
+                    Acceder <ArrowRight className="ml-1 w-3.5 h-3.5" />
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
@@ -146,13 +152,19 @@ export function DashboardHomeView() {
                   asegurando un control eficiente y en orden.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100">
+              <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
                 <Link
                   href="/dashboard/proveedores/registro"
-                  className="inline-flex items-center text-[11px] font-bold text-[#0091BE] hover:text-[#005282] transition-colors mt-auto"
+                  className="z-10 flex justify-center"
                 >
-                  Registrar proveedor{' '}
-                  <ArrowRight className="ml-1 w-3.5 h-3.5" />
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-1.5 h-8 px-4 text-xs hover:scale-105 transition-transform cursor-pointer"
+                  >
+                    Registrar proveedor{' '}
+                    <ArrowRight className="ml-1 w-3.5 h-3.5" />
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
@@ -175,13 +187,19 @@ export function DashboardHomeView() {
                   apertura única .
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100">
+              <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
                 <Link
                   href="/dashboard/compliance"
-                  className="inline-flex items-center text-[11px] font-bold text-[#0091BE] hover:text-[#005282] transition-colors"
+                  className="z-10 flex justify-center"
                 >
-                  Verificar cumplimiento{' '}
-                  <ArrowRight className="ml-1 w-3.5 h-3.5" />
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-1.5 h-8 px-4 text-xs hover:scale-105 transition-transform cursor-pointer"
+                  >
+                    Verificar cumplimiento{' '}
+                    <ArrowRight className="ml-1 w-3.5 h-3.5" />
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
