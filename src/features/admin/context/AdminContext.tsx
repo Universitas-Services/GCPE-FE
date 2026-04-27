@@ -36,28 +36,49 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Solo verificamos permisos si AuthContext ya terminó de cargar
-    if (!isAuthLoading) {
-      if (isAuthenticated && user) {
-        const currentUser = user as AdminUser;
+    if (isAuthLoading) return;
 
-        // Verificamos si tiene rol de administrador.
-        // Si no tienes 'role' en tu DB, como fallback podemos verificar si el email es de admin
+    // Si no hay sesión activa, lo mandamos al login directamente
+    if (!isAuthenticated) {
+      router.replace('/login');
+      setIsVerifying(false);
+      return;
+    }
+
+    // Verificamos directamente contra el endpoint /api/auth/me
+    // para no depender del estado del AuthContext
+    const verifyAdmin = async () => {
+      try {
+        const res = await fetch('/api/auth/me', { method: 'GET' });
+
+        if (!res.ok) {
+          // Token inválido o expirado
+          setIsAdmin(false);
+          setIsVerifying(false);
+          router.replace('/login');
+          return;
+        }
+
+        const meData = await res.json();
         const hasAdminRole =
-          currentUser.role === 'admin' || currentUser.email.includes('admin');
+          meData.is_staff === true && meData.is_superuser === true;
 
         setIsAdmin(hasAdminRole);
+        setIsVerifying(false);
 
-        // Si se autenticó pero no es admin, lo expulsamos del panel administrativo
         if (!hasAdminRole) {
           router.replace('/dashboard');
         }
-      } else {
-        // Si no está autenticado en absoluto, lo mandamos al login general
+      } catch {
+        console.error('Error verificando permisos de admin');
+        setIsAdmin(false);
+        setIsVerifying(false);
         router.replace('/login');
       }
-      setIsVerifying(false);
-    }
-  }, [user, isAuthenticated, isAuthLoading, router]);
+    };
+
+    verifyAdmin();
+  }, [isAuthenticated, isAuthLoading, router]);
 
   const isLoading = isAuthLoading || isVerifying;
 

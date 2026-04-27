@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/sonner';
+import { AdminProvider } from '@/features/admin/context/AdminContext';
 import './globals.css';
 
 const inter = Inter({
@@ -24,8 +25,10 @@ export default function AdminLayout({
     <div
       className={`${inter.variable} min-h-full flex flex-col font-sans h-full antialiased`}
     >
-      <TooltipProvider>{children}</TooltipProvider>
-      <Toaster position="top-right" richColors />
+      <AdminProvider>
+        <TooltipProvider>{children}</TooltipProvider>
+        <Toaster position="top-right" richColors />
+      </AdminProvider>
     </div>
   );
 }
