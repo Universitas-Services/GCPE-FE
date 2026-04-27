@@ -1,67 +1,41 @@
 import { fetchApi } from '@/lib/api-client';
 
-export interface KPIs {
-  totalUsers: number;
-  activeProviders: number;
-  inactiveProviders: number;
-  usersWithCompliance: number;
-  usersManagerProviders: number;
-  usersWithManual: number;
-  totalProviders: number;
+// ── Interfaces que reflejan el JSON real de GET /api/dashboard ──
+
+export interface DashboardKPIs {
+  total_usuarios: number;
+  total_proveedores: number;
+  auditorias_compliance: number;
+  generacion_manuales: number;
 }
 
-export interface SpecialtyBreakdown {
-  bienes: number;
-  servicios: number;
-  obras: number;
+export interface EspecialidadItem {
+  label: string;
+  valor: number;
 }
 
-export interface ContractLevel {
-  alta: number;
-  media: number;
-  baja: number;
+export interface ActividadRecienteItem {
+  mes: string;
+  usuarios: number;
 }
 
-export interface RecentProvider {
-  id: string;
-  rif: string;
-  razonSocial: string;
-  nivel: 'ALTA' | 'MEDIA' | 'BAJA';
-  status: 'Activo' | 'Inactivo';
+export interface DashboardCharts {
+  especialidad: EspecialidadItem[];
+  actividad_reciente: ActividadRecienteItem[];
 }
 
-export interface LatestAudit {
-  id: string;
-  nomenclatura: string;
-  entidad: string;
-  fecha: string;
-  autor: string;
-}
-
-export interface RecentUser {
-  id: string;
-  name: string;
-  email: string;
-  cargo: string;
-  institucion: string;
-}
-
-export interface DashboardMetrics {
-  kpis: KPIs;
-  specialtyBreakdown: SpecialtyBreakdown;
-  contractLevel: ContractLevel;
-  recentProviders: RecentProvider[];
-  latestAudits: LatestAudit[];
-  recentUsers: RecentUser[];
-  userGrowth: { month: string; users: number }[];
+export interface DashboardResponse {
+  kpis: DashboardKPIs;
+  charts: DashboardCharts;
 }
 
 export const dashboardService = {
   /**
-   * Obtiene las métricas generales para el panel administrativo
+   * Obtiene las métricas generales del panel administrativo
+   * GET /api/dashboard
    */
-  async getMetrics(): Promise<DashboardMetrics> {
-    const response = await fetchApi('/api/dashboard/metrics');
+  async getMetrics(): Promise<DashboardResponse> {
+    const response = await fetchApi('/api/dashboard');
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));

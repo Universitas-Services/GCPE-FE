@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -27,6 +28,18 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { toast } from 'sonner';
+import { useAuth } from '@/features/auth/context/AuthContext';
+import {
+  userService,
+  UserProfileResponse,
+} from '@/features/dashboard/services/user.service';
+
+function getInitials(name: string) {
+  const parts = name.split(' ').filter(Boolean);
+  if (parts.length === 0) return 'U';
+  if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+  return (parts[0][0] + parts[1][0]).toUpperCase();
+}
 
 const adminRouteGroups = [
   {
@@ -51,6 +64,17 @@ export function AppSidebar() {
   const pathname = usePathname();
   const { state, isMobile } = useSidebar();
   const isSidebarCollapsed = state === 'collapsed';
+  const { logout } = useAuth();
+  const [profile, setProfile] = useState<UserProfileResponse | null>(null);
+
+  useEffect(() => {
+    userService.getProfile().then(setProfile).catch(console.error);
+  }, []);
+
+  const fullName = profile?.first_name
+    ? `${profile.first_name} ${profile.last_name || ''}`.trim()
+    : profile?.username || 'Usuario';
+  const initials = profile ? getInitials(fullName) : 'U';
 
   const handleUnderConstruction = () => {
     toast.info('Página en construcción', {
@@ -170,16 +194,16 @@ export function AppSidebar() {
               >
                 <Avatar className="h-9 w-9 shrink-0">
                   <AvatarFallback className="bg-[#008CBA] text-white text-sm font-medium">
-                    AG
+                    {initials}
                   </AvatarFallback>
                 </Avatar>
                 {!isSidebarCollapsed && (
                   <div className="grid flex-1 text-left text-sm leading-normal gap-0.5">
                     <span className="truncate font-medium text-gray-900">
-                      Admin GCPE
+                      {fullName}
                     </span>
                     <span className="truncate text-xs text-muted-foreground">
-                      admin@universitas.edu
+                      {profile?.email || 'cargando...'}
                     </span>
                   </div>
                 )}
@@ -192,10 +216,10 @@ export function AppSidebar() {
               >
                 <div className="px-2 py-2">
                   <p className="text-sm font-medium leading-tight">
-                    Admin GCPE
+                    {fullName}
                   </p>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    admin@universitas.edu
+                    {profile?.email || 'cargando...'}
                   </p>
                 </div>
                 <DropdownMenuSeparator />
@@ -204,7 +228,10 @@ export function AppSidebar() {
                   <span>Ajustes</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-700 focus:bg-red-50">
+                <DropdownMenuItem
+                  className="cursor-pointer text-red-600 focus:text-red-700 focus:bg-red-50"
+                  onClick={logout}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Cerrar Sesión</span>
                 </DropdownMenuItem>
