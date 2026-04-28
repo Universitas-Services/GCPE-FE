@@ -18,6 +18,8 @@ export interface User {
   id: number;
   email: string;
   name?: string;
+  is_staff?: boolean;
+  is_superuser?: boolean;
 }
 
 interface AuthContextType {
@@ -45,6 +47,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (storedUser) {
       setIsAuthenticated(true);
       setUser(storedUser);
+
+      // Re-validar en background para mantener los permisos frescos y evitar manipulación
+      fetch('/api/auth/me')
+        .then((res) => {
+          if (res.ok) {
+            return res.json().then((meData) => {
+              const updatedUser: User = {
+                ...storedUser,
+                is_staff: meData.is_staff,
+                is_superuser: meData.is_superuser,
+              };
+              authStorage.setUser(updatedUser);
+              setUser(updatedUser);
+            });
+          }
+        })
+        .catch((e) => console.error('Error re-validando sesión:', e));
     }
     setIsLoading(false);
   }, []);
@@ -52,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (credentials: LoginCredentials) => {
     setIsLoading(true);
     try {
-      // Llamamos a nuestro Route Handler de Next.js (el BFF)
+      // 1. Llamamos a nuestro Route Handler de Next.js (el BFF)
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -67,23 +86,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw new Error(data.detail || 'Error al iniciar sesión');
       }
 
-      if (data.user) {
-        const userToStore: User = {
-          id: data.user.id,
-          email: data.user.email,
-          name: data.user.name,
-        };
-        authStorage.setUser(userToStore);
-        setUser(userToStore);
+      // 2. Obtener el perfil completo del usuario desde /api/me
+      //    Esto siempre devuelve id, email, name, is_staff, is_superuser
+      const meRes = await fetch('/api/auth/me', { method: 'GET' });
+
+      if (!meRes.ok) {
+        throw new Error('No se pudo obtener el perfil del usuario');
       }
 
+      const meData = await meRes.json();
+
+      // 3. Construir el usuario a partir de /api/me (fuente de verdad)
+      //    Usamos data.user como fallback para id/email/name si existe
+      const userToStore: User = {
+        id: meData.id ?? data.user?.id,
+        email: meData.email ?? data.user?.email,
+        name: meData.name ?? data.user?.name,
+        is_staff: meData.is_staff ?? false,
+        is_superuser: meData.is_superuser ?? false,
+      };
+
+      authStorage.setUser(userToStore);
+      setUser(userToStore);
       setIsAuthenticated(true);
-      router.replace('/dashboard');
+      setIsLoading(false);
+
+      // 4. Redirección basada en los roles
+      if (userToStore.is_staff && userToStore.is_superuser) {
+        window.location.href = '/admin/dashboard';
+      } else {
+        router.replace('/dashboard');
+      }
     } catch (error) {
       console.error(error);
-      throw error;
-    } finally {
       setIsLoading(false);
+      throw error;
     }
   };
 

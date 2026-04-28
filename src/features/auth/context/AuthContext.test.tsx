@@ -62,13 +62,26 @@ describe('AuthContext', () => {
     (
       authStorage.getUser as unknown as ReturnType<typeof vi.fn>
     ).mockReturnValue(null);
-    const fakeUser = { id: 2, email: 'nuevo@test.com', name: 'Nuevo' };
+    const fakeLoginUser = { id: 2, email: 'nuevo@test.com', name: 'Nuevo' };
+    const fakeMeResponse = {
+      id: 2,
+      email: 'nuevo@test.com',
+      name: 'Nuevo',
+      is_staff: false,
+      is_superuser: false,
+    };
 
-    // Simular que el fetch de login devuelve al usuario
-    const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
-      ok: true,
-      json: async () => ({ user: fakeUser }),
-    } as unknown as Response);
+    // Mock fetch: 1st call = login, 2nd call = /api/auth/me
+    const fetchSpy = vi
+      .spyOn(global, 'fetch')
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ user: fakeLoginUser }),
+      } as unknown as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => fakeMeResponse,
+      } as unknown as Response);
 
     const { result } = renderHook(() => useAuth(), { wrapper });
 
@@ -83,22 +96,46 @@ describe('AuthContext', () => {
       '/api/auth/login',
       expect.objectContaining({ method: 'POST' })
     );
-    expect(authStorage.setUser).toHaveBeenCalledWith(fakeUser);
-    expect(result.current.user).toEqual(fakeUser);
+    expect(fetchSpy).toHaveBeenCalledWith(
+      '/api/auth/me',
+      expect.objectContaining({ method: 'GET' })
+    );
+    const expectedUser = {
+      id: 2,
+      email: 'nuevo@test.com',
+      name: 'Nuevo',
+      is_staff: false,
+      is_superuser: false,
+    };
+    expect(authStorage.setUser).toHaveBeenCalledWith(expectedUser);
+    expect(result.current.user).toEqual(expectedUser);
     expect(result.current.isAuthenticated).toBe(true);
     expect(mockReplace).toHaveBeenCalledWith('/dashboard');
   });
 
-  it('should handle login successfully with no user object', async () => {
+  it('should handle login successfully with no user object in login response', async () => {
     (
       authStorage.getUser as unknown as ReturnType<typeof vi.fn>
     ).mockReturnValue(null);
+    const fakeMeResponse = {
+      id: 5,
+      email: 'me@test.com',
+      name: 'FromMe',
+      is_staff: false,
+      is_superuser: false,
+    };
 
-    // Simular que el fetch de login devuelve sin user object
-    const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
-      ok: true,
-      json: async () => ({}),
-    } as unknown as Response);
+    // Mock fetch: 1st call = login (no user), 2nd call = /api/auth/me
+    const fetchSpy = vi
+      .spyOn(global, 'fetch')
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      } as unknown as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => fakeMeResponse,
+      } as unknown as Response);
 
     const { result } = renderHook(() => useAuth(), { wrapper });
 
@@ -113,8 +150,15 @@ describe('AuthContext', () => {
       '/api/auth/login',
       expect.objectContaining({ method: 'POST' })
     );
-    expect(authStorage.setUser).not.toHaveBeenCalled();
-    expect(result.current.user).toBe(null);
+    const expectedUser = {
+      id: 5,
+      email: 'me@test.com',
+      name: 'FromMe',
+      is_staff: false,
+      is_superuser: false,
+    };
+    expect(authStorage.setUser).toHaveBeenCalledWith(expectedUser);
+    expect(result.current.user).toEqual(expectedUser);
     expect(result.current.isAuthenticated).toBe(true);
     expect(mockReplace).toHaveBeenCalledWith('/dashboard');
   });
