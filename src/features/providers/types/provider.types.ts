@@ -6,8 +6,11 @@ export interface ProviderData {
   tipo_persona: 'Natural' | 'Juridica';
   tipo_entidad_juridica?: string;
   estado: string;
+  estadoId?: string;
   municipio: string;
+  municipioId?: string;
   parroquia: string;
+  parroquiaId?: string;
   direccion_fiscal: string;
   telefono_proveedor: string;
   nombre_rep_legal: string;

@@ -48,9 +48,9 @@ export const Step1Identification: React.FC = () => {
 
   useEffect(() => {
     let mounted = true;
-    if (formData.estado) {
+    if (formData.estadoId) {
       setIsLoadingMunicipios(true);
-      getMunicipiosAction(formData.estado).then((data) => {
+      getMunicipiosAction(formData.estadoId).then((data) => {
         if (mounted) {
           setMunicipiosData(data);
           setIsLoadingMunicipios(false);
@@ -62,13 +62,13 @@ export const Step1Identification: React.FC = () => {
     return () => {
       mounted = false;
     };
-  }, [formData.estado]);
+  }, [formData.estadoId]);
 
   useEffect(() => {
     let mounted = true;
-    if (formData.municipio) {
+    if (formData.municipioId) {
       setIsLoadingParroquias(true);
-      getParroquiasAction(formData.municipio).then((data) => {
+      getParroquiasAction(formData.municipioId).then((data) => {
         if (mounted) {
           setParroquiasData(data);
           setIsLoadingParroquias(false);
@@ -80,7 +80,7 @@ export const Step1Identification: React.FC = () => {
     return () => {
       mounted = false;
     };
-  }, [formData.municipio]);
+  }, [formData.municipioId]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -465,10 +465,20 @@ export const Step1Identification: React.FC = () => {
         <div>
           <label className="block form-label-titulos mb-1">Estado</label>
           <Select
-            value={formData.estado || undefined}
-            onValueChange={(value) =>
-              updateFormData({ estado: value, municipio: '', parroquia: '' })
-            }
+            value={formData.estadoId || undefined}
+            onValueChange={(value) => {
+              const selectedEstado = estadosData.find(
+                (e) => String(e.id) === value
+              );
+              updateFormData({
+                estadoId: value,
+                estado: selectedEstado?.nombre || '',
+                municipioId: '',
+                municipio: '',
+                parroquiaId: '',
+                parroquia: '',
+              });
+            }}
             disabled={isLoadingEstados}
           >
             <SelectTrigger
@@ -495,11 +505,19 @@ export const Step1Identification: React.FC = () => {
         <div>
           <label className="block form-label-titulos mb-1">Municipio</label>
           <Select
-            value={formData.municipio || undefined}
-            onValueChange={(value) =>
-              updateFormData({ municipio: value, parroquia: '' })
-            }
-            disabled={isLoadingMunicipios || !formData.estado}
+            value={formData.municipioId || undefined}
+            onValueChange={(value) => {
+              const selectedMunicipio = municipiosData.find(
+                (m) => String(m.id) === value
+              );
+              updateFormData({
+                municipioId: value,
+                municipio: selectedMunicipio?.nombre || '',
+                parroquiaId: '',
+                parroquia: '',
+              });
+            }}
+            disabled={isLoadingMunicipios || !formData.estadoId}
           >
             <SelectTrigger
               className={`w-full h-10 ${errors.municipio ? 'border-red-500' : ''}`}
@@ -525,9 +543,17 @@ export const Step1Identification: React.FC = () => {
         <div>
           <label className="block form-label-titulos mb-1">Parroquia</label>
           <Select
-            value={formData.parroquia || undefined}
-            onValueChange={(value) => updateFormData({ parroquia: value })}
-            disabled={isLoadingParroquias || !formData.municipio}
+            value={formData.parroquiaId || undefined}
+            onValueChange={(value) => {
+              const selectedParroquia = parroquiasData.find(
+                (p) => String(p.id) === value
+              );
+              updateFormData({
+                parroquiaId: value,
+                parroquia: selectedParroquia?.nombre || '',
+              });
+            }}
+            disabled={isLoadingParroquias || !formData.municipioId}
           >
             <SelectTrigger
               className={`w-full h-10 ${errors.parroquia ? 'border-red-500' : ''}`}
