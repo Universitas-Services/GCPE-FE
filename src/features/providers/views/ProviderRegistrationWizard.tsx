@@ -43,7 +43,11 @@ export const ProviderRegistrationWizard: React.FC = () => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      await createProvider(formData as ProviderFormData);
+      const submitData = { ...formData };
+      delete submitData.estadoId;
+      delete submitData.municipioId;
+      delete submitData.parroquiaId;
+      await createProvider(submitData as ProviderFormData);
       setShowSuccessModal(true);
     } catch (error: any) {
       console.error('Error submitting form:', error);
