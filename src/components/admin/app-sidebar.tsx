@@ -41,7 +41,14 @@ function getInitials(name: string) {
   return (parts[0][0] + parts[1][0]).toUpperCase();
 }
 
-const adminRouteGroups = [
+interface NavItem {
+  title: string;
+  href: string;
+  icon: React.ElementType;
+  isUnderConstruction?: boolean;
+}
+
+const adminRouteGroups: { title: string; items: NavItem[] }[] = [
   {
     title: 'Menú principal',
     items: [
@@ -54,7 +61,6 @@ const adminRouteGroups = [
         title: 'Usuarios',
         href: '/admin/dashboard/usuarios',
         icon: Users,
-        isUnderConstruction: true,
       },
     ],
   },
