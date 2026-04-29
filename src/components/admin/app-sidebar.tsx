@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, Users, LogOut, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, LogOut } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -41,7 +41,14 @@ function getInitials(name: string) {
   return (parts[0][0] + parts[1][0]).toUpperCase();
 }
 
-const adminRouteGroups = [
+interface NavItem {
+  title: string;
+  href: string;
+  icon: React.ElementType;
+  isUnderConstruction?: boolean;
+}
+
+const adminRouteGroups: { title: string; items: NavItem[] }[] = [
   {
     title: 'Menú principal',
     items: [
@@ -54,7 +61,6 @@ const adminRouteGroups = [
         title: 'Usuarios',
         href: '/admin/dashboard/usuarios',
         icon: Users,
-        isUnderConstruction: true,
       },
     ],
   },
@@ -222,11 +228,6 @@ export function AppSidebar() {
                     {profile?.email || 'cargando...'}
                   </p>
                 </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer">
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Ajustes</span>
-                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer text-red-600 focus:text-red-700 focus:bg-red-50"

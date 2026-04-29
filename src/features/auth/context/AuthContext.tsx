@@ -83,6 +83,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await res.json();
 
       if (!res.ok) {
+        // Traducción de errores específicos del backend
+        if (
+          data.code === 'authentication_failed' &&
+          data.detail === 'No active account found with the given credentials'
+        ) {
+          throw new Error(
+            'No se encontró ninguna cuenta activa con las credenciales proporcionadas.'
+          );
+        }
         throw new Error(data.detail || 'Error al iniciar sesión');
       }
 

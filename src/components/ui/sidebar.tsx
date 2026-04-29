@@ -5,7 +5,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { PanelLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 const SIDEBAR_WIDTH = '280px';
@@ -177,6 +177,7 @@ function Sidebar({
           }
           side={side}
         >
+          <SheetTitle className="sr-only">Menú de Navegación</SheetTitle>
           <div className="flex h-full min-h-0 w-full flex-col">{children}</div>
         </SheetContent>
       </Sheet>
