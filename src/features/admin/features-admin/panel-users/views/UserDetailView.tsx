@@ -15,6 +15,15 @@ import {
   Trash2,
   Loader2,
   FileText,
+  ShieldCheck,
+  BookOpen,
+  CheckCircle2,
+  XCircle,
+  Calendar,
+  Tag,
+  UserCheck,
+  BadgeDollarSign,
+  Download,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -25,7 +34,13 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { adminUsersService } from '../services/admin.service';
-import type { AdminUser, UserNote } from '../types/admin-users.types';
+import type {
+  AdminUser,
+  UserNote,
+  UserProvider,
+  UserCompliance,
+  UserManual,
+} from '../types/admin-users.types';
 
 // ════════════════════════════════════════════════════════════════════════
 // Etiquetas CRM
@@ -34,8 +49,6 @@ import type { AdminUser, UserNote } from '../types/admin-users.types';
 const ETIQUETAS = [
   { value: 'POR_CONTACTAR', label: 'Por contactar' },
   { value: 'CONTACTADO', label: 'Contactado' },
-  { value: 'EN_SEGUIMIENTO', label: 'En seguimiento' },
-  { value: 'CERRADO', label: 'Cerrado' },
 ];
 
 function EtiquetaBadge({
@@ -76,8 +89,14 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
   // ── Estado ──────────────────────────────────────────────────────────
   const [user, setUser] = useState<AdminUser | null>(null);
   const [notes, setNotes] = useState<UserNote[]>([]);
+  const [providers, setProviders] = useState<UserProvider[]>([]);
+  const [compliance, setCompliance] = useState<UserCompliance[]>([]);
+  const [manuals, setManuals] = useState<UserManual[]>([]);
   const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [isLoadingNotes, setIsLoadingNotes] = useState(true);
+  const [isLoadingProviders, setIsLoadingProviders] = useState(true);
+  const [isLoadingCompliance, setIsLoadingCompliance] = useState(true);
+  const [isLoadingManuals, setIsLoadingManuals] = useState(true);
 
   // ── Formulario de nota ──────────────────────────────────────────────
   const [newNoteContent, setNewNoteContent] = useState('');
@@ -89,8 +108,11 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
   const [editEtiqueta, setEditEtiqueta] = useState('');
   const [isSavingEdit, setIsSavingEdit] = useState(false);
 
-  // ── Eliminación ─────────────────────────────────────────────────────
+  // ── Eliminación y Descarga ──────────────────────────────────────────
   const [deletingNoteId, setDeletingNoteId] = useState<string | null>(null);
+  const [downloadingComplianceId, setDownloadingComplianceId] = useState<
+    string | null
+  >(null);
 
   // ── Etiqueta seleccionada (estado de contacto) ──────────────────────
   const [selectedEtiqueta, setSelectedEtiqueta] = useState('POR_CONTACTAR');
@@ -124,6 +146,48 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
     }
   }, [userId]);
 
+  const loadProviders = useCallback(async () => {
+    setIsLoadingProviders(true);
+    try {
+      const data = await adminUsersService.getUserProviders(userId);
+      setProviders(data);
+    } catch (err) {
+      toast.error('Error al cargar proveedores', {
+        description: (err as Error).message,
+      });
+    } finally {
+      setIsLoadingProviders(false);
+    }
+  }, [userId]);
+
+  const loadCompliance = useCallback(async () => {
+    setIsLoadingCompliance(true);
+    try {
+      const data = await adminUsersService.getUserCompliance(userId);
+      setCompliance(data);
+    } catch (err) {
+      toast.error('Error al cargar compliance', {
+        description: (err as Error).message,
+      });
+    } finally {
+      setIsLoadingCompliance(false);
+    }
+  }, [userId]);
+
+  const loadManuals = useCallback(async () => {
+    setIsLoadingManuals(true);
+    try {
+      const data = await adminUsersService.getUserManuals(userId);
+      setManuals(data);
+    } catch (err) {
+      toast.error('Error al cargar manuales', {
+        description: (err as Error).message,
+      });
+    } finally {
+      setIsLoadingManuals(false);
+    }
+  }, [userId]);
+
   // Sincronizar etiqueta seleccionada con la última nota cuando se cargan
   useEffect(() => {
     if (notes.length > 0) {
@@ -134,7 +198,10 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
   useEffect(() => {
     loadUser();
     loadNotes();
-  }, [loadUser, loadNotes]);
+    loadProviders();
+    loadCompliance();
+    loadManuals();
+  }, [loadUser, loadNotes, loadProviders, loadCompliance, loadManuals]);
 
   // ── Handlers ────────────────────────────────────────────────────────
   const handleCreateNote = async () => {
@@ -191,6 +258,20 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
       });
     } finally {
       setDeletingNoteId(null);
+    }
+  };
+
+  const handleDownloadCompliance = async (complianceId: string) => {
+    setDownloadingComplianceId(complianceId);
+    try {
+      await adminUsersService.downloadCompliancePDF(userId, complianceId);
+      toast.success('Descarga iniciada exitosamente');
+    } catch (err) {
+      toast.error('Error al descargar el compliance', {
+        description: (err as Error).message,
+      });
+    } finally {
+      setDownloadingComplianceId(null);
     }
   };
 
@@ -553,6 +634,401 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
                 )}
               </Button>
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* ── Detalles Específicos: Proveedores, Compliance, Manuales ─────────────────── */}
+      <div className="flex flex-col gap-6">
+        {/* Card: Proveedores */}
+        <Card className="border border-gray-200 shadow-sm bg-white rounded-xl">
+          <CardHeader className="pb-3 border-b border-gray-100">
+            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <Building2 className="h-5 w-5 text-[#0091be]" />
+              Proveedores ({providers.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-4">
+            {isLoadingProviders ? (
+              <div className="space-y-4">
+                {Array.from({ length: 2 }).map((_, i) => (
+                  <Skeleton key={i} className="h-32 w-full rounded-xl" />
+                ))}
+              </div>
+            ) : providers.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-6">
+                No hay proveedores registrados para este usuario.
+              </p>
+            ) : (
+              <div className="space-y-4">
+                {providers.map((p) => (
+                  <div
+                    key={p.id}
+                    className="border border-gray-100 rounded-xl p-5 bg-gray-50/50 hover:bg-gray-50 transition-colors shadow-sm"
+                  >
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-5 gap-3">
+                      <div>
+                        <h3 className="text-lg font-bold text-[#005282]">
+                          {p.nombre_proveedor}
+                        </h3>
+                        <p className="text-sm text-gray-500 mt-0.5">
+                          RIF:{' '}
+                          <span className="font-medium text-gray-700">
+                            {p.rif_proveedor}
+                          </span>{' '}
+                          • {p.tipo_persona} ({p.tipo_entidad_juridica})
+                        </p>
+                      </div>
+                      <Badge
+                        variant={p.activo ? 'default' : 'secondary'}
+                        className={
+                          p.activo ? 'bg-emerald-500 hover:bg-emerald-600' : ''
+                        }
+                      >
+                        {p.activo ? 'Activo' : 'Inactivo'}
+                      </Badge>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-6">
+                      {/* Contacto y Ubicación */}
+                      <div className="space-y-3">
+                        <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                          Contacto y Ubicación
+                        </h4>
+                        <div className="text-sm text-gray-700 space-y-2">
+                          <p className="flex items-start gap-2">
+                            <Mail className="w-4 h-4 text-[#0091be] shrink-0 mt-0.5" />
+                            <span className="break-all">
+                              {p.correo_proveedor}
+                            </span>
+                          </p>
+                          <p className="flex items-center gap-2">
+                            <Phone className="w-4 h-4 text-[#0091be]" />
+                            {p.telefono_proveedor}
+                          </p>
+                          <p className="flex items-start gap-2">
+                            <MapPin className="w-4 h-4 text-[#0091be] shrink-0 mt-0.5" />
+                            <span className="leading-snug">
+                              {p.estado}, {p.municipio}, {p.parroquia}
+                            </span>
+                          </p>
+                          <p className="text-xs text-gray-500 pl-6 border-l-2 border-gray-200 ml-1">
+                            {p.direccion_fiscal}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Representante Legal */}
+                      <div className="space-y-3">
+                        <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                          Representante Legal
+                        </h4>
+                        <div className="text-sm text-gray-700 space-y-2">
+                          <p className="flex items-center gap-2">
+                            <UserCheck className="w-4 h-4 text-[#0091be]" />
+                            {p.nombre_rep_legal}
+                          </p>
+                          <p className="flex items-center gap-2">
+                            <Fingerprint className="w-4 h-4 text-[#0091be]" />
+                            {p.cedula_rep_legal}
+                          </p>
+                          <p className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-[#0091be]" />
+                            Registrado:{' '}
+                            {new Date(p.fecha_registro).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Comercial y Financiero */}
+                      <div className="space-y-3">
+                        <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                          Comercial y Financiero
+                        </h4>
+                        <div className="text-sm text-gray-700 space-y-2">
+                          <p className="flex items-start gap-2">
+                            <Briefcase className="w-4 h-4 text-[#0091be] shrink-0 mt-0.5" />
+                            <span className="line-clamp-2">
+                              {p.actividad_comercial_principal ||
+                                'No especificada'}
+                            </span>
+                          </p>
+                          <p className="flex items-start gap-2">
+                            <Tag className="w-4 h-4 text-[#0091be] shrink-0 mt-0.5" />
+                            <span>
+                              {p.area_especialidad || 'Sin especialidad'}
+                              <span className="text-gray-400 text-xs ml-1">
+                                ({p.anos_experiencia} años exp.)
+                              </span>
+                            </span>
+                          </p>
+                          <p className="flex items-center gap-2">
+                            <BadgeDollarSign className="w-4 h-4 text-[#0091be]" />
+                            Patrimonio: Bs. {p.patrimonio_reportado}
+                          </p>
+                          <p className="text-xs text-gray-500 pl-6">
+                            Nivel Contratación: {p.nivel_contratacion}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Requisitos */}
+                      <div className="space-y-3">
+                        <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                          Requisitos Legales
+                        </h4>
+                        <div className="text-sm space-y-2.5">
+                          <p className="flex items-center gap-2">
+                            {p.tiene_rnc ? (
+                              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            ) : (
+                              <XCircle className="w-4 h-4 text-red-500" />
+                            )}
+                            <span
+                              className={
+                                p.tiene_rnc
+                                  ? 'text-gray-800 font-medium'
+                                  : 'text-gray-500 line-through'
+                              }
+                            >
+                              Inscripción en RNC
+                            </span>
+                          </p>
+                          <p className="flex items-center gap-2">
+                            {p.tiene_solvencia_laboral ? (
+                              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            ) : (
+                              <XCircle className="w-4 h-4 text-red-500" />
+                            )}
+                            <span
+                              className={
+                                p.tiene_solvencia_laboral
+                                  ? 'text-gray-800 font-medium'
+                                  : 'text-gray-500 line-through'
+                              }
+                            >
+                              Solvencia Laboral
+                            </span>
+                          </p>
+                          <p className="flex items-center gap-2">
+                            {p.tiene_licencia_municipal ? (
+                              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            ) : (
+                              <XCircle className="w-4 h-4 text-red-500" />
+                            )}
+                            <span
+                              className={
+                                p.tiene_licencia_municipal
+                                  ? 'text-gray-800 font-medium'
+                                  : 'text-gray-500 line-through'
+                              }
+                            >
+                              Licencia Municipal
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Card: Compliance */}
+        <Card className="border border-gray-200 shadow-sm bg-white rounded-xl">
+          <CardHeader className="pb-3 border-b border-gray-100">
+            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <ShieldCheck className="h-5 w-5 text-[#0091be]" />
+              Compliance ({compliance.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-4">
+            {isLoadingCompliance ? (
+              <div className="space-y-4">
+                {Array.from({ length: 2 }).map((_, i) => (
+                  <Skeleton key={i} className="h-24 w-full rounded-xl" />
+                ))}
+              </div>
+            ) : compliance.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-6">
+                No hay informes de compliance asociados.
+              </p>
+            ) : (
+              <div className="space-y-4">
+                {compliance.map((c) => (
+                  <div
+                    key={c.id}
+                    className="border border-gray-100 rounded-xl p-5 bg-gray-50/50 hover:bg-gray-50 transition-colors shadow-sm"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2">
+                      <div>
+                        <h3 className="text-lg font-bold text-[#005282]">
+                          {c.nombre_organo_entidad}
+                        </h3>
+                        <p className="text-sm text-gray-500 mt-0.5">
+                          {c.nombre_unidad_revisora}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <Badge
+                          variant="outline"
+                          className="border-[#0091be] text-[#0091be] bg-blue-50/50"
+                        >
+                          {c.nomenclatura}
+                        </Badge>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 px-3 gap-1.5 border-[#0091be] text-[#0091be] hover:bg-[#0091be] hover:text-white transition-colors"
+                          disabled={downloadingComplianceId === c.id}
+                          onClick={() => handleDownloadCompliance(c.id)}
+                        >
+                          {downloadingComplianceId === c.id ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <Download className="h-3.5 w-3.5" />
+                          )}
+                          <span className="text-xs">Descargar PDF</span>
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="space-y-2 text-sm text-gray-700">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
+                          Detalles de Revisión
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <UserCheck className="w-4 h-4 text-[#0091be]" />
+                          Revisor ID:{' '}
+                          <span className="font-medium">
+                            {c.usuario_revisor}
+                          </span>
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-[#0091be]" />
+                          Fecha Revisión:{' '}
+                          <span className="font-medium">
+                            {new Date(c.fecha_revision).toLocaleDateString()}
+                          </span>
+                        </p>
+                      </div>
+
+                      <div className="space-y-2 text-sm text-gray-700">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
+                          Contacto
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <Phone className="w-4 h-4 text-[#0091be]" />
+                          {c.persona_contacto}
+                        </p>
+                      </div>
+
+                      <div className="space-y-2 text-sm text-gray-700">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
+                          Registro del Sistema
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-[#0091be]" />
+                          Creación:{' '}
+                          {new Date(c.fecha_creacion).toLocaleDateString()}
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <Fingerprint className="w-4 h-4 text-[#0091be]" />
+                          <span className="truncate max-w-[200px]" title={c.id}>
+                            ID: {c.id}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Card: Manuales */}
+        <Card className="border border-gray-200 shadow-sm bg-white rounded-xl">
+          <CardHeader className="pb-3 border-b border-gray-100">
+            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-[#0091be]" />
+              Manuales Generados ({manuals.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-4">
+            {isLoadingManuals ? (
+              <div className="space-y-4">
+                {Array.from({ length: 2 }).map((_, i) => (
+                  <Skeleton key={i} className="h-24 w-full rounded-xl" />
+                ))}
+              </div>
+            ) : manuals.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-6">
+                No hay manuales generados para este usuario.
+              </p>
+            ) : (
+              <div className="space-y-4">
+                {manuals.map((m) => (
+                  <div
+                    key={m.id}
+                    className="border border-gray-100 rounded-xl p-5 bg-gray-50/50 hover:bg-gray-50 transition-colors shadow-sm"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2">
+                      <div>
+                        <h3 className="text-lg font-bold text-[#005282]">
+                          {m.nombre_institucion_ente}
+                        </h3>
+                        <p className="text-sm font-medium text-gray-500 mt-0.5">
+                          Siglas:{' '}
+                          <span className="text-[#0091be]">
+                            {m.siglas_institucion_ente}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="space-y-2 text-sm text-gray-700">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
+                          Unidad de Administración y Finanzas
+                        </p>
+                        <p className="flex items-start gap-2">
+                          <Building2 className="w-4 h-4 text-[#0091be] shrink-0 mt-0.5" />
+                          <span className="leading-tight">
+                            {m.nombre_unidad_admin_financiera}
+                          </span>
+                        </p>
+                      </div>
+
+                      <div className="space-y-2 text-sm text-gray-700">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
+                          Unidad de Sistemas / Tecnología
+                        </p>
+                        <p className="flex items-start gap-2">
+                          <Building2 className="w-4 h-4 text-[#0091be] shrink-0 mt-0.5" />
+                          <span className="leading-tight">
+                            {m.nombre_unidad_sistemas_tecnologia}
+                          </span>
+                        </p>
+                      </div>
+
+                      <div className="space-y-2 text-sm text-gray-700">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
+                          Contacto de Recepción
+                        </p>
+                        <p className="flex items-center gap-2 font-medium">
+                          <Mail className="w-4 h-4 text-[#0091be]" />
+                          {m.correo_electronico_manual}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

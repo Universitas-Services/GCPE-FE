@@ -31,20 +31,36 @@ export interface PaginatedUsersResponse {
 
 /** Proveedor asociado a un usuario — GET /api/usuarios/{user_id}/proveedores */
 export interface UserProvider {
-  id: number;
+  id: string;
+  creado_por: number;
+  fecha_registro: string;
+  correo_proveedor: string;
   nombre_proveedor: string;
   rif_proveedor: string;
   tipo_persona: string;
+  tipo_entidad_juridica: string;
   estado: string;
   municipio: string;
+  parroquia: string;
+  direccion_fiscal: string;
   telefono_proveedor: string;
-  correo_proveedor: string;
-  created_at?: string;
+  nombre_rep_legal: string;
+  cedula_rep_legal: string;
+  tiene_rnc: boolean;
+  tiene_solvencia_laboral: boolean;
+  tiene_licencia_municipal: boolean;
+  actividad_comercial_principal: string;
+  area_especialidad: string;
+  anos_experiencia: number;
+  fecha_estado_financiero: string;
+  patrimonio_reportado: string;
+  nivel_contratacion: string;
+  activo: boolean;
 }
 
 /** Compliance asociado a un usuario — GET /api/usuarios/{user_id}/compliance */
 export interface UserCompliance {
-  id: number;
+  id: string;
   usuario_revisor: number;
   fecha_creacion: string;
   nombre_organo_entidad: string;

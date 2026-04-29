@@ -121,7 +121,7 @@ export const adminUsersService = {
   },
 
   // ── Acción: Reenviar compliance ───────────────────────────────────────
-  async resendCompliance(complianceId: number): Promise<ResendResponse> {
+  async resendCompliance(complianceId: string): Promise<ResendResponse> {
     const response = await fetchApi(
       `/api/compliance/${complianceId}/reenviar`,
       { method: 'POST' }
@@ -135,6 +135,33 @@ export const adminUsersService = {
     }
 
     return response.json();
+  },
+
+  // ── Acción: Descargar PDF de compliance ────────────────────────────────
+  async downloadCompliancePDF(
+    userId: number,
+    complianceId: string
+  ): Promise<void> {
+    const response = await fetchApi(
+      `/api/usuarios/${userId}/compliance/${complianceId}/descargar`
+    );
+
+    if (!response.ok) {
+      await handleApiError(
+        response,
+        'Error al descargar el informe de compliance'
+      );
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `compliance_${complianceId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
   },
 
   // ── Detalle: Manuales de un usuario ───────────────────────────────────
@@ -167,7 +194,7 @@ export const adminUsersService = {
 
   // ── Detalle de un usuario por ID ──────────────────────────────────────
   async getUserById(userId: number): Promise<AdminUser> {
-    const response = await fetchApi(`/api/usuarios?page=1&page_size=9999`);
+    const response = await fetchApi(`/api/usuarios/${userId}`);
 
     if (!response.ok) {
       await handleApiError(
@@ -176,16 +203,7 @@ export const adminUsersService = {
       );
     }
 
-    const data = await response.json();
-    const items =
-      data.items ?? data.results ?? (Array.isArray(data) ? data : []);
-    const user = items.find((u: AdminUser) => u.id === userId);
-
-    if (!user) {
-      throw new Error('Usuario no encontrado');
-    }
-
-    return user;
+    return response.json();
   },
 
   // ── Notas CRM de un usuario ───────────────────────────────────────────
