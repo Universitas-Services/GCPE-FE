@@ -1,7 +1,14 @@
 'use client';
 
 import React from 'react';
-import { MoreHorizontal, Building2, ShieldCheck, BookOpen } from 'lucide-react';
+import Link from 'next/link';
+import {
+  MoreHorizontal,
+  Building2,
+  ShieldCheck,
+  BookOpen,
+  User,
+} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -89,11 +96,14 @@ export function UsersTable({ users, isLoading, onAction }: UsersTableProps) {
             users.map((user) => (
               <TableRow key={user.id} className="group">
                 <TableCell>
-                  <div className="flex items-center gap-2">
+                  <Link
+                    href={`/admin/dashboard/usuarios/${user.id}`}
+                    className="flex items-center gap-2 hover:underline"
+                  >
                     <span className="font-medium text-gray-900">
                       {user.first_name} {user.last_name}
                     </span>
-                  </div>
+                  </Link>
                 </TableCell>
                 <TableCell className="text-muted-foreground">
                   {user.email}
@@ -112,11 +122,7 @@ export function UsersTable({ users, isLoading, onAction }: UsersTableProps) {
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity data-[state=open]:opacity-100"
-                      >
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
                         <MoreHorizontal className="h-4 w-4" />
                         <span className="sr-only">Abrir menú de acciones</span>
                       </Button>
@@ -125,6 +131,13 @@ export function UsersTable({ users, isLoading, onAction }: UsersTableProps) {
                       <DropdownMenuLabel className="text-xs text-muted-foreground">
                         Detalles del usuario
                       </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="cursor-pointer" asChild>
+                        <Link href={`/admin/dashboard/usuarios/${user.id}`}>
+                          <User className="mr-2 h-4 w-4 text-[#0091be]" />
+                          Ver Detalle
+                        </Link>
+                      </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
                         className="cursor-pointer"

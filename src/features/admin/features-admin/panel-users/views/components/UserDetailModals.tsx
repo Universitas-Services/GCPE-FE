@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Send, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -60,45 +60,6 @@ function EmptyRow({ cols, message }: { cols: number; message: string }) {
       </TableCell>
     </TableRow>
   );
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const lower = (status ?? 'N/A').toLowerCase();
-
-  if (lower === 'enviado' || lower === 'entregado') {
-    return (
-      <Badge
-        variant="secondary"
-        className="bg-emerald-50 text-emerald-700 border-emerald-200"
-      >
-        {status}
-      </Badge>
-    );
-  }
-
-  if (lower === 'pendiente') {
-    return (
-      <Badge
-        variant="secondary"
-        className="bg-amber-50 text-amber-700 border-amber-200"
-      >
-        {status}
-      </Badge>
-    );
-  }
-
-  if (lower === 'fallido' || lower === 'error') {
-    return (
-      <Badge
-        variant="secondary"
-        className="bg-red-50 text-red-600 border-red-200"
-      >
-        {status}
-      </Badge>
-    );
-  }
-
-  return <Badge variant="outline">{status}</Badge>;
 }
 
 // ════════════════════════════════════════════════════════════════════════
@@ -256,7 +217,7 @@ export function ComplianceModal({
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="sm:max-w-3xl max-h-[85vh]">
+      <DialogContent className="sm:max-w-4xl max-h-[85vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-[#005282]">
             Informes Compliance de {userName}
@@ -281,15 +242,18 @@ export function ComplianceModal({
                 <TableHead className="hidden lg:table-cell">
                   Fecha Revisión
                 </TableHead>
+                <TableHead className="hidden lg:table-cell">
+                  Persona Contacto
+                </TableHead>
                 <TableHead className="text-right">Reenviar</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
-                <LoadingRows cols={6} />
+                <LoadingRows cols={7} />
               ) : data.length === 0 ? (
                 <EmptyRow
-                  cols={6}
+                  cols={7}
                   message="Este usuario no tiene informes de compliance."
                 />
               ) : (
@@ -313,6 +277,9 @@ export function ComplianceModal({
                       {c.fecha_revision
                         ? new Date(c.fecha_revision).toLocaleDateString('es-VE')
                         : '—'}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground hidden lg:table-cell max-w-[180px] truncate">
+                      {c.persona_contacto || '—'}
                     </TableCell>
                     <TableCell className="text-right">
                       <Button
@@ -360,7 +327,7 @@ export function ManualsModal({
 }: ManualsModalProps) {
   const [data, setData] = useState<UserManual[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [resendingId, setResendingId] = useState<number | null>(null);
+  const [resendingId, setResendingId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setIsLoading(true);
@@ -380,7 +347,7 @@ export function ManualsModal({
     if (open) load();
   }, [open, load]);
 
-  const handleResend = async (id: number) => {
+  const handleResend = async (id: string) => {
     setResendingId(id);
     try {
       const res = await adminUsersService.resendManual(id);
@@ -397,7 +364,7 @@ export function ManualsModal({
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="sm:max-w-3xl max-h-[85vh]">
+      <DialogContent className="sm:max-w-4xl max-h-[85vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-[#005282]">
             Manuales de {userName}
@@ -411,37 +378,43 @@ export function ManualsModal({
           <Table>
             <TableHeader>
               <TableRow className="bg-gray-50/80 hover:bg-gray-50/80">
-                <TableHead>Título</TableHead>
+                <TableHead>Institución / Ente</TableHead>
+                <TableHead className="hidden md:table-cell">Siglas</TableHead>
                 <TableHead className="hidden md:table-cell">
-                  Tipo Concurso
+                  Unidad Admin. Financiera
                 </TableHead>
-                <TableHead className="hidden md:table-cell">Fecha</TableHead>
-                <TableHead>Estado</TableHead>
+                <TableHead className="hidden lg:table-cell">
+                  Unidad Sistemas / Tecnología
+                </TableHead>
+                <TableHead>Correo</TableHead>
                 <TableHead className="text-right">Reenviar</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
-                <LoadingRows cols={5} />
+                <LoadingRows cols={6} />
               ) : data.length === 0 ? (
                 <EmptyRow
-                  cols={5}
+                  cols={6}
                   message="Este usuario no tiene manuales generados."
                 />
               ) : (
                 data.map((m) => (
                   <TableRow key={m.id}>
                     <TableCell className="font-medium text-gray-900 max-w-[200px] truncate">
-                      {m.titulo}
+                      {m.nombre_institucion_ente || '—'}
                     </TableCell>
                     <TableCell className="text-muted-foreground hidden md:table-cell">
-                      {m.tipo_concurso}
+                      {m.siglas_institucion_ente || '—'}
                     </TableCell>
-                    <TableCell className="text-muted-foreground hidden md:table-cell whitespace-nowrap">
-                      {new Date(m.fecha_generacion).toLocaleDateString('es-VE')}
+                    <TableCell className="text-muted-foreground hidden md:table-cell max-w-[180px] truncate">
+                      {m.nombre_unidad_admin_financiera || '—'}
                     </TableCell>
-                    <TableCell>
-                      <StatusBadge status={m.estado_envio} />
+                    <TableCell className="text-muted-foreground hidden lg:table-cell max-w-[180px] truncate">
+                      {m.nombre_unidad_sistemas_tecnologia || '—'}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground max-w-[180px] truncate">
+                      {m.correo_electronico_manual || '—'}
                     </TableCell>
                     <TableCell className="text-right">
                       <Button

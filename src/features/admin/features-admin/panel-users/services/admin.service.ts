@@ -2,9 +2,12 @@ import { fetchApi } from '@/lib/api-client';
 import type {
   GetUsersParams,
   PaginatedUsersResponse,
+  AdminUser,
   UserProvider,
   UserCompliance,
   UserManual,
+  UserNote,
+  NotePayload,
   ResendResponse,
 } from '../types/admin-users.types';
 
@@ -150,7 +153,7 @@ export const adminUsersService = {
   },
 
   // ── Acción: Reenviar manual ───────────────────────────────────────────
-  async resendManual(manualId: number): Promise<ResendResponse> {
+  async resendManual(manualId: string): Promise<ResendResponse> {
     const response = await fetchApi(`/api/manuales/${manualId}/reenviar`, {
       method: 'POST',
     });
@@ -160,5 +163,82 @@ export const adminUsersService = {
     }
 
     return response.json();
+  },
+
+  // ── Detalle de un usuario por ID ──────────────────────────────────────
+  async getUserById(userId: number): Promise<AdminUser> {
+    const response = await fetchApi(`/api/usuarios?page=1&page_size=9999`);
+
+    if (!response.ok) {
+      await handleApiError(
+        response,
+        'No se pudo obtener la información del usuario'
+      );
+    }
+
+    const data = await response.json();
+    const items =
+      data.items ?? data.results ?? (Array.isArray(data) ? data : []);
+    const user = items.find((u: AdminUser) => u.id === userId);
+
+    if (!user) {
+      throw new Error('Usuario no encontrado');
+    }
+
+    return user;
+  },
+
+  // ── Notas CRM de un usuario ───────────────────────────────────────────
+  async getUserNotes(userId: number): Promise<UserNote[]> {
+    const response = await fetchApi(`/api/usuarios/${userId}/notas`);
+
+    if (!response.ok) {
+      await handleApiError(
+        response,
+        'No se pudieron obtener las notas del usuario'
+      );
+    }
+
+    const data = await response.json();
+    return extractItems(data);
+  },
+
+  // ── Crear nota ────────────────────────────────────────────────────────
+  async createNote(userId: number, payload: NotePayload): Promise<UserNote> {
+    const response = await fetchApi(`/api/usuarios/${userId}/notas`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      await handleApiError(response, 'Error al crear la nota');
+    }
+
+    return response.json();
+  },
+
+  // ── Actualizar nota ───────────────────────────────────────────────────
+  async updateNote(noteId: string, payload: NotePayload): Promise<UserNote> {
+    const response = await fetchApi(`/api/notas/${noteId}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      await handleApiError(response, 'Error al actualizar la nota');
+    }
+
+    return response.json();
+  },
+
+  // ── Eliminar nota ─────────────────────────────────────────────────────
+  async deleteNote(noteId: string): Promise<void> {
+    const response = await fetchApi(`/api/notas/${noteId}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      await handleApiError(response, 'Error al eliminar la nota');
+    }
   },
 };

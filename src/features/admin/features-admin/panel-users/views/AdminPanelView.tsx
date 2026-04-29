@@ -3,13 +3,8 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import type { AdminUser } from '../types/admin-users.types';
 import { adminUsersService } from '../services/admin.service';
-import {
-  dashboardService,
-  DashboardResponse,
-} from '@/features/admin/services/dashboardService';
-import type { AdminUser, AdminPanelKpis } from '../types/admin-users.types';
-import { AdminKpiCards } from './components/AdminKpiCards';
 import { AdminFilters } from './components/AdminFilters';
 import { UsersTable } from './components/UsersTable';
 import {
@@ -21,9 +16,7 @@ export function AdminPanelView() {
   // ── Estado de datos ──────────────────────────────────────────────────
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [totalCount, setTotalCount] = useState(0);
-  const [kpis, setKpis] = useState<AdminPanelKpis | null>(null);
   const [isLoadingUsers, setIsLoadingUsers] = useState(true);
-  const [isLoadingKpis, setIsLoadingKpis] = useState(true);
 
   // ── Filtros ──────────────────────────────────────────────────────────
   const [search, setSearch] = useState('');
@@ -51,25 +44,6 @@ export function AdminPanelView() {
     };
   }, [search]);
 
-  // ── Carga de KPIs (desde /api/dashboard) ─────────────────────────────
-  const loadKpis = useCallback(async () => {
-    setIsLoadingKpis(true);
-    try {
-      const dashData: DashboardResponse = await dashboardService.getMetrics();
-      setKpis({
-        total_usuarios: dashData.kpis.total_usuarios,
-        gestion_proveedores: dashData.kpis.total_proveedores,
-        informes_compliance: dashData.kpis.auditorias_compliance,
-        manuales_generados: dashData.kpis.generacion_manuales,
-      });
-    } catch {
-      // Silently fail — KPIs are non-critical
-      setKpis(null);
-    } finally {
-      setIsLoadingKpis(false);
-    }
-  }, []);
-
   // ── Carga de usuarios ────────────────────────────────────────────────
   const loadUsers = useCallback(async () => {
     setIsLoadingUsers(true);
@@ -93,9 +67,6 @@ export function AdminPanelView() {
   }, [debouncedSearch, ordering, currentPage, pageSize]);
 
   // ── Efectos ──────────────────────────────────────────────────────────
-  useEffect(() => {
-    loadKpis();
-  }, [loadKpis]);
 
   useEffect(() => {
     loadUsers();
@@ -130,7 +101,6 @@ export function AdminPanelView() {
           size="sm"
           className="gap-2 text-[#005282] border-[#005282]/30 hover:bg-[#005282]/5"
           onClick={() => {
-            loadKpis();
             loadUsers();
           }}
         >
@@ -138,9 +108,6 @@ export function AdminPanelView() {
           Actualizar
         </Button>
       </div>
-
-      {/* KPIs */}
-      <AdminKpiCards kpis={kpis} isLoading={isLoadingKpis} />
 
       {/* Filtros */}
       <AdminFilters

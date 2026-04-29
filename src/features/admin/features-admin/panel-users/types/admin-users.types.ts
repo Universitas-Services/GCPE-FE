@@ -51,16 +51,18 @@ export interface UserCompliance {
   nombre_unidad_revisora: string;
   nomenclatura: string;
   fecha_revision: string;
+  persona_contacto: string;
 }
 
 /** Manual asociado a un usuario — GET /api/usuarios/{user_id}/manuales */
 export interface UserManual {
-  id: number;
-  titulo: string;
-  tipo_concurso: string;
-  fecha_generacion: string;
-  estado_envio: string;
-  correo_destino: string;
+  id: string;
+  usuario: number;
+  nombre_institucion_ente: string;
+  siglas_institucion_ente: string;
+  nombre_unidad_admin_financiera: string;
+  nombre_unidad_sistemas_tecnologia: string;
+  correo_electronico_manual: string;
 }
 
 /** Respuesta genérica para acciones POST de reenvío */
@@ -74,4 +76,22 @@ export interface AdminPanelKpis {
   gestion_proveedores: number;
   informes_compliance: number;
   manuales_generados: number;
+}
+
+/** Nota interna (CRM) asociada a un usuario — GET /api/usuarios/{user_id}/notas */
+export interface UserNote {
+  id: string;
+  usuario_objetivo: number;
+  autor: number;
+  autor_nombre: string;
+  contenido: string;
+  etiqueta: string;
+  fecha_creacion: string;
+  fecha_actualizacion: string;
+}
+
+/** Payload para crear o actualizar una nota */
+export interface NotePayload {
+  contenido: string;
+  etiqueta: string;
 }
