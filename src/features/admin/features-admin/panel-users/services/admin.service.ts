@@ -192,6 +192,27 @@ export const adminUsersService = {
     return response.json();
   },
 
+  // ── Acción: Descargar PDF de manual ───────────────────────────────────
+  async downloadManualPDF(userId: number, manualId: string): Promise<void> {
+    const response = await fetchApi(
+      `/api/usuarios/${userId}/manuales/${manualId}/descargar`
+    );
+
+    if (!response.ok) {
+      await handleApiError(response, 'Error al descargar el manual');
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `manual_${manualId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  },
+
   // ── Detalle de un usuario por ID ──────────────────────────────────────
   async getUserById(userId: number): Promise<AdminUser> {
     const response = await fetchApi(`/api/usuarios/${userId}`);

@@ -98,6 +98,8 @@ export function UsersTable({ users, isLoading, onAction }: UsersTableProps) {
                 <TableCell>
                   <Link
                     href={`/admin/dashboard/usuarios/${user.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-2 hover:underline"
                   >
                     <span className="font-medium text-gray-900">
@@ -133,7 +135,11 @@ export function UsersTable({ users, isLoading, onAction }: UsersTableProps) {
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem className="cursor-pointer" asChild>
-                        <Link href={`/admin/dashboard/usuarios/${user.id}`}>
+                        <Link
+                          href={`/admin/dashboard/usuarios/${user.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <User className="mr-2 h-4 w-4 text-[#0091be]" />
                           Ver Detalle
                         </Link>

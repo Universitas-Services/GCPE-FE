@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, Users, LogOut, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, LogOut } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -228,11 +228,6 @@ export function AppSidebar() {
                     {profile?.email || 'cargando...'}
                   </p>
                 </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer">
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Ajustes</span>
-                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer text-red-600 focus:text-red-700 focus:bg-red-50"

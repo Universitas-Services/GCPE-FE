@@ -179,7 +179,7 @@ export function ComplianceModal({
 }: ComplianceModalProps) {
   const [data, setData] = useState<UserCompliance[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [resendingId, setResendingId] = useState<number | null>(null);
+  const [resendingId, setResendingId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setIsLoading(true);
@@ -199,7 +199,7 @@ export function ComplianceModal({
     if (open) load();
   }, [open, load]);
 
-  const handleResend = async (id: number) => {
+  const handleResend = async (id: string) => {
     setResendingId(id);
     try {
       const res = await adminUsersService.resendCompliance(id);

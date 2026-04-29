@@ -113,6 +113,15 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
   const [downloadingComplianceId, setDownloadingComplianceId] = useState<
     string | null
   >(null);
+  const [downloadingManualId, setDownloadingManualId] = useState<string | null>(
+    null
+  );
+  const [resendingComplianceId, setResendingComplianceId] = useState<
+    string | null
+  >(null);
+  const [resendingManualId, setResendingManualId] = useState<string | null>(
+    null
+  );
 
   // ── Etiqueta seleccionada (estado de contacto) ──────────────────────
   const [selectedEtiqueta, setSelectedEtiqueta] = useState('POR_CONTACTAR');
@@ -272,6 +281,48 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
       });
     } finally {
       setDownloadingComplianceId(null);
+    }
+  };
+
+  const handleResendCompliance = async (complianceId: string) => {
+    setResendingComplianceId(complianceId);
+    try {
+      await adminUsersService.resendCompliance(complianceId);
+      toast.success('Informe de compliance reenviado exitosamente');
+    } catch (err) {
+      toast.error('Error al reenviar el compliance', {
+        description: (err as Error).message,
+      });
+    } finally {
+      setResendingComplianceId(null);
+    }
+  };
+
+  const handleResendManual = async (manualId: string) => {
+    setResendingManualId(manualId);
+    try {
+      await adminUsersService.resendManual(manualId);
+      toast.success('Manual reenviado exitosamente');
+    } catch (err) {
+      toast.error('Error al reenviar el manual', {
+        description: (err as Error).message,
+      });
+    } finally {
+      setResendingManualId(null);
+    }
+  };
+
+  const handleDownloadManual = async (manualId: string) => {
+    setDownloadingManualId(manualId);
+    try {
+      await adminUsersService.downloadManualPDF(userId, manualId);
+      toast.success('Descarga del manual iniciada exitosamente');
+    } catch (err) {
+      toast.error('Error al descargar el manual', {
+        description: (err as Error).message,
+      });
+    } finally {
+      setDownloadingManualId(null);
     }
   };
 
@@ -892,6 +943,20 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
                           )}
                           <span className="text-xs">Descargar PDF</span>
                         </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 px-3 gap-1.5 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"
+                          disabled={resendingComplianceId === c.id}
+                          onClick={() => handleResendCompliance(c.id)}
+                        >
+                          {resendingComplianceId === c.id ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <Send className="h-3.5 w-3.5" />
+                          )}
+                          <span className="text-xs">Reenviar</span>
+                        </Button>
                       </div>
                     </div>
 
@@ -987,6 +1052,36 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
                             {m.siglas_institucion_ente}
                           </span>
                         </p>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 px-3 gap-1.5 border-[#0091be] text-[#0091be] hover:bg-[#0091be] hover:text-white transition-colors"
+                          disabled={downloadingManualId === m.id}
+                          onClick={() => handleDownloadManual(m.id)}
+                        >
+                          {downloadingManualId === m.id ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <Download className="h-3.5 w-3.5" />
+                          )}
+                          <span className="text-xs">Descargar PDF</span>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 px-3 gap-1.5 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"
+                          disabled={resendingManualId === m.id}
+                          onClick={() => handleResendManual(m.id)}
+                        >
+                          {resendingManualId === m.id ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <Send className="h-3.5 w-3.5" />
+                          )}
+                          <span className="text-xs">Reenviar</span>
+                        </Button>
                       </div>
                     </div>
 
