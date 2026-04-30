@@ -9,6 +9,7 @@ import type {
   UserNote,
   NotePayload,
   ResendResponse,
+  PaginatedResponse,
 } from '../types/admin-users.types';
 
 /**
@@ -32,12 +33,34 @@ async function handleApiError(
 
 /**
  * Extrae el array de items de una respuesta que puede ser
- * un array directo o un objeto { items: [...] }.
+ * un array directo, un objeto { items: [...] } o el formato paginado del backend.
  */
-function extractItems<T>(data: T[] | { items?: T[] }): T[] {
+function extractItems<T>(
+  data: T[] | { items?: T[] } | PaginatedResponse<T>
+): T[] {
   if (Array.isArray(data)) return data;
   if (data && Array.isArray(data.items)) return data.items;
   return [];
+}
+
+/**
+ * Extrae la metadata de paginación de una respuesta del backend.
+ */
+function extractPagination<T>(data: unknown): {
+  total: number;
+  page: number;
+  page_size: number;
+  pages: number;
+} {
+  if (data && typeof data === 'object' && 'total' in data) {
+    return {
+      total: (data as PaginatedResponse<T>).total ?? 0,
+      page: (data as PaginatedResponse<T>).page ?? 1,
+      page_size: (data as PaginatedResponse<T>).page_size ?? 10,
+      pages: (data as PaginatedResponse<T>).pages ?? 1,
+    };
+  }
+  return { total: 0, page: 1, page_size: 10, pages: 1 };
 }
 
 /**
@@ -91,8 +114,27 @@ export const adminUsersService = {
   },
 
   // ── Detalle: Proveedores de un usuario ────────────────────────────────
-  async getUserProviders(userId: number): Promise<UserProvider[]> {
-    const response = await fetchApi(`/api/usuarios/${userId}/proveedores`);
+  async getUserProviders(
+    userId: number,
+    page?: number,
+    page_size?: number
+  ): Promise<{
+    items: UserProvider[];
+    pagination: {
+      total: number;
+      page: number;
+      page_size: number;
+      pages: number;
+    };
+  }> {
+    const query = new URLSearchParams();
+    if (page) query.set('page', String(page));
+    if (page_size) query.set('page_size', String(page_size));
+
+    const qs = query.toString();
+    const response = await fetchApi(
+      `/api/usuarios/${userId}/proveedores${qs ? `?${qs}` : ''}`
+    );
 
     if (!response.ok) {
       await handleApiError(
@@ -102,12 +144,34 @@ export const adminUsersService = {
     }
 
     const data = await response.json();
-    return extractItems(data);
+    return {
+      items: extractItems(data),
+      pagination: extractPagination(data),
+    };
   },
 
   // ── Detalle: Compliance de un usuario ─────────────────────────────────
-  async getUserCompliance(userId: number): Promise<UserCompliance[]> {
-    const response = await fetchApi(`/api/usuarios/${userId}/compliance`);
+  async getUserCompliance(
+    userId: number,
+    page?: number,
+    page_size?: number
+  ): Promise<{
+    items: UserCompliance[];
+    pagination: {
+      total: number;
+      page: number;
+      page_size: number;
+      pages: number;
+    };
+  }> {
+    const query = new URLSearchParams();
+    if (page) query.set('page', String(page));
+    if (page_size) query.set('page_size', String(page_size));
+
+    const qs = query.toString();
+    const response = await fetchApi(
+      `/api/usuarios/${userId}/compliance${qs ? `?${qs}` : ''}`
+    );
 
     if (!response.ok) {
       await handleApiError(
@@ -117,7 +181,10 @@ export const adminUsersService = {
     }
 
     const data = await response.json();
-    return extractItems(data);
+    return {
+      items: extractItems(data),
+      pagination: extractPagination(data),
+    };
   },
 
   // ── Acción: Reenviar compliance ───────────────────────────────────────
@@ -165,8 +232,27 @@ export const adminUsersService = {
   },
 
   // ── Detalle: Manuales de un usuario ───────────────────────────────────
-  async getUserManuals(userId: number): Promise<UserManual[]> {
-    const response = await fetchApi(`/api/usuarios/${userId}/manuales`);
+  async getUserManuals(
+    userId: number,
+    page?: number,
+    page_size?: number
+  ): Promise<{
+    items: UserManual[];
+    pagination: {
+      total: number;
+      page: number;
+      page_size: number;
+      pages: number;
+    };
+  }> {
+    const query = new URLSearchParams();
+    if (page) query.set('page', String(page));
+    if (page_size) query.set('page_size', String(page_size));
+
+    const qs = query.toString();
+    const response = await fetchApi(
+      `/api/usuarios/${userId}/manuales${qs ? `?${qs}` : ''}`
+    );
 
     if (!response.ok) {
       await handleApiError(
@@ -176,7 +262,10 @@ export const adminUsersService = {
     }
 
     const data = await response.json();
-    return extractItems(data);
+    return {
+      items: extractItems(data),
+      pagination: extractPagination(data),
+    };
   },
 
   // ── Acción: Reenviar manual ───────────────────────────────────────────

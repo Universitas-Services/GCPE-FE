@@ -81,12 +81,20 @@ export function ProvidersModal({
 }: ProvidersModalProps) {
   const [data, setData] = useState<UserProvider[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [total, setTotal] = useState(0);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     try {
-      const providers = await adminUsersService.getUserProviders(userId);
-      setData(providers);
+      const result = await adminUsersService.getUserProviders(
+        userId,
+        page,
+        pageSize
+      );
+      setData(result.items);
+      setTotal(result.pagination.total);
     } catch (err) {
       toast.error('Error al cargar proveedores', {
         description: (err as Error).message,
@@ -94,7 +102,7 @@ export function ProvidersModal({
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, page, pageSize]);
 
   useEffect(() => {
     if (open) load();
@@ -155,6 +163,32 @@ export function ProvidersModal({
             </TableBody>
           </Table>
         </ScrollArea>
+        {total > pageSize && (
+          <div className="flex items-center justify-between px-4 py-3 border-t">
+            <p className="text-sm text-muted-foreground">
+              {(page - 1) * pageSize + 1} - {Math.min(page * pageSize, total)}{' '}
+              de {total}
+            </p>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+              >
+                Anterior
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page >= Math.ceil(total / pageSize)}
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Siguiente
+              </Button>
+            </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
@@ -180,12 +214,20 @@ export function ComplianceModal({
   const [data, setData] = useState<UserCompliance[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [resendingId, setResendingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [total, setTotal] = useState(0);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     try {
-      const items = await adminUsersService.getUserCompliance(userId);
-      setData(items);
+      const result = await adminUsersService.getUserCompliance(
+        userId,
+        page,
+        pageSize
+      );
+      setData(result.items);
+      setTotal(result.pagination.total);
     } catch (err) {
       toast.error('Error al cargar compliance', {
         description: (err as Error).message,
@@ -193,7 +235,7 @@ export function ComplianceModal({
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, page, pageSize]);
 
   useEffect(() => {
     if (open) load();
@@ -303,6 +345,32 @@ export function ComplianceModal({
             </TableBody>
           </Table>
         </ScrollArea>
+        {total > pageSize && (
+          <div className="flex items-center justify-between px-4 py-3 border-t">
+            <p className="text-sm text-muted-foreground">
+              {(page - 1) * pageSize + 1} - {Math.min(page * pageSize, total)}{' '}
+              de {total}
+            </p>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+              >
+                Anterior
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page >= Math.ceil(total / pageSize)}
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Siguiente
+              </Button>
+            </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
@@ -328,12 +396,20 @@ export function ManualsModal({
   const [data, setData] = useState<UserManual[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [resendingId, setResendingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [total, setTotal] = useState(0);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     try {
-      const items = await adminUsersService.getUserManuals(userId);
-      setData(items);
+      const result = await adminUsersService.getUserManuals(
+        userId,
+        page,
+        pageSize
+      );
+      setData(result.items);
+      setTotal(result.pagination.total);
     } catch (err) {
       toast.error('Error al cargar manuales', {
         description: (err as Error).message,
@@ -341,7 +417,7 @@ export function ManualsModal({
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, page, pageSize]);
 
   useEffect(() => {
     if (open) load();
@@ -438,6 +514,32 @@ export function ManualsModal({
             </TableBody>
           </Table>
         </ScrollArea>
+        {total > pageSize && (
+          <div className="flex items-center justify-between px-4 py-3 border-t">
+            <p className="text-sm text-muted-foreground">
+              {(page - 1) * pageSize + 1} - {Math.min(page * pageSize, total)}{' '}
+              de {total}
+            </p>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+              >
+                Anterior
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page >= Math.ceil(total / pageSize)}
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Siguiente
+              </Button>
+            </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
