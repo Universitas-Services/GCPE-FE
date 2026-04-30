@@ -187,7 +187,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-2 flex flex-row items-center gap-2">
             <PieChartIcon className="h-5 w-5 text-[#0091be]" />
             <CardTitle className="text-base font-semibold text-gray-900">
-              Área de Especialidad
+              Área de especialidad de los proveedores registrados
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
