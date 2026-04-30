@@ -1006,7 +1006,7 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
                   </div>
                 )}
               </CardContent>
-              {providersTotal > providersPageSize && (
+              {providersTotal > 0 && (
                 <div className="flex items-center justify-between px-6 pb-4 pt-2 border-t border-gray-100 mt-4">
                   <p className="text-sm text-gray-500">
                     Mostrando {(providersPage - 1) * providersPageSize + 1} -{' '}
@@ -1173,7 +1173,7 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
                   </div>
                 )}
               </CardContent>
-              {complianceTotal > compliancePageSize && (
+              {complianceTotal > 0 && (
                 <div className="flex items-center justify-between px-6 pb-4 pt-2 border-t border-gray-100 mt-4">
                   <p className="text-sm text-gray-500">
                     Mostrando {(compliancePage - 1) * compliancePageSize + 1} -{' '}
@@ -1319,7 +1319,7 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
                   </div>
                 )}
               </CardContent>
-              {manualsTotal > manualsPageSize && (
+              {manualsTotal > 0 && (
                 <div className="flex items-center justify-between px-6 pb-4 pt-2 border-t border-gray-100 mt-4">
                   <p className="text-sm text-gray-500">
                     Mostrando {(manualsPage - 1) * manualsPageSize + 1} -{' '}
