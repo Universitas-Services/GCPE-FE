@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${roboto.variable} antialiased`}>
         {/* 2. Envolver los children con el AuthProvider */}
         <AuthProvider>{children}</AuthProvider>
-        <Toaster />
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );

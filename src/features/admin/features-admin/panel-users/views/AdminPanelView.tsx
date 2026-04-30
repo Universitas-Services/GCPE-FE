@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { AdminUser } from '../types/admin-users.types';
 import { adminUsersService } from '../services/admin.service';
@@ -128,11 +128,11 @@ export function AdminPanelView() {
       />
 
       {/* Paginación simple */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
+      {totalCount > 0 && (
+        <div className="flex items-center justify-between text-sm text-muted-foreground mt-4">
           <span>
             Mostrando{' '}
-            {Math.min((currentPage - 1) * Number(pageSize) + 1, totalCount)}–
+            {Math.min((currentPage - 1) * Number(pageSize) + 1, totalCount)} -{' '}
             {Math.min(currentPage * Number(pageSize), totalCount)} de{' '}
             {totalCount} usuarios
           </span>
@@ -142,8 +142,9 @@ export function AdminPanelView() {
               size="sm"
               disabled={currentPage <= 1}
               onClick={() => setCurrentPage((p) => p - 1)}
+              className="h-8 w-8 p-0"
             >
-              Anterior
+              <ChevronLeft className="h-4 w-4" />
             </Button>
             <span className="px-2 font-medium text-gray-700">
               {currentPage} / {totalPages}
@@ -153,8 +154,9 @@ export function AdminPanelView() {
               size="sm"
               disabled={currentPage >= totalPages}
               onClick={() => setCurrentPage((p) => p + 1)}
+              className="h-8 w-8 p-0"
             >
-              Siguiente
+              <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
         </div>

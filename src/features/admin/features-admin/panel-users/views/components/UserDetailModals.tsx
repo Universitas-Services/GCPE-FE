@@ -1,7 +1,13 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { Send, Loader2 } from 'lucide-react';
+import {
+  Send,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+} from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 
@@ -81,12 +87,20 @@ export function ProvidersModal({
 }: ProvidersModalProps) {
   const [data, setData] = useState<UserProvider[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [total, setTotal] = useState(0);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     try {
-      const providers = await adminUsersService.getUserProviders(userId);
-      setData(providers);
+      const result = await adminUsersService.getUserProviders(
+        userId,
+        page,
+        pageSize
+      );
+      setData(result.items);
+      setTotal(result.pagination.total);
     } catch (err) {
       toast.error('Error al cargar proveedores', {
         description: (err as Error).message,
@@ -94,7 +108,7 @@ export function ProvidersModal({
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, page, pageSize]);
 
   useEffect(() => {
     if (open) load();
@@ -155,6 +169,51 @@ export function ProvidersModal({
             </TableBody>
           </Table>
         </ScrollArea>
+        {total > 0 && (
+          <div className="flex items-center justify-between px-4 py-3 border-t">
+            <div className="flex items-center gap-3">
+              <p className="text-sm text-muted-foreground">
+                {(page - 1) * pageSize + 1} - {Math.min(page * pageSize, total)}{' '}
+                de {total}
+              </p>
+              <select
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value));
+                  setPage(1);
+                }}
+                className="text-sm border border-gray-200 rounded-md px-2 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-[#0091be]"
+              >
+                <option value={5}>5 por página</option>
+                <option value={10}>10 por página</option>
+                <option value={20}>20 por página</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+                className="h-8 w-8 p-0"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <span className="text-sm text-gray-600">
+                {page} / {Math.max(1, Math.ceil(total / pageSize))}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page >= Math.ceil(total / pageSize)}
+                onClick={() => setPage((p) => p + 1)}
+                className="h-8 w-8 p-0"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
@@ -180,12 +239,21 @@ export function ComplianceModal({
   const [data, setData] = useState<UserCompliance[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [resendingId, setResendingId] = useState<string | null>(null);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [total, setTotal] = useState(0);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     try {
-      const items = await adminUsersService.getUserCompliance(userId);
-      setData(items);
+      const result = await adminUsersService.getUserCompliance(
+        userId,
+        page,
+        pageSize
+      );
+      setData(result.items);
+      setTotal(result.pagination.total);
     } catch (err) {
       toast.error('Error al cargar compliance', {
         description: (err as Error).message,
@@ -193,11 +261,25 @@ export function ComplianceModal({
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, page, pageSize]);
 
   useEffect(() => {
     if (open) load();
   }, [open, load]);
+
+  const handleDownload = async (id: string) => {
+    setDownloadingId(id);
+    try {
+      await adminUsersService.downloadCompliancePDF(userId, id);
+      toast.success('Descarga iniciada exitosamente');
+    } catch (err) {
+      toast.error('Error al descargar el compliance', {
+        description: (err as Error).message,
+      });
+    } finally {
+      setDownloadingId(null);
+    }
+  };
 
   const handleResend = async (id: string) => {
     setResendingId(id);
@@ -245,7 +327,7 @@ export function ComplianceModal({
                 <TableHead className="hidden lg:table-cell">
                   Persona Contacto
                 </TableHead>
-                <TableHead className="text-right">Reenviar</TableHead>
+                <TableHead className="text-right">Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -282,20 +364,36 @@ export function ComplianceModal({
                       {c.persona_contacto || '—'}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-[#0091be] hover:text-[#005282] hover:bg-[#0091be]/10"
-                        disabled={resendingId === c.id}
-                        onClick={() => handleResend(c.id)}
-                      >
-                        {resendingId === c.id ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Send className="h-4 w-4" />
-                        )}
-                        <span className="sr-only">Reenviar compliance</span>
-                      </Button>
+                      <div className="flex items-center justify-end gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-[#0091be] hover:text-[#005282] hover:bg-[#0091be]/10"
+                          disabled={downloadingId === c.id}
+                          onClick={() => handleDownload(c.id)}
+                        >
+                          {downloadingId === c.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Download className="h-4 w-4" />
+                          )}
+                          <span className="sr-only">Descargar compliance</span>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-[#0091be] hover:text-[#005282] hover:bg-[#0091be]/10"
+                          disabled={resendingId === c.id}
+                          onClick={() => handleResend(c.id)}
+                        >
+                          {resendingId === c.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Send className="h-4 w-4" />
+                          )}
+                          <span className="sr-only">Reenviar compliance</span>
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
@@ -303,6 +401,51 @@ export function ComplianceModal({
             </TableBody>
           </Table>
         </ScrollArea>
+        {total > 0 && (
+          <div className="flex items-center justify-between px-4 py-3 border-t">
+            <div className="flex items-center gap-3">
+              <p className="text-sm text-muted-foreground">
+                {(page - 1) * pageSize + 1} - {Math.min(page * pageSize, total)}{' '}
+                de {total}
+              </p>
+              <select
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value));
+                  setPage(1);
+                }}
+                className="text-sm border border-gray-200 rounded-md px-2 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-[#0091be]"
+              >
+                <option value={5}>5 por página</option>
+                <option value={10}>10 por página</option>
+                <option value={20}>20 por página</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+                className="h-8 w-8 p-0"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <span className="text-sm text-gray-600">
+                {page} / {Math.max(1, Math.ceil(total / pageSize))}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page >= Math.ceil(total / pageSize)}
+                onClick={() => setPage((p) => p + 1)}
+                className="h-8 w-8 p-0"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
@@ -328,12 +471,21 @@ export function ManualsModal({
   const [data, setData] = useState<UserManual[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [resendingId, setResendingId] = useState<string | null>(null);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [total, setTotal] = useState(0);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     try {
-      const items = await adminUsersService.getUserManuals(userId);
-      setData(items);
+      const result = await adminUsersService.getUserManuals(
+        userId,
+        page,
+        pageSize
+      );
+      setData(result.items);
+      setTotal(result.pagination.total);
     } catch (err) {
       toast.error('Error al cargar manuales', {
         description: (err as Error).message,
@@ -341,11 +493,25 @@ export function ManualsModal({
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, page, pageSize]);
 
   useEffect(() => {
     if (open) load();
   }, [open, load]);
+
+  const handleDownload = async (id: string) => {
+    setDownloadingId(id);
+    try {
+      await adminUsersService.downloadManualPDF(userId, id);
+      toast.success('Descarga iniciada exitosamente');
+    } catch (err) {
+      toast.error('Error al descargar el manual', {
+        description: (err as Error).message,
+      });
+    } finally {
+      setDownloadingId(null);
+    }
+  };
 
   const handleResend = async (id: string) => {
     setResendingId(id);
@@ -387,7 +553,7 @@ export function ManualsModal({
                   Unidad Sistemas / Tecnología
                 </TableHead>
                 <TableHead>Correo</TableHead>
-                <TableHead className="text-right">Reenviar</TableHead>
+                <TableHead className="text-right">Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -417,20 +583,36 @@ export function ManualsModal({
                       {m.correo_electronico_manual || '—'}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-[#0091be] hover:text-[#005282] hover:bg-[#0091be]/10"
-                        disabled={resendingId === m.id}
-                        onClick={() => handleResend(m.id)}
-                      >
-                        {resendingId === m.id ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Send className="h-4 w-4" />
-                        )}
-                        <span className="sr-only">Reenviar manual</span>
-                      </Button>
+                      <div className="flex items-center justify-end gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-[#0091be] hover:text-[#005282] hover:bg-[#0091be]/10"
+                          disabled={downloadingId === m.id}
+                          onClick={() => handleDownload(m.id)}
+                        >
+                          {downloadingId === m.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Download className="h-4 w-4" />
+                          )}
+                          <span className="sr-only">Descargar manual</span>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-[#0091be] hover:text-[#005282] hover:bg-[#0091be]/10"
+                          disabled={resendingId === m.id}
+                          onClick={() => handleResend(m.id)}
+                        >
+                          {resendingId === m.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Send className="h-4 w-4" />
+                          )}
+                          <span className="sr-only">Reenviar manual</span>
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
@@ -438,6 +620,51 @@ export function ManualsModal({
             </TableBody>
           </Table>
         </ScrollArea>
+        {total > 0 && (
+          <div className="flex items-center justify-between px-4 py-3 border-t">
+            <div className="flex items-center gap-3">
+              <p className="text-sm text-muted-foreground">
+                {(page - 1) * pageSize + 1} - {Math.min(page * pageSize, total)}{' '}
+                de {total}
+              </p>
+              <select
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value));
+                  setPage(1);
+                }}
+                className="text-sm border border-gray-200 rounded-md px-2 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-[#0091be]"
+              >
+                <option value={5}>5 por página</option>
+                <option value={10}>10 por página</option>
+                <option value={20}>20 por página</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+                className="h-8 w-8 p-0"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <span className="text-sm text-gray-600">
+                {page} / {Math.max(1, Math.ceil(total / pageSize))}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page >= Math.ceil(total / pageSize)}
+                onClick={() => setPage((p) => p + 1)}
+                className="h-8 w-8 p-0"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

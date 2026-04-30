@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { Toaster } from '@/components/ui/sonner';
+
 import { AdminProvider } from '@/features/admin/context/AdminContext';
 import './globals.css';
 
@@ -27,7 +27,6 @@ export default function AdminLayout({
     >
       <AdminProvider>
         <TooltipProvider>{children}</TooltipProvider>
-        <Toaster position="top-right" richColors />
       </AdminProvider>
     </div>
   );
