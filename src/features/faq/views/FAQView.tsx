@@ -20,168 +20,72 @@ interface FAQCategory {
 const faqItems: FAQCategory[] = [
   {
     id: 'item-1',
-    title: 'Preguntas generales',
+    title: 'Preguntas Generales',
     questions: [
       {
-        question: '¿Qué es "Actas de entrega"?',
+        question: '¿Qué es el Sistema Integrado de Selección de Contratista?',
         answer:
-          'Es una herramienta digital diseñada para ayudar a los servidores públicos en Venezuela a crear, gestionar y generar actas de entrega de cargos, bienes y recursos de una manera más eficiente y ordenada.',
+          'Es una herramienta tecnológica diseñada para asistir a los servidores públicos en la elaboración, control y auditoría de expedientes de contratación pública en Venezuela, asegurando el cumplimiento de la Ley de Contrataciones Públicas.',
       },
       {
-        question: '¿Para quién es esta aplicación?',
+        question: '¿Esta aplicación sustituye el criterio legal del ente?',
         answer:
-          'Está dirigida a todos los servidores públicos dentro de la República Bolivariana de Venezuela que, por sus funciones, deban participar en un proceso de entrega y recepción de un cargo, ya sea en rol de funcionario saliente, entrante o como máxima autoridad de una institución.',
-      },
-      {
-        question:
-          '¿Esta aplicación es una herramienta oficial del gobierno venezolano?',
-        answer:
-          'No. "Actas de entrega" es una aplicación desarrollada y proporcionada por Universitas Services C.A., una entidad privada. Actúa como una herramienta de apoyo tecnológico independiente para facilitar el cumplimiento de las normativas.',
-      },
-      {
-        question: '¿La aplicación ofrece asesoría legal?',
-        answer:
-          'No, y es un punto muy importante. La aplicación es una herramienta tecnológica para procesar información. No proporciona asesoría legal, jurídica o normativa. Para consultas de ese tipo, debe recurrir a un profesional del derecho.',
+          'No. La aplicación es un asistente de automatización que facilita el trabajo, pero la responsabilidad final y la validación de los actos motivados corresponden a las unidades usuarias y contratantes según la ley.',
       },
     ],
   },
   {
     id: 'item-2',
-    title: 'Cuentas y versiones',
+    title: 'Cuentas y Versiones',
     questions: [
       {
-        question: '¿Cómo me registro?',
+        question: '¿Qué incluye la versión gratuita?',
         answer:
-          'Puede crear una cuenta visitando nuestro sitio web, haciendo clic en "Registrarme" y completando el formulario inicial. Luego, deberá activar su cuenta a través de un enlace que enviaremos a su correo electrónico.',
+          'Permite generar demostraciones de manuales para Concursos Abiertos (Bienes - Acto único, Apertura Único), realizar un registro básico de proveedores y probar el módulo de compliance para expedientes de bienes.',
       },
       {
-        question:
-          '¿Cuál es la diferencia entre la versión express (gratuita) y la pro (de pago)?',
-        answer: (
-          <div className="space-y-2">
-            <p>
-              La diferencia principal radica en la capacidad y las
-              funcionalidades avanzadas.
-            </p>
-            <p>
-              <strong>Express (gratuita):</strong> Le permite generar un (1)
-              acta por cada rol. El documento se envía a su correo y no se
-              guarda en la app. Es ideal para un uso único o para probar la
-              plataforma.
-            </p>
-            <p>
-              <strong>Pro (de pago):</strong> Le permite generar actas
-              ilimitadas, las almacena en la nube para que pueda gestionarlas y
-              editarlas, y le da acceso a herramientas de inteligencia
-              artificial como un asistente virtual y un módulo de
-              &quot;compliance&quot;.
-            </p>
-          </div>
-        ),
-      },
-      {
-        question: '¿Es obligatorio pasar a la versión pro?',
+        question: '¿Cómo adquirir la Versión PRO para mi institución?',
         answer:
-          'No. Puede utilizar la versión express gratuita según sus limitaciones. La versión pro es una opción para usuarios que necesitan generar múltiples actas, requieren almacenamiento o desean utilizar las funcionalidades avanzadas.',
+          'La Versión PRO está diseñada para una implementación integral en Entes u Órganos. Puedes solicitar una demostración personalizada y un presupuesto formal a través del botón "Actualizar a Pro" o contactando a nuestro equipo de ventas.',
       },
     ],
   },
   {
     id: 'item-3',
-    title: 'Pagos y actualización a pro',
+    title: 'Funcionalidades y Uso',
     questions: [
       {
-        question: '¿Cómo puedo adquirir la versión pro?',
+        question:
+          '¿Puedo gestionar Contrataciones Directas o Consultas de Precios aquí?',
         answer:
-          'Dentro de la aplicación, encontrará un botón para contactar a un asesor vía WhatsApp. Esta persona le guiará a través de las opciones y el proceso de pago para activar su cuenta pro.',
+          'En esta versión gratuita solo está habilitada la modalidad de Concurso Abierto (Bienes). Las modalidades de Consulta de Precios, Concurso Cerrado y Contratación Directa (incluyendo sus actos motivados) están disponibles exclusivamente en la versión PRO.',
       },
       {
-        question: '¿Qué métodos de pago aceptan?',
+        question: '¿Cómo recibo el Manual Express que generé?',
         answer:
-          'Aceptamos transferencias bancarias en bolívares y pagos electrónicos a través de plataformas seguras como PayPal y Stripe.',
-      },
-      {
-        question: '¿El pago es una suscripción mensual o anual?',
-        answer:
-          'No. La versión pro se adquiere a través de un pago único que le da acceso a todas sus funcionalidades.',
-      },
-      {
-        question: '¿Tienen una política de reembolso?',
-        answer:
-          'Sí, ofrecemos un reembolso parcial del 50% bajo condiciones muy específicas: debe solicitarlo por escrito dentro de las 24 horas posteriores al pago y no haber superado un límite de uso muy básico. Le recomendamos leer la cláusula completa en nuestros términos y condiciones.',
+          'Una vez completados los datos, el sistema procesa la información y enviará un documento de demostración al correo electrónico que registraste en el formulario.',
       },
     ],
   },
   {
     id: 'item-4',
-    title: 'Funcionalidades y uso',
+    title: 'Datos y Seguridad',
     questions: [
       {
-        question: '¿Cómo recibo los documentos que genero?',
+        question: '¿Están seguros mis datos de proveedores?',
         answer:
-          'Los documentos se generan y alojan en Google Drive. Al finalizar, le enviamos a su correo electrónico un enlace único para que pueda acceder, descargar, imprimir o compartir su acta en formato Google Docs.',
-      },
-      {
-        question: '¿Puedo editar un acta después de haberla generado?',
-        answer: (
-          <div className="space-y-2">
-            <p>
-              <strong>En la versión express, no.</strong> Una vez generada,
-              cualquier cambio debe hacerse en el archivo Google Docs al que
-              accede desde el enlace.
-            </p>
-            <p>
-              <strong>En la versión pro, sí.</strong> Sus actas se guardan en su
-              cuenta, permitiéndole editar la información directamente en la
-              plataforma y volver a generar el documento actualizado.
-            </p>
-          </div>
-        ),
-      },
-      {
-        question:
-          '¿En qué consisten las funciones de inteligencia artificial (IA)?',
-        answer:
-          'En la versión pro, la IA actúa como un asistente. Puede analizar la información para darle alertas proactivas (por ejemplo, sobre plazos) y sugerirle documentos de debida diligencia. También cuenta con un asesor virtual para responder dudas sobre el proceso.',
-      },
-      {
-        question: '¿Puedo compartir mi cuenta o mi contraseña con un colega?',
-        answer:
-          'No. Por razones de seguridad y para proteger la integridad de su información, las cuentas son estrictamente personales e intransferibles. Compartir sus credenciales está prohibido en los términos y condiciones.',
+          'Sí. Utilizamos protocolos de seguridad para proteger la información registrada. Sin embargo, para la gestión masiva de expedientes institucionales y respaldo en la nube de alta disponibilidad, recomendamos el uso de la versión PRO.',
       },
     ],
   },
   {
     id: 'item-5',
-    title: 'Datos y seguridad',
-    questions: [
-      {
-        question:
-          '¿Quién es el dueño de la información que yo introduzco en la aplicación?',
-        answer:
-          'Usted. El usuario es en todo momento el propietario del contenido que introduce. Nosotros solo tenemos una licencia limitada para procesar esa información y prestarle el servicio.',
-      },
-      {
-        question:
-          '¿Universitas Services C.A. revisa el contenido de mis actas?',
-        answer:
-          'No. Su información es privada. No verificamos, validamos ni revisamos la veracidad o legalidad del contenido que usted introduce. La responsabilidad sobre el contenido es exclusivamente suya.',
-      },
-      {
-        question: '¿Qué pasa con mis documentos si elimino mi cuenta?',
-        answer:
-          'Si decide eliminar su cuenta, su perfil y acceso a la plataforma serán borrados. Sin embargo, usted conservará el acceso a los documentos que ya había generado, a través de los enlaces de Google Docs que le fueron enviados a su correo electrónico.',
-      },
-    ],
-  },
-  {
-    id: 'item-6',
     title: 'Soporte y contacto',
     questions: [
       {
-        question: '¿Cómo puedo obtener soporte técnico?',
+        question: '¿Dónde reporto un error o hacer una sugerencia?',
         answer:
-          'Para cualquier duda o problema técnico, puede contactar a nuestro equipo a través del canal de WhatsApp disponible en la aplicación o escribiéndonos a contacto@universitas.legal.',
+          'Valoramos mucho el feedback de los usuarios en esta etapa. Puedes escribirnos a universitasdev@gmail.com o a través de nuestras redes en Universitas Services.',
       },
     ],
   },
