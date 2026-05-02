@@ -12,26 +12,6 @@ const services = [
     rel: 'noopener noreferrer',
   },
   {
-    imageSrc: '/conocenos/2.webp',
-    title: 'El Funcionario Público',
-    description:
-      'Domina el marco legal que rige tu carrera. Un curso esencial sobre los derechos, deberes y responsabilidades de todo servidor público, desde el ingreso hasta el retiro.',
-    buttonText: 'Inscríbete aquí',
-    href: 'https://universitas.academy/cursos/el-funcionario-publico/',
-    target: '_blank',
-    rel: 'noopener noreferrer',
-  },
-  {
-    imageSrc: '/conocenos/3.webp',
-    title: 'Actas de entrega en la Administración Pública',
-    description:
-      'Este programa te equipará con las competencias esenciales para la elaboración y gestión de Actas de Entrega.',
-    buttonText: 'Mas Información',
-    href: 'https://universitas.academy/cursos/actas-de-entrega/',
-    target: '_blank',
-    rel: 'noopener noreferrer',
-  },
-  {
     imageSrc: '/conocenos/4.webp',
     title: 'Cursos Virtuales',
     description:
@@ -58,16 +38,6 @@ const services = [
       'Ágora es un espacio diseñado para que los profesionales puedan publicar sus artículos de investigación o de opinión y noticias.',
     buttonText: 'Inscríbete aquí',
     href: 'https://agora.universitasfundacion.com/category/universitas-legal/',
-    target: '_blank',
-    rel: 'noopener noreferrer',
-  },
-  {
-    imageSrc: '/conocenos/7.webp',
-    title: 'Régimen Disciplinario de los Funcionarios Públicos',
-    description:
-      'Conoce a fondo el procedimiento de amonestación y destitución. Un curso clave para comprender las faltas, sanciones y protegerte de riesgos disciplinarios.',
-    buttonText: 'Inscríbete aquí',
-    href: 'https://universitas.academy/cursos/regimen-disciplinario-del-funcionario-publico/',
     target: '_blank',
     rel: 'noopener noreferrer',
   },
