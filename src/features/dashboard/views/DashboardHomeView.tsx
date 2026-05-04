@@ -283,9 +283,10 @@ export function DashboardHomeView() {
                 </CardTitle>
               </div>
               <CardDescription className="form-label-ejemplo">
-                Automatiza tus procesos de contratación pública. Genera
-                cronogramas y actas listas al instante, garantizando el
-                cumplimiento automático de la Ley de Contrataciones Públicas .
+                Automatiza tus procesos de selección de contratista. Genera los
+                documentos que sustentan tu expediente de contratación pública,
+                garantizando el cumplimiento automático de la Ley de
+                Contrataciones Públicas.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
@@ -318,9 +319,9 @@ export function DashboardHomeView() {
               </h3>
               <p className="text-teal-50 text-[11px] md:text-xs max-w-xl leading-snug mt-1 font-semibold">
                 Desbloquea la generación automática de tus expedientes de
-                Contrataciones Públicas en todas sus modalidades, el análisis de
-                cumplimiento porcentual de tus expedientes, gestión avanzada de
-                los proveedores registrados al instante.
+                Contrataciones Públicas, el análisis de cumplimiento porcentual
+                de tus expedientes, gestión avanzada de los proveedores
+                registrados al instante.
               </p>
             </div>
           </div>

@@ -41,7 +41,7 @@ const faqItems: FAQCategory[] = [
       {
         question: '¿Qué incluye la versión gratuita?',
         answer:
-          'Permite generar demostraciones de manuales para Concursos Abiertos (Bienes - Acto único, Apertura Único), realizar un registro básico de proveedores y probar el módulo de compliance para expedientes de bienes.',
+          'Permite generar demostraciones de manuales de contrataciones públicas para Concursos Abiertos (Bienes - Acto único, Apertura Única), realizar un registro básico de proveedores y probar el módulo de compliance para expedientes de Concurso abierto  Acto único, Apertura Única.',
       },
       {
         question: '¿Cómo adquirir la Versión PRO para mi institución?',
@@ -58,7 +58,7 @@ const faqItems: FAQCategory[] = [
         question:
           '¿Puedo gestionar Contrataciones Directas o Consultas de Precios aquí?',
         answer:
-          'En esta versión gratuita solo está habilitada la modalidad de Concurso Abierto (Bienes). Las modalidades de Consulta de Precios, Concurso Cerrado y Contratación Directa (incluyendo sus actos motivados) están disponibles exclusivamente en la versión PRO.',
+          'En esta versión gratuita solo está habilitada la modalidad de Concurso Abierto (Bienes - Acto único, Apertura Única). Las modalidades de Consulta de Precios, Concurso Cerrado y Contratación Directa (incluyendo sus actos motivados) están disponibles exclusivamente en la versión PRO.',
       },
       {
         question: '¿Cómo recibo el Manual Express que generé?',
@@ -85,7 +85,7 @@ const faqItems: FAQCategory[] = [
       {
         question: '¿Dónde reporto un error o hacer una sugerencia?',
         answer:
-          'Valoramos mucho el feedback de los usuarios en esta etapa. Puedes escribirnos a universitasdev@gmail.com o a través de nuestras redes en Universitas Services.',
+          'Valoramos mucho el feedback de los usuarios en esta etapa. Puedes escribirnos a soporte@universitas.legal o a través de nuestras redes en Universitas Services.',
       },
     ],
   },

@@ -67,7 +67,7 @@ export function ManualForm() {
       <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
         <FormHeader
           title="Elabora tu manual express"
-          description="Ingresa los datos básicos para generar una demostración del manual de concurso abierto. Lo recibirás en tu correo en pocos minutos."
+          description="Ingresa los datos básicos para generar una demostración del manual de contrataciones públicas en la modalidad de concurso abierto. Lo recibirás en tu correo en pocos minutos."
           className="mb-0"
         />
       </div>

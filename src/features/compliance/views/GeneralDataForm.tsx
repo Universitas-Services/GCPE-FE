@@ -155,7 +155,6 @@ export function GeneralDataForm() {
         <div className="space-y-2 flex flex-col">
           <Label className="form-label-titulos">Fecha de revisión</Label>
           <SharedDatePicker
-            max={new Date().toISOString().split('T')[0]} // Bloquea fechas futuras
             error={Boolean(errors.reviewDate)}
             value={reviewDate ? format(reviewDate, 'yyyy-MM-dd') : ''}
             onChange={(e) => {
