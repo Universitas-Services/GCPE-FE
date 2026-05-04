@@ -71,14 +71,22 @@ export const SharedDatePicker = React.forwardRef<
           mode="single"
           selected={date}
           onSelect={handleSelect}
-          disabled={(date) =>
-            date > new Date() || date < new Date('1900-01-01')
-          }
+          // Hacemos que el calendario sea inteligente y respete el "max" si existe
+          disabled={(calendarDate) => {
+            const isBeforeMin = calendarDate < new Date('1900-01-01');
+
+            // Verificamos si se envió un "max" desde el componente padre
+            const isAfterMax = props.max
+              ? calendarDate > new Date(`${props.max}T23:59:59`) // Agregamos la hora para evitar bugs de zona horaria
+              : false;
+
+            return isBeforeMin || isAfterMax;
+          }}
           initialFocus
           locale={es}
           captionLayout="dropdown"
           fromYear={1900}
-          toYear={new Date().getFullYear()}
+          toYear={new Date().getFullYear() + 100}
         />
       </PopoverContent>
       {/* Hidden input to keep ref compatibility if any parent form requires it */}

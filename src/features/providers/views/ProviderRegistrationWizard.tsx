@@ -106,8 +106,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
   const stepInfo = {
     1: {
       title: 'Datos de identificación del proveedor',
-      description:
-        'Ingresa los datos básicos para generar una demostración del manual de concurso abierto. Lo recibirás en tu correo en pocos minutos.',
+      description: 'Datos de identificación del proveedor',
     },
     2: {
       title: 'Requisitos Legales',

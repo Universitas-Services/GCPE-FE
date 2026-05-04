@@ -48,7 +48,7 @@ import { IoIosJournal } from 'react-icons/io';
 import {
   IoNewspaperOutline,
   IoEarthOutline,
-  IoSearchSharp,
+  IoDocumentTextOutline,
 } from 'react-icons/io5';
 import { LiaRobotSolid } from 'react-icons/lia';
 import { AiOutlineBook } from 'react-icons/ai';
@@ -260,7 +260,7 @@ export function Sidebar({ className }: SidebarProps) {
         },
         {
           label: 'Compliance de Expediente de selección de Contratista',
-          icon: IoSearchSharp,
+          icon: IoDocumentTextOutline,
           href: '/dashboard/compliance',
           active: pathname.startsWith('/dashboard/compliance'),
         },
@@ -636,7 +636,7 @@ export function MobileSidebar() {
         },
         {
           label: 'Compliance de Expediente de selección de Contratista',
-          icon: IoSearchSharp,
+          icon: IoDocumentTextOutline,
           href: '/dashboard/compliance',
           active: pathname.startsWith('/dashboard/compliance'),
         },

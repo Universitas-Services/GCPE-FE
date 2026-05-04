@@ -10,7 +10,7 @@ const EVALUATION_QUALIFICATION_QUESTIONS = [
     id: 10,
     question: '¿El expediente de contrataciones incluyó las ofertas?',
     citation:
-      'Artículos 19, 20 LCP; 32.8 RLCP; 31, 32 LOPA; 6 LCC; 38.5.91.1.9.29 LOCGR; 34 (2) NORMAS DE CONTROL INTERNO SUNAI..',
+      'Artículos 19, 20 LCP; 32.8 RLCP; 31, 32 LOPA; 6 LCC; 38.5.91.1.9.29 LOCGR; 34 (2) NORMAS DE CONTROL INTERNO SUNAI.',
   },
   {
     id: 11,
