@@ -68,7 +68,9 @@ describe('ProviderRegistrationWizard', () => {
 
     // Verificamos Paso 1
     expect(
-      screen.getByText('Datos de identificación del proveedor')
+      screen.getByRole('heading', {
+        name: 'Datos de identificación del proveedor',
+      })
     ).toBeInTheDocument();
 
     // Verificamos de paso que renderiza StepIndicator
@@ -91,7 +93,9 @@ describe('ProviderRegistrationWizard', () => {
 
     // Validamos haber vuelto al Paso 1
     expect(
-      screen.getByText('Datos de identificación del proveedor')
+      screen.getByRole('heading', {
+        name: 'Datos de identificación del proveedor',
+      })
     ).toBeInTheDocument();
   });
 
