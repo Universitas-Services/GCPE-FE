@@ -1,0 +1,11 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
+  "rules": {
+    "eqeqeq": ["error", "always"],
+    "no-empty-function": "error",
+    "no-implicit-coercion": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-duplicate-enum-values": "warn",
+    "react/react-in-jsx-scope": "off"
+  }
+}

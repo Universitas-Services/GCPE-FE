@@ -50,3 +50,14 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Temp test/lint output files
+*.log
+test_report.json
+test_output*.json
+test_err*.json
+vitest_*.txt
+vitest_*.json
+eslint_*.json
+err*.txt
+lint_out.txt

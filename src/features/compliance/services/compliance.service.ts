@@ -1,0 +1,102 @@
+import { format } from 'date-fns';
+import { GeneralData, ComplianceAnswers } from '../context/ComplianceContext';
+import { complianceFormSchema } from '../schemas/compliance.schema';
+import { fetchApi } from '@/lib/api-client';
+
+// Helper to map allowed values
+const mapAnswer = (answer: string | undefined): string => {
+  if (!answer) return 'NA';
+  if (answer === 'NO_APLICA') return 'NA';
+  return answer;
+};
+
+export const complianceService = {
+  async submitComplianceForm(
+    generalData: GeneralData,
+    answers: ComplianceAnswers
+  ) {
+    // Map context data to payload structure
+    const payload = {
+      // General Data
+      nombre_organo_entidad: generalData.entityName || 'NA',
+      nombre_unidad_revisora: generalData.unitName || 'NA',
+      nomenclatura: generalData.documentCode || 'NA',
+      fecha_revision: generalData.reviewDate
+        ? format(new Date(generalData.reviewDate), 'yyyy-MM-dd')
+        : format(new Date(), 'yyyy-MM-dd'),
+      nombre_completo_revisor: generalData.reviewerName || 'NA',
+      persona_contacto: generalData.email || 'NA',
+
+      // Page 2
+      caaue1_incluye_actividades_previas: mapAnswer(answers[1]),
+      caaue2_incluye_acta_inicio: mapAnswer(answers[2]),
+      caaue3_incluye_pliego_condiciones: mapAnswer(answers[3]),
+      caaue4_publicacion_llamado_snc: mapAnswer(answers[4]),
+      caaue5_publicacion_llamado_ente: mapAnswer(answers[5]),
+      caaue6_incluye_registro_adquirientes: mapAnswer(answers[6]),
+      caaue7_incluye_modificaciones: mapAnswer(answers[7]),
+
+      // Page 3
+      caaue8_incluye_acta_recepcion_sobres: mapAnswer(answers[8]),
+      caaue9_incluye_acta_apertura_sobres: mapAnswer(answers[9]),
+
+      // Page 4
+      caaue10_incluye_ofertas: mapAnswer(answers[10]),
+      caaue11_incluye_garantias_sostenimiento: mapAnswer(answers[11]),
+      caaue12_incluye_certificado_rnc: mapAnswer(answers[12]),
+      caaue13_incluye_certificado_snc: mapAnswer(answers[13]),
+      caaue14_incluye_solvencias: mapAnswer(answers[14]),
+      caaue15_incluye_informe_recomendacion: mapAnswer(answers[15]),
+
+      // Page 5
+      caaue16_incluye_adjudicacion: mapAnswer(answers[16]),
+      caaue17_incluye_notificacion: mapAnswer(answers[17]),
+      caaue18_incluye_garantias_contratacion: mapAnswer(answers[18]),
+      caaue19_incluye_contrato_u_orden: mapAnswer(answers[19]),
+      caaue20_incluye_resp_social: mapAnswer(answers[20]),
+
+      // Page 6
+      caaue21_identificacion_nomenclatura: mapAnswer(answers[21]),
+      caaue22_expediente_foliado: mapAnswer(answers[22]),
+      caaue23_identificacion_tomos: mapAnswer(answers[23]),
+      caaue24_archivo_custodia: mapAnswer(answers[24]),
+    };
+
+    complianceFormSchema.parse(payload);
+
+    const response = await fetchApi('/api/compliance/enviar-email', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const status = response.status;
+      const errorData = await response.json().catch(() => ({}));
+      console.error('Submission failed:', errorData);
+      throw new Error(
+        `[${status}] ${errorData.detail || 'Error al enviar el formulario'}`
+      );
+    }
+
+    return response.json();
+  },
+
+  async downloadPdf(id: number) {
+    const response = await fetchApi(`/api/compliance/${id}/pdf`);
+
+    if (!response.ok) {
+      const status = response.status;
+      throw new Error(`[${status}] PDF: Error al descargar el PDF`);
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `compliance_report_${id}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  },
+};
