@@ -209,9 +209,9 @@ export function DashboardHomeView() {
           </div>
         </div>
         {/* Lower Cards - PRO Modules & Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-1.5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
           {/* Elaboración de expedientes de contrataciones */}
-          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
+          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-2 bg-white">
             <div className="absolute top-0 right-0 w-20 h-20 bg-blue-50/50 rounded-bl-full -z-10 opacity-70"></div>
             <CardHeader className="p-0 mb-0.5">
               <div className="flex items-center gap-2 mb-1">
@@ -245,7 +245,7 @@ export function DashboardHomeView() {
           </Card>
 
           {/* Compliance detallado */}
-          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
+          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-2 bg-white">
             <div className="absolute top-0 right-0 w-20 h-20 bg-amber-50/50 rounded-bl-full -z-10 opacity-70"></div>
             <CardHeader className="p-0 mb-0.5">
               <div className="flex items-center gap-2 mb-1">
@@ -278,7 +278,7 @@ export function DashboardHomeView() {
           </Card>
 
           {/* Gestión de proveedores */}
-          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
+          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-2 bg-white">
             <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-50/50 rounded-bl-full -z-10 opacity-70"></div>
             <CardHeader className="p-0 mb-0.5">
               <div className="flex items-center gap-2 mb-1">
