@@ -88,9 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           data.code === 'authentication_failed' &&
           data.detail === 'No active account found with the given credentials'
         ) {
-          throw new Error(
-            'No se encontró ninguna cuenta activa con las credenciales proporcionadas.'
-          );
+          throw new Error('Credenciales inválidas.');
         }
         throw new Error(data.detail || 'Error al iniciar sesión');
       }

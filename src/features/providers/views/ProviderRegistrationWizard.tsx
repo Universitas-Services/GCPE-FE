@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { FormHeader } from '@/components/shared/FormHeader';
@@ -71,6 +73,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
         error?.message ||
         error?.detail ||
         'Error al registrar el proveedor. Por favor intente nuevamente.';
+
       setErrorTitle('Error');
       setErrorMessage(
         typeof errorMsg === 'string'
@@ -118,7 +121,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
         'Información sobre la experiencia y solidez financiera de la empresa.',
     },
     4: {
-      title: 'Finalizar Registro',
+      title: 'Finalizar registro',
       description: 'Revisa y confirma la información antes de guardar.',
     },
   };

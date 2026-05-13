@@ -26,9 +26,17 @@ export async function fetchApi(
 
   // La petición se hace RELATIVA al dominio actual de Next.js.
   // Es decir, 'fetch(/api/proveedores)' impactará en nuestro interceptor [...proxy]/route.ts
-  return fetch(endpoint, {
+  const response = await fetch(endpoint, {
     cache: 'no-store',
     ...options,
     headers,
   });
+
+  if (response.status === 401) {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('session-expired'));
+    }
+  }
+
+  return response;
 }

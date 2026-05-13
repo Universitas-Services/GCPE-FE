@@ -2,7 +2,7 @@ import { RegisterView } from '@/features/auth/views/RegisterView';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Registro - Sistema Integrado de Selección de Contratista',
+  title: 'Registro',
   description:
     'Crea tu cuenta en el Sistema Integrado de Selección de Contratista',
 };

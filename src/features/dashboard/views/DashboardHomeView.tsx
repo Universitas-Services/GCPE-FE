@@ -108,14 +108,17 @@ export function DashboardHomeView() {
                     <Book className="w-4 h-4 text-[#005496]" />
                   </div>
                   <CardTitle className="dashboard-card-title text-[#005282]">
-                    Manual Express
+                    Manual de procedimientos express
                   </CardTitle>
                 </div>
                 <CardDescription className="form-label-ejemplo">
-                  Genera al instante tu demo de manual para concursos abiertos
-                  de bienes (Acto Único / Apertura Única).
+                  Genera al instante una versión demostrativa del manual de
+                  procedimientos de contrataciones públicas de concursos
+                  abiertos para el suministro de bienes (acto único, apertura
+                  única).{' '}
                   <span className="form-label-ejemplo">
-                    Simplifica tu proceso de contratación desde el primer paso.
+                    Simplifica los procedimientos de contrataciones públicas
+                    desde el primer paso.
                   </span>
                 </CardDescription>
               </CardHeader>
@@ -215,7 +218,7 @@ export function DashboardHomeView() {
                   <Users className="w-3.5 h-3.5 text-[#00C853]" />
                 </div>
                 <CardTitle className="dashboard-card-title text-[#005282]">
-                  Proveedores registrados
+                  Gestión de proveedores
                 </CardTitle>
               </div>
               <CardDescription className="form-label-ejemplo">
@@ -247,14 +250,14 @@ export function DashboardHomeView() {
                   <FileCheck className="w-3.5 h-3.5 text-[#FFC107]" />
                 </div>
                 <CardTitle className="dashboard-card-title text-[#005282]">
-                  Compliance realizado
+                  Compliance detallado
                 </CardTitle>
               </div>
               <CardDescription className="form-label-ejemplo">
-                ¿Deseas revisar a detalle el contenido de cada acta de tu
-                expediente y conocer tu porcentaje exacto de cumplimiento? Obtén
-                análisis profundos y métricas de gestión con nuestra herramienta
-                avanzada.
+                ¿Deseas revisar a detalle el contenido de cada acto y documento
+                de tus expedientes de contrataciones y conocer el porcentaje
+                exacto de cumplimiento? Obtén análisis profundos y métricas de
+                gestión con nuestra herramienta avanzada.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
@@ -283,10 +286,11 @@ export function DashboardHomeView() {
                 </CardTitle>
               </div>
               <CardDescription className="form-label-ejemplo">
-                Automatiza tus procesos de selección de contratista. Genera los
-                documentos que sustentan tu expediente de contratación pública,
-                garantizando el cumplimiento automático de la Ley de
-                Contrataciones Públicas.
+                Automatiza tus procesos de selección de contratistas. Genera los
+                documentos que conforman los expedientes de contrataciones
+                públicas, garantizando el cumplimiento normativo de la
+                legislación vigente en materia de contrataciones públicas y
+                control fiscal.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">

@@ -66,12 +66,12 @@ function ComplianceContent() {
     setIsSubmitting(true);
 
     // 1. Mostrar toast inicial de procesamiento y navegación al inicio
-    toast.success('¡Solicitud de envío exitoso!', {
+    toast.success('¡Reporte generado!', {
       description: (
         <span className="text-slate-800 font-medium">
-          Tu reporte de compliance se esta generando y enviando al correo
-          electrónico establecido exitosamente, redireccionando al inicio en 4
-          segundos.
+          Tu reporte de compliance se ha generado y enviado a tu correo
+          electrónico indicado de forma exitosa. Serás redireccionado a la
+          página de inicio en 4 segundos.
         </span>
       ),
       position: 'top-center',

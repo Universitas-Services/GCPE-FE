@@ -1,5 +1,10 @@
+import type { Metadata } from 'next';
 import { ManualForm } from '@/features/manual/views/ManualForm';
 import { FormHeader } from '@/components/shared/FormHeader';
+
+export const metadata: Metadata = {
+  title: 'Manual',
+};
 
 export default function ManualPage() {
   return (

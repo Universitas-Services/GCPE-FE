@@ -226,7 +226,7 @@ export function Sidebar({ className }: SidebarProps) {
           active: pathname === '/dashboard',
         },
         {
-          label: 'Manual',
+          label: 'Manual de procedimientos',
           icon: BookOpenIcon,
           href: '/dashboard/manual',
           active: pathname.startsWith('/dashboard/manual'),
@@ -267,7 +267,7 @@ export function Sidebar({ className }: SidebarProps) {
       ],
     },
     {
-      title: 'Otros Servicios',
+      title: 'Otros servicios',
       items: [
         {
           label: 'Consultor IA',
@@ -288,7 +288,7 @@ export function Sidebar({ className }: SidebarProps) {
           active: pathname.startsWith('/dashboard/repositorio-legal'),
         },
         {
-          label: 'Preguntas Frecuentes',
+          label: 'Preguntas frecuentes',
           icon: BsQuestionCircle,
           href: '/dashboard/preguntas-frecuentes',
           active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
@@ -664,7 +664,7 @@ export function MobileSidebar() {
           active: pathname.startsWith('/dashboard/repositorio-legal'),
         },
         {
-          label: 'Preguntas Frecuentes',
+          label: 'Preguntas frecuentes',
           icon: BsQuestionCircle,
           href: '/dashboard/preguntas-frecuentes',
           active: pathname.startsWith('/dashboard/preguntas-frecuentes'),

@@ -28,8 +28,9 @@ export function ManualForm() {
     setIsSubmitting(true);
     toast.info(
       <span className="text-slate-800 font-medium">
-        Estamos elaborando su manual, en breves minutos estará disponible en su
-        correo electrónico, redireccionando al dashboard en 4 segundos...
+        Estamos elaborando tu manual. En breve podrás descargarlo desde tu
+        correo electrónico. Serás redireccionado a la página de inicio en 4
+        segundos.
       </span>,
       { position: 'top-center', duration: 4000 }
     );
@@ -39,8 +40,7 @@ export function ManualForm() {
       .then(() => {
         toast.success(
           <span className="text-slate-800 font-medium">
-            Su manual se ha elaborado y enviado correctamente a su correo
-            electrónico
+            Tu manual ha sido elaborado y enviado a tu correo electrónico.
           </span>,
           { position: 'top-center', duration: 6000 }
         );
@@ -66,8 +66,8 @@ export function ManualForm() {
     <div className="w-full h-full flex flex-col overflow-hidden">
       <div className="shrink-0 p-2 md:p-4 pb-1 md:pb-2 border-b border-gray-100 bg-white z-10">
         <FormHeader
-          title="Elabora tu manual express"
-          description="Ingresa los datos básicos para generar una demostración del manual de contrataciones públicas en la modalidad de concurso abierto. Lo recibirás en tu correo en pocos minutos."
+          title="Elabora tu manual de procedimientos de contrataciones públicas"
+          description="Ingresa los datos básicos para generar una demostración del manual de  procedimientos de contrataciones públicas en la modalidad de concurso abierto para el suministro de bienes. Lo recibirás en tu correo en pocos minutos."
           className="mb-0"
         />
       </div>
