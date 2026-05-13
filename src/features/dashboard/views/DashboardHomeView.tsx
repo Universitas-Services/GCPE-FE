@@ -181,7 +181,7 @@ export function DashboardHomeView() {
                     <ShieldCheck className="w-4 h-4 text-[#FFC107]" />
                   </div>
                   <CardTitle className="dashboard-card-title text-[#005282]">
-                    Compliance de expediente
+                    Compliance express
                   </CardTitle>
                 </div>
                 <CardDescription className="form-label-ejemplo">
@@ -210,22 +210,24 @@ export function DashboardHomeView() {
         </div>
         {/* Lower Cards - PRO Modules & Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-1.5">
+          {/* Elaboración de expedientes de contrataciones */}
           <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-50/50 rounded-bl-full -z-10 opacity-70"></div>
+            <div className="absolute top-0 right-0 w-20 h-20 bg-blue-50/50 rounded-bl-full -z-10 opacity-70"></div>
             <CardHeader className="p-0 mb-0.5">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-7 h-7 rounded-md bg-emerald-50 flex items-center justify-center shrink-0">
-                  <Users className="w-3.5 h-3.5 text-[#00C853]" />
+                <div className="w-7 h-7 rounded-md bg-blue-50 flex items-center justify-center shrink-0">
+                  <FileText className="w-3.5 h-3.5 text-[#005496]" />
                 </div>
                 <CardTitle className="dashboard-card-title text-[#005282]">
-                  Gestión de proveedores
+                  Elaboración de expedientes de contrataciones
                 </CardTitle>
               </div>
               <CardDescription className="form-label-ejemplo">
-                Lleva el control total de tus proveedores: gestiona su
-                información documental, emite certificados de registro y asegura
-                la actualización anual en cumplimiento con las Normas de Control
-                Interno de la SUNAI .
+                Automatiza tus procesos de selección de contratistas. Genera los
+                documentos que conforman los expedientes de contrataciones
+                públicas, garantizando el cumplimiento normativo de la
+                legislación vigente en materia de contrataciones públicas y
+                control fiscal.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
@@ -242,6 +244,7 @@ export function DashboardHomeView() {
             </CardContent>
           </Card>
 
+          {/* Compliance detallado */}
           <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
             <div className="absolute top-0 right-0 w-20 h-20 bg-amber-50/50 rounded-bl-full -z-10 opacity-70"></div>
             <CardHeader className="p-0 mb-0.5">
@@ -274,23 +277,23 @@ export function DashboardHomeView() {
             </CardContent>
           </Card>
 
+          {/* Gestión de proveedores */}
           <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-blue-50/50 rounded-bl-full -z-10 opacity-70"></div>
+            <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-50/50 rounded-bl-full -z-10 opacity-70"></div>
             <CardHeader className="p-0 mb-0.5">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-7 h-7 rounded-md bg-blue-50 flex items-center justify-center shrink-0">
-                  <FileText className="w-3.5 h-3.5 text-[#005496]" />
+                <div className="w-7 h-7 rounded-md bg-emerald-50 flex items-center justify-center shrink-0">
+                  <Users className="w-3.5 h-3.5 text-[#00C853]" />
                 </div>
                 <CardTitle className="dashboard-card-title text-[#005282]">
-                  Elaboración de expedientes de contrataciones
+                  Gestión de proveedores
                 </CardTitle>
               </div>
               <CardDescription className="form-label-ejemplo">
-                Automatiza tus procesos de selección de contratistas. Genera los
-                documentos que conforman los expedientes de contrataciones
-                públicas, garantizando el cumplimiento normativo de la
-                legislación vigente en materia de contrataciones públicas y
-                control fiscal.
+                Lleva el control total de tus proveedores: gestiona su
+                información documental, emite certificados de registro y asegura
+                la actualización anual en cumplimiento con las Normas de Control
+                Interno de la SUNAI .
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
