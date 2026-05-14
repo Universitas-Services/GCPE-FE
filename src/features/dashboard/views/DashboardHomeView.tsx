@@ -67,9 +67,9 @@ export function DashboardHomeView() {
   return (
     <div className="flex flex-col flex-1 gap-1 lg:gap-1.5 max-w-7xl mx-auto w-full h-full">
       {/* All content */}
-      <div className="shrink-0 flex flex-col gap-1.5">
+      <div className="shrink-0 flex flex-col gap-4">
         {/* Header / Greeting */}
-        <div className="flex flex-col shrink-0">
+        <div className="flex flex-col shrink-0 gap-2">
           {isLoading ? (
             <Skeleton className="h-8 w-64 mb-1" />
           ) : (
@@ -123,10 +123,7 @@ export function DashboardHomeView() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
-                <Link
-                  href="/dashboard/manual"
-                  className="z-10 flex justify-center"
-                >
+                <Link href="/manual" className="z-10 flex justify-center">
                   <Button
                     variant="secondary"
                     size="sm"
@@ -157,7 +154,7 @@ export function DashboardHomeView() {
               </CardHeader>
               <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
                 <Link
-                  href="/dashboard/proveedores/registro"
+                  href="/proveedores/registro"
                   className="z-10 flex justify-center"
                 >
                   <Button
@@ -191,10 +188,7 @@ export function DashboardHomeView() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
-                <Link
-                  href="/dashboard/compliance"
-                  className="z-10 flex justify-center"
-                >
+                <Link href="/compliance" className="z-10 flex justify-center">
                   <Button
                     variant="secondary"
                     size="sm"
@@ -231,7 +225,7 @@ export function DashboardHomeView() {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
-              <Link href="/dashboard/pro" className="z-10 flex justify-center">
+              <Link href="/pro" className="z-10 flex justify-center">
                 <Button
                   variant="secondary"
                   size="sm"
@@ -264,7 +258,7 @@ export function DashboardHomeView() {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
-              <Link href="/dashboard/pro" className="z-10 flex justify-center">
+              <Link href="/pro" className="z-10 flex justify-center">
                 <Button
                   variant="secondary"
                   size="sm"
@@ -297,7 +291,7 @@ export function DashboardHomeView() {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
-              <Link href="/dashboard/pro" className="z-10 flex justify-center">
+              <Link href="/pro" className="z-10 flex justify-center">
                 <Button
                   variant="secondary"
                   size="sm"
@@ -333,10 +327,7 @@ export function DashboardHomeView() {
             </div>
           </div>
 
-          <Link
-            href="/dashboard/pro"
-            className="z-10 w-full md:w-auto mt-2 md:mt-0"
-          >
+          <Link href="/pro" className="z-10 w-full md:w-auto mt-2 md:mt-0">
             <Button
               variant="secondary"
               size="sm"

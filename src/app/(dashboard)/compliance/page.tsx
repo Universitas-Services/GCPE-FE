@@ -80,7 +80,7 @@ function ComplianceContent() {
 
     // 2. Redireccionar al inicio tras 4 segundos
     setTimeout(() => {
-      router.push('/dashboard');
+      router.push('/inicio');
     }, 4000);
 
     // 3. Ejecutar envío de formulario en background

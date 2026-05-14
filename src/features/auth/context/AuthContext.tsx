@@ -122,7 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (userToStore.is_staff && userToStore.is_superuser) {
         window.location.href = '/admin/dashboard';
       } else {
-        router.replace('/dashboard');
+        router.replace('/inicio');
       }
     } catch (error) {
       console.error(error);

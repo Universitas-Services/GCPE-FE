@@ -59,7 +59,7 @@ export function ManualForm() {
     // Redirigir al dashboard independientemente del estado del envío
     setTimeout(() => {
       setIsSubmitting(false);
-      router.push('/dashboard');
+      router.push('/inicio');
     }, 4000);
   };
   return (

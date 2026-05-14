@@ -67,7 +67,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         setIsVerifying(false);
 
         if (!hasAdminRole) {
-          router.replace('/dashboard');
+          router.replace('/inicio');
         }
       } catch {
         console.error('Error verificando permisos de admin');

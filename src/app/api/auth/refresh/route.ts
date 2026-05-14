@@ -5,7 +5,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  const callbackUrl = searchParams.get('callbackUrl') || '/inicio';
 
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get('refreshToken')?.value;

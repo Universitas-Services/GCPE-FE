@@ -88,7 +88,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
 
   const handleViewProviders = () => {
     setShowSuccessModal(false);
-    router.push('/dashboard/proveedores/lista');
+    router.push('/proveedores/lista');
   };
 
   const renderStep = () => {

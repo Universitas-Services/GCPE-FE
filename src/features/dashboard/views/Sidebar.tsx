@@ -150,10 +150,10 @@ function UserNav() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/pro">Actualizar a cuenta pro</Link>
+          <Link href="/pro">Actualizar a cuenta pro</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/profile">Gestión de perfil</Link>
+          <Link href="/profile">Gestión de perfil</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -194,9 +194,7 @@ interface SidebarRouteGroup {
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const { isSidebarCollapsed, toggleSidebar } = useDashboard();
-  const [openMenus, setOpenMenus] = useState<string[]>([
-    '/dashboard/proveedores',
-  ]);
+  const [openMenus, setOpenMenus] = useState<string[]>(['/proveedores']);
   const [isProModalOpen, setIsProModalOpen] = useState(false);
   const mounted = useMounted();
 
@@ -222,47 +220,47 @@ export function Sidebar({ className }: SidebarProps) {
         {
           label: 'Inicio',
           icon: IoIosJournal,
-          href: '/dashboard',
-          active: pathname === '/dashboard',
+          href: '/inicio',
+          active: pathname === '/inicio',
         },
         {
           label: 'Manual de procedimientos',
           icon: BookOpenIcon,
-          href: '/dashboard/manual',
-          active: pathname.startsWith('/dashboard/manual'),
+          href: '/manual',
+          active: pathname.startsWith('/manual'),
         },
         {
           label: 'Registro de proveedores',
           icon: IoNewspaperOutline,
-          href: '/dashboard/proveedores',
-          active: pathname.startsWith('/dashboard/proveedores'),
+          href: '/proveedores',
+          active: pathname.startsWith('/proveedores'),
           hasDropdown: true,
           children: [
             {
               label: 'Registrar nuevo proveedor',
-              href: '/dashboard/proveedores/registro',
-              active: pathname === '/dashboard/proveedores/registro',
+              href: '/proveedores/registro',
+              active: pathname === '/proveedores/registro',
             },
             {
               label: 'Ver proveedores registrados',
-              href: '/dashboard/proveedores/lista',
-              active: pathname === '/dashboard/proveedores/lista',
+              href: '/proveedores/lista',
+              active: pathname === '/proveedores/lista',
             },
           ],
         },
         {
           label: 'Elaboración de Expediente de selección de Contratista',
           icon: PencilSquareIcon,
-          href: '/dashboard/elaboracion',
-          active: pathname.startsWith('/dashboard/elaboracion'),
+          href: '/elaboracion',
+          active: pathname.startsWith('/elaboracion'),
           isProFeature: true,
           onClick: () => setIsProModalOpen(true),
         },
         {
           label: 'Compliance de Expediente de selección de Contratista',
           icon: IoDocumentTextOutline,
-          href: '/dashboard/compliance',
-          active: pathname.startsWith('/dashboard/compliance'),
+          href: '/compliance',
+          active: pathname.startsWith('/compliance'),
         },
       ],
     },
@@ -272,32 +270,32 @@ export function Sidebar({ className }: SidebarProps) {
         {
           label: 'Consultor IA',
           icon: LiaRobotSolid,
-          href: '/dashboard/consultor-ia',
-          active: pathname.startsWith('/dashboard/consultor-ia'),
+          href: '/consultor-ia',
+          active: pathname.startsWith('/consultor-ia'),
         },
         {
           label: 'Conócenos',
           icon: IoEarthOutline,
-          href: '/dashboard/conocenos',
-          active: pathname.startsWith('/dashboard/conocenos'),
+          href: '/conocenos',
+          active: pathname.startsWith('/conocenos'),
         },
         {
           label: 'Repositorio legal',
           icon: AiOutlineBook,
-          href: '/dashboard/repositorio-legal',
-          active: pathname.startsWith('/dashboard/repositorio-legal'),
+          href: '/repositorio-legal',
+          active: pathname.startsWith('/repositorio-legal'),
         },
         {
           label: 'Preguntas frecuentes',
           icon: BsQuestionCircle,
-          href: '/dashboard/preguntas-frecuentes',
-          active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
+          href: '/preguntas-frecuentes',
+          active: pathname.startsWith('/preguntas-frecuentes'),
         },
         {
           label: 'Acerca de',
           icon: InfoIcon,
-          href: '/dashboard/acerca-de',
-          active: pathname.startsWith('/dashboard/acerca-de'),
+          href: '/acerca-de',
+          active: pathname.startsWith('/acerca-de'),
         },
       ],
     },
@@ -577,9 +575,7 @@ export function Sidebar({ className }: SidebarProps) {
 
 export function MobileSidebar() {
   const pathname = usePathname();
-  const [openMenus, setOpenMenus] = useState<string[]>([
-    '/dashboard/proveedores',
-  ]);
+  const [openMenus, setOpenMenus] = useState<string[]>(['/proveedores']);
   const [isProModalOpen, setIsProModalOpen] = useState(false);
   const mounted = useMounted();
 
@@ -598,47 +594,47 @@ export function MobileSidebar() {
         {
           label: 'Dashboard',
           icon: IoIosJournal,
-          href: '/dashboard',
-          active: pathname === '/dashboard',
+          href: '/inicio',
+          active: pathname === '/inicio',
         },
         {
           label: 'Manual',
           icon: BookOpenIcon,
-          href: '/dashboard/manual',
-          active: pathname.startsWith('/dashboard/manual'),
+          href: '/manual',
+          active: pathname.startsWith('/manual'),
         },
         {
           label: 'Registro de proveedores',
           icon: IoNewspaperOutline,
-          href: '/dashboard/proveedores',
-          active: pathname.startsWith('/dashboard/proveedores'),
+          href: '/proveedores',
+          active: pathname.startsWith('/proveedores'),
           hasDropdown: true,
           children: [
             {
               label: 'Registro',
-              href: '/dashboard/proveedores/registro',
-              active: pathname === '/dashboard/proveedores/registro',
+              href: '/proveedores/registro',
+              active: pathname === '/proveedores/registro',
             },
             {
               label: 'Listar proveedores',
-              href: '/dashboard/proveedores/lista',
-              active: pathname === '/dashboard/proveedores/lista',
+              href: '/proveedores/lista',
+              active: pathname === '/proveedores/lista',
             },
           ],
         },
         {
           label: 'Elaboración de Expediente de selección de Contratista',
           icon: PencilSquareIcon,
-          href: '/dashboard/elaboracion',
-          active: pathname.startsWith('/dashboard/elaboracion'),
+          href: '/elaboracion',
+          active: pathname.startsWith('/elaboracion'),
           isProFeature: true,
           onClick: () => setIsProModalOpen(true),
         },
         {
           label: 'Compliance de Expediente de selección de Contratista',
           icon: IoDocumentTextOutline,
-          href: '/dashboard/compliance',
-          active: pathname.startsWith('/dashboard/compliance'),
+          href: '/compliance',
+          active: pathname.startsWith('/compliance'),
         },
       ],
     },
@@ -648,32 +644,32 @@ export function MobileSidebar() {
         {
           label: 'Consultor IA',
           icon: LiaRobotSolid,
-          href: '/dashboard/consultor-ia',
-          active: pathname.startsWith('/dashboard/consultor-ia'),
+          href: '/consultor-ia',
+          active: pathname.startsWith('/consultor-ia'),
         },
         {
           label: 'Conocenos',
           icon: IoEarthOutline,
-          href: '/dashboard/conocenos',
-          active: pathname.startsWith('/dashboard/conocenos'),
+          href: '/conocenos',
+          active: pathname.startsWith('/conocenos'),
         },
         {
           label: 'Repositorio legal',
           icon: AiOutlineBook,
-          href: '/dashboard/repositorio-legal',
-          active: pathname.startsWith('/dashboard/repositorio-legal'),
+          href: '/repositorio-legal',
+          active: pathname.startsWith('/repositorio-legal'),
         },
         {
           label: 'Preguntas frecuentes',
           icon: BsQuestionCircle,
-          href: '/dashboard/preguntas-frecuentes',
-          active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
+          href: '/preguntas-frecuentes',
+          active: pathname.startsWith('/preguntas-frecuentes'),
         },
         {
           label: 'Acerca de',
           icon: InfoIcon,
-          href: '/dashboard/acerca-de',
-          active: pathname.startsWith('/dashboard/acerca-de'),
+          href: '/acerca-de',
+          active: pathname.startsWith('/acerca-de'),
         },
       ],
     },
