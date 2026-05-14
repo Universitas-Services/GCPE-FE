@@ -383,6 +383,16 @@ export function DashboardHomeView() {
             <Youtube className="w-5 h-5" />
           </Link>
         </div>
+
+        {/* Copyright */}
+        <div className="px-3 pb-2 pt-1 text-center">
+          <p
+            className="text-[7px] font-bold text-[#727272] leading-tight"
+            style={{ fontFamily: 'Inter, sans-serif' }}
+          >
+            Copyright © 2026 Universitas Services | GESTOR CONTRATACIONES
+          </p>
+        </div>
       </div>
 
       {profile && (

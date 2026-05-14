@@ -112,7 +112,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
       description: 'Datos de identificación del proveedor',
     },
     2: {
-      title: 'Requisitos Legales',
+      title: 'Requisitos legales',
       description: 'Documentación obligatoria para el registro en el sistema.',
     },
     3: {
