@@ -26,7 +26,7 @@ import {
   UserProfileResponse,
 } from '@/features/dashboard/services/user.service';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
@@ -535,16 +535,16 @@ export function Sidebar({ className }: SidebarProps) {
             )}
           </div>
 
-          <ScrollArea
+          <div
             className={cn(
               'flex-1 px-3 mt-0 w-full h-[calc(100vh-140px)]',
               isSidebarCollapsed
-                ? 'overflow-hidden [&>div]:!overflow-hidden [&::-webkit-scrollbar]:!hidden [-ms-overflow-style:!none] [scrollbar-width:!none]'
-                : 'overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'
+                ? 'overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'
+                : 'overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-300'
             )}
           >
             {routeGroups.map((group) => renderRouteItems(group))}
-          </ScrollArea>
+          </div>
 
           {/* User Navbar */}
           <div className="px-3 mt-auto mb-2 border-t border-gray-100 pt-4 bg-white">
@@ -701,7 +701,7 @@ export function MobileSidebar() {
                 </h2>
               </div>
 
-              <ScrollArea className="flex-1 px-4 overflow-y-auto w-full h-[calc(100vh-160px)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              <div className="flex-1 px-4 w-full h-[calc(100vh-160px)] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-300">
                 {routeGroups.map((group: SidebarRouteGroup) => (
                   <div key={group.title} className="mb-4">
                     <h3 className="px-4 text-[13px] font-medium text-gray-500 mb-2 tracking-wide">
@@ -805,7 +805,7 @@ export function MobileSidebar() {
                     </div>
                   </div>
                 ))}
-              </ScrollArea>
+              </div>
 
               <div className="px-4 mt-auto border-t pt-4 mb-4">
                 <UserNav />
