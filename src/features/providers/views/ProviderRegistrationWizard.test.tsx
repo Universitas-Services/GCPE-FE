@@ -83,7 +83,7 @@ describe('ProviderRegistrationWizard', () => {
     });
 
     // Validamos haber saltado al Paso 2
-    expect(screen.getByText('Requisitos Legales')).toBeInTheDocument();
+    expect(screen.getByText(/requisitos legales/i)).toBeInTheDocument();
 
     const btnPrev = screen.getByRole('button', { name: /anterior/i });
 
@@ -128,7 +128,7 @@ describe('ProviderRegistrationWizard', () => {
         )
     );
 
-    expect(screen.getByText('Finalizar Registro')).toBeInTheDocument();
+    expect(screen.getByText(/finalizar registro/i)).toBeInTheDocument();
 
     const btnFinish = screen.getByRole('button', { name: /finalizar/i });
 
