@@ -73,6 +73,7 @@ export const adminUsersService = {
     if (params?.ordering) query.set('ordering', params.ordering);
     if (params?.page) query.set('page', String(params.page));
     if (params?.page_size) query.set('page_size', String(params.page_size));
+    if (params?.is_active) query.set('is_active', params.is_active);
 
     const qs = query.toString();
     const url = `/api/usuarios${qs ? `?${qs}` : ''}`;
@@ -361,6 +362,28 @@ export const adminUsersService = {
 
     if (!response.ok) {
       await handleApiError(response, 'Error al eliminar la nota');
+    }
+  },
+
+  // ── Eliminar usuario (desactivar) ───────────────────────────────────
+  async deleteUser(userId: number): Promise<void> {
+    const response = await fetchApi(`/api/usuarios/${userId}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      await handleApiError(response, 'Error al eliminar el usuario');
+    }
+  },
+
+  // ── Activar usuario ─────────────────────────────────────────────────
+  async activateUser(userId: number): Promise<void> {
+    const response = await fetchApi(`/api/usuarios/${userId}/activar`, {
+      method: 'PUT',
+    });
+
+    if (!response.ok) {
+      await handleApiError(response, 'Error al activar el usuario');
     }
   },
 };
