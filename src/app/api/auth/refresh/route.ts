@@ -37,13 +37,13 @@ export async function GET(request: Request) {
 
       response.cookies.set('accessToken', data.access, {
         ...cookieOptions,
-        maxAge: 60 * 15,
+        maxAge: 60 * 60, // 1 hora
       });
 
       if (data.refresh) {
         response.cookies.set('refreshToken', data.refresh, {
           ...cookieOptions,
-          maxAge: 60 * 60 * 24,
+          maxAge: 60 * 60 * 24 * 7, // 7 días
         });
       }
 

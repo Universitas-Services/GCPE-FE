@@ -47,13 +47,13 @@ export async function POST(request: Request) {
 
     response.cookies.set('accessToken', data.access, {
       ...cookieOptions,
-      maxAge: 60 * 15, // 15 minutos (ajustar según tu JWT)
+      maxAge: 60 * 60, // 1 hora
     });
 
     if (data.refresh) {
       response.cookies.set('refreshToken', data.refresh, {
         ...cookieOptions,
-        maxAge: 60 * 60 * 24, // 1 día (ajustar según tu JWT)
+        maxAge: 60 * 60 * 24 * 7, // 7 días
       });
     }
 
