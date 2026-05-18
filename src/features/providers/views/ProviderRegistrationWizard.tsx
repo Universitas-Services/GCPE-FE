@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { FormHeader } from '@/components/shared/FormHeader';
@@ -71,6 +73,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
         error?.message ||
         error?.detail ||
         'Error al registrar el proveedor. Por favor intente nuevamente.';
+
       setErrorTitle('Error');
       setErrorMessage(
         typeof errorMsg === 'string'
@@ -85,7 +88,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
 
   const handleViewProviders = () => {
     setShowSuccessModal(false);
-    router.push('/dashboard/proveedores/lista');
+    router.push('/proveedores/lista');
   };
 
   const renderStep = () => {
@@ -109,7 +112,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
       description: 'Datos de identificación del proveedor',
     },
     2: {
-      title: 'Requisitos Legales',
+      title: 'Requisitos legales',
       description: 'Documentación obligatoria para el registro en el sistema.',
     },
     3: {
@@ -118,7 +121,7 @@ export const ProviderRegistrationWizard: React.FC = () => {
         'Información sobre la experiencia y solidez financiera de la empresa.',
     },
     4: {
-      title: 'Finalizar Registro',
+      title: 'Finalizar registro',
       description: 'Revisa y confirma la información antes de guardar.',
     },
   };

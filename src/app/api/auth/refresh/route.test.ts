@@ -74,7 +74,7 @@ describe('Refresh Route Handler', () => {
     } as Response);
 
     const req = createMockRequest(
-      'http://localhost/api/auth/refresh?callbackUrl=/dashboard'
+      'http://localhost/api/auth/refresh?callbackUrl=/inicio'
     );
     const res = (await GET(req)) as any;
 
@@ -88,8 +88,8 @@ describe('Refresh Route Handler', () => {
 
     expect(NextResponse.redirect).toHaveBeenCalledWith(
       new URL(
-        '/dashboard',
-        'http://localhost/api/auth/refresh?callbackUrl=/dashboard'
+        '/inicio',
+        'http://localhost/api/auth/refresh?callbackUrl=/inicio'
       )
     );
 
@@ -141,15 +141,12 @@ describe('Refresh Route Handler', () => {
     } as Response);
 
     const req = createMockRequest(
-      'http://localhost/api/auth/refresh?callbackUrl=/dashboard'
+      'http://localhost/api/auth/refresh?callbackUrl=/inicio'
     );
     const res = (await GET(req)) as any;
 
     expect(NextResponse.redirect).toHaveBeenCalledWith(
-      new URL(
-        '/login',
-        'http://localhost/api/auth/refresh?callbackUrl=/dashboard'
-      )
+      new URL('/login', 'http://localhost/api/auth/refresh?callbackUrl=/inicio')
     );
     expect(res.cookies.delete).toHaveBeenCalledTimes(2);
     expect(res.cookies.delete).toHaveBeenCalledWith('accessToken');
@@ -164,7 +161,7 @@ describe('Refresh Route Handler', () => {
     );
 
     const req = createMockRequest(
-      'http://localhost/api/auth/refresh?callbackUrl=/dashboard'
+      'http://localhost/api/auth/refresh?callbackUrl=/inicio'
     );
     const res = (await GET(req)) as any;
 
@@ -174,10 +171,7 @@ describe('Refresh Route Handler', () => {
     );
 
     expect(NextResponse.redirect).toHaveBeenCalledWith(
-      new URL(
-        '/login',
-        'http://localhost/api/auth/refresh?callbackUrl=/dashboard'
-      )
+      new URL('/login', 'http://localhost/api/auth/refresh?callbackUrl=/inicio')
     );
     expect(res.cookies.delete).toHaveBeenCalledTimes(2);
   });

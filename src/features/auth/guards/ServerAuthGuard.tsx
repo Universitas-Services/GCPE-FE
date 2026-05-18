@@ -19,7 +19,7 @@ export async function ServerAuthGuard({ children }: ServerAuthGuardProps) {
 
   if (result.needsRefresh) {
     const headerList = await headers();
-    const currentPath = headerList.get('x-invoke-path') || '/dashboard';
+    const currentPath = headerList.get('x-invoke-path') || '/inicio';
     redirect(
       `/api/auth/refresh?callbackUrl=${encodeURIComponent(currentPath)}`
     );

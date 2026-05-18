@@ -1,5 +1,10 @@
+import type { Metadata } from 'next';
 import { ConsultorIAView } from '@/features/consultor-ia';
 import { FormHeader } from '@/components/shared/FormHeader';
+
+export const metadata: Metadata = {
+  title: 'Consultor IA',
+};
 
 export default function ConsultorIAPage() {
   return (

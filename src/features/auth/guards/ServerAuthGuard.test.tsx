@@ -77,7 +77,7 @@ describe('ServerAuthGuard', () => {
     );
   });
 
-  it('should fallback to /dashboard callbackUrl if x-invoke-path header is missing', async () => {
+  it('should fallback to /inicio callbackUrl if x-invoke-path header is missing', async () => {
     vi.mocked(verifyServerSession).mockResolvedValue({
       valid: false,
       needsRefresh: true,
@@ -94,7 +94,7 @@ describe('ServerAuthGuard', () => {
     }
 
     expect(redirect).toHaveBeenCalledWith(
-      `/api/auth/refresh?callbackUrl=${encodeURIComponent('/dashboard')}`
+      `/api/auth/refresh?callbackUrl=${encodeURIComponent('/inicio')}`
     );
   });
 });

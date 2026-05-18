@@ -14,19 +14,13 @@ import type {
 
 /**
  * Helper para manejar errores de la API.
- * Si la respuesta es 401 (sesión expirada), redirige al login.
+ * El manejo de 401 (sesión expirada) se realiza de forma centralizada
+ * en fetchApi, que intenta refresh automático antes de fallar.
  */
 async function handleApiError(
   response: Response,
   fallbackMessage: string
 ): Promise<never> {
-  if (response.status === 401) {
-    if (typeof window !== 'undefined') {
-      window.location.href = '/login';
-    }
-    throw new Error('Sesión expirada. Redirigiendo al inicio de sesión...');
-  }
-
   const errorData = await response.json().catch(() => ({}));
   throw new Error(errorData.detail || fallbackMessage);
 }
@@ -79,6 +73,7 @@ export const adminUsersService = {
     if (params?.ordering) query.set('ordering', params.ordering);
     if (params?.page) query.set('page', String(params.page));
     if (params?.page_size) query.set('page_size', String(params.page_size));
+    if (params?.is_active) query.set('is_active', params.is_active);
 
     const qs = query.toString();
     const url = `/api/usuarios${qs ? `?${qs}` : ''}`;
@@ -367,6 +362,28 @@ export const adminUsersService = {
 
     if (!response.ok) {
       await handleApiError(response, 'Error al eliminar la nota');
+    }
+  },
+
+  // ── Eliminar usuario (desactivar) ───────────────────────────────────
+  async deleteUser(userId: number): Promise<void> {
+    const response = await fetchApi(`/api/usuarios/${userId}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      await handleApiError(response, 'Error al eliminar el usuario');
+    }
+  },
+
+  // ── Activar usuario ─────────────────────────────────────────────────
+  async activateUser(userId: number): Promise<void> {
+    const response = await fetchApi(`/api/usuarios/${userId}/activar`, {
+      method: 'PUT',
+    });
+
+    if (!response.ok) {
+      await handleApiError(response, 'Error al activar el usuario');
     }
   },
 };

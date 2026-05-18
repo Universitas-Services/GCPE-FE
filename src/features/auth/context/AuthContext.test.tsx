@@ -110,7 +110,7 @@ describe('AuthContext', () => {
     expect(authStorage.setUser).toHaveBeenCalledWith(expectedUser);
     expect(result.current.user).toEqual(expectedUser);
     expect(result.current.isAuthenticated).toBe(true);
-    expect(mockReplace).toHaveBeenCalledWith('/dashboard');
+    expect(mockReplace).toHaveBeenCalledWith('/inicio');
   });
 
   it('should handle login successfully with no user object in login response', async () => {
@@ -160,7 +160,7 @@ describe('AuthContext', () => {
     expect(authStorage.setUser).toHaveBeenCalledWith(expectedUser);
     expect(result.current.user).toEqual(expectedUser);
     expect(result.current.isAuthenticated).toBe(true);
-    expect(mockReplace).toHaveBeenCalledWith('/dashboard');
+    expect(mockReplace).toHaveBeenCalledWith('/inicio');
   });
 
   it('should throw error if login fetch fails', async () => {

@@ -16,7 +16,7 @@ const services = [
     title: 'Cursos Virtuales',
     description:
       'Eleva tu perfil profesional con Universitas Academy, la plataforma de formación en línea que te conecta con el conocimiento de vanguardia en derecho y administración pública.',
-    buttonText: 'Mas Información',
+    buttonText: 'Mas información',
     href: 'https://universitas.academy/',
     target: '_blank',
     rel: 'noopener noreferrer',

@@ -233,7 +233,14 @@ export function PersonalDataStep() {
                 href="#"
                 className="font-medium text-[#008CBA] hover:underline"
               >
-                Términos y condiciones y las Políticas de privacidad
+                Términos y condiciones{' '}
+              </a>
+              <a className="font-medium text-[gray]">y las{'  '}</a>
+              <a
+                href="#"
+                className="font-medium text-[#008CBA] hover:underline"
+              >
+                Políticas de privacidad
               </a>
             </div>
           </div>
@@ -256,7 +263,7 @@ export function PersonalDataStep() {
           disabled={isSubmitting}
           className="w-full bg-[#008CBA] hover:bg-[#007da6] text-white py-2 text-sm shadow-sm disabled:opacity-70"
         >
-          {isSubmitting ? 'Registrando...' : 'Registrarte'}
+          {isSubmitting ? 'Registrando...' : 'Regístrate'}
         </Button>
       </form>
 

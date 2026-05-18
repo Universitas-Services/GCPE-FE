@@ -1,5 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { changePasswordService } from './change-password.service';
+import { fetchApi } from '@/lib/api-client';
+
+vi.mock('@/lib/api-client', () => ({
+  fetchApi: vi.fn(),
+}));
+
+const mockFetchApi = vi.mocked(fetchApi);
 
 describe('changePasswordService', () => {
   beforeEach(() => {
@@ -13,14 +20,14 @@ describe('changePasswordService', () => {
   };
 
   describe('changePassword', () => {
-    it('should call fetch with correct payload on success', async () => {
-      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+    it('should call fetchApi with correct payload on success', async () => {
+      mockFetchApi.mockResolvedValue({
         ok: true,
       } as Response);
 
       await changePasswordService.changePassword(validData);
 
-      expect(fetchSpy).toHaveBeenCalledWith('/api/auth/change-password', {
+      expect(mockFetchApi).toHaveBeenCalledWith('/api/auth/change-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -32,7 +39,7 @@ describe('changePasswordService', () => {
     });
 
     it('should not throw when response is ok', async () => {
-      vi.spyOn(global, 'fetch').mockResolvedValue({ ok: true } as Response);
+      mockFetchApi.mockResolvedValue({ ok: true } as Response);
 
       await expect(
         changePasswordService.changePassword(validData)
@@ -40,7 +47,7 @@ describe('changePasswordService', () => {
     });
 
     it('should throw error with detail message when API returns detail', async () => {
-      vi.spyOn(global, 'fetch').mockResolvedValue({
+      mockFetchApi.mockResolvedValue({
         ok: false,
         json: async () => ({ detail: 'La contraseña actual es incorrecta' }),
       } as unknown as Response);
@@ -51,7 +58,7 @@ describe('changePasswordService', () => {
     });
 
     it('should throw concatenated field errors when API returns field validations', async () => {
-      vi.spyOn(global, 'fetch').mockResolvedValue({
+      mockFetchApi.mockResolvedValue({
         ok: false,
         json: async () => ({
           new_password: ['Muy corta'],
@@ -65,7 +72,7 @@ describe('changePasswordService', () => {
     });
 
     it('should throw fallback error when API returns empty error object', async () => {
-      vi.spyOn(global, 'fetch').mockResolvedValue({
+      mockFetchApi.mockResolvedValue({
         ok: false,
         json: async () => ({}),
       } as unknown as Response);
@@ -76,7 +83,7 @@ describe('changePasswordService', () => {
     });
 
     it('should throw fallback error when API returns non-JSON', async () => {
-      vi.spyOn(global, 'fetch').mockResolvedValue({
+      mockFetchApi.mockResolvedValue({
         ok: false,
         json: async () => {
           throw new Error('Not JSON');

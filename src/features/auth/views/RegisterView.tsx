@@ -14,7 +14,7 @@ function RegisterContent() {
   return (
     <div className="flex min-h-screen w-full flex-col lg:flex-row">
       {/* Left Side - Gray Background with Logo */}
-      <div className="hidden lg:flex flex-col items-center justify-center bg-[#A6A9B0] p-6 lg:w-1/2 transition-all duration-500 ease-in-out">
+      <div className="hidden lg:flex flex-col items-center justify-center bg-[#C1C3C8] p-6 lg:w-1/2 transition-all duration-500 ease-in-out">
         <div className="flex flex-col items-center text-center">
           <div className="relative w-full max-w-md animate-in fade-in zoom-in duration-700">
             <Image

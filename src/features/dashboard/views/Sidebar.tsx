@@ -26,7 +26,7 @@ import {
   UserProfileResponse,
 } from '@/features/dashboard/services/user.service';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
@@ -150,10 +150,10 @@ function UserNav() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/pro">Actualizar a cuenta pro</Link>
+          <Link href="/pro">Actualizar a cuenta pro</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/profile">Gestión de perfil</Link>
+          <Link href="/profile">Gestión de perfil</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -194,9 +194,7 @@ interface SidebarRouteGroup {
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const { isSidebarCollapsed, toggleSidebar } = useDashboard();
-  const [openMenus, setOpenMenus] = useState<string[]>([
-    '/dashboard/proveedores',
-  ]);
+  const [openMenus, setOpenMenus] = useState<string[]>(['/proveedores']);
   const [isProModalOpen, setIsProModalOpen] = useState(false);
   const mounted = useMounted();
 
@@ -222,82 +220,82 @@ export function Sidebar({ className }: SidebarProps) {
         {
           label: 'Inicio',
           icon: IoIosJournal,
-          href: '/dashboard',
-          active: pathname === '/dashboard',
+          href: '/inicio',
+          active: pathname === '/inicio',
         },
         {
-          label: 'Manual',
+          label: 'Manual de procedimientos',
           icon: BookOpenIcon,
-          href: '/dashboard/manual',
-          active: pathname.startsWith('/dashboard/manual'),
+          href: '/manual',
+          active: pathname.startsWith('/manual'),
         },
         {
           label: 'Registro de proveedores',
           icon: IoNewspaperOutline,
-          href: '/dashboard/proveedores',
-          active: pathname.startsWith('/dashboard/proveedores'),
+          href: '/proveedores',
+          active: pathname.startsWith('/proveedores'),
           hasDropdown: true,
           children: [
             {
               label: 'Registrar nuevo proveedor',
-              href: '/dashboard/proveedores/registro',
-              active: pathname === '/dashboard/proveedores/registro',
+              href: '/proveedores/registro',
+              active: pathname === '/proveedores/registro',
             },
             {
               label: 'Ver proveedores registrados',
-              href: '/dashboard/proveedores/lista',
-              active: pathname === '/dashboard/proveedores/lista',
+              href: '/proveedores/lista',
+              active: pathname === '/proveedores/lista',
             },
           ],
         },
         {
           label: 'Elaboración de Expediente de selección de Contratista',
           icon: PencilSquareIcon,
-          href: '/dashboard/elaboracion',
-          active: pathname.startsWith('/dashboard/elaboracion'),
+          href: '/elaboracion',
+          active: pathname.startsWith('/elaboracion'),
           isProFeature: true,
           onClick: () => setIsProModalOpen(true),
         },
         {
           label: 'Compliance de Expediente de selección de Contratista',
           icon: IoDocumentTextOutline,
-          href: '/dashboard/compliance',
-          active: pathname.startsWith('/dashboard/compliance'),
+          href: '/compliance',
+          active: pathname.startsWith('/compliance'),
         },
       ],
     },
     {
-      title: 'Otros Servicios',
+      title: 'Otros servicios',
       items: [
         {
           label: 'Consultor IA',
           icon: LiaRobotSolid,
-          href: '/dashboard/consultor-ia',
-          active: pathname.startsWith('/dashboard/consultor-ia'),
+          href: '/consultor-ia',
+          active: pathname.startsWith('/consultor-ia'),
         },
         {
           label: 'Conócenos',
           icon: IoEarthOutline,
-          href: '/dashboard/conocenos',
-          active: pathname.startsWith('/dashboard/conocenos'),
+          href: '/conocenos',
+          active: pathname.startsWith('/conocenos'),
         },
         {
           label: 'Repositorio legal',
           icon: AiOutlineBook,
-          href: '/dashboard/repositorio-legal',
-          active: pathname.startsWith('/dashboard/repositorio-legal'),
+          href: '/repositorio-legal',
+          active: pathname.startsWith('/repositorio-legal'),
         },
         {
-          label: 'Preguntas Frecuentes',
+          label: 'Preguntas frecuentes',
           icon: BsQuestionCircle,
-          href: '/dashboard/preguntas-frecuentes',
-          active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
+          href: '/preguntas-frecuentes',
+          active: pathname.startsWith('/preguntas-frecuentes'),
         },
         {
           label: 'Acerca de',
           icon: InfoIcon,
-          href: '/dashboard/acerca-de',
-          active: pathname.startsWith('/dashboard/acerca-de'),
+          href: '/acerca-de',
+          active: pathname.startsWith('/acerca-de'),
         },
       ],
     },
@@ -537,16 +535,16 @@ export function Sidebar({ className }: SidebarProps) {
             )}
           </div>
 
-          <ScrollArea
+          <div
             className={cn(
               'flex-1 px-3 mt-0 w-full h-[calc(100vh-140px)]',
               isSidebarCollapsed
-                ? 'overflow-hidden [&>div]:!overflow-hidden [&::-webkit-scrollbar]:!hidden [-ms-overflow-style:!none] [scrollbar-width:!none]'
-                : 'overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'
+                ? 'overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'
+                : 'overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-300'
             )}
           >
             {routeGroups.map((group) => renderRouteItems(group))}
-          </ScrollArea>
+          </div>
 
           {/* User Navbar */}
           <div className="px-3 mt-auto mb-2 border-t border-gray-100 pt-4 bg-white">
@@ -577,9 +575,7 @@ export function Sidebar({ className }: SidebarProps) {
 
 export function MobileSidebar() {
   const pathname = usePathname();
-  const [openMenus, setOpenMenus] = useState<string[]>([
-    '/dashboard/proveedores',
-  ]);
+  const [openMenus, setOpenMenus] = useState<string[]>(['/proveedores']);
   const [isProModalOpen, setIsProModalOpen] = useState(false);
   const mounted = useMounted();
 
@@ -598,47 +594,47 @@ export function MobileSidebar() {
         {
           label: 'Dashboard',
           icon: IoIosJournal,
-          href: '/dashboard',
-          active: pathname === '/dashboard',
+          href: '/inicio',
+          active: pathname === '/inicio',
         },
         {
           label: 'Manual',
           icon: BookOpenIcon,
-          href: '/dashboard/manual',
-          active: pathname.startsWith('/dashboard/manual'),
+          href: '/manual',
+          active: pathname.startsWith('/manual'),
         },
         {
           label: 'Registro de proveedores',
           icon: IoNewspaperOutline,
-          href: '/dashboard/proveedores',
-          active: pathname.startsWith('/dashboard/proveedores'),
+          href: '/proveedores',
+          active: pathname.startsWith('/proveedores'),
           hasDropdown: true,
           children: [
             {
               label: 'Registro',
-              href: '/dashboard/proveedores/registro',
-              active: pathname === '/dashboard/proveedores/registro',
+              href: '/proveedores/registro',
+              active: pathname === '/proveedores/registro',
             },
             {
               label: 'Listar proveedores',
-              href: '/dashboard/proveedores/lista',
-              active: pathname === '/dashboard/proveedores/lista',
+              href: '/proveedores/lista',
+              active: pathname === '/proveedores/lista',
             },
           ],
         },
         {
           label: 'Elaboración de Expediente de selección de Contratista',
           icon: PencilSquareIcon,
-          href: '/dashboard/elaboracion',
-          active: pathname.startsWith('/dashboard/elaboracion'),
+          href: '/elaboracion',
+          active: pathname.startsWith('/elaboracion'),
           isProFeature: true,
           onClick: () => setIsProModalOpen(true),
         },
         {
           label: 'Compliance de Expediente de selección de Contratista',
           icon: IoDocumentTextOutline,
-          href: '/dashboard/compliance',
-          active: pathname.startsWith('/dashboard/compliance'),
+          href: '/compliance',
+          active: pathname.startsWith('/compliance'),
         },
       ],
     },
@@ -648,32 +644,32 @@ export function MobileSidebar() {
         {
           label: 'Consultor IA',
           icon: LiaRobotSolid,
-          href: '/dashboard/consultor-ia',
-          active: pathname.startsWith('/dashboard/consultor-ia'),
+          href: '/consultor-ia',
+          active: pathname.startsWith('/consultor-ia'),
         },
         {
           label: 'Conocenos',
           icon: IoEarthOutline,
-          href: '/dashboard/conocenos',
-          active: pathname.startsWith('/dashboard/conocenos'),
+          href: '/conocenos',
+          active: pathname.startsWith('/conocenos'),
         },
         {
           label: 'Repositorio legal',
           icon: AiOutlineBook,
-          href: '/dashboard/repositorio-legal',
-          active: pathname.startsWith('/dashboard/repositorio-legal'),
+          href: '/repositorio-legal',
+          active: pathname.startsWith('/repositorio-legal'),
         },
         {
-          label: 'Preguntas Frecuentes',
+          label: 'Preguntas frecuentes',
           icon: BsQuestionCircle,
-          href: '/dashboard/preguntas-frecuentes',
-          active: pathname.startsWith('/dashboard/preguntas-frecuentes'),
+          href: '/preguntas-frecuentes',
+          active: pathname.startsWith('/preguntas-frecuentes'),
         },
         {
           label: 'Acerca de',
           icon: InfoIcon,
-          href: '/dashboard/acerca-de',
-          active: pathname.startsWith('/dashboard/acerca-de'),
+          href: '/acerca-de',
+          active: pathname.startsWith('/acerca-de'),
         },
       ],
     },
@@ -705,7 +701,7 @@ export function MobileSidebar() {
                 </h2>
               </div>
 
-              <ScrollArea className="flex-1 px-4 overflow-y-auto w-full h-[calc(100vh-160px)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              <div className="flex-1 px-4 w-full h-[calc(100vh-160px)] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-300">
                 {routeGroups.map((group: SidebarRouteGroup) => (
                   <div key={group.title} className="mb-4">
                     <h3 className="px-4 text-[13px] font-medium text-gray-500 mb-2 tracking-wide">
@@ -809,7 +805,7 @@ export function MobileSidebar() {
                     </div>
                   </div>
                 ))}
-              </ScrollArea>
+              </div>
 
               <div className="px-4 mt-auto border-t pt-4 mb-4">
                 <UserNav />
