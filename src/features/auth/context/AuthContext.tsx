@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 // 1. Importamos la nueva lib (ahora solo LoginCredentials)
 import { type LoginCredentials } from '../services/auth.service';
 import { authStorage } from '../lib/auth-storage';
+import { fetchApi } from '@/lib/api-client';
 
 // Exportamos User para poder usarlo en auth-storage.ts si lo necesitas,
 // o mejor aún, muévelo a un archivo types.ts compartido.
@@ -49,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(storedUser);
 
       // Re-validar en background para mantener los permisos frescos y evitar manipulación
-      fetch('/api/auth/me')
+      fetchApi('/api/auth/me')
         .then((res) => {
           if (res.ok) {
             return res.json().then((meData) => {
@@ -72,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       // 1. Llamamos a nuestro Route Handler de Next.js (el BFF)
-      const res = await fetch('/api/auth/login', {
+      const res = await fetchApi('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // 2. Obtener el perfil completo del usuario desde /api/me
       //    Esto siempre devuelve id, email, name, is_staff, is_superuser
-      const meRes = await fetch('/api/auth/me', { method: 'GET' });
+      const meRes = await fetchApi('/api/auth/me', { method: 'GET' });
 
       if (!meRes.ok) {
         throw new Error('No se pudo obtener el perfil del usuario');
@@ -134,7 +135,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     try {
       // Llamamos al endpoint de logout del BFF para limpiar cookies
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await fetchApi('/api/auth/logout', { method: 'POST' });
     } catch (e) {
       console.error('Error durante el logout:', e);
     }

@@ -14,19 +14,13 @@ import type {
 
 /**
  * Helper para manejar errores de la API.
- * Si la respuesta es 401 (sesión expirada), redirige al login.
+ * El manejo de 401 (sesión expirada) se realiza de forma centralizada
+ * en fetchApi, que intenta refresh automático antes de fallar.
  */
 async function handleApiError(
   response: Response,
   fallbackMessage: string
 ): Promise<never> {
-  if (response.status === 401) {
-    if (typeof window !== 'undefined') {
-      window.location.href = '/login';
-    }
-    throw new Error('Sesión expirada. Redirigiendo al inicio de sesión...');
-  }
-
   const errorData = await response.json().catch(() => ({}));
   throw new Error(errorData.detail || fallbackMessage);
 }
