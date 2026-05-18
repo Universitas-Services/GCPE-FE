@@ -947,7 +947,7 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
                           {/* Requisitos */}
                           <div className="space-y-3">
                             <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
-                              Requisitos Legales
+                              Requisitos legales
                             </h4>
                             <div className="text-sm space-y-2.5">
                               <p className="flex items-center gap-2">

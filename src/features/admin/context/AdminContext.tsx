@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth, User } from '@/features/auth/context/AuthContext';
 import { type LoginCredentials } from '@/features/auth/services/auth.service';
+import { fetchApi } from '@/lib/api-client';
 
 // Extendemos la interfaz User asumiendo que el backend envía información del rol o avatar
 export interface AdminUser extends User {
@@ -49,7 +50,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     // para no depender del estado del AuthContext
     const verifyAdmin = async () => {
       try {
-        const res = await fetch('/api/auth/me', { method: 'GET' });
+        const res = await fetchApi('/api/auth/me', { method: 'GET' });
 
         if (!res.ok) {
           // Token inválido o expirado
@@ -67,7 +68,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         setIsVerifying(false);
 
         if (!hasAdminRole) {
-          router.replace('/dashboard');
+          router.replace('/inicio');
         }
       } catch {
         console.error('Error verificando permisos de admin');

@@ -38,7 +38,7 @@ export function RegisterStepper() {
           2
         </div>
         <span className="mt-1 text-[11.11px] font-medium text-gray-600">
-          Datos Personales
+          Datos personales
         </span>
       </div>
     </div>

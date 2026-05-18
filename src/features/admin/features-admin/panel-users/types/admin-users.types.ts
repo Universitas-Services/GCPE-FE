@@ -6,6 +6,7 @@ export interface GetUsersParams {
   ordering?: string;
   page?: number;
   page_size?: number;
+  is_active?: string;
 }
 
 /** Representación de un usuario en la tabla principal */

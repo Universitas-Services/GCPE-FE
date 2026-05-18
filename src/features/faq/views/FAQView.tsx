@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import {
   Accordion,
@@ -20,7 +22,7 @@ interface FAQCategory {
 const faqItems: FAQCategory[] = [
   {
     id: 'item-1',
-    title: 'Preguntas Generales',
+    title: 'Preguntas generales',
     questions: [
       {
         question: '¿Qué es el Sistema Integrado de Selección de Contratista?',
@@ -36,7 +38,7 @@ const faqItems: FAQCategory[] = [
   },
   {
     id: 'item-2',
-    title: 'Cuentas y Versiones',
+    title: 'Cuentas y versiones',
     questions: [
       {
         question: '¿Qué incluye la versión gratuita?',
@@ -52,7 +54,7 @@ const faqItems: FAQCategory[] = [
   },
   {
     id: 'item-3',
-    title: 'Funcionalidades y Uso',
+    title: 'Funcionalidades y uso',
     questions: [
       {
         question:
@@ -69,7 +71,7 @@ const faqItems: FAQCategory[] = [
   },
   {
     id: 'item-4',
-    title: 'Datos y Seguridad',
+    title: 'Datos y seguridad',
     questions: [
       {
         question: '¿Están seguros mis datos de proveedores?',

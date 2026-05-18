@@ -1,4 +1,5 @@
 import { ChangePasswordFormValues } from '../schemas/change-password.schema';
+import { fetchApi } from '@/lib/api-client';
 
 export const changePasswordService = {
   async changePassword(data: ChangePasswordFormValues): Promise<void> {
@@ -8,7 +9,7 @@ export const changePasswordService = {
       confirm_password: data.confirmPassword,
     };
 
-    const response = await fetch('/api/auth/change-password', {
+    const response = await fetchApi('/api/auth/change-password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

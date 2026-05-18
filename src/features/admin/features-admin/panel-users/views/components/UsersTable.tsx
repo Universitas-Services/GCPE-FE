@@ -8,7 +8,10 @@ import {
   ShieldCheck,
   BookOpen,
   User,
+  Trash2,
+  UserCheck,
 } from 'lucide-react';
+import { TbWashDrycleanOff } from 'react-icons/tb';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -37,6 +40,8 @@ interface UsersTableProps {
   users: AdminUser[];
   isLoading: boolean;
   onAction: (userId: number, action: DetailAction) => void;
+  onDeleteUser: (userId: number, userName: string) => void;
+  onActivateUser: (userId: number, userName: string) => void;
 }
 
 function TableSkeleton() {
@@ -55,7 +60,13 @@ function TableSkeleton() {
   );
 }
 
-export function UsersTable({ users, isLoading, onAction }: UsersTableProps) {
+export function UsersTable({
+  users,
+  isLoading,
+  onAction,
+  onDeleteUser,
+  onActivateUser,
+}: UsersTableProps) {
   return (
     <Card className="border-none shadow-sm bg-white rounded-xl overflow-hidden p-0">
       <Table>
@@ -93,84 +104,121 @@ export function UsersTable({ users, isLoading, onAction }: UsersTableProps) {
               </TableCell>
             </TableRow>
           ) : (
-            users.map((user) => (
-              <TableRow key={user.id} className="group">
-                <TableCell>
-                  <Link
-                    href={`/admin/dashboard/usuarios/${user.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 hover:underline"
-                  >
-                    <span className="font-medium text-gray-900">
-                      {user.first_name} {user.last_name}
+            users.map((user) => {
+              const fullName = `${user.first_name} ${user.last_name}`.trim();
+              const isInactive = user.is_active === false;
+
+              return (
+                <TableRow
+                  key={user.id}
+                  className={`group ${isInactive ? 'bg-red-50/40' : ''}`}
+                >
+                  <TableCell>
+                    <Link
+                      href={`/admin/dashboard/usuarios/${user.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 hover:underline"
+                    >
+                      {isInactive && (
+                        <TbWashDrycleanOff className="h-4 w-4 text-red-500 shrink-0" />
+                      )}
+                      <span
+                        className={`font-medium ${
+                          isInactive ? 'text-red-600' : 'text-gray-900'
+                        }`}
+                      >
+                        {fullName}
+                      </span>
+                    </Link>
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {user.email}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground hidden md:table-cell">
+                    {user.telefono || '—'}
+                  </TableCell>
+                  <TableCell className="hidden lg:table-cell">
+                    <span className="text-sm text-gray-700 line-clamp-1">
+                      {user.nombre_institucion_ente || '—'}
                     </span>
-                  </Link>
-                </TableCell>
-                <TableCell className="text-muted-foreground">
-                  {user.email}
-                </TableCell>
-                <TableCell className="text-muted-foreground hidden md:table-cell">
-                  {user.telefono || '—'}
-                </TableCell>
-                <TableCell className="hidden lg:table-cell">
-                  <span className="text-sm text-gray-700 line-clamp-1">
-                    {user.nombre_institucion_ente || '—'}
-                  </span>
-                </TableCell>
-                <TableCell className="text-muted-foreground hidden lg:table-cell">
-                  {user.cargo || '—'}
-                </TableCell>
-                <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <MoreHorizontal className="h-4 w-4" />
-                        <span className="sr-only">Abrir menú de acciones</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuLabel className="text-xs text-muted-foreground">
-                        Detalles del usuario
-                      </DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem className="cursor-pointer" asChild>
-                        <Link
-                          href={`/admin/dashboard/usuarios/${user.id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                  </TableCell>
+                  <TableCell className="text-muted-foreground hidden lg:table-cell">
+                    {user.cargo || '—'}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <MoreHorizontal className="h-4 w-4" />
+                          <span className="sr-only">
+                            Abrir menú de acciones
+                          </span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48">
+                        <DropdownMenuLabel className="text-xs text-muted-foreground">
+                          Detalles del usuario
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem className="cursor-pointer" asChild>
+                          <Link
+                            href={`/admin/dashboard/usuarios/${user.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <User className="mr-2 h-4 w-4 text-[#0091be]" />
+                            Ver Detalle
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          className="cursor-pointer"
+                          onClick={() => onAction(user.id, 'providers')}
                         >
-                          <User className="mr-2 h-4 w-4 text-[#0091be]" />
-                          Ver Detalle
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        className="cursor-pointer"
-                        onClick={() => onAction(user.id, 'providers')}
-                      >
-                        <Building2 className="mr-2 h-4 w-4 text-[#0091be]" />
-                        Ver Proveedores
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className="cursor-pointer"
-                        onClick={() => onAction(user.id, 'compliance')}
-                      >
-                        <ShieldCheck className="mr-2 h-4 w-4 text-[#0091be]" />
-                        Ver Compliance
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className="cursor-pointer"
-                        onClick={() => onAction(user.id, 'manuals')}
-                      >
-                        <BookOpen className="mr-2 h-4 w-4 text-[#0091be]" />
-                        Ver Manuales
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))
+                          <Building2 className="mr-2 h-4 w-4 text-[#0091be]" />
+                          Ver Proveedores
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="cursor-pointer"
+                          onClick={() => onAction(user.id, 'compliance')}
+                        >
+                          <ShieldCheck className="mr-2 h-4 w-4 text-[#0091be]" />
+                          Ver Compliance
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="cursor-pointer"
+                          onClick={() => onAction(user.id, 'manuals')}
+                        >
+                          <BookOpen className="mr-2 h-4 w-4 text-[#0091be]" />
+                          Ver Manuales
+                        </DropdownMenuItem>
+
+                        {/* Acción condicional: Eliminar o Activar */}
+                        <DropdownMenuSeparator />
+                        {user.is_active ? (
+                          <DropdownMenuItem
+                            className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
+                            onClick={() => onDeleteUser(user.id, fullName)}
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Eliminar Usuario
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem
+                            className="cursor-pointer text-green-600 focus:text-green-600 focus:bg-green-50"
+                            onClick={() => onActivateUser(user.id, fullName)}
+                          >
+                            <UserCheck className="mr-2 h-4 w-4" />
+                            Activar Usuario
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              );
+            })
           )}
         </TableBody>
       </Table>

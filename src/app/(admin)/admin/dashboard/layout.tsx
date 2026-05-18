@@ -1,6 +1,11 @@
+import type { Metadata } from 'next';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/admin/app-sidebar';
 import { DashboardHeader } from '@/components/admin/dashboard-header';
+
+export const metadata: Metadata = {
+  title: 'Admin Dashboard',
+};
 
 export default function DashboardLayout({
   children,

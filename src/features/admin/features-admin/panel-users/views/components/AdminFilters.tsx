@@ -16,6 +16,8 @@ interface AdminFiltersProps {
   onSearchChange: (value: string) => void;
   pageSize: string;
   onPageSizeChange: (value: string) => void;
+  statusFilter: string;
+  onStatusFilterChange: (value: string) => void;
 }
 
 export function AdminFilters({
@@ -23,6 +25,8 @@ export function AdminFilters({
   onSearchChange,
   pageSize,
   onPageSizeChange,
+  statusFilter,
+  onStatusFilterChange,
 }: AdminFiltersProps) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -38,8 +42,19 @@ export function AdminFilters({
         />
       </div>
 
-      {/* Selectores de ordenamiento y paginación */}
+      {/* Selectores de estado y paginación */}
       <div className="flex items-center gap-3">
+        <Select value={statusFilter} onValueChange={onStatusFilterChange}>
+          <SelectTrigger className="h-9 w-[150px] bg-white">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todos</SelectItem>
+            <SelectItem value="true">Activos</SelectItem>
+            <SelectItem value="false">Eliminados</SelectItem>
+          </SelectContent>
+        </Select>
+
         <Select value={pageSize} onValueChange={onPageSizeChange}>
           <SelectTrigger className="h-9 w-[100px] bg-white">
             <SelectValue />

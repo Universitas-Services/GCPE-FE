@@ -67,9 +67,9 @@ export function DashboardHomeView() {
   return (
     <div className="flex flex-col flex-1 gap-1 lg:gap-1.5 max-w-7xl mx-auto w-full h-full">
       {/* All content */}
-      <div className="shrink-0 flex flex-col gap-1.5">
+      <div className="shrink-0 flex flex-col gap-4">
         {/* Header / Greeting */}
-        <div className="flex flex-col shrink-0">
+        <div className="flex flex-col shrink-0 gap-2">
           {isLoading ? (
             <Skeleton className="h-8 w-64 mb-1" />
           ) : (
@@ -108,22 +108,22 @@ export function DashboardHomeView() {
                     <Book className="w-4 h-4 text-[#005496]" />
                   </div>
                   <CardTitle className="dashboard-card-title text-[#005282]">
-                    Manual Express
+                    Manual de procedimientos express
                   </CardTitle>
                 </div>
                 <CardDescription className="form-label-ejemplo">
-                  Genera al instante tu demo de manual para concursos abiertos
-                  de bienes (Acto Único / Apertura Única).
+                  Genera al instante una versión demostrativa del manual de
+                  procedimientos de contrataciones públicas de concursos
+                  abiertos para el suministro de bienes (acto único, apertura
+                  única).{' '}
                   <span className="form-label-ejemplo">
-                    Simplifica tu proceso de contratación desde el primer paso.
+                    Simplifica los procedimientos de contrataciones públicas
+                    desde el primer paso.
                   </span>
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
-                <Link
-                  href="/dashboard/manual"
-                  className="z-10 flex justify-center"
-                >
+                <Link href="/manual" className="z-10 flex justify-center">
                   <Button
                     variant="secondary"
                     size="sm"
@@ -154,7 +154,7 @@ export function DashboardHomeView() {
               </CardHeader>
               <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
                 <Link
-                  href="/dashboard/proveedores/registro"
+                  href="/proveedores/registro"
                   className="z-10 flex justify-center"
                 >
                   <Button
@@ -178,7 +178,7 @@ export function DashboardHomeView() {
                     <ShieldCheck className="w-4 h-4 text-[#FFC107]" />
                   </div>
                   <CardTitle className="dashboard-card-title text-[#005282]">
-                    Compliance de expediente
+                    Compliance express
                   </CardTitle>
                 </div>
                 <CardDescription className="form-label-ejemplo">
@@ -188,10 +188,7 @@ export function DashboardHomeView() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
-                <Link
-                  href="/dashboard/compliance"
-                  className="z-10 flex justify-center"
-                >
+                <Link href="/compliance" className="z-10 flex justify-center">
                   <Button
                     variant="secondary"
                     size="sm"
@@ -206,72 +203,9 @@ export function DashboardHomeView() {
           </div>
         </div>
         {/* Lower Cards - PRO Modules & Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-1.5">
-          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-50/50 rounded-bl-full -z-10 opacity-70"></div>
-            <CardHeader className="p-0 mb-0.5">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-7 h-7 rounded-md bg-emerald-50 flex items-center justify-center shrink-0">
-                  <Users className="w-3.5 h-3.5 text-[#00C853]" />
-                </div>
-                <CardTitle className="dashboard-card-title text-[#005282]">
-                  Proveedores registrados
-                </CardTitle>
-              </div>
-              <CardDescription className="form-label-ejemplo">
-                Lleva el control total de tus proveedores: gestiona su
-                información documental, emite certificados de registro y asegura
-                la actualización anual en cumplimiento con las Normas de Control
-                Interno de la SUNAI .
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
-              <Link href="/dashboard/pro" className="z-10 flex justify-center">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-1.5 h-8 px-4 text-xs hover:scale-105 transition-transform cursor-pointer"
-                >
-                  Actualizar a la versión PRO{' '}
-                  <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-
-          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-amber-50/50 rounded-bl-full -z-10 opacity-70"></div>
-            <CardHeader className="p-0 mb-0.5">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-7 h-7 rounded-md bg-amber-50 flex items-center justify-center shrink-0">
-                  <FileCheck className="w-3.5 h-3.5 text-[#FFC107]" />
-                </div>
-                <CardTitle className="dashboard-card-title text-[#005282]">
-                  Compliance realizado
-                </CardTitle>
-              </div>
-              <CardDescription className="form-label-ejemplo">
-                ¿Deseas revisar a detalle el contenido de cada acta de tu
-                expediente y conocer tu porcentaje exacto de cumplimiento? Obtén
-                análisis profundos y métricas de gestión con nuestra herramienta
-                avanzada.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
-              <Link href="/dashboard/pro" className="z-10 flex justify-center">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-1.5 h-8 px-4 text-xs hover:scale-105 transition-transform cursor-pointer"
-                >
-                  Actualizar a la versión PRO{' '}
-                  <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-
-          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-1 bg-white">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
+          {/* Elaboración de expedientes de contrataciones */}
+          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-2 bg-white">
             <div className="absolute top-0 right-0 w-20 h-20 bg-blue-50/50 rounded-bl-full -z-10 opacity-70"></div>
             <CardHeader className="p-0 mb-0.5">
               <div className="flex items-center gap-2 mb-1">
@@ -283,14 +217,81 @@ export function DashboardHomeView() {
                 </CardTitle>
               </div>
               <CardDescription className="form-label-ejemplo">
-                Automatiza tus procesos de selección de contratista. Genera los
-                documentos que sustentan tu expediente de contratación pública,
-                garantizando el cumplimiento automático de la Ley de
-                Contrataciones Públicas.
+                Automatiza tus procesos de selección de contratistas. Genera los
+                documentos que conforman los expedientes de contrataciones
+                públicas, garantizando el cumplimiento normativo de la
+                legislación vigente en materia de contrataciones públicas y
+                control fiscal.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
-              <Link href="/dashboard/pro" className="z-10 flex justify-center">
+              <Link href="/pro" className="z-10 flex justify-center">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-1.5 h-8 px-4 text-xs hover:scale-105 transition-transform cursor-pointer"
+                >
+                  Actualizar a la versión PRO{' '}
+                  <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Compliance detallado */}
+          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-2 bg-white">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-amber-50/50 rounded-bl-full -z-10 opacity-70"></div>
+            <CardHeader className="p-0 mb-0.5">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-7 h-7 rounded-md bg-amber-50 flex items-center justify-center shrink-0">
+                  <FileCheck className="w-3.5 h-3.5 text-[#FFC107]" />
+                </div>
+                <CardTitle className="dashboard-card-title text-[#005282]">
+                  Compliance detallado
+                </CardTitle>
+              </div>
+              <CardDescription className="form-label-ejemplo">
+                ¿Deseas revisar a detalle el contenido de cada acto y documento
+                de tus expedientes de contrataciones y conocer el porcentaje
+                exacto de cumplimiento? Obtén análisis profundos y métricas de
+                gestión con nuestra herramienta avanzada.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
+              <Link href="/pro" className="z-10 flex justify-center">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="w-full md:w-auto bg-white text-[#0091BE] hover:bg-slate-50 shadow-md border-0 font-bold gap-1.5 h-8 px-4 text-xs hover:scale-105 transition-transform cursor-pointer"
+                >
+                  Actualizar a la versión PRO{' '}
+                  <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Gestión de proveedores */}
+          <Card className="relative overflow-hidden border-slate-200 flex flex-col justify-between p-2 bg-white">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-50/50 rounded-bl-full -z-10 opacity-70"></div>
+            <CardHeader className="p-0 mb-0.5">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-7 h-7 rounded-md bg-emerald-50 flex items-center justify-center shrink-0">
+                  <Users className="w-3.5 h-3.5 text-[#00C853]" />
+                </div>
+                <CardTitle className="dashboard-card-title text-[#005282]">
+                  Gestión de proveedores
+                </CardTitle>
+              </div>
+              <CardDescription className="form-label-ejemplo">
+                Lleva el control total de tus proveedores: gestiona su
+                información documental, emite certificados de registro y asegura
+                la actualización anual en cumplimiento con las Normas de Control
+                Interno de la SUNAI .
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0 mt-1.5 pt-1.5 border-t border-slate-100 flex justify-center w-full">
+              <Link href="/pro" className="z-10 flex justify-center">
                 <Button
                   variant="secondary"
                   size="sm"
@@ -326,10 +327,7 @@ export function DashboardHomeView() {
             </div>
           </div>
 
-          <Link
-            href="/dashboard/pro"
-            className="z-10 w-full md:w-auto mt-2 md:mt-0"
-          >
+          <Link href="/pro" className="z-10 w-full md:w-auto mt-2 md:mt-0">
             <Button
               variant="secondary"
               size="sm"
@@ -375,6 +373,16 @@ export function DashboardHomeView() {
           >
             <Youtube className="w-5 h-5" />
           </Link>
+        </div>
+
+        {/* Copyright */}
+        <div className="px-3 pb-2 pt-1 text-center">
+          <p
+            className="text-[7px] font-bold text-[#727272] leading-tight"
+            style={{ fontFamily: 'Inter, sans-serif' }}
+          >
+            Copyright © 2026 Universitas Services | GESTOR CONTRATACIONES
+          </p>
         </div>
       </div>
 

@@ -60,7 +60,7 @@ export function ProUpgradeModal({ isOpen, onClose }: ProUpgradeModalProps) {
 
   const handleUpgrade = () => {
     onClose();
-    router.push('/dashboard/upgrade');
+    router.push('/upgrade');
   };
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
